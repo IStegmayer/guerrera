@@ -24,13 +24,14 @@ namespace Game._Scripts.Player
         // move fields
         private Vector3 _currentMovement;
         private Vector3 _currentRunMovement;
+        private Vector3 _appliedMovement;
 
         private bool _isMovementPressed;
 
         // jump fields
         private bool _isJumping = false;
         private float _initialJumpVelocity;
-        private float _maxJumpHeight = 5f;
+        private float _maxJumpHeight = 3f;
         private float _maxJumpTime = 0.75f;
         private float _fallTerminalVelocity = -20.0f;
         private int _jumpCount = 0;
@@ -86,23 +87,18 @@ namespace Game._Scripts.Player
             float fallMultiplier = 2.5f;
             if (_characterController.isGrounded) {
                 _currentMovement.y = _groundedGravity;
-                _currentRunMovement.y = _groundedGravity;
-                if (_currentJumpResetCoroutine == null) _currentJumpResetCoroutine = StartCoroutine(JumpResetRoutine());
+                _appliedMovement.y = _groundedGravity;
             }
             else if (isFalling) {
                 float previousYVelocity = _currentMovement.y;
-                float newYVelocity =
+                _currentMovement.y = 
                     _currentMovement.y + (_jumpGravities[_jumpCount] * fallMultiplier * Time.deltaTime);
-                float nextYVelocity = MathF.Max((previousYVelocity + newYVelocity) * .5f, _fallTerminalVelocity);
-                _currentMovement.y = nextYVelocity;
-                _currentRunMovement.y = nextYVelocity;
+                _appliedMovement.y = MathF.Max((previousYVelocity + _currentMovement.y) * .5f, _fallTerminalVelocity);
             }
             else {
                 float previousYVelocity = _currentMovement.y;
-                float newYVelocity = _currentMovement.y + (_jumpGravities[_jumpCount] * Time.deltaTime);
-                float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
-                _currentMovement.y = nextYVelocity;
-                _currentRunMovement.y = nextYVelocity;
+                _currentMovement.y = _currentMovement.y + (_jumpGravities[_jumpCount] * Time.deltaTime);
+                _appliedMovement.y = (previousYVelocity + _currentMovement.y) * .5f;
             }
         }
 
@@ -117,27 +113,29 @@ namespace Game._Scripts.Player
                 _jumpCount++;
                 _animator.Play("Jump");
                 _isJumping = true;
-                _currentMovement.y = _initialJumpVelocities[_jumpCount] * .5f;
-                _currentRunMovement.y = _initialJumpVelocities[_jumpCount] * .5f;
+                _currentMovement.y = _initialJumpVelocities[_jumpCount];
+                _appliedMovement.y = _initialJumpVelocities[_jumpCount];
             }
             else if (_isJumping && _characterController.isGrounded) {
                 _isJumping = false;
                 _animator.Play("Idle");
             }
         }
-
-        private IEnumerator JumpResetRoutine() {
-            yield return new WaitForSeconds(.5f);
-            _jumpCount = 0;
-        }
-
-
+        
         private void Update() {
             HandleRotation();
 
-            if (_input.Run) _characterController.Move(_currentRunMovement * Time.deltaTime);
-            else _characterController.Move(_currentMovement * Time.deltaTime);
+            if (_input.Run) {
+                _appliedMovement.x = _currentRunMovement.x;
+                _appliedMovement.z = _currentRunMovement.z;
+            }
+            else {
+                _appliedMovement.x = _currentMovement.x;
+                _appliedMovement.z = _currentMovement.z;
+            }
 
+            _characterController.Move(_appliedMovement * Time.deltaTime);
+            
             HandleGravity();
             HandleJump();
             Debug.Log("_jumpCount" + _jumpCount);

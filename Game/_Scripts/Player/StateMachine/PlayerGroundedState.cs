@@ -1,0 +1,44 @@
+using UnityEngine;
+
+
+namespace Game._Scripts.Player.StateMachine
+{
+    public class PlayerGroundedState : PlayerBaseState
+    {
+        public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+            : base(currentContext, playerStateFactory) {
+            IsRootState = true;
+            InitializeSubState();
+        }
+
+        public override void EnterState() {
+            Ctx.CurrentMovementY = Ctx.GroundedGravity;
+            Ctx.AppliedMovementY = Ctx.GroundedGravity;
+        }
+
+        public override void UpdateState() {
+            CheckSwitchStates();
+        }
+
+        public override void ExitState() {
+            Debug.Log("Exiting States");
+        }
+
+        public override void CheckSwitchStates() {
+            if (Ctx.Input.Jump && !Ctx.RequireNewJumpPress) {
+                SwitchState(Factory.Jump());
+            }
+        }
+
+        public override void InitializeSubState() {
+            if (!Ctx.IsMovementPressed && !Ctx.Input.Run) {
+                SetSubState(Factory.Idle());
+            }else if (Ctx.IsMovementPressed && !Ctx.Input.Run) {
+                SetSubState(Factory.Walk());
+            }
+            else {
+                SetSubState((Factory.Run()));
+            }
+        }
+    }
+}
