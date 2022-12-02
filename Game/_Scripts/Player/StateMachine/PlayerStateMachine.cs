@@ -96,7 +96,7 @@ namespace Game._Scripts.Player.StateMachine
 
         // constants
         private float _rotationFactorPerFrame = 10.0f;
-        private float _runMultiplier = 3.0f;
+        private float _runMultiplier = 4.0f;
         private float _gravity = -9.8f;
 
         // references and class fields
@@ -107,8 +107,8 @@ namespace Game._Scripts.Player.StateMachine
 
         // move fields
         private Vector3 _currentMovement;
-        private Vector3 _currentRunMovement;
         private Vector3 _appliedMovement;
+        private Vector3 _cameraRelativeMovement;
 
         private bool _isMovementPressed;
 
@@ -167,9 +167,9 @@ namespace Game._Scripts.Player.StateMachine
             // get current rotation and movement
             Quaternion currentRotation = transform.rotation;
             Vector3 positionToLookAt;
-            positionToLookAt.x = _currentMovement.x;
+            positionToLookAt.x = _cameraRelativeMovement.x;
             positionToLookAt.y = 0.0f;
-            positionToLookAt.z = _currentMovement.z;
+            positionToLookAt.z = _cameraRelativeMovement.z;
 
             // slerp and execute rotation
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
@@ -179,10 +179,36 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         private void Update() {
+            
             HandleRotation();
             _currentState.UpdateStates();
+            
+            _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
+            _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+        }
 
-            _characterController.Move(_appliedMovement * Time.deltaTime);
+        Vector3 ConvertToCameraSpace(Vector3 vectorToRotate) {
+            Vector3 cameraForward = Camera.main.transform.forward;
+            Vector3 cameraRight = Camera.main.transform.right;
+            
+            // remove the Y values to ignore upward/down
+            cameraForward.y = 0.0f;
+            cameraRight.y = 0.0f;
+            
+            // re-normalize both vector so they each have a magnitude of 1
+            cameraForward = cameraForward.normalized;
+            cameraForward = cameraForward.normalized;
+            
+            // rotate the X and Z VectorToRotate values to camera space
+            Vector3 cameraForwardZProduct = vectorToRotate.z * cameraForward;
+            Vector3 cameraRightXProduct = vectorToRotate.x * cameraRight;
+
+            // the sum of both products is the Vector3 in camera space
+            Vector3 vectorRotatedToCameraSpace = cameraForwardZProduct + cameraRightXProduct;
+            // set the unchanged y back
+            vectorRotatedToCameraSpace.y = vectorToRotate.y;
+            
+            return vectorRotatedToCameraSpace;
         }
 
         #region GatherInput
@@ -192,8 +218,6 @@ namespace Game._Scripts.Player.StateMachine
             _input.Movement = context.ReadValue<Vector2>();
             _currentMovement.x = _input.Movement.x;
             _currentMovement.z = _input.Movement.y;
-            _currentRunMovement.x = _input.Movement.x * _runMultiplier;
-            _currentRunMovement.z = _input.Movement.y * _runMultiplier;
             _isMovementPressed = _input.Movement.x != 0 || _input.Movement.y != 0;
         }
 

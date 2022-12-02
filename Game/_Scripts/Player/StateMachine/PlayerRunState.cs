@@ -28,7 +28,7 @@ namespace Game._Scripts.Player.StateMachine
                 SwitchState(Factory.Idle());
             }
             else if (!Ctx.Input.Run) {
-                SwitchState(Factory.Run());
+                SwitchState(Factory.Walk());
             }
         }
 
