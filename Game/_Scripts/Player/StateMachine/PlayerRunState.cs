@@ -14,9 +14,9 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void UpdateState() {
-            CheckSwitchStates();
             Ctx.AppliedMovementX = Ctx.Input.Movement.x * Ctx.RunMultiplier;
             Ctx.AppliedMovementZ = Ctx.Input.Movement.y * Ctx.RunMultiplier;
+            CheckSwitchStates();
         }
 
         public override void ExitState() {

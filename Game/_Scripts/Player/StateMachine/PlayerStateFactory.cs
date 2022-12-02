@@ -1,30 +1,52 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Game._Scripts.Player.StateMachine
 {
+    enum PlayerStatesEnum
+    {
+        Idle,
+        Walk,
+        Run,
+        Grounded,
+        Jump,
+        Fall
+    }
+    
+    // Not really a factory, more of a pool for now
     public class PlayerStateFactory
     {
         private PlayerStateMachine _context;
+        private Dictionary<PlayerStatesEnum, PlayerBaseState> _states = new Dictionary<PlayerStatesEnum, PlayerBaseState>();
 
         public PlayerStateFactory(PlayerStateMachine currentContext) {
             _context = currentContext;
+            _states[PlayerStatesEnum.Idle] = new PlayerIdleState(_context, this);
+            _states[PlayerStatesEnum.Walk] = new PlayerWalkState(_context, this);
+            _states[PlayerStatesEnum.Run] = new PlayerRunState(_context, this);
+            _states[PlayerStatesEnum.Jump] = new PlayerJumpState(_context, this);
+            _states[PlayerStatesEnum.Grounded] = new PlayerGroundedState(_context, this);
+            _states[PlayerStatesEnum.Fall] = new PlayerFallState(_context, this);
         }
 
         public PlayerBaseState Grounded() {
-            return new PlayerGroundedState(_context, this);  
-        } 
-        public PlayerBaseState Idle() {
-            return new PlayerIdleState(_context, this);  
+            return _states[PlayerStatesEnum.Grounded];  
         } 
         public PlayerBaseState Jump() {
-            return new PlayerJumpState(_context, this);  
+            return _states[PlayerStatesEnum.Jump];  
+        } 
+        public PlayerBaseState Fall() {
+            return _states[PlayerStatesEnum.Fall];  
+        } 
+        public PlayerBaseState Idle() {
+            return _states[PlayerStatesEnum.Idle];  
         } 
         public PlayerBaseState Walk() {
-            return new PlayerWalkState(_context, this);  
+            return _states[PlayerStatesEnum.Walk];  
         } 
         public PlayerBaseState Run() {
-            return new PlayerRunState(_context, this);  
+            return _states[PlayerStatesEnum.Run];  
         } 
     }
 }

@@ -68,10 +68,6 @@ namespace Game._Scripts.Player.StateMachine
             get => _characterController;
         }
 
-        public float GroundedGravity {
-            get => _groundedGravity;
-        }
-
         public Dictionary<int, float> JumpGravities {
             get => _jumpGravities;
         }
@@ -89,6 +85,10 @@ namespace Game._Scripts.Player.StateMachine
             get => _isMovementPressed;
         }
 
+        public float Gravity {
+            get => _gravity;
+        }
+
 
         // state variables
         private PlayerBaseState _currentState;
@@ -98,7 +98,6 @@ namespace Game._Scripts.Player.StateMachine
         private float _rotationFactorPerFrame = 10.0f;
         private float _runMultiplier = 3.0f;
         private float _gravity = -9.8f;
-        private float _groundedGravity = -.05f;
 
         // references and class fields
         private CharacterController _characterController;
@@ -139,9 +138,13 @@ namespace Game._Scripts.Player.StateMachine
             SetupJumpVariables();
         }
 
+        private void Start() {
+            _characterController.Move(_appliedMovement * Time.deltaTime);
+        }
+
         private void SetupJumpVariables() {
             float timeToApex = _maxJumpTime / 2;
-            _gravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+            float initialGravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
             _initialJumpVelocity = (2 * _maxJumpHeight) / timeToApex;
             float secondJumpGravity = (-2 * (_maxJumpHeight + 2)) / MathF.Pow((timeToApex * 1.25f), 2);
             float secondJumpInitialVelocity = (2 * (_maxJumpHeight + 2)) / (timeToApex * 1.25f);
@@ -152,8 +155,8 @@ namespace Game._Scripts.Player.StateMachine
             _initialJumpVelocities.Add(2, secondJumpInitialVelocity);
             _initialJumpVelocities.Add(3, thirdJumpInitialVelocity);
 
-            _jumpGravities.Add(0, _gravity);
-            _jumpGravities.Add(1, _gravity);
+            _jumpGravities.Add(0, initialGravity);
+            _jumpGravities.Add(1, initialGravity);
             _jumpGravities.Add(2, secondJumpGravity);
             _jumpGravities.Add(3, thirdJumpGravity);
         }

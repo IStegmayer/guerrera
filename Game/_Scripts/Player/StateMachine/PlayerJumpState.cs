@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game._Scripts.Player.StateMachine
 {
-    public class PlayerJumpState : PlayerBaseState
+    public class PlayerJumpState : PlayerBaseState, IRootState
     {
         public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory) {
@@ -19,6 +19,7 @@ namespace Game._Scripts.Player.StateMachine
         }
         
         public override void EnterState() {
+            InitializeSubState();
             if (Ctx.Input.Jump) HandleJump();
         }
 
@@ -40,7 +41,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void InitializeSubState() {
-            throw new System.NotImplementedException();
+            
         }
 
         private void HandleJump() {
@@ -56,18 +57,17 @@ namespace Game._Scripts.Player.StateMachine
             Ctx.AppliedMovementY = Ctx.InitialJumpVelocities[Ctx.JumpCount];
         }
 
-        private void HandleGravity() {
+        public void HandleGravity() {
             bool isFalling = Ctx.CurrentMovementY <= 0.0f || !Ctx.Input.Jump;
             float fallMultiplier = 2.5f;
             if (isFalling) {
                 float previousYVelocity = Ctx.CurrentMovementY;
-                Ctx.CurrentMovementY = 
-                    Ctx.CurrentMovementY + (Ctx.JumpGravities[Ctx.JumpCount] * fallMultiplier * Time.deltaTime);
+                Ctx.CurrentMovementY += (Ctx.JumpGravities[Ctx.JumpCount] * fallMultiplier * Time.deltaTime);
                 Ctx.AppliedMovementY = MathF.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, Ctx.FallTerminalVelocity);
             }
             else {
                 float previousYVelocity = Ctx.CurrentMovementY;
-                Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.JumpGravities[Ctx.JumpCount] * Time.deltaTime);
+                Ctx.CurrentMovementY += (Ctx.JumpGravities[Ctx.JumpCount] * Time.deltaTime);
                 Ctx.AppliedMovementY = (previousYVelocity + Ctx.CurrentMovementY) * .5f;
             }
         }

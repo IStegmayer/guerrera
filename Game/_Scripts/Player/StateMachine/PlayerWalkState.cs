@@ -13,9 +13,9 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void UpdateState() {
-            CheckSwitchStates();
             Ctx.AppliedMovementX = Ctx.Input.Movement.x;
             Ctx.AppliedMovementZ = Ctx.Input.Movement.y;
+            CheckSwitchStates();
         }
 
         public override void ExitState() {

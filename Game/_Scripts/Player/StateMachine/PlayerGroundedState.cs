@@ -3,17 +3,16 @@ using UnityEngine;
 
 namespace Game._Scripts.Player.StateMachine
 {
-    public class PlayerGroundedState : PlayerBaseState
+    public class PlayerGroundedState : PlayerBaseState, IRootState
     {
         public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory) {
             IsRootState = true;
-            InitializeSubState();
         }
 
         public override void EnterState() {
-            Ctx.CurrentMovementY = Ctx.GroundedGravity;
-            Ctx.AppliedMovementY = Ctx.GroundedGravity;
+            InitializeSubState();
+            HandleGravity();
         }
 
         public override void UpdateState() {
@@ -27,6 +26,8 @@ namespace Game._Scripts.Player.StateMachine
         public override void CheckSwitchStates() {
             if (Ctx.Input.Jump && !Ctx.RequireNewJumpPress) {
                 SwitchState(Factory.Jump());
+            } else if (!Ctx.CharacterController.isGrounded) {
+                SwitchState(Factory.Fall());
             }
         }
 
@@ -39,6 +40,11 @@ namespace Game._Scripts.Player.StateMachine
             else {
                 SetSubState((Factory.Run()));
             }
+        }
+
+        public void HandleGravity() {
+            Ctx.CurrentMovementY = Ctx.Gravity;
+            Ctx.AppliedMovementY = Ctx.Gravity;
         }
     }
 }
