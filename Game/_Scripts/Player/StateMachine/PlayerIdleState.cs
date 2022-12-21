@@ -5,11 +5,12 @@ namespace Game._Scripts.Player.StateMachine
 {
     public class PlayerIdleState : PlayerBaseState
     {
-        public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)  
+        public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
             : base(currentContext, playerStateFactory) { }
 
         public override void EnterState() {
-            Debug.Log("Entered Idle state (animate this)");
+            Ctx.Animator.SetBool("isWalking", false);
+            Ctx.Animator.SetBool("isRunning", false);
         }
 
         public override void UpdateState() {
@@ -18,14 +19,16 @@ namespace Game._Scripts.Player.StateMachine
             CheckSwitchStates();
         }
 
-        public override void ExitState() {
-            Debug.Log("Exiting Idle state");
-        }
+        public override void ExitState() { }
 
         public override void CheckSwitchStates() {
-            if (Ctx.IsMovementPressed && Ctx.Input.Run) {
+            if (Ctx.Input.Attack) {
+                SwitchState(Factory.Attack());
+            }
+            else if (Ctx.IsMovementPressed && Ctx.Input.Run) {
                 SwitchState(Factory.Run());
-            } else if (Ctx.IsMovementPressed) {
+            }
+            else if (Ctx.IsMovementPressed) {
                 SwitchState(Factory.Walk());
             }
         }

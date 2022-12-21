@@ -9,21 +9,24 @@ namespace Game._Scripts.Player.StateMachine
             : base(currentContext, playerStateFactory) { }
 
         public override void EnterState() {
-            Debug.Log("Entered Walk state (animate this)");
+            Ctx.Animator.SetBool("isWalking", true);
         }
 
         public override void UpdateState() {
-            Ctx.AppliedMovementX = Ctx.Input.Movement.x;
-            Ctx.AppliedMovementZ = Ctx.Input.Movement.y;
+            Ctx.AppliedMovementX = Ctx.Input.Movement.x * Ctx.WalkMultiplier;
+            Ctx.AppliedMovementZ = Ctx.Input.Movement.y * Ctx.WalkMultiplier;
             CheckSwitchStates();
         }
 
         public override void ExitState() {
-            Debug.Log("Exiting Walk state");
+            Ctx.Animator.SetBool("isWalking", false);
         }
 
         public override void CheckSwitchStates() {
-            if (!Ctx.IsMovementPressed) {
+            if (Ctx.Input.Attack) {
+                SwitchState(Factory.Attack());
+            }
+            else if (!Ctx.IsMovementPressed) {
                 SwitchState(Factory.Idle());
             } else if (Ctx.Input.Run) {
                 SwitchState(Factory.Run());

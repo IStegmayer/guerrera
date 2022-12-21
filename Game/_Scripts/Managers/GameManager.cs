@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Cinemachine;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : StaticInstance<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Transform _playerSpawn;
+    [SerializeField] private Transform _enemySpawn;
+    [SerializeField] private CinemachineFreeLook _mainCamera;
+    private void Start() {
+        Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn.position);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn.position, EnemyType.Goblin);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _mainCamera.Follow = playerInstance;
+        _mainCamera.LookAt = playerInstance;
     }
 }

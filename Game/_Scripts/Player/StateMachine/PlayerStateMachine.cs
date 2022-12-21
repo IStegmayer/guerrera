@@ -63,6 +63,10 @@ namespace Game._Scripts.Player.StateMachine
         public float RunMultiplier {
             get => _runMultiplier;
         }
+        
+        public float WalkMultiplier {
+            get => _walkMultiplier;
+        }
 
         public CharacterController CharacterController {
             get => _characterController;
@@ -89,6 +93,11 @@ namespace Game._Scripts.Player.StateMachine
             get => _gravity;
         }
 
+        public bool IsSlashing {
+            get => _isSlashing;
+            set => _isSlashing = value;
+        }
+
 
         // state variables
         private PlayerBaseState _currentState;
@@ -96,7 +105,8 @@ namespace Game._Scripts.Player.StateMachine
 
         // constants
         private float _rotationFactorPerFrame = 10.0f;
-        private float _runMultiplier = 4.0f;
+        private float _runMultiplier = 7.0f;
+        private float _walkMultiplier = 3.0f;
         private float _gravity = -9.8f;
 
         // references and class fields
@@ -111,6 +121,9 @@ namespace Game._Scripts.Player.StateMachine
         private Vector3 _cameraRelativeMovement;
 
         private bool _isMovementPressed;
+        
+        // combat fields
+        private bool _isSlashing;
 
         // jump fields
         private bool _isJumping = false;
@@ -162,7 +175,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         private void HandleRotation() {
-            if (!_isMovementPressed) return;
+            if (!_isMovementPressed || _isSlashing) return;
 
             // get current rotation and movement
             Quaternion currentRotation = transform.rotation;
@@ -211,6 +224,14 @@ namespace Game._Scripts.Player.StateMachine
             return vectorRotatedToCameraSpace;
         }
 
+        #region Gizmos
+
+        private void OnDrawGizmos() {
+            Debug.DrawRay(transform.position + Vector3.up, transform.forward * 10f, Color.blue, .1f);
+        }
+
+        #endregion
+
         #region GatherInput
 
         // handler for movement vars
@@ -219,6 +240,10 @@ namespace Game._Scripts.Player.StateMachine
             _currentMovement.x = _input.Movement.x;
             _currentMovement.z = _input.Movement.y;
             _isMovementPressed = _input.Movement.x != 0 || _input.Movement.y != 0;
+        }
+
+        public void OnAttack(InputAction.CallbackContext context) {
+            _input.Attack = context.action.WasPerformedThisFrame();
         }
 
         public void OnRun(InputAction.CallbackContext context) =>

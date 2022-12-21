@@ -10,7 +10,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void EnterState() {
-            Debug.Log("Entering Run state (animate this)");
+            Ctx.Animator.SetBool("isRunning", true);
         }
 
         public override void UpdateState() {
@@ -20,11 +20,14 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
-            Debug.Log("Exiting Run state");
+            Ctx.Animator.SetBool("isRunning", false);
         }
 
         public override void CheckSwitchStates() {
-            if (!Ctx.IsMovementPressed) {
+            if (Ctx.Input.Attack) {
+                SwitchState(Factory.Attack());
+            }
+            else if (!Ctx.IsMovementPressed) {
                 SwitchState(Factory.Idle());
             }
             else if (!Ctx.Input.Run) {
