@@ -1,15 +1,18 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Game._Scripts.Player;
+using Game._Scripts.Player.StateMachine;
 using UnityEngine.InputSystem;
 
 
-namespace Game._Scripts.Player.StateMachine
+namespace Game._Scripts
 {
     // CONTEXT CLASS
-    public class PlayerStateMachine : MonoBehaviour
+    public class PlayerStateMachine : BaseUnit
     {
-        // public fields
+        #region Public Fields
+
         public PlayerBaseState CurrentState {
             get => _currentState;
             set => _currentState = value;
@@ -51,10 +54,12 @@ namespace Game._Scripts.Player.StateMachine
             get => _appliedMovement.y;
             set => _appliedMovement.y = value;
         }
+
         public float AppliedMovementX {
             get => _appliedMovement.x;
             set => _appliedMovement.x = value;
         }
+
         public float AppliedMovementZ {
             get => _appliedMovement.z;
             set => _appliedMovement.z = value;
@@ -63,7 +68,7 @@ namespace Game._Scripts.Player.StateMachine
         public float RunMultiplier {
             get => _runMultiplier;
         }
-        
+
         public float WalkMultiplier {
             get => _walkMultiplier;
         }
@@ -98,6 +103,11 @@ namespace Game._Scripts.Player.StateMachine
             set => _isSlashing = value;
         }
 
+        public Weapon Weapon {
+            get => _weapon;
+        }
+
+        #endregion
 
         // state variables
         private PlayerBaseState _currentState;
@@ -121,9 +131,10 @@ namespace Game._Scripts.Player.StateMachine
         private Vector3 _cameraRelativeMovement;
 
         private bool _isMovementPressed;
-        
+
         // combat fields
         private bool _isSlashing;
+        [SerializeField] private Weapon _weapon;
 
         // jump fields
         private bool _isJumping = false;
@@ -131,7 +142,7 @@ namespace Game._Scripts.Player.StateMachine
         private float _maxJumpHeight = 3f;
         private float _maxJumpTime = 0.75f;
         private float _fallTerminalVelocity = -20.0f;
-        private bool _requireNewJumpPress; 
+        private bool _requireNewJumpPress;
         private int _jumpCount = 0;
         private Dictionary<int, float> _initialJumpVelocities = new Dictionary<int, float>();
         private Dictionary<int, float> _jumpGravities = new Dictionary<int, float>();
@@ -192,10 +203,9 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         private void Update() {
-            
             HandleRotation();
             _currentState.UpdateStates();
-            
+
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
         }
@@ -203,15 +213,15 @@ namespace Game._Scripts.Player.StateMachine
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate) {
             Vector3 cameraForward = Camera.main.transform.forward;
             Vector3 cameraRight = Camera.main.transform.right;
-            
+
             // remove the Y values to ignore upward/down
             cameraForward.y = 0.0f;
             cameraRight.y = 0.0f;
-            
+
             // re-normalize both vector so they each have a magnitude of 1
             cameraForward = cameraForward.normalized;
             cameraForward = cameraForward.normalized;
-            
+
             // rotate the X and Z VectorToRotate values to camera space
             Vector3 cameraForwardZProduct = vectorToRotate.z * cameraForward;
             Vector3 cameraRightXProduct = vectorToRotate.x * cameraRight;
@@ -220,7 +230,7 @@ namespace Game._Scripts.Player.StateMachine
             Vector3 vectorRotatedToCameraSpace = cameraForwardZProduct + cameraRightXProduct;
             // set the unchanged y back
             vectorRotatedToCameraSpace.y = vectorToRotate.y;
-            
+
             return vectorRotatedToCameraSpace;
         }
 

@@ -21,7 +21,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
-            Debug.Log("Exiting State grounded");
+            Debug.Log("Exiting CurrentGameState grounded");
         }
 
         public override void CheckSwitchStates() {

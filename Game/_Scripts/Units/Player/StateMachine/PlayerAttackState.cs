@@ -8,15 +8,15 @@ namespace Game._Scripts.Player.StateMachine
         public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
             currentContext, playerStateFactory) {
         }
-
-
+        
         private IEnumerator SlashResetRoutine() {
             yield return new WaitForSeconds(1f);
             // modify slash count
             Ctx.IsSlashing = false;
-        }
+         }
 
         public override void EnterState() {
+            Ctx.Weapon.ToggleEnableDamage(true);
             Ctx.IsSlashing = true;
             Ctx.Animator.Play("Slash");
             Ctx.StartCoroutine(SlashResetRoutine());
@@ -29,6 +29,8 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
+            Ctx.Weapon.ToggleEnableDamage(false);
+            //TODO: This is lazy
             Ctx.Animator.Play("Idle");
         }
 

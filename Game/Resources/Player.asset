@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
     Health: 100
-    BaseAttackPower: 10
+    BaseAttackPower: 5
     BaseSpeed: 2
   Prefab: {fileID: 6880589535415207573, guid: e1f43a8f85d4bfe4d963acffdca06749, type: 3}
   PlayerLevel: 1

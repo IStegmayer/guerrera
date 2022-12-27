@@ -1981,6 +1981,7 @@ GameObject:
   - component: {fileID: 7638918461268105012}
   - component: {fileID: 1072462376}
   - component: {fileID: 1072462377}
+  - component: {fileID: 2076437697}
   m_Layer: 6
   m_Name: Character_Goblin_Female
   m_TagString: Untagged
@@ -2030,7 +2031,7 @@ Animator:
   m_GameObject: {fileID: 1435744202117670}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b6ef2f4d0154b2747860a3332fa05f97, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 042b581940d7923499ca49a5ea77fe93, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2082,6 +2083,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f50e4554e14d241b7a49d969a5e2d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackRange: 1.6
+  _aggroRange: 6
+  _attackCD: 2
+  _reaggroCD: 0.5
+--- !u!195 &2076437697
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435744202117670}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 200
+  m_StoppingDistance: 1.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1439348661205246
 GameObject:
   m_ObjectHideFlags: 0

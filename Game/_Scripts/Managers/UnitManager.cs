@@ -1,27 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitManager : StaticInstance<UnitManager>
 {
+    private Dictionary<int, BaseUnit> _spawnedEnemies = new Dictionary<int, BaseUnit>();
+    private int _enemyCount;
+    private BaseUnit _playerInstance;
     
-    public Transform SpawnPlayer(Vector3 pos, int level = 1) {
+    public Transform SpawnPlayer(Transform transform, int level = 1) {
         ScriptableUnitBase playerScriptable = ResourceSystem.Instance.GetPlayer(level);
-        return SpawnUnit(playerScriptable, pos);
+        GameObject spawnedGO = SpawnUnit(playerScriptable, transform.position, transform.rotation);
+        BaseUnit player = spawnedGO.GetComponentInChildren<BaseUnit>();
+        player.SetStats(playerScriptable.BaseStats);
+
+        return spawnedGO.transform;
     }
 
-    public void SpawnEnemy(Vector3 pos, EnemyType type) {
+    public void SpawnEnemy(Transform transform, EnemyType type) {
         ScriptableUnitBase enemyScriptable = ResourceSystem.Instance.GetEnemy(type);
-        SpawnUnit(enemyScriptable, pos);
+        GameObject spawnedGO = SpawnUnit(enemyScriptable, transform.position, transform.rotation);
+        
+        BaseUnit enemy = spawnedGO.GetComponentInChildren<BaseUnit>();
+        enemy.SetId(_enemyCount);
+        enemy.SetStats(enemyScriptable.BaseStats);
+        _spawnedEnemies.Add(_enemyCount, enemy);
+        _enemyCount++;
     }
 
-    private Transform SpawnUnit(ScriptableUnitBase unitScriptable,Vector3 pos) {
-        //UnitBase, not var
-       var spawned = Instantiate(unitScriptable.Prefab, pos, Quaternion.identity, transform);
+    private GameObject SpawnUnit(ScriptableUnitBase unitScriptable, Vector3 pos, Quaternion rotation) {
+        //TODO: STATS SHOULD BE SET HERE
+       GameObject spawned = Instantiate(unitScriptable.Prefab, pos, rotation, transform);
 
-       return spawned.transform;
-       // Apply possible modifications here such as potion boosts, team synergies, etc
-       // var stats = unitScriptable.BaseStats;
-       // stats.Health += 20;     
-       //
-       // spawned.SetStats(stats);
+       return spawned;
+    }
+
+    public void DespawnEnemy(int id, GameObject obj) {
+        _spawnedEnemies.Remove(id);
+        Destroy(obj);
     }
 }
