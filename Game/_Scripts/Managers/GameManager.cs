@@ -33,8 +33,6 @@ public class GameManager : StaticInstance<GameManager>
             case GameState.HeroTurn:
                 HandleHeroTurn();
                 break;
-            case GameState.EnemyTurn:
-                break;
             case GameState.Win:
                 break;
             case GameState.Lose:
@@ -90,7 +88,6 @@ public class GameManager : StaticInstance<GameManager>
         SpawningHeroes = 1,
         SpawningEnemies = 2,
         HeroTurn = 3,
-        EnemyTurn = 4,
-        Win = 5,
-        Lose = 6,
+        Win = 4,
+        Lose = 5,
     }

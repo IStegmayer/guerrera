@@ -34,8 +34,14 @@ public class UnitManager : StaticInstance<UnitManager>
        return spawned;
     }
 
+    public void DespawnPlayer(GameObject obj) {
+        _playerInstance = null;
+        Destroy(obj);
+    }
+
     public void DespawnEnemy(int id, GameObject obj) {
         _spawnedEnemies.Remove(id);
         Destroy(obj);
+        if (_spawnedEnemies.Count == 0) GameManager.Instance.ChangeState(GameState.Win);
     }
 }

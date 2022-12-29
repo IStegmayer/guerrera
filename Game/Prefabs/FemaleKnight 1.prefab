@@ -76,9 +76,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.060312483
-  m_Height: 1.3246325
+  m_Height: 1.3885707
   m_Direction: 1
-  m_Center: {x: 0.0034375493, y: 0.48268506, z: 0.004428618}
+  m_Center: {x: 0.0034377344, y: 0.5146623, z: 0.004428989}
 --- !u!114 &2376148336628336763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83945672218246228ac8a432024b56dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponDmg: 2
 --- !u!1 &6880589535121952490
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +136,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.83133525, y: 1.0970154, z: 0.22019204}
-  m_Center: {x: 0.021301083, y: -0.048508033, z: 0.04200136}
+  m_Size: {x: 1.497642, y: 1.4052687, z: 0.16075025}
+  m_Center: {x: 0.32342285, y: -0.06903981, z: 0.012281753}
 --- !u!1 &6880589535415140817
 GameObject:
   m_ObjectHideFlags: 0
@@ -3098,7 +3099,7 @@ PrefabInstance:
     - target: {fileID: 64158722655683774, guid: 92cd70a481699ac4b93380dc1184f864,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92cd70a481699ac4b93380dc1184f864, type: 3}
@@ -3165,6 +3166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 438816, guid: 9a3460fac6eccf446a920db0922d6fae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64330640073874316, guid: 9a3460fac6eccf446a920db0922d6fae,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

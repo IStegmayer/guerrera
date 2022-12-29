@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game._Scripts.Player;
 using Game._Scripts.Player.StateMachine;
@@ -133,8 +134,10 @@ namespace Game._Scripts
         private bool _isMovementPressed;
 
         // combat fields
-        private bool _isSlashing;
         [SerializeField] private Weapon _weapon;
+        private int _currentHealth;
+        private bool _isSlashing;
+        private Coroutine _deathRoutine;
 
         // jump fields
         private bool _isJumping = false;
@@ -163,7 +166,7 @@ namespace Game._Scripts
         }
 
         private void Start() {
-            _characterController.Move(_appliedMovement * Time.deltaTime);
+            _currentHealth = Stats.Health;
         }
 
         private void SetupJumpVariables() {
@@ -208,6 +211,27 @@ namespace Game._Scripts
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+        }
+
+        //TODO: Create a separate health/damage script for everyone
+        public override void TakeDamage(int dmg) {
+            if (_deathRoutine != null) return;
+
+            _animator.Play("Damage");
+            _currentHealth -= dmg;
+            Debug.Log("HEALTH:" + _currentHealth + "/" + Stats.Health);
+            if (_currentHealth < 0) {
+                _deathRoutine = StartCoroutine(DeathRoutine());
+            }
+        }
+
+        private IEnumerator DeathRoutine() {
+            // start death animation
+            _animator.Play("Death");
+            yield return new WaitForSeconds(1f);
+            GameManager.Instance.ChangeState(GameState.Lose);
+            yield return new WaitForSeconds(1f);
+            UnitManager.Instance.DespawnPlayer(transform.gameObject);
         }
 
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate) {

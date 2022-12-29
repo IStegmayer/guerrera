@@ -9,4 +9,5 @@
         public virtual void SetStats(Stats stats) => Stats = stats;
 
         public virtual void TakeDamage(int dmg) { }
+        //TODO: die?
     }
