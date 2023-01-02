@@ -18,13 +18,10 @@ public class EnemyMeleeDamageDealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (!_canDealDamage) return;
-
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player")) {
-            if (other.gameObject.TryGetComponent(out BaseUnit player)) {
-                player.TakeDamage(_enemy.Stats.BaseAttackPower + _weaponDmg);
-                _canDealDamage = false;
-            }
-        }
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
+        if (!other.gameObject.TryGetComponent(out BaseUnit player)) return;
         
+        player.TakeDamage(_enemy.Stats.BaseAttackPower + _weaponDmg);
+        _canDealDamage = false;
     }
 }
