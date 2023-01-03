@@ -6,12 +6,16 @@ using UnityEngine.AI;
 
 public class BasicGoblin : BaseUnit
 {
-    [Header("Combat")] 
-    [SerializeField] private EnemyMeleeDamageDealer _damageDealer;
+    [Header("Combat")] [SerializeField] private EnemyMeleeDamageDealer _damageDealer;
     [SerializeField] private float _attackRange = 1.6f;
     [SerializeField] private float _aggroRange = 6f;
-    [SerializeField] private float _attackCD = 2f;
-    [SerializeField] private float _reaggroCD = 0.5f;
+    [SerializeField] private float _attackCd = 2f;
+    [SerializeField] private float _reaggroCd = 0.5f;
+
+    //TODO: this could be further abstracted
+    public static event Action<BasicGoblin> GoblinSpawned;
+    public static event Action<BasicGoblin> GoblinDamaged;
+    public static event Action<BasicGoblin> GoblinKilled;
 
 
     private int _currentHealth;
@@ -33,10 +37,10 @@ public class BasicGoblin : BaseUnit
         if (_playerTransform == null) return;
 
         // attack 
-        if (_attackTimer >= _attackCD) {
+        if (_attackTimer >= _attackCd) {
             if (Vector3.Distance(_playerTransform.position, transform.position) <= _attackRange) {
                 _damageDealer.ToggleEnableDamage(true);
-                _animator.SetTrigger("Attack");
+                _animator.SetTrigger(GoblinAnimHashes.Attack);
                 _attackTimer = 0;
             }
         }
@@ -44,22 +48,24 @@ public class BasicGoblin : BaseUnit
         _attackTimer += Time.deltaTime;
 
         // aggro
-        if (_reaggroCD <= 0 && Vector3.Distance(_playerTransform.position, transform.position) <= _aggroRange) {
-            _reaggroCD = 0.5f;
+        if (_reaggroCd <= 0 && Vector3.Distance(_playerTransform.position, transform.position) <= _aggroRange) {
+            _reaggroCd = 0.5f;
             _navMeshAgent.destination = _playerTransform.position;
-            _animator.SetBool("isMoving", true);
+            _animator.SetBool(GoblinAnimHashes.IsMoving, true);
         }
+        else
+            _animator.SetBool(GoblinAnimHashes.IsMoving, false);
 
-        _reaggroCD -= Time.deltaTime;
+        _reaggroCd -= Time.deltaTime;
         transform.LookAt(_playerTransform.position);
     }
 
-    //TODO: Create a separate health/damage script for everyone
+    //TODO: Create a separate health/Damage script for everyone
     public override void TakeDamage(int dmg) {
         if (_deathRoutine != null) return;
         Debug.Log("HEALTH:" + _currentHealth + "/" + Stats.Health);
 
-        _animator.Play("Damage");
+        _animator.Play(GoblinAnimHashes.Damage);
         _currentHealth -= dmg;
         if (_currentHealth < 0) {
             _deathRoutine = StartCoroutine(DeathRoutine());
@@ -67,8 +73,10 @@ public class BasicGoblin : BaseUnit
     }
 
     private IEnumerator DeathRoutine() {
-        // start death animation
-        _animator.Play("Death");
+        // animate death and invoke event
+        _animator.Play(GoblinAnimHashes.Death);
+        _navMeshAgent.isStopped = true;
+        GoblinKilled?.Invoke(this);
         yield return new WaitForSeconds(2f);
         UnitManager.Instance.DespawnEnemy(_id, this.gameObject);
     }

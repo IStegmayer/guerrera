@@ -18,7 +18,7 @@ namespace Game._Scripts.Player.StateMachine
         public override void EnterState() {
             Ctx.Weapon.ToggleEnableDamage(true);
             Ctx.IsSlashing = true;
-            Ctx.Animator.Play("Slash");
+            Ctx.Animator.Play(PlayerAnimHashes.Slash);
             Ctx.StartCoroutine(SlashResetRoutine());
         }
 
@@ -30,8 +30,7 @@ namespace Game._Scripts.Player.StateMachine
 
         public override void ExitState() {
             Ctx.Weapon.ToggleEnableDamage(false);
-            //TODO: This is lazy
-            Ctx.Animator.Play("Idle");
+            //TODO: ADD THISSS S S  S S SWITCHHHHH
         }
 
         public override void CheckSwitchStates() {

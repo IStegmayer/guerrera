@@ -213,11 +213,11 @@ namespace Game._Scripts
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
         }
 
-        //TODO: Create a separate health/damage script for everyone
+        //TODO: Create a separate health/Damage script for everyone
         public override void TakeDamage(int dmg) {
             if (_deathRoutine != null) return;
 
-            _animator.Play("Damage");
+            _animator.Play(PlayerAnimHashes.Damage);
             _currentHealth -= dmg;
             Debug.Log("HEALTH:" + _currentHealth + "/" + Stats.Health);
             if (_currentHealth < 0) {
@@ -227,7 +227,7 @@ namespace Game._Scripts
 
         private IEnumerator DeathRoutine() {
             // start death animation
-            _animator.Play("Death");
+            _animator.Play(PlayerAnimHashes.Death);
             yield return new WaitForSeconds(1f);
             GameManager.Instance.ChangeState(GameState.Lose);
             yield return new WaitForSeconds(1f);

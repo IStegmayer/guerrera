@@ -12,8 +12,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     public Sound[] sounds;
 
-    void Start()
-    {
+    void Start() {
         foreach (Sound s in sounds)
         {
             s.Source = gameObject.AddComponent<AudioSource>();
@@ -22,6 +21,10 @@ public class AudioSystem : StaticInstance<AudioSystem>
             s.Source.pitch = s.Pitch;
             s.Source.loop = s.Loop;
         }
+    }
+
+    private void PlayGoblinKilled(BasicGoblin goblin) {
+        PlaySound("enemyDeath", goblin.transform.position);
     }
 
     public void PlayMusic(string name)
@@ -59,4 +62,18 @@ public class AudioSystem : StaticInstance<AudioSystem>
         else
             _soundsSource.PlayOneShot(_soundsSource.clip, vol);
     }
+
+    #region Events
+    private void OnEnable() {
+        BasicGoblin.GoblinKilled += PlayGoblinKilled;
+        //BasicGoblin.GoblinDamaged;
+        //BasicGoblin.GoblinSpawned;
+    }
+
+    private void OnDisable() {
+        BasicGoblin.GoblinKilled -= PlayGoblinKilled;
+    }
+    #endregion
+    
+    
 }

@@ -9,7 +9,7 @@ namespace Game._Scripts.Player.StateMachine
             : base(currentContext, playerStateFactory) { }
 
         public override void EnterState() {
-            Ctx.Animator.SetBool("isWalking", true);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, true);
         }
 
         public override void UpdateState() {
@@ -19,7 +19,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
-            Ctx.Animator.SetBool("isWalking", false);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, false);
         }
 
         public override void CheckSwitchStates() {

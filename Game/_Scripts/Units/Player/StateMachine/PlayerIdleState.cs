@@ -9,8 +9,8 @@ namespace Game._Scripts.Player.StateMachine
             : base(currentContext, playerStateFactory) { }
 
         public override void EnterState() {
-            Ctx.Animator.SetBool("isWalking", false);
-            Ctx.Animator.SetBool("isRunning", false);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, false);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, false);
         }
 
         public override void UpdateState() {

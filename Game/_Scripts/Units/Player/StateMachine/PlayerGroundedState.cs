@@ -38,18 +38,18 @@ namespace Game._Scripts.Player.StateMachine
                 SetSubState(Factory.Attack());
             }
             else if (!Ctx.IsMovementPressed && !Ctx.Input.Run) {
-                Ctx.Animator.SetBool("isRunning", false);
-                Ctx.Animator.SetBool("isWalking", false);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, false);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, false);
                 SetSubState(Factory.Idle());
             }
             else if (Ctx.IsMovementPressed && !Ctx.Input.Run) {
-                Ctx.Animator.SetBool("isWalking", true);
-                Ctx.Animator.SetBool("isRunning", false);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, true);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, false);
                 SetSubState(Factory.Walk());
             }
             else {
-                Ctx.Animator.SetBool("isRunning", true);
-                Ctx.Animator.SetBool("isWalking", false);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, true);
+                Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, false);
                 SetSubState((Factory.Run()));
             }
         }

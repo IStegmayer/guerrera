@@ -10,7 +10,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void EnterState() {
-            Ctx.Animator.SetBool("isRunning", true);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, true);
         }
 
         public override void UpdateState() {
@@ -20,7 +20,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
-            Ctx.Animator.SetBool("isRunning", false);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, false);
         }
 
         public override void CheckSwitchStates() {

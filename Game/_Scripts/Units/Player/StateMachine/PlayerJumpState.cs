@@ -27,14 +27,14 @@ namespace Game._Scripts.Player.StateMachine
             CheckSwitchStates();
             HandleGravity();
             
-            Ctx.Animator.SetInteger("jumpCount", Ctx.JumpCount);
+            Ctx.Animator.SetInteger(PlayerAnimHashes.JumpCount, Ctx.JumpCount);
         }
 
         public override void ExitState() {
             if (Ctx.Input.Jump) Ctx.RequireNewJumpPress = true;
             Ctx.CurrentJumpResetCoroutine = Ctx.StartCoroutine(JumpResetRoutine());
             if (Ctx.JumpCount == 3) Ctx.JumpCount = 0;
-            Ctx.Animator.SetBool("isJumping", false);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsJumping, false);
         }
 
         public override void CheckSwitchStates() {
@@ -48,7 +48,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         private void HandleJump() {
-            Ctx.Animator.SetBool("isJumping", true);
+            Ctx.Animator.SetBool(PlayerAnimHashes.IsJumping, true);
             if (Ctx.JumpCount < 3 && Ctx.CurrentJumpResetCoroutine != null) {
                 Ctx.StopCoroutine(Ctx.CurrentJumpResetCoroutine);
                 Ctx.CurrentJumpResetCoroutine = null;
