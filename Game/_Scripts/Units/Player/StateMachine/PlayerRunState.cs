@@ -24,10 +24,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void CheckSwitchStates() {
-            if (Ctx.Input.Attack) {
-                SwitchState(Factory.Attack());
-            }
-            else if (!Ctx.IsMovementPressed) {
+            if (!Ctx.IsMovementPressed) {
                 SwitchState(Factory.Idle());
             }
             else if (!Ctx.Input.Run) {

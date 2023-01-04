@@ -25,7 +25,13 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void CheckSwitchStates() {
-            if (Ctx.Input.Jump && !Ctx.RequireNewJumpPress) {
+            if (Ctx.Input.Attack) {
+                SwitchState(Factory.Attack());
+            }
+            else if (Ctx.IsMovementPressed && Ctx.Input.Roll) {
+                SwitchState(Factory.Roll());
+            }
+            else if (Ctx.Input.Jump && !Ctx.RequireNewJumpPress) {
                 SwitchState(Factory.Jump());
             }
             else if (!Ctx.CharacterController.isGrounded) {
@@ -34,10 +40,7 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void InitializeSubState() {
-            if (Ctx.Input.Attack) {
-                SetSubState(Factory.Attack());
-            }
-            else if (!Ctx.IsMovementPressed && !Ctx.Input.Run) {
+            if (!Ctx.IsMovementPressed && !Ctx.Input.Run) {
                 Ctx.Animator.SetBool(PlayerAnimHashes.IsRunning, false);
                 Ctx.Animator.SetBool(PlayerAnimHashes.IsWalking, false);
                 SetSubState(Factory.Idle());

@@ -103,6 +103,10 @@ namespace Game._Scripts
             get => _isSlashing;
             set => _isSlashing = value;
         }
+        public bool IsRolling {
+            get => _isRolling;
+            set => _isRolling = value;
+        }
 
         public Weapon Weapon {
             get => _weapon;
@@ -138,6 +142,9 @@ namespace Game._Scripts
         private int _currentHealth;
         private bool _isSlashing;
         private Coroutine _deathRoutine;
+        
+        // roll fields
+        private bool _isRolling;
 
         // jump fields
         private bool _isJumping = false;
@@ -278,6 +285,10 @@ namespace Game._Scripts
 
         public void OnAttack(InputAction.CallbackContext context) {
             _input.Attack = context.action.WasPerformedThisFrame();
+        }
+        
+        public void OnRoll(InputAction.CallbackContext context) {
+            _input.Roll = context.action.WasPerformedThisFrame();
         }
 
         public void OnRun(InputAction.CallbackContext context) =>

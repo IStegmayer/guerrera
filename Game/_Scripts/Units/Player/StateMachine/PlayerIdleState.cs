@@ -22,10 +22,7 @@ namespace Game._Scripts.Player.StateMachine
         public override void ExitState() { }
 
         public override void CheckSwitchStates() {
-            if (Ctx.Input.Attack) {
-                SwitchState(Factory.Attack());
-            }
-            else if (Ctx.IsMovementPressed && Ctx.Input.Run) {
+            if (Ctx.IsMovementPressed && Ctx.Input.Run) {
                 SwitchState(Factory.Run());
             }
             else if (Ctx.IsMovementPressed) {

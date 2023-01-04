@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace Game._Scripts.Player.StateMachine
 {
-    public class PlayerAttackState : PlayerBaseState
+    public class PlayerAttackState : PlayerBaseState, IRootState
     {
         public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(
             currentContext, playerStateFactory) {
+            IsRootState = true;
         }
         
         private IEnumerator SlashResetRoutine() {
@@ -30,14 +31,19 @@ namespace Game._Scripts.Player.StateMachine
 
         public override void ExitState() {
             Ctx.Weapon.ToggleEnableDamage(false);
-            //TODO: ADD THISSS S S  S S SWITCHHHHH
+            //TODO: This is lazy
+            Ctx.Animator.Play(PlayerAnimHashes.Idle);
         }
 
         public override void CheckSwitchStates() {
-            if (!Ctx.IsSlashing) SwitchState(Factory.Idle());
+            if (!Ctx.IsSlashing) SwitchState(Factory.Grounded());
         }
 
         public override void InitializeSubState() {
+        }
+        public void HandleGravity() {
+            Ctx.CurrentMovementY = Ctx.Gravity;
+            Ctx.AppliedMovementY = Ctx.Gravity;
         }
     }
 }
