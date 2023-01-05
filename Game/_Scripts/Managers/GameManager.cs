@@ -34,6 +34,7 @@ public class GameManager : StaticInstance<GameManager>
                 HandleHeroTurn();
                 break;
             case GameState.Win:
+                HandleWin();
                 break;
             case GameState.Lose:
                 break;
@@ -59,6 +60,10 @@ public class GameManager : StaticInstance<GameManager>
         _mainCamera.LookAt = playerInstance;
         
         ChangeState(GameState.SpawningEnemies);
+    }
+
+    private void HandleWin() {
+        AudioSystem.Instance.PlaySound("gameWin", Vector3.zero);
     }
 
     private void HandleSpawningEnemies() {

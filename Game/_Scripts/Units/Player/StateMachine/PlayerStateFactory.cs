@@ -13,7 +13,8 @@ namespace Game._Scripts.Player.StateMachine
         Jump,
         Fall,
         Attack,
-        Roll
+        Roll,
+        Block
     }
     
     // Not really a factory, more of a pool for now
@@ -32,6 +33,7 @@ namespace Game._Scripts.Player.StateMachine
             _states[PlayerStatesEnum.Fall] = new PlayerFallState(_context, this);
             _states[PlayerStatesEnum.Attack] = new PlayerAttackState(_context, this);
             _states[PlayerStatesEnum.Roll] = new PlayerRollState(_context, this);
+            _states[PlayerStatesEnum.Block] = new PlayerBlockState(_context, this);
         }
 
         public PlayerBaseState Grounded() {
@@ -57,6 +59,9 @@ namespace Game._Scripts.Player.StateMachine
         } 
         public PlayerBaseState Roll() {
             return _states[PlayerStatesEnum.Roll];  
+        } 
+        public PlayerBaseState Block() {
+            return _states[PlayerStatesEnum.Block];  
         } 
     }
 }

@@ -8,6 +8,7 @@ namespace Game._Scripts.Player
         public bool Run;
         public bool Attack;
         public bool Roll;
+        public bool Block;
         public Vector2 Movement;
     }
 }

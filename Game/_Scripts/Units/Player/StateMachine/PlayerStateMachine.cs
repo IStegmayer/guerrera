@@ -107,6 +107,10 @@ namespace Game._Scripts
             get => _isRolling;
             set => _isRolling = value;
         }
+        public bool IsBlocking {
+            get => _isBlocking;
+            set => _isBlocking = value;
+        }
 
         public Weapon Weapon {
             get => _weapon;
@@ -141,10 +145,9 @@ namespace Game._Scripts
         [SerializeField] private Weapon _weapon;
         private int _currentHealth;
         private bool _isSlashing;
-        private Coroutine _deathRoutine;
-        
-        // roll fields
         private bool _isRolling;
+        private bool _isBlocking;
+        private Coroutine _deathRoutine;
 
         // jump fields
         private bool _isJumping = false;
@@ -289,6 +292,9 @@ namespace Game._Scripts
         
         public void OnRoll(InputAction.CallbackContext context) {
             _input.Roll = context.action.WasPerformedThisFrame();
+        }
+        public void OnBlock(InputAction.CallbackContext context) {
+            _input.Block = context.action.IsPressed();
         }
 
         public void OnRun(InputAction.CallbackContext context) =>

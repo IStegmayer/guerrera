@@ -28,8 +28,10 @@ public class PlayerRollState : PlayerBaseState, IRootState
     }
 
     public override void UpdateState() {
-        Ctx.AppliedMovementX = _rollDirectionX * 10f;
-        Ctx.AppliedMovementZ = _rollDirectionZ * 10f;
+        //TODO: make this configurable
+        float rollSpeed = 10f;
+        Ctx.AppliedMovementX = _rollDirectionX * rollSpeed;
+        Ctx.AppliedMovementZ = _rollDirectionZ * rollSpeed;
         CheckSwitchStates();
     }
 

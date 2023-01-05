@@ -28,6 +28,9 @@ namespace Game._Scripts.Player.StateMachine
             if (Ctx.Input.Attack) {
                 SwitchState(Factory.Attack());
             }
+            else if (Ctx.Input.Block) {
+                SwitchState(Factory.Block());
+            }
             else if (Ctx.IsMovementPressed && Ctx.Input.Roll) {
                 SwitchState(Factory.Roll());
             }

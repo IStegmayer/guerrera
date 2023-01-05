@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+// Class made to check weapon colliding and weapon-specific damage
+// also works as a DamageDealer class
 public class Weapon : MonoBehaviour
 {
     private BaseUnit _unit;

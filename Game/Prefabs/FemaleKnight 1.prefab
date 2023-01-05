@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6880589535121952491}
   - component: {fileID: 5465935077418877056}
+  - component: {fileID: 6538575532557085270}
   m_Layer: 3
   m_Name: Shield
   m_TagString: Untagged
@@ -138,6 +139,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.497642, y: 1.4052687, z: 0.16075025}
   m_Center: {x: 0.32342285, y: -0.06903981, z: 0.012281753}
+--- !u!114 &6538575532557085270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880589535121952490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc20854726759ba4381198163d3f5300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6880589535415140817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,6 +1423,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 86279df3-41b3-4f46-98c7-171e528cff38
     m_ActionName: PlayerControls/Roll[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6880589536042235694}
+        m_TargetAssemblyTypeName: Game._Scripts.PlayerStateMachine, Assembly-CSharp
+        m_MethodName: OnBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a36e7975-e8ac-456b-a8a9-c0d46eb5a204
+    m_ActionName: PlayerControls/Block[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControls
