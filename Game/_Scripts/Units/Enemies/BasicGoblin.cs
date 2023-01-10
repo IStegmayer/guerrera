@@ -57,7 +57,10 @@ public class BasicGoblin : BaseUnit
             _animator.SetBool(GoblinAnimHashes.IsMoving, false);
 
         _reaggroCd -= Time.deltaTime;
-        transform.LookAt(_playerTransform.position);
+        
+        Vector3 playerPosition = _playerTransform.position;
+        playerPosition.y = 0;
+        transform.LookAt(playerPosition);
     }
 
     //TODO: Create a separate health/Damage script for everyone

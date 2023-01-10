@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using Dzajna;
 using UnityEngine;
 
 public class GameManager : StaticInstance<GameManager>
@@ -8,7 +9,7 @@ public class GameManager : StaticInstance<GameManager>
     [SerializeField] private Transform _enemySpawn;
     [SerializeField] private Transform _enemySpawn2;
     [SerializeField] private Transform _enemySpawn3;
-    [SerializeField] private CinemachineFreeLook _mainCamera;
+    [SerializeField] private Transform _mainCamera;
     public static event Action<GameState> OnBeforeStateChanged;
     public static event Action<GameState> OnAfterStateChanged;
 
@@ -56,9 +57,9 @@ public class GameManager : StaticInstance<GameManager>
 
     private void HandleSpawningHeroes() {
         Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
-        _mainCamera.Follow = playerInstance;
-        _mainCamera.LookAt = playerInstance;
-        
+        //TODO: this is lazy af
+        _mainCamera.position = new Vector3(0, 2f, -9);
+        CameraManager.Instance.targetTransform = playerInstance.transform;
         ChangeState(GameState.SpawningEnemies);
     }
 

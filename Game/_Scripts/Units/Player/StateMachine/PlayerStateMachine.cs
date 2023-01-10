@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dzajna;
 using Game._Scripts.Player;
 using Game._Scripts.Player.StateMachine;
 using UnityEngine.InputSystem;
@@ -86,11 +87,6 @@ namespace Game._Scripts
             get => _fallTerminalVelocity;
         }
 
-        public bool RequireNewJumpPress {
-            get => _requireNewJumpPress;
-            set => _requireNewJumpPress = value;
-        }
-
         public bool IsMovementPressed {
             get => _isMovementPressed;
         }
@@ -103,10 +99,12 @@ namespace Game._Scripts
             get => _isSlashing;
             set => _isSlashing = value;
         }
+
         public bool IsRolling {
             get => _isRolling;
             set => _isRolling = value;
         }
+
         public bool IsBlocking {
             get => _isBlocking;
             set => _isBlocking = value;
@@ -155,7 +153,6 @@ namespace Game._Scripts
         private float _maxJumpHeight = 3f;
         private float _maxJumpTime = 0.75f;
         private float _fallTerminalVelocity = -20.0f;
-        private bool _requireNewJumpPress;
         private int _jumpCount = 0;
         private Dictionary<int, float> _initialJumpVelocities = new Dictionary<int, float>();
         private Dictionary<int, float> _jumpGravities = new Dictionary<int, float>();
@@ -173,6 +170,7 @@ namespace Game._Scripts
 
             // whatever this is
             SetupJumpVariables();
+
         }
 
         private void Start() {
@@ -208,6 +206,9 @@ namespace Game._Scripts
             positionToLookAt.y = 0.0f;
             positionToLookAt.z = _cameraRelativeMovement.z;
 
+            // make sure we dont pass zero as target
+            if (positionToLookAt == Vector3.zero) positionToLookAt = transform.forward;
+
             // slerp and execute rotation
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
             transform.rotation =
@@ -216,11 +217,16 @@ namespace Game._Scripts
         }
 
         private void Update() {
-            HandleRotation();
             _currentState.UpdateStates();
-
+            HandleRotation();
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+        }
+
+        private void FixedUpdate() {
+            float delta = Time.fixedDeltaTime;
+            CameraManager.Instance.FollowTarget(delta);
+            CameraManager.Instance.HandleCameraRotation(delta, _input.CameraMovement.x, _input.CameraMovement.y);
         }
 
         //TODO: Create a separate health/Damage script for everyone
@@ -285,14 +291,19 @@ namespace Game._Scripts
             _currentMovement.z = _input.Movement.y;
             _isMovementPressed = _input.Movement.x != 0 || _input.Movement.y != 0;
         }
+        
+        public void OnMoveCamera(InputAction.CallbackContext context) {
+            _input.CameraMovement = context.ReadValue<Vector2>();
+        }
 
         public void OnAttack(InputAction.CallbackContext context) {
             _input.Attack = context.action.WasPerformedThisFrame();
         }
-        
+
         public void OnRoll(InputAction.CallbackContext context) {
             _input.Roll = context.action.WasPerformedThisFrame();
         }
+
         public void OnBlock(InputAction.CallbackContext context) {
             _input.Block = context.action.IsPressed();
         }
@@ -302,7 +313,6 @@ namespace Game._Scripts
 
         public void OnJump(InputAction.CallbackContext context) {
             _input.Jump = context.action.WasPressedThisFrame();
-            _requireNewJumpPress = false;
         }
 
         #endregion

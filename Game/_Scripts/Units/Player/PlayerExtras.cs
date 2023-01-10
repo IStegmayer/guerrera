@@ -10,5 +10,6 @@ namespace Game._Scripts.Player
         public bool Roll;
         public bool Block;
         public Vector2 Movement;
+        public Vector2 CameraMovement;
     }
 }

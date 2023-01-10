@@ -11,13 +11,13 @@ public class Shield : MonoBehaviour
         _player = transform.root.gameObject.GetComponentInChildren<PlayerStateMachine>();
     }
     
-    private void OnCollisionEnter(Collision other) {
-        if (!_player.IsBlocking) return;
-        
-        // TODO: not the best layermask implementation
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
-            BaseUnit enemy = other.gameObject.GetComponent<BaseUnit>();
-            enemy.TakeDamage(_unit.Stats.BaseAttackPower + _weaponDmg);
-        }
-    }
+    // private void OnCollisionEnter(Collision other) {
+    //     if (!_player.IsBlocking) return;
+    //     
+    //     // TODO: not the best layermask implementation
+    //     if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
+    //         BaseUnit enemy = other.gameObject.GetComponent<BaseUnit>();
+    //         enemy.TakeDamage(_unit.Stats.BaseAttackPower + _weaponDmg);
+    //     }
+    // }
 }

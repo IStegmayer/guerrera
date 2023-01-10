@@ -34,7 +34,7 @@ namespace Game._Scripts.Player.StateMachine
             else if (Ctx.IsMovementPressed && Ctx.Input.Roll) {
                 SwitchState(Factory.Roll());
             }
-            else if (Ctx.Input.Jump && !Ctx.RequireNewJumpPress) {
+            else if (Ctx.Input.Jump) {
                 SwitchState(Factory.Jump());
             }
             else if (!Ctx.CharacterController.isGrounded) {

@@ -31,7 +31,6 @@ namespace Game._Scripts.Player.StateMachine
         }
 
         public override void ExitState() {
-            if (Ctx.Input.Jump) Ctx.RequireNewJumpPress = true;
             Ctx.CurrentJumpResetCoroutine = Ctx.StartCoroutine(JumpResetRoutine());
             if (Ctx.JumpCount == 3) Ctx.JumpCount = 0;
             Ctx.Animator.SetBool(PlayerAnimHashes.IsJumping, false);
