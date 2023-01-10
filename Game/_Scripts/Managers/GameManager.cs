@@ -58,7 +58,7 @@ public class GameManager : StaticInstance<GameManager>
     private void HandleSpawningHeroes() {
         Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
         //TODO: this is lazy af
-        CameraManager.Instance.targetTransform = playerInstance.transform;
+        CameraManager.Instance.playerTargetTransform = playerInstance.transform;
         ChangeState(GameState.SpawningEnemies);
     }
 
