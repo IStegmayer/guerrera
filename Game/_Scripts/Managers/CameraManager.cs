@@ -9,16 +9,18 @@ namespace Dzajna
         [Header("References")]
         //TODO: FIX
         public Transform targetTransform;
+
         [SerializeField] private Transform cameraTransform;
-        [SerializeField] private Transform cameraPivotTransfrom;
+        [SerializeField] private Transform cameraPivotTransform;
         private Transform myTransform;
         private Transform cameraTransformPosition;
+        private Vector3 cameraFollowVelocity = Vector3.zero;
         private LayerMask ignoreLayers;
 
-        [Header("Config")]
-        [SerializeField] private float lookSpeed = 0.01f;
+        [Header("Config")] [SerializeField] private float lookSpeed = 0.01f;
         [SerializeField] private float followSpeed = 0.01f;
         [SerializeField] private float pivotSpeed = 0.01f;
+        [SerializeField] private float cameraDamp = 0.3f;
         [SerializeField] private float minimumPivot = -35;
         [SerializeField] private float maximumPivot = 35;
         private float defaultPosition;
@@ -34,7 +36,8 @@ namespace Dzajna
         }
 
         public void FollowTarget(float delta) {
-            Vector3 targetPostion = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
+            Vector3 targetPostion = Vector3.SmoothDamp(myTransform.position, targetTransform.position,
+                ref cameraFollowVelocity, delta / followSpeed);
             myTransform.position = targetPostion;
         }
 
@@ -47,13 +50,15 @@ namespace Dzajna
             Vector3 rotation = Vector3.zero;
             rotation.y = lookAngle;
             Quaternion targetRotation = Quaternion.Euler(rotation);
-            myTransform.rotation = targetRotation;
-            
+            myTransform.rotation = Quaternion.Slerp
+                (myTransform.rotation, targetRotation, cameraDamp * delta);
+
             // set pivot/vertical rotation
             rotation = Vector3.zero;
             rotation.x = pivotAngle;
             targetRotation = Quaternion.Euler(rotation);
-            cameraPivotTransfrom.localRotation = targetRotation;
+            cameraPivotTransform.localRotation = Quaternion.Slerp
+                (cameraPivotTransform.localRotation, targetRotation, cameraDamp * delta);
         }
     }
 }

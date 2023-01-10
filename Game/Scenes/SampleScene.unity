@@ -382,12 +382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ea6fe33fdb4f4bb88a0f9dcbb75d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 0}
+  targetTransform: {fileID: 20337802}
   cameraTransform: {fileID: 8944336656854325222}
-  cameraPivotTransfrom: {fileID: 1336736870}
+  cameraPivotTransform: {fileID: 1336736870}
   lookSpeed: 0.1
   followSpeed: 0.1
   pivotSpeed: 0.03
+  cameraDamp: 0.3
   minimumPivot: -35
   maximumPivot: 35
 --- !u!1 &561106798
