@@ -1,0 +1,88 @@
+﻿using System;
+using UnityEngine;
+
+namespace Dzajna
+{
+    public class AnimatorHandler : MonoBehaviour
+    {
+        // TODO: public?
+        public Animator Anim;
+        private PlayerManager playerManager;
+        private InputHandler inputHandler;
+        private PlayerLocomotion playerLocomotion;
+        public bool CanRotate;
+        
+        // properties hashes
+        public int VerticalHash;
+        public int HorizontalHash;
+        public int IsInteractingHash;
+        
+        // states hashes
+        public int RollHash;
+        public int BackstepHash;
+        public void Initialize() {
+            playerManager = GetComponent<PlayerManager>();
+            Anim = GetComponent<Animator>();
+            inputHandler = GetComponent<InputHandler>();
+            playerLocomotion = GetComponent<PlayerLocomotion>();
+            VerticalHash = Animator.StringToHash("Vertical");
+            HorizontalHash = Animator.StringToHash("Horizontal");
+            IsInteractingHash = Animator.StringToHash("isInteracting");
+            RollHash = Animator.StringToHash("Roll");
+            BackstepHash = Animator.StringToHash("Backstep");
+            CanRotate = true;
+        }
+
+        public void PlayTargetAnimation(int _targetAnim, bool _isInteracting) {
+            Anim.applyRootMotion = _isInteracting;
+            Anim.SetBool(IsInteractingHash, _isInteracting);
+            Anim.CrossFade(_targetAnim, 0.2f);
+             
+        }
+
+        public void UpdateAnimatorValues(float _verticalMovement, float _horizontalMovement, bool _isSprinting) {
+            //clamp values
+            #region Vertical
+            
+            float _vertical = 0;
+            
+            if (_verticalMovement > 0 && _verticalMovement < 0.55f) _vertical = 0.5f;
+            else if (_verticalMovement > 0.55f) _vertical = 1f;
+            else if (_verticalMovement < 0 && _verticalMovement > -0.55f) _vertical = -0.5f;
+            else if (_verticalMovement < -0.55f) _vertical = 1f;
+            else _vertical = 0f;
+            
+            #endregion
+            #region Horizontal
+            
+            float _horizontal = 0;
+            
+            if (_horizontalMovement > 0 && _horizontalMovement < 0.55f) _horizontal = 0.5f;
+            else if (_horizontalMovement > 0.55f) _horizontal = 1f;
+            else if (_horizontalMovement < 0 && _horizontalMovement > -0.55f) _horizontal = -0.5f;
+            else if (_horizontalMovement < -0.55f) _horizontal = 1f;
+            else _horizontal = 0f;
+            #endregion
+
+            if (_isSprinting) {
+                _vertical = 2;
+                _horizontal = _horizontalMovement;
+            }
+            
+            Anim.SetFloat(VerticalHash, _vertical, 0.1f, Time.deltaTime);
+            Anim.SetFloat(HorizontalHash, _horizontal, 0.1f, Time.deltaTime);
+        }
+
+        //reposition character model when using root motion
+        private void OnAnimatorMove() {
+            if (playerManager.IsInteracting == false) return;
+
+            float _delta = Time.deltaTime;
+            playerLocomotion.Rigidbody.drag = 0;
+            Vector3 _deltaPosition = Anim.deltaPosition;
+            _deltaPosition.y = 0;
+            Vector3 _velocity = _deltaPosition / _delta;
+            playerLocomotion.Rigidbody.velocity = _velocity;
+        }
+    }
+}

@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ea6fe33fdb4f4bb88a0f9dcbb75d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 0}
+  playerTargetTransform: {fileID: 0}
   cameraTransform: {fileID: 8944336656854325222}
   cameraPivotTransform: {fileID: 1336736870}
   lookSpeed: 0.05
@@ -394,6 +394,7 @@ MonoBehaviour:
   cameraSphereRadius: 0.2
   cameraCollisionOffset: 0.2
   minimumCollisionOffset: 0.2
+  maximumLockOnDistance: 30
 --- !u!1 &561106798
 GameObject:
   m_ObjectHideFlags: 0

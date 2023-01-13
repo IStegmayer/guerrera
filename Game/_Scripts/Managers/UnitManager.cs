@@ -10,8 +10,8 @@ public class UnitManager : StaticInstance<UnitManager>
     public Transform SpawnPlayer(Transform transform, int level = 1) {
         ScriptableUnitBase playerScriptable = ResourceSystem.Instance.GetPlayer(level);
         GameObject spawnedGO = SpawnUnit(playerScriptable, transform.position, transform.rotation);
-        BaseUnit player = spawnedGO.GetComponentInChildren<BaseUnit>();
-        player.SetStats(playerScriptable.BaseStats);
+        // BaseUnit player = spawnedGO.GetComponentInChildren<BaseUnit>();
+        // player.SetStats(playerScriptable.BaseStats);
 
         return spawnedGO.transform;
     }

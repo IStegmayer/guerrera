@@ -35,6 +35,7 @@ namespace Dzajna
         [SerializeField] private float minimumCollisionOffset = 0.2f;
 
         [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
+
         // switch this to characterManager
         private List<BasicGoblin> availableTargets = new List<BasicGoblin>();
         private Transform nearestLockOnTarget;
@@ -49,81 +50,81 @@ namespace Dzajna
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
         }
 
-        public void FollowTarget(float delta) {
+        public void FollowTarget(float _delta) {
             Vector3 _targetPosition = Vector3.SmoothDamp(myTransform.position, playerTargetTransform.position,
-                ref cameraFollowVelocity, delta / followSpeed);
+                ref cameraFollowVelocity, _delta / followSpeed);
             myTransform.position = _targetPosition;
 
-            HandleCameraCollisions(delta);
+            HandleCameraCollisions(_delta);
         }
 
-        private void HandleCameraCollisions(float delta) {
+        private void HandleCameraCollisions(float _delta) {
             targetPosition = defaultZPosition;
             RaycastHit hit;
-            Vector3 direction = cameraTransform.position - cameraPivotTransform.position;
-            direction.Normalize();
+            Vector3 _direction = cameraTransform.position - cameraPivotTransform.position;
+            _direction.Normalize();
 
-            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit,
+            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, _direction, out hit,
                     Mathf.Abs(targetPosition), ignoreLayers)) {
-                float distance = Vector3.Distance(cameraPivotTransform.position, hit.point);
-                targetPosition = -(distance - cameraCollisionOffset);
+                float _distance = Vector3.Distance(cameraPivotTransform.position, hit.point);
+                targetPosition = -(_distance - cameraCollisionOffset);
             }
 
             if (Mathf.Abs(targetPosition) < minimumCollisionOffset) {
                 targetPosition = -minimumCollisionOffset;
             }
 
-            cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.2f);
+            cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, _delta / 0.05f);
             cameraTransformPosition.y = 0f;
             cameraTransform.localPosition = cameraTransformPosition;
         }
 
-        public void HandleCameraRotation(float delta, float cameraXInput, float cameraYInput) {
-            lookAngle += (cameraXInput * lookSpeed) / delta;
-            pivotAngle -= (cameraYInput * pivotSpeed) / delta;
+        public void HandleCameraRotation(float _delta, float _cameraXInput, float _cameraYInput) {
+            lookAngle += (_cameraXInput * lookSpeed) / _delta;
+            pivotAngle -= (_cameraYInput * pivotSpeed) / _delta;
             pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
             // set look/horizontal rotation
-            Vector3 rotation = Vector3.zero;
-            rotation.y = lookAngle;
-            Quaternion targetRotation = Quaternion.Euler(rotation);
+            Vector3 _rotation = Vector3.zero;
+            _rotation.y = lookAngle;
+            Quaternion _targetRotation = Quaternion.Euler(_rotation);
             myTransform.rotation = Quaternion.Slerp
-                (myTransform.rotation, targetRotation, cameraDamp * delta);
+                (myTransform.rotation, _targetRotation, cameraDamp * _delta);
 
             // set pivot/vertical rotation
-            rotation = Vector3.zero;
-            rotation.x = pivotAngle;
-            targetRotation = Quaternion.Euler(rotation);
+            _rotation = Vector3.zero;
+            _rotation.x = pivotAngle;
+            _targetRotation = Quaternion.Euler(_rotation);
             cameraPivotTransform.localRotation = Quaternion.Slerp
-                (cameraPivotTransform.localRotation, targetRotation, cameraDamp * delta);
+                (cameraPivotTransform.localRotation, _targetRotation, cameraDamp * _delta);
         }
 
         //TODO: finish implementing this 
         public void HandleLockOn() {
-            float shortestDistance = Mathf.Infinity;
+            float _shortestDistance = Mathf.Infinity;
 
-            Collider[] colliders = Physics.OverlapSphere(playerTargetTransform.position, maximumLockOnDistance);
+            Collider[] _overlapSphere = Physics.OverlapSphere(playerTargetTransform.position, maximumLockOnDistance);
 
-            for (int i = 0; i < colliders.Length; i++) {
-                BasicGoblin unit = colliders[i].GetComponent<BasicGoblin>();
+            for (int _i = 0; _i < _overlapSphere.Length; _i++) {
+                BasicGoblin _unit = _overlapSphere[_i].GetComponent<BasicGoblin>();
 
-                if (unit != null) {
-                    Vector3 lockTargetDirection = unit.transform.position - playerTargetTransform.position;
-                    float distanceFromTarget =
-                        Vector3.Distance(playerTargetTransform.position, unit.transform.position);
-                    float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
+                if (_unit != null) {
+                    Vector3 _lockTargetDirection = _unit.transform.position - playerTargetTransform.position;
+                    float _distanceFromTarget =
+                        Vector3.Distance(playerTargetTransform.position, _unit.transform.position);
+                    float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
 
-                    if (unit.transform != playerTargetTransform.transform && viewableAngle > -50 &&
-                        viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance)
-                        availableTargets.Add(unit);
+                    if (_unit.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
+                        _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance)
+                        availableTargets.Add(_unit);
                 }
             }
 
             for (int i = 0; i < availableTargets.Count; i++) {
-                float distanceFromTarget =
+                float _distanceFromTarget =
                     Vector3.Distance(playerTargetTransform.position, availableTargets[i].transform.position);
-                if (distanceFromTarget < shortestDistance) {
-                    shortestDistance = distanceFromTarget;
+                if (_distanceFromTarget < _shortestDistance) {
+                    _shortestDistance = _distanceFromTarget;
                     nearestLockOnTarget = availableTargets[i].transform;
                 }
             }

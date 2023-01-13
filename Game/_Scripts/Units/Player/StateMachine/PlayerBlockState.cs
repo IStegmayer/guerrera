@@ -22,7 +22,7 @@ public class PlayerBlockState : PlayerBaseState, IRootState
 
     public override void ExitState() {
         //TODO: these fields could just be used as one: player animator as a mono and use 
-        // the ctx fields to update the anim props every frame?
+        // the ctx fields to update the Anim props every frame?
         Ctx.IsBlocking = false;
         Ctx.Animator.SetBool(PlayerAnimHashes.IsBlocking, false);
     }
