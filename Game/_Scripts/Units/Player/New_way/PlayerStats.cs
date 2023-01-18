@@ -18,9 +18,9 @@ namespace Dzajna
 
         private Coroutine deathRoutine;
 
-        //TODO: this is NOT good
         private void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
+            //TODO: this could be better
             healthBar = FindObjectOfType<HealthBar>();
         }
 
@@ -43,6 +43,7 @@ namespace Dzajna
                 deathRoutine = StartCoroutine(DeathRoutine());
             }
         }
+        
         private IEnumerator DeathRoutine() {
             // start death animation
             animatorHandler.PlayTargetAnimation(animatorHandler.DeathHash, true);

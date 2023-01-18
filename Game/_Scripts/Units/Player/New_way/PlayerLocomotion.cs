@@ -165,12 +165,10 @@ namespace Dzajna
                 }
             }
 
-            if (PlayerManager.IsGrounded) {
-                if (PlayerManager.IsInteracting || inputHandler.MoveAmount > 0)
-                    MyTransform.position = Vector3.Lerp(MyTransform.position, targetPlayerPosition, Time.deltaTime);
-                else
-                    MyTransform.position = targetPlayerPosition;
-            }
+            if (PlayerManager.IsInteracting || inputHandler.MoveAmount > 0)
+                MyTransform.position = Vector3.Lerp(MyTransform.position, targetPlayerPosition, Time.deltaTime / 0.1f);
+            else
+                MyTransform.position = targetPlayerPosition;
         }
 
         #endregion

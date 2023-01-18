@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Dzajna
+{
+    // TODO: I'll get back to this when I do AI 
+    public class EnemyStats : MonoBehaviour
+    {
+        //TODO: ofc this is all simplified
+        [SerializeField] private int healthLevel = 10;
+        [SerializeField] private int healthPerLevel = 5;
+        private int maxHealth;
+        private int currentHealth;
+
+        // private HealthBar healthBar;
+        // private AnimatorHandler animatorHandler;
+        private Animator animator;
+
+        private Coroutine deathRoutine;
+
+        private void Awake() {
+            animator = GetComponent<Animator>();
+            // animatorHandler = GetComponent<AnimatorHandler>();
+            //TODO: this could be better
+            // healthBar = FindObjectOfType<HealthBar>();
+        }
+
+        private void Start() {
+            maxHealth = SetMaxHealthFromHealthLevel();
+            // healthBar.SetMaxHealth(maxHealth);
+            currentHealth = maxHealth;
+        }
+
+        private int SetMaxHealthFromHealthLevel() {
+            return healthLevel * healthPerLevel;
+        }
+
+        public void TakeDamage(int _dmg) {
+            currentHealth -= _dmg;
+            // healthBar.SetCurrentHealth(currentHealth);
+            animator.Play("Damage1");
+            
+            if (currentHealth <= 0) {
+                deathRoutine = StartCoroutine(DeathRoutine());
+            }
+        }
+        
+        private IEnumerator DeathRoutine() {
+            // start death animation
+            animator.Play("Death");
+            yield return new WaitForSeconds(1f);
+            //TODO: This could be a bitch. 
+            GameManager.Instance.ChangeState(GameState.Win);
+            yield return new WaitForSeconds(1f);
+            UnitManager.Instance.DespawnPlayer(transform.gameObject);
+        }
+    }
+    
+}

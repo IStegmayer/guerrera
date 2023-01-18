@@ -8,8 +8,11 @@ namespace Dzajna
         private WeaponHolderSlot leftHandSlot;
         private WeaponHolderSlot rightHandSlot;
 
+        private DamageCollider leftDamageCollider;
+        private DamageCollider rightDamageCollider;
+
         private Animator animator;
-        
+
         private void Awake() {
             animator = GetComponent<Animator>();
             WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
@@ -19,9 +22,28 @@ namespace Dzajna
             }
         }
 
-        public void LoadWeaponOnSlot(WeaponItem _weaponItem, bool isLeft) {
-            if(isLeft) leftHandSlot.LoadWeaponModel(_weaponItem);
-            else rightHandSlot.LoadWeaponModel(_weaponItem);
+        public void LoadWeaponOnSlot(WeaponItem _weaponItem, bool _isLeft) {
+            if (_isLeft) {
+                leftHandSlot.LoadWeaponModel(_weaponItem);
+                LoadLeftWeaponDamageCollider();
+            }
+            else {
+                rightHandSlot.LoadWeaponModel(_weaponItem);
+                LoadRightWeaponDamageCollider();
+            }
         }
+
+        #region Handle Weapon's Damage Collider
+            private void LoadLeftWeaponDamageCollider() => leftDamageCollider =
+                leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+
+            private void LoadRightWeaponDamageCollider() => rightDamageCollider =
+                rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+
+            public void OpenLeftDamageCollider() => leftDamageCollider.EnableDamageCollider();
+            public void OpenRightDamageCollider() => rightDamageCollider.EnableDamageCollider();
+            public void CloseLeftDamageCollider() => leftDamageCollider.DisableDamageCollider();
+            public void CloseRightDamageCollider() => rightDamageCollider.DisableDamageCollider();
+        #endregion
     }
 }
