@@ -20,6 +20,11 @@ namespace Dzajna
         // states hashes
         public int RollHash;
         public int BackstepHash;
+        public int LandHash;
+        public int LocomotionHash;
+        public int FallHash;
+        public int EmptyHash;
+        
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
             Anim = GetComponent<Animator>();
@@ -30,6 +35,10 @@ namespace Dzajna
             IsInteractingHash = Animator.StringToHash("isInteracting");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
+            LandHash = Animator.StringToHash("Land");
+            LocomotionHash = Animator.StringToHash("Locomotion");
+            FallHash = Animator.StringToHash("Fall");
+            EmptyHash = Animator.StringToHash("Empty");
             CanRotate = true;
         }
 
@@ -37,7 +46,6 @@ namespace Dzajna
             Anim.applyRootMotion = _isInteracting;
             Anim.SetBool(IsInteractingHash, _isInteracting);
             Anim.CrossFade(_targetAnim, 0.2f);
-             
         }
 
         public void UpdateAnimatorValues(float _verticalMovement, float _horizontalMovement, bool _isSprinting) {
@@ -71,12 +79,13 @@ namespace Dzajna
             
             Anim.SetFloat(VerticalHash, _vertical, 0.1f, Time.deltaTime);
             Anim.SetFloat(HorizontalHash, _horizontal, 0.1f, Time.deltaTime);
+            Anim.applyRootMotion = playerManager.IsInteracting;
         }
 
         //reposition character model when using root motion
         private void OnAnimatorMove() {
             if (playerManager.IsInteracting == false) return;
-
+        
             float _delta = Time.deltaTime;
             playerLocomotion.Rigidbody.drag = 0;
             Vector3 _deltaPosition = Anim.deltaPosition;

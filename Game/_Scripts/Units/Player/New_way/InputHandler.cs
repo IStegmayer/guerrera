@@ -17,12 +17,20 @@ namespace Dzajna
         public float RollInputTimer;
 
         public bool b_Input;
+        public bool rb_Input;
+        public bool rt_Input;
 
         private PlayerInputActions inputActions;
+        private PlayerAttacker playerAttacker;
+        private PlayerInventory playerInventory;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
 
+        private void Awake() {
+            playerAttacker = GetComponent<PlayerAttacker>();
+            playerInventory = GetComponent<PlayerInventory>();
+        }
 
         public void OnEnable() {
             // read input and populate our fields
@@ -42,11 +50,12 @@ namespace Dzajna
         }
 
         public void TickInput(float _delta) {
-            MoveInput(_delta);
+            HandleMoveInput(_delta);
             HandleRollInput(_delta);
+            HandleAttackInput(_delta);
         }
 
-        private void MoveInput(float _delta) {
+        private void HandleMoveInput(float _delta) {
             Horizontal = movementInput.x;
             Vertical = movementInput.y;
             MoveAmount = Mathf.Clamp01(Mathf.Abs(Horizontal) + Mathf.Abs(Vertical));
@@ -59,16 +68,25 @@ namespace Dzajna
 
             if (b_Input) {
                 RollInputTimer += _delta;
-                SprintFlag = true;
+                if (MoveAmount > 0) SprintFlag = true;
             }
             else {
                 if (RollInputTimer > 0 && RollInputTimer < 0.5f) {
-                    SprintFlag = false;
                     RollFlag = true;
+                    SprintFlag = false;
                 }
 
                 RollInputTimer = 0;
             }
+        }
+
+        private void HandleAttackInput(float delta) {
+            rb_Input = inputActions.PlayerActions.RB.WasPerformedThisFrame();
+            rt_Input = inputActions.PlayerActions.RT.WasPerformedThisFrame();
+            
+            // TODO: does this really belong here? also check for isInteracting
+            if (rb_Input) playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
+            if (rt_Input) playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
         }
     }
 }

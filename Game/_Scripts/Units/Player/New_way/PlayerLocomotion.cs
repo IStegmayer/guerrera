@@ -8,7 +8,7 @@ namespace Dzajna
         private Transform cameraObject;
         private InputHandler inputHandler;
         private PlayerManager PlayerManager;
-        private Vector3 moveDirection;
+        public Vector3 moveDirection;
 
         // these could be protected
         [HideInInspector] public Transform MyTransform;
@@ -16,10 +16,24 @@ namespace Dzajna
         public new Rigidbody Rigidbody;
         public GameObject normalCamera;
 
-        [Header("Movement Stats")] [SerializeField] private float movementSpeed = 5;
+        [Header("Movement Stats")] [SerializeField]
+        private float walkingSpeed = 1;
+
+        [SerializeField] private float movementSpeed = 5;
         [SerializeField] private float sprintSpeed = 8;
+
         [SerializeField] private float rotationSpeed = 10;
 
+        //TODO: improve this with terminal velocity and such
+        [SerializeField] private float fallingSpeed = 80;
+
+        [Header("Ground Detection Stats")] [SerializeField]
+        private float groundDetectionRayStartPoint = 0.5f;
+
+        [SerializeField] private float minimumDistanceNeededToFall = 1f;
+        [SerializeField] private float groundDirectionRayOffset = 0.2f;
+        private LayerMask ignoreForGroundCheck;
+        public float InAirTimer;
 
         private void Start() {
             Rigidbody = GetComponent<Rigidbody>();
@@ -29,33 +43,45 @@ namespace Dzajna
             MyTransform = transform;
             AnimatorHandler = GetComponent<AnimatorHandler>();
             AnimatorHandler.Initialize();
+
+            PlayerManager.IsGrounded = true;
+            //TODO: better understand this
+            ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
         }
-        
+
         #region Movement
+
         private Vector3 normalVector;
-        private Vector3 targetPosition;
+        private Vector3 targetPlayerPosition;
 
         public void HandleMovement(float _delta) {
             if (inputHandler.RollFlag) return;
-            
+            if (PlayerManager.IsInAir) return;
+
             moveDirection = cameraObject.forward * inputHandler.Vertical;
             moveDirection += cameraObject.right * inputHandler.Horizontal;
             moveDirection.Normalize();
             // moveDirection.y = Rigidbody.velocity.y;
             moveDirection.y = 0;
 
-            float speed = movementSpeed;
-            if (inputHandler.SprintFlag) {
-                speed = sprintSpeed;
-                PlayerManager.isSprinting = true;
+            float _speed;
+            if (inputHandler.SprintFlag && inputHandler.MoveAmount > 0.5f) {
+                _speed = sprintSpeed;
+                PlayerManager.IsSprinting = true;
             }
-            moveDirection *= speed;
+            else {
+                // TODO: walking isnt actually working
+                _speed = inputHandler.MoveAmount < 0.5f ? walkingSpeed : movementSpeed;
+                PlayerManager.IsSprinting = false;
+            }
+
+            moveDirection *= _speed;
 
             Vector3 _projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             _projectedVelocity.y = 0;
             Rigidbody.velocity = _projectedVelocity;
 
-            AnimatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount, 0, PlayerManager.isSprinting);
+            AnimatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount, 0, PlayerManager.IsSprinting);
             if (AnimatorHandler.CanRotate) HandleRotation(_delta);
         }
 
@@ -78,28 +104,75 @@ namespace Dzajna
             MyTransform.rotation = _targetRotation;
         }
 
-        public void HandleRollingAndSprinting(float _delta) {
+        public void HandleRolling(float _delta) {
             if (AnimatorHandler.Anim.GetBool(AnimatorHandler.IsInteractingHash)) return;
+            if (!inputHandler.RollFlag) return;
 
-            if (inputHandler.RollFlag) {
-                moveDirection = cameraObject.forward * inputHandler.Vertical;
-                moveDirection = cameraObject.right * inputHandler.Horizontal;
-                moveDirection.Normalize();
+            if (inputHandler.MoveAmount > 0) AnimatorHandler.PlayTargetAnimation(AnimatorHandler.RollHash, true);
+            else AnimatorHandler.PlayTargetAnimation(AnimatorHandler.BackstepHash, true);
+        }
 
-                if (inputHandler.MoveAmount > 0) {
-                    AnimatorHandler.PlayTargetAnimation(AnimatorHandler.RollHash, true);
-                    moveDirection.y = 0;
-                    Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
-                    // TODO: maybe slerp?
-                    MyTransform.rotation = rollRotation;
+        public void HandleFalling(float _delta, Vector3 _moveDirection) {
+            PlayerManager.IsGrounded = false;
+            RaycastHit hit;
+            Vector3 _origin = MyTransform.position;
+            _origin.y += groundDetectionRayStartPoint;
+
+            //TODO: these hardcoded floats are pretty arbitrary 
+            if (Physics.Raycast(_origin, MyTransform.forward, out hit, 0.4f)) _moveDirection = Vector3.zero;
+
+            if (PlayerManager.IsInAir) {
+                Rigidbody.AddForce(Vector3.down * fallingSpeed);
+                Rigidbody.AddForce(_moveDirection * fallingSpeed / 10f);
+            }
+
+            Vector3 _dir = _moveDirection;
+            _dir.Normalize();
+            _origin = _origin + _dir * groundDirectionRayOffset;
+
+            targetPlayerPosition = MyTransform.position;
+
+            Debug.DrawRay(_origin, Vector3.down * minimumDistanceNeededToFall, Color.red, 0.1f, false);
+            if (Physics.Raycast(_origin, Vector3.down, out hit, minimumDistanceNeededToFall, ignoreForGroundCheck)) {
+                normalVector = hit.normal;
+                Vector3 _targetPosition = hit.point;
+                PlayerManager.IsGrounded = true;
+                targetPlayerPosition.y = _targetPosition.y;
+
+                if (PlayerManager.IsInAir) {
+                    if (InAirTimer > 0.5f) {
+                        Debug.Log("air time: " + InAirTimer);
+                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.LandHash, true);
+                    }
+                    else {
+                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.EmptyHash, false);
+                    }
+
+                    InAirTimer = 0;
+                    PlayerManager.IsInAir = false;
                 }
-                else {
-                    AnimatorHandler.PlayTargetAnimation(AnimatorHandler.BackstepHash, true);
+            }
+            else {
+                if (PlayerManager.IsGrounded) PlayerManager.IsGrounded = false;
+                if (PlayerManager.IsInAir == false) {
+                    if (PlayerManager.IsInteracting == false)
+                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.FallHash, true);
+
+                    Vector3 _velocity = Rigidbody.velocity;
+                    _velocity.Normalize();
+                    Rigidbody.velocity = _velocity * (movementSpeed / 2);
+                    PlayerManager.IsInAir = true;
                 }
-                
+            }
+
+            if (PlayerManager.IsGrounded) {
+                if (PlayerManager.IsInteracting || inputHandler.MoveAmount > 0)
+                    MyTransform.position = Vector3.Lerp(MyTransform.position, targetPlayerPosition, Time.deltaTime);
+                else
+                    MyTransform.position = targetPlayerPosition;
             }
         }
-        
+
         #endregion
     }
 }

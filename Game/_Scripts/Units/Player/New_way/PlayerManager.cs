@@ -7,12 +7,15 @@ namespace Dzajna
     {
         private InputHandler inputHandler;
         private Animator anim;
+        private AnimatorHandler animatorHandler;
         private CameraManager cameraManager;
         private PlayerLocomotion playerLocomotion;
         
         [Header("Player flags")]
         public bool IsInteracting;
-        public bool isSprinting;
+        public bool IsSprinting;
+        public bool IsInAir;
+        public bool IsGrounded;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;
@@ -20,19 +23,20 @@ namespace Dzajna
         
         private void Start() {
             inputHandler = GetComponent<InputHandler>();
+            animatorHandler = GetComponent<AnimatorHandler>();
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
         }
 
         private void Update() {
             float _delta = Time.deltaTime;
-            //TODO: hash this shit
-            IsInteracting = anim.GetBool("isInteracting");
-
-            isSprinting = inputHandler.b_Input;
+            IsInteracting = anim.GetBool(animatorHandler.IsInteractingHash);
+            
             inputHandler.TickInput(_delta);
             playerLocomotion.HandleMovement(_delta);
-            playerLocomotion.HandleRollingAndSprinting(_delta);
+            playerLocomotion.HandleRolling(_delta);
+            // TODO: WTF CALLING with its own property? 
+            playerLocomotion.HandleFalling(_delta, playerLocomotion.moveDirection);
         }
         
         private void FixedUpdate() {
@@ -47,7 +51,9 @@ namespace Dzajna
             //reset flags
             inputHandler.RollFlag = false;
             inputHandler.SprintFlag = false;
-            isSprinting = false;
+            inputHandler.rb_Input = false;
+            inputHandler.rt_Input = false;
+            if (IsInAir) playerLocomotion.InAirTimer += Time.deltaTime;
         }
     }
 }
