@@ -24,6 +24,8 @@ namespace Dzajna
         public int LocomotionHash;
         public int FallHash;
         public int EmptyHash;
+        public int Damage1Hash;
+        public int DeathHash;
         
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
@@ -39,6 +41,8 @@ namespace Dzajna
             LocomotionHash = Animator.StringToHash("Locomotion");
             FallHash = Animator.StringToHash("Fall");
             EmptyHash = Animator.StringToHash("Empty");
+            Damage1Hash = Animator.StringToHash("Damage1");
+            DeathHash = Animator.StringToHash("Death");
             CanRotate = true;
         }
 

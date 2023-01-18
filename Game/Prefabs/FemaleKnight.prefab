@@ -1227,6 +1227,7 @@ GameObject:
   - component: {fileID: 738407556784705057}
   - component: {fileID: 2899108450045193141}
   - component: {fileID: 96056487394725359}
+  - component: {fileID: 5353905217364029986}
   m_Layer: 10
   m_Name: FemaleKnight
   m_TagString: Player
@@ -1379,6 +1380,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 2ea862fb-d5e2-4425-a096-cbcf6d0fb97d
     m_ActionName: Player Actions/Roll[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a8cc622-7bdd-49e2-817e-d441261b548d
+    m_ActionName: Player Actions/RB[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b21d99f7-307c-40a7-80d0-f61eeca9497a
+    m_ActionName: Player Actions/RT[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1455,6 +1464,8 @@ MonoBehaviour:
   RollFlag: 0
   RollInputTimer: 0
   b_Input: 0
+  rb_Input: 0
+  rt_Input: 0
 --- !u!114 &3082654960006943387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1567,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a23dddb5c484424a03ade6818df48c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5353905217364029986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880589535415207573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7edd26326fd8a24e9cf633810c03187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6880589535415209113

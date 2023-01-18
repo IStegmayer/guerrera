@@ -38,6 +38,7 @@ public class GameManager : StaticInstance<GameManager>
                 HandleWin();
                 break;
             case GameState.Lose:
+                HandleLose();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -47,6 +48,8 @@ public class GameManager : StaticInstance<GameManager>
         
         Debug.Log($"New state: {newState}");
     }
+
+
     private void HandleStarting() {
         // Do some start setup, could be environment, cinematics etc
 
@@ -64,6 +67,9 @@ public class GameManager : StaticInstance<GameManager>
 
     private void HandleWin() {
         AudioSystem.Instance.PlaySound("gameWin", Vector3.zero);
+    }
+    private void HandleLose() {
+        AudioSystem.Instance.PlaySound("gameLose", Vector3.zero);
     }
 
     private void HandleSpawningEnemies() {

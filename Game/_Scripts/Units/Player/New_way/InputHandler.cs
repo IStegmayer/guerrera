@@ -80,7 +80,7 @@ namespace Dzajna
             }
         }
 
-        private void HandleAttackInput(float delta) {
+        private void HandleAttackInput(float _delta) {
             rb_Input = inputActions.PlayerActions.RB.WasPerformedThisFrame();
             rt_Input = inputActions.PlayerActions.RT.WasPerformedThisFrame();
             

@@ -8,7 +8,10 @@ namespace Dzajna
         private WeaponHolderSlot leftHandSlot;
         private WeaponHolderSlot rightHandSlot;
 
+        private Animator animator;
+        
         private void Awake() {
+            animator = GetComponent<Animator>();
             WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot _weaponSlot in _weaponHolderSlots) {
                 if (_weaponSlot.isLeftHandSlot) leftHandSlot = _weaponSlot;
