@@ -23,7 +23,7 @@ namespace Dzajna
             
             if (_weaponItem == null) UnloadWeapon();
             
-            GameObject _model = Instantiate(_weaponItem.modelPrefab) as GameObject;
+            GameObject _model = Instantiate(_weaponItem.ModelPrefab) as GameObject;
             if (_model != null) {
                 if (parentOverride != null) _model.transform.parent = parentOverride;
                 else _model.transform.parent = transform;

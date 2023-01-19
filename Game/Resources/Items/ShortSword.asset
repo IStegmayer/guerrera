@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemIcon: {fileID: 0}
   ItemName: Short sword
-  modelPrefab: {fileID: 4618066143272933839, guid: a8830288977656b40b7ffd7eb9be79f0,
+  ModelPrefab: {fileID: 4618066143272933839, guid: a8830288977656b40b7ffd7eb9be79f0,
     type: 3}
-  isUnarmed: 0
+  IsUnarmed: 0
+  OH_RightArmIdle: 
+  OH_LeftArmIdle: 
   OH_Light_Attack_1: LightAttack1
-  OH_Heavy_Attack_1: HeavyAttack
+  OH_Light_Attack_2: LightAttack2
+  OH_Heavy_Attack_1: HeavyAttack1
+  OH_Heavy_Attack_2: HeavyAttack2

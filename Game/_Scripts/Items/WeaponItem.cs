@@ -5,8 +5,8 @@ namespace Dzajna
     [CreateAssetMenu(menuName = "Items/Weapon Item")]
     public class WeaponItem : Item
     {
-        public GameObject modelPrefab;
-        public bool isUnarmed;
+        public GameObject ModelPrefab;
+        public bool IsUnarmed;
 
         [Header("Idle Animations")] 
         public string OH_RightArmIdle;
@@ -14,6 +14,8 @@ namespace Dzajna
         
         [Header("One Handed Attack Animations")]
         public string OH_Light_Attack_1;
+        public string OH_Light_Attack_2;
         public string OH_Heavy_Attack_1;
+        public string OH_Heavy_Attack_2;
     }
 }

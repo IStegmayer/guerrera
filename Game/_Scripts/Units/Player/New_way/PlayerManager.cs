@@ -16,6 +16,7 @@ namespace Dzajna
         public bool IsSprinting;
         public bool IsInAir;
         public bool IsGrounded;
+        public bool CanDoCombo;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;
@@ -31,6 +32,7 @@ namespace Dzajna
         private void Update() {
             float _delta = Time.deltaTime;
             IsInteracting = anim.GetBool(animatorHandler.IsInteractingHash);
+            CanDoCombo = anim.GetBool(animatorHandler.CanDoComboHash);
             
             inputHandler.TickInput(_delta);
             playerLocomotion.HandleMovement(_delta);

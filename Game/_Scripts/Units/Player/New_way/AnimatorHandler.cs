@@ -16,6 +16,7 @@ namespace Dzajna
         public int VerticalHash;
         public int HorizontalHash;
         public int IsInteractingHash;
+        public int CanDoComboHash;
         
         // states hashes
         public int RollHash;
@@ -35,6 +36,7 @@ namespace Dzajna
             VerticalHash = Animator.StringToHash("Vertical");
             HorizontalHash = Animator.StringToHash("Horizontal");
             IsInteractingHash = Animator.StringToHash("isInteracting");
+            CanDoComboHash = Animator.StringToHash("canDoCombo");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
             LandHash = Animator.StringToHash("Land");
@@ -97,5 +99,10 @@ namespace Dzajna
             Vector3 _velocity = _deltaPosition / _delta;
             playerLocomotion.Rigidbody.velocity = _velocity;
         }
+
+        public void EnableRotation() => CanRotate = true;
+        public void DisableRotation() => CanRotate = false;
+        public void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
+        public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
     }
 }

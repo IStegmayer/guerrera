@@ -14,6 +14,7 @@ namespace Dzajna
         public float CameraY;
         public bool SprintFlag;
         public bool RollFlag;
+        public bool ComboFlag;
         public float RollInputTimer;
 
         public bool b_Input;
@@ -23,6 +24,7 @@ namespace Dzajna
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
+        private PlayerManager playerManager;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -30,6 +32,7 @@ namespace Dzajna
         private void Awake() {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerManager = GetComponent<PlayerManager>();
         }
 
         public void OnEnable() {
@@ -83,10 +86,30 @@ namespace Dzajna
         private void HandleAttackInput(float _delta) {
             rb_Input = inputActions.PlayerActions.RB.WasPerformedThisFrame();
             rt_Input = inputActions.PlayerActions.RT.WasPerformedThisFrame();
-            
+
             // TODO: does this really belong here? also check for isInteracting
-            if (rb_Input) playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
-            if (rt_Input) playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
+            // TODO: refactor this shit logic
+            if (rb_Input) {
+                if (playerManager.CanDoCombo) {
+                    ComboFlag = true;
+                    playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
+                    ComboFlag = false;
+                }
+                else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
+                    playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
+                }
+            }
+
+            if (rt_Input) {
+                if (playerManager.CanDoCombo) {
+                    ComboFlag = true;
+                    playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
+                    ComboFlag = false;
+                } else if (!playerManager.IsInteracting && !playerManager.CanDoCombo)
+                {
+                    playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
+                }
+            }
         }
     }
 }
