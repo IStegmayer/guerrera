@@ -20,6 +20,10 @@ namespace Dzajna
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool d_pad_up_Input;
+        public bool d_pad_down_Input;
+        public bool d_pad_left_Input;
+        public bool d_pad_right_Input;
 
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
@@ -56,6 +60,7 @@ namespace Dzajna
             HandleMoveInput(_delta);
             HandleRollInput(_delta);
             HandleAttackInput(_delta);
+            HandleQuickSlotsInput();
         }
 
         private void HandleMoveInput(float _delta) {
@@ -109,6 +114,17 @@ namespace Dzajna
                 {
                     playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
                 }
+            }
+        }
+
+        private void HandleQuickSlotsInput() {
+            d_pad_right_Input = inputActions.PlayerControls.DPadRight.WasPerformedThisFrame();
+            d_pad_left_Input = inputActions.PlayerControls.DPadLeft.WasPerformedThisFrame();
+            
+            if (d_pad_right_Input) {
+                playerInventory.ChangeRightWeapon();
+            } else if (d_pad_left_Input) {
+                playerInventory.ChangeLeftWeapon();
             }
         }
     }

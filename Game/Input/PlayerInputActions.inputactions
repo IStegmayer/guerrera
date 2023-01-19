@@ -2,22 +2,40 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "PlayerControls",
+            "name": "Player Controls",
             "id": "d06af945-86a7-41ee-8d01-6f653b3266fb",
             "actions": [
                 {
-                    "name": "Attack",
+                    "name": "D-Pad Up",
                     "type": "Button",
-                    "id": "15138d0d-696c-4c16-beea-e1cff021db30",
+                    "id": "e04e0c7e-cb9e-4d7c-aacf-0a6b75af659a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Block",
+                    "name": "D-Pad Down",
                     "type": "Button",
-                    "id": "a36e7975-e8ac-456b-a8a9-c0d46eb5a204",
+                    "id": "ff182bb2-fa02-4a75-8fa6-e9193cd16ba9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "D-Pad Left",
+                    "type": "Button",
+                    "id": "0e81b2a3-0984-465f-b153-de3404de09c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "D-Pad Right",
+                    "type": "Button",
+                    "id": "05615aad-32ff-4b26-8ab1-59320272de22",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -27,45 +45,89 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "b3a37c68-59b0-4230-a58a-10ea6354507e",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "164d7315-b8f3-4953-9e91-ed46edb50ddf",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "D-Pad Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "a6859277-9055-415e-92f4-8aa40a919728",
-                    "path": "<Mouse>/leftButton",
+                    "id": "385b580e-ad71-4504-ab6f-5b6f837e9f55",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "D-Pad Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0a178a51-d708-4d00-9922-9c50e5a530d3",
-                    "path": "<Mouse>/rightButton",
+                    "id": "f4efa627-92a0-428c-9d62-e9c4347a4018",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Block",
+                    "action": "D-Pad Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "9894514b-5a46-41f5-a7b8-f91bad8dc8e7",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "efd68d9a-0f54-4ac7-9b1b-5ad97e53dd18",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Block",
+                    "action": "D-Pad Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0df6567c-c89e-4af9-a8ea-f63368468e2b",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "962aefe2-2cac-4592-a549-902f6123f3a3",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08b91ace-99a0-43e2-b176-bc8c3dce5967",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "38e5b077-3f6c-481a-af21-bc804fe6fbbe",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "D-Pad Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -338,7 +400,7 @@
                 {
                     "name": "",
                     "id": "fe8f01ac-07a8-4b47-8a37-921f4ffb3668",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

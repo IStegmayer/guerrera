@@ -1282,39 +1282,6 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Game._Scripts.Player.StateMachine.PlayerStateMachine,
-          Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 15138d0d-696c-4c16-beea-e1cff021db30
-    m_ActionName: PlayerControls/Attack[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Game._Scripts.PlayerStateMachine, Assembly-CSharp
-        m_MethodName: OnBlock
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a36e7975-e8ac-456b-a8a9-c0d46eb5a204
-    m_ActionName: PlayerControls/Block[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Game._Scripts.PlayerStateMachine, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -1388,6 +1355,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b21d99f7-307c-40a7-80d0-f61eeca9497a
     m_ActionName: Player Actions/RT[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e04e0c7e-cb9e-4d7c-aacf-0a6b75af659a
+    m_ActionName: Player Controls/D-Pad Up[/Keyboard/upArrow,/XInputControllerWindows/dpad/up]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ff182bb2-fa02-4a75-8fa6-e9193cd16ba9
+    m_ActionName: Player Controls/D-Pad Down[/Keyboard/downArrow,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0e81b2a3-0984-465f-b153-de3404de09c3
+    m_ActionName: Player Controls/D-Pad Left[/Keyboard/leftArrow,/XInputControllerWindows/dpad/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 05615aad-32ff-4b26-8ab1-59320272de22
+    m_ActionName: Player Controls/D-Pad Right[/Keyboard/rightArrow,/XInputControllerWindows/dpad/right]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1462,10 +1445,15 @@ MonoBehaviour:
   CameraY: 0
   SprintFlag: 0
   RollFlag: 0
+  ComboFlag: 0
   RollInputTimer: 0
   b_Input: 0
   rb_Input: 0
   rt_Input: 0
+  d_pad_up_Input: 0
+  d_pad_down_Input: 0
+  d_pad_left_Input: 0
+  d_pad_right_Input: 0
 --- !u!114 &3082654960006943387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,12 +1471,15 @@ MonoBehaviour:
   VerticalHash: 0
   HorizontalHash: 0
   IsInteractingHash: 0
+  CanDoComboHash: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
   LocomotionHash: 0
   FallHash: 0
   EmptyHash: 0
+  Damage1Hash: 0
+  DeathHash: 0
 --- !u!114 &278320265215529766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1522,7 @@ MonoBehaviour:
   IsSprinting: 0
   IsInAir: 0
   IsGrounded: 0
+  CanDoCombo: 0
 --- !u!114 &738407556784705057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1555,8 +1547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6949f5e838b457eaf228d2825c9f4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightWeapon: {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  LeftWeapon: {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
+  RightWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  LeftWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  WeaponsInRightHandSlots:
+  - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
+  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+  WeaponsInLeftHandSlots:
+  - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
+  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+  currentRightWeaponIndex: -1
+  currentLeftWeaponIndex: -1
 --- !u!114 &96056487394725359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1569,6 +1570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a23dddb5c484424a03ade6818df48c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LastAttackString: 
 --- !u!114 &5353905217364029986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1581,6 +1583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7edd26326fd8a24e9cf633810c03187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthLevel: 10
+  healthPerLevel: 5
 --- !u!1 &6880589535415209113
 GameObject:
   m_ObjectHideFlags: 0

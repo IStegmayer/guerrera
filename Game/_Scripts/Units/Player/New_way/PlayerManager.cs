@@ -55,6 +55,11 @@ namespace Dzajna
             inputHandler.SprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.d_pad_right_Input = false;
+            inputHandler.d_pad_left_Input = false;
+            inputHandler.d_pad_up_Input = false;
+            inputHandler.d_pad_down_Input = false;
+            
             if (IsInAir) playerLocomotion.InAirTimer += Time.deltaTime;
         }
     }

@@ -7,16 +7,55 @@ namespace Dzajna
     {
         public WeaponItem RightWeapon;
         public WeaponItem LeftWeapon;
+        public WeaponItem UnarmedWeapon;
+
+        public WeaponItem[] WeaponsInRightHandSlots = new WeaponItem[1];
+        public WeaponItem[] WeaponsInLeftHandSlots = new WeaponItem[1];
+        public int currentRightWeaponIndex = -1;
+        public int currentLeftWeaponIndex = -1;
 
         private WeaponSlotManager weaponSlotManager;
-        
+
         private void Awake() {
             weaponSlotManager = GetComponent<WeaponSlotManager>();
         }
 
         private void Start() {
-            weaponSlotManager.LoadWeaponOnSlot(RightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(LeftWeapon, true);
+            LeftWeapon = UnarmedWeapon;
+            RightWeapon = UnarmedWeapon;
+        }
+
+        public void ChangeRightWeapon() {
+            currentRightWeaponIndex++;
+            if (currentRightWeaponIndex < WeaponsInRightHandSlots.Length &&
+                WeaponsInRightHandSlots[currentRightWeaponIndex] != null) {
+                LoadRightWeapon(WeaponsInRightHandSlots[currentRightWeaponIndex]);
+            }
+            else {
+                LoadRightWeapon(UnarmedWeapon);
+                currentRightWeaponIndex = -1;
+            }
+        }
+
+        private void LoadRightWeapon(WeaponItem _weapon) {
+            RightWeapon = _weapon;
+            weaponSlotManager.LoadWeaponOnSlot(_weapon, false);
+        }
+        
+        public void ChangeLeftWeapon() {
+            currentLeftWeaponIndex++;
+            if (currentLeftWeaponIndex < WeaponsInLeftHandSlots.Length &&
+                WeaponsInLeftHandSlots[currentLeftWeaponIndex] != null) {
+                LoadLeftWeapon(WeaponsInLeftHandSlots[currentLeftWeaponIndex]);
+            }
+            else {
+                LoadLeftWeapon(UnarmedWeapon);
+                currentLeftWeaponIndex = -1;
+            }
+        }
+        private void LoadLeftWeapon(WeaponItem _weapon) {
+            LeftWeapon = _weapon;
+            weaponSlotManager.LoadWeaponOnSlot(_weapon, true);
         }
     }
 }

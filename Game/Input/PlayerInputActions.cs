@@ -24,22 +24,40 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
-            ""name"": ""PlayerControls"",
+            ""name"": ""Player Controls"",
             ""id"": ""d06af945-86a7-41ee-8d01-6f653b3266fb"",
             ""actions"": [
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""D-Pad Up"",
                     ""type"": ""Button"",
-                    ""id"": ""15138d0d-696c-4c16-beea-e1cff021db30"",
+                    ""id"": ""e04e0c7e-cb9e-4d7c-aacf-0a6b75af659a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Block"",
+                    ""name"": ""D-Pad Down"",
                     ""type"": ""Button"",
-                    ""id"": ""a36e7975-e8ac-456b-a8a9-c0d46eb5a204"",
+                    ""id"": ""ff182bb2-fa02-4a75-8fa6-e9193cd16ba9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-Pad Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e81b2a3-0984-465f-b153-de3404de09c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""D-Pad Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""05615aad-32ff-4b26-8ab1-59320272de22"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -49,45 +67,89 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""b3a37c68-59b0-4230-a58a-10ea6354507e"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""id"": ""164d7315-b8f3-4953-9e91-ed46edb50ddf"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""D-Pad Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a6859277-9055-415e-92f4-8aa40a919728"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""385b580e-ad71-4504-ab6f-5b6f837e9f55"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""D-Pad Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0a178a51-d708-4d00-9922-9c50e5a530d3"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""f4efa627-92a0-428c-9d62-e9c4347a4018"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Block"",
+                    ""action"": ""D-Pad Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9894514b-5a46-41f5-a7b8-f91bad8dc8e7"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""id"": ""efd68d9a-0f54-4ac7-9b1b-5ad97e53dd18"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Block"",
+                    ""action"": ""D-Pad Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0df6567c-c89e-4af9-a8ea-f63368468e2b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""962aefe2-2cac-4592-a549-902f6123f3a3"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08b91ace-99a0-43e2-b176-bc8c3dce5967"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38e5b077-3f6c-481a-af21-bc804fe6fbbe"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""D-Pad Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -360,7 +422,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fe8f01ac-07a8-4b47-8a37-921f4ffb3668"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -373,10 +435,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // PlayerControls
-        m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
-        m_PlayerControls_Attack = m_PlayerControls.FindAction("Attack", throwIfNotFound: true);
-        m_PlayerControls_Block = m_PlayerControls.FindAction("Block", throwIfNotFound: true);
+        // Player Controls
+        m_PlayerControls = asset.FindActionMap("Player Controls", throwIfNotFound: true);
+        m_PlayerControls_DPadUp = m_PlayerControls.FindAction("D-Pad Up", throwIfNotFound: true);
+        m_PlayerControls_DPadDown = m_PlayerControls.FindAction("D-Pad Down", throwIfNotFound: true);
+        m_PlayerControls_DPadLeft = m_PlayerControls.FindAction("D-Pad Left", throwIfNotFound: true);
+        m_PlayerControls_DPadRight = m_PlayerControls.FindAction("D-Pad Right", throwIfNotFound: true);
         // Player Movement
         m_PlayerMovement = asset.FindActionMap("Player Movement", throwIfNotFound: true);
         m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
@@ -444,17 +508,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerControls
+    // Player Controls
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
-    private readonly InputAction m_PlayerControls_Attack;
-    private readonly InputAction m_PlayerControls_Block;
+    private readonly InputAction m_PlayerControls_DPadUp;
+    private readonly InputAction m_PlayerControls_DPadDown;
+    private readonly InputAction m_PlayerControls_DPadLeft;
+    private readonly InputAction m_PlayerControls_DPadRight;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Attack => m_Wrapper.m_PlayerControls_Attack;
-        public InputAction @Block => m_Wrapper.m_PlayerControls_Block;
+        public InputAction @DPadUp => m_Wrapper.m_PlayerControls_DPadUp;
+        public InputAction @DPadDown => m_Wrapper.m_PlayerControls_DPadDown;
+        public InputAction @DPadLeft => m_Wrapper.m_PlayerControls_DPadLeft;
+        public InputAction @DPadRight => m_Wrapper.m_PlayerControls_DPadRight;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -464,22 +532,34 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerControlsActionsCallbackInterface != null)
             {
-                @Attack.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
-                @Block.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlock;
-                @Block.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlock;
-                @Block.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlock;
+                @DPadUp.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadUp;
+                @DPadUp.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadUp;
+                @DPadUp.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadUp;
+                @DPadDown.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadDown;
+                @DPadDown.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadDown;
+                @DPadDown.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadDown;
+                @DPadLeft.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadLeft;
+                @DPadLeft.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadLeft;
+                @DPadLeft.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadLeft;
+                @DPadRight.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadRight;
+                @DPadRight.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadRight;
+                @DPadRight.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDPadRight;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
-                @Block.started += instance.OnBlock;
-                @Block.performed += instance.OnBlock;
-                @Block.canceled += instance.OnBlock;
+                @DPadUp.started += instance.OnDPadUp;
+                @DPadUp.performed += instance.OnDPadUp;
+                @DPadUp.canceled += instance.OnDPadUp;
+                @DPadDown.started += instance.OnDPadDown;
+                @DPadDown.performed += instance.OnDPadDown;
+                @DPadDown.canceled += instance.OnDPadDown;
+                @DPadLeft.started += instance.OnDPadLeft;
+                @DPadLeft.performed += instance.OnDPadLeft;
+                @DPadLeft.canceled += instance.OnDPadLeft;
+                @DPadRight.started += instance.OnDPadRight;
+                @DPadRight.performed += instance.OnDPadRight;
+                @DPadRight.canceled += instance.OnDPadRight;
             }
         }
     }
@@ -592,8 +672,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
     public interface IPlayerControlsActions
     {
-        void OnAttack(InputAction.CallbackContext context);
-        void OnBlock(InputAction.CallbackContext context);
+        void OnDPadUp(InputAction.CallbackContext context);
+        void OnDPadDown(InputAction.CallbackContext context);
+        void OnDPadLeft(InputAction.CallbackContext context);
+        void OnDPadRight(InputAction.CallbackContext context);
     }
     public interface IPlayerMovementActions
     {

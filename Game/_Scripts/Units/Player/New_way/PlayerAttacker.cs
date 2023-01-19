@@ -10,8 +10,7 @@ namespace Dzajna
         private AnimatorHandler animatorHandler;
         private InputHandler inputHandler;
         public string LastAttackString;
-
-
+        
         private void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
             inputHandler = GetComponent<InputHandler>();
