@@ -26,10 +26,14 @@ namespace Dzajna
             if (_isLeft) {
                 leftHandSlot.LoadWeaponModel(_weaponItem);
                 LoadLeftWeaponDamageCollider();
+                if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_LeftArmIdle, 0.2f);
+                else animator.CrossFade("LeftArmEmpty", 0.2f);
             }
             else {
                 rightHandSlot.LoadWeaponModel(_weaponItem);
                 LoadRightWeaponDamageCollider();
+                if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_RightArmIdle, 0.2f);
+                else animator.CrossFade("RightArmEmpty", 0.2f);
             }
         }
 
