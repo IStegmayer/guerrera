@@ -17,7 +17,8 @@ namespace Dzajna
         private Transform myTransform;
         private Vector3 cameraTransformPosition;
         private Vector3 cameraFollowVelocity = Vector3.zero;
-        private LayerMask ignoreLayers;
+        //TODO: only public getter
+        public LayerMask ignoreLayers;
 
         [Header("Config")] [SerializeField] private float lookSpeed = 0.01f;
         [SerializeField] private float followSpeed = 0.01f;

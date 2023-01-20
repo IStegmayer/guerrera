@@ -25,7 +25,7 @@ namespace Dzajna
         [SerializeField] private float rotationSpeed = 10;
 
         //TODO: improve this with terminal velocity and such
-        [SerializeField] private float fallingSpeed = 80;
+        [SerializeField] private float fallingSpeed = 160;
 
         [Header("Ground Detection Stats")] [SerializeField]
         private float groundDetectionRayStartPoint = 0.5f;
@@ -123,7 +123,7 @@ namespace Dzajna
 
             if (PlayerManager.IsInAir) {
                 Rigidbody.AddForce(Vector3.down * fallingSpeed);
-                Rigidbody.AddForce(_moveDirection * fallingSpeed / 10f);
+                Rigidbody.AddForce(transform.forward * 20f);
             }
 
             Vector3 _dir = _moveDirection;

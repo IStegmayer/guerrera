@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dzajna
@@ -13,6 +14,8 @@ namespace Dzajna
         public WeaponItem[] WeaponsInLeftHandSlots = new WeaponItem[1];
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
+
+        public List<WeaponItem> WeaponsInventory = new List<WeaponItem>();
 
         private WeaponSlotManager weaponSlotManager;
 

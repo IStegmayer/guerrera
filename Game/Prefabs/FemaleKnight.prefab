@@ -1398,7 +1398,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6880589535415207573}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.3
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
@@ -1448,6 +1448,7 @@ MonoBehaviour:
   ComboFlag: 0
   RollInputTimer: 0
   b_Input: 0
+  a_Input: 0
   rb_Input: 0
   rt_Input: 0
   d_pad_up_Input: 0
@@ -1552,12 +1553,13 @@ MonoBehaviour:
   UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   WeaponsInRightHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+  - {fileID: 0}
   WeaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+  - {fileID: 0}
   currentRightWeaponIndex: -1
   currentLeftWeaponIndex: -1
+  WeaponsInventory: []
 --- !u!114 &96056487394725359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,6 +1587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthLevel: 10
   healthPerLevel: 5
+  staminaLevel: 10
+  staminaPerLevel: 5
 --- !u!1 &6880589535415209113
 GameObject:
   m_ObjectHideFlags: 0

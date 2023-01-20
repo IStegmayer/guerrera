@@ -18,6 +18,7 @@ namespace Dzajna
         public float RollInputTimer;
 
         public bool b_Input;
+        public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
         public bool d_pad_up_Input;
@@ -61,6 +62,7 @@ namespace Dzajna
             HandleRollInput(_delta);
             HandleAttackInput(_delta);
             HandleQuickSlotsInput();
+            HandleInteractInput();
         }
 
         private void HandleMoveInput(float _delta) {
@@ -72,7 +74,7 @@ namespace Dzajna
         }
 
         private void HandleRollInput(float _delta) {
-            b_Input = inputActions.PlayerActions.Roll.IsPressed();
+            b_Input = inputActions.PlayerActions.B.IsPressed();
 
             if (b_Input) {
                 RollInputTimer += _delta;
@@ -126,6 +128,11 @@ namespace Dzajna
             } else if (d_pad_left_Input) {
                 playerInventory.ChangeLeftWeapon();
             }
+        }
+
+        private void HandleInteractInput() {
+            a_Input = inputActions.PlayerActions.A.WasPerformedThisFrame();
+            Debug.Log(a_Input);
         }
     }
 }

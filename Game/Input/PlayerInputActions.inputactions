@@ -314,7 +314,7 @@
             "id": "45eb7983-de91-4b43-84df-6607c30bf7db",
             "actions": [
                 {
-                    "name": "Roll",
+                    "name": "B",
                     "type": "Button",
                     "id": "2ea862fb-d5e2-4425-a096-cbcf6d0fb97d",
                     "expectedControlType": "Button",
@@ -339,6 +339,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "A",
+                    "type": "Button",
+                    "id": "5e45e5f3-22d6-4f09-a942-330fee09caca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -349,7 +358,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Roll",
+                    "action": "B",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -360,7 +369,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Roll",
+                    "action": "B",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -405,6 +414,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "RT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e685850-f947-45c8-8412-732c0e7874e1",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "A",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a03792b-bcfd-45c6-aceb-9165a2ba515a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "A",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
