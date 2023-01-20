@@ -12,9 +12,12 @@ namespace Dzajna
         private DamageCollider rightDamageCollider;
 
         private Animator animator;
+        private QuickSlotsUI quickSlotsUI;
 
         private void Awake() {
             animator = GetComponent<Animator>();
+            //TODO: im still using this...
+            quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
             WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot _weaponSlot in _weaponHolderSlots) {
                 if (_weaponSlot.isLeftHandSlot) leftHandSlot = _weaponSlot;
@@ -26,13 +29,17 @@ namespace Dzajna
             if (_isLeft) {
                 leftHandSlot.LoadWeaponModel(_weaponItem);
                 LoadLeftWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponItem, true);
                 if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_LeftArmIdle, 0.2f);
+                //TODO: hashes
                 else animator.CrossFade("LeftArmEmpty", 0.2f);
             }
             else {
                 rightHandSlot.LoadWeaponModel(_weaponItem);
                 LoadRightWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponItem, false);
                 if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_RightArmIdle, 0.2f);
+                //TODO: hashes
                 else animator.CrossFade("RightArmEmpty", 0.2f);
             }
         }
