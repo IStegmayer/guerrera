@@ -11,11 +11,16 @@ namespace Dzajna
         private DamageCollider leftDamageCollider;
         private DamageCollider rightDamageCollider;
 
+        private WeaponItem attackingWeapon;
+
         private Animator animator;
         private QuickSlotsUI quickSlotsUI;
+        private PlayerStats playerStats;
+        
 
         private void Awake() {
             animator = GetComponent<Animator>();
+            playerStats = GetComponentInParent<PlayerStats>();
             //TODO: im still using this...
             quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
             WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
@@ -56,5 +61,19 @@ namespace Dzajna
             public void CloseLeftDamageCollider() => leftDamageCollider.DisableDamageCollider();
             public void CloseRightDamageCollider() => rightDamageCollider.DisableDamageCollider();
         #endregion
+
+        public void SetAttackingWeapon(WeaponItem _attackingWeaponItem) {
+            attackingWeapon = _attackingWeaponItem;
+        }
+        
+        //TODO: again this could be compressed...
+        public void DrainStaminaLightAttack() {
+            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.BaseStamina * attackingWeapon.LightAttackMultiplier));
+        }
+        public void DrainStaminaHeavyAttack() {
+            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.BaseStamina * attackingWeapon.HeavyAttackMultiplier));
+        }
+        
+        
     }
 }

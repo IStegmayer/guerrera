@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27949232327f43d19faa0a05c31ec524, type: 3}
   m_Name: ShortSword
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 0}
+  ItemIcon: {fileID: 21300000, guid: 213e2da76cf302c45934f1689bb7db7c, type: 3}
   ItemName: Short sword
   ModelPrefab: {fileID: 4618066143272933839, guid: a8830288977656b40b7ffd7eb9be79f0,
     type: 3}
@@ -23,3 +23,6 @@ MonoBehaviour:
   OH_Light_Attack_2: LightAttack2
   OH_Heavy_Attack_1: HeavyAttack1
   OH_Heavy_Attack_2: HeavyAttack2
+  BaseStamina: 10
+  LightAttackMultiplier: 1
+  HeavyAttackMultiplier: 2

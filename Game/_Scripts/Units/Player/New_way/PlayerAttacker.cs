@@ -9,11 +9,13 @@ namespace Dzajna
     {
         private AnimatorHandler animatorHandler;
         private InputHandler inputHandler;
+        private WeaponSlotManager weaponSlotManager;
         public string LastAttackString;
         
         private void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
             inputHandler = GetComponent<InputHandler>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem _weaponItem) {
@@ -30,12 +32,14 @@ namespace Dzajna
         }
 
         public void HandleLightAttack(WeaponItem _weaponItem) {
+            weaponSlotManager.SetAttackingWeapon(_weaponItem);
             int _attackHash = Animator.StringToHash(_weaponItem.OH_Light_Attack_1);
             animatorHandler.PlayTargetAnimation(_attackHash, true);
             LastAttackString = _weaponItem.OH_Light_Attack_1;
         }
 
         public void HandleHeavyAttack(WeaponItem _weaponItem) {
+            weaponSlotManager.SetAttackingWeapon(_weaponItem);
             // TODO: this is inefficient
             int _attackHash = Animator.StringToHash(_weaponItem.OH_Heavy_Attack_1);
             animatorHandler.PlayTargetAnimation(_attackHash, true);

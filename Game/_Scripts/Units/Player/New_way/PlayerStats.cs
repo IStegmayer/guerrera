@@ -10,10 +10,15 @@ namespace Dzajna
         //TODO: ofc this is all simplified
         [SerializeField] private int healthLevel = 10;
         [SerializeField] private int healthPerLevel = 5;
+        [SerializeField] private int staminaLevel = 10;
+        [SerializeField] private int staminaPerLevel = 5;
         private int maxHealth;
         private int currentHealth;
+        private int maxStamina;
+        private int currentStamina;
 
         private HealthBar healthBar;
+        private StaminaBar staminaBar;
         private AnimatorHandler animatorHandler;
 
         private Coroutine deathRoutine;
@@ -21,6 +26,7 @@ namespace Dzajna
         private void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
             //TODO: this could be better
+            staminaBar = FindObjectOfType<StaminaBar>();
             healthBar = FindObjectOfType<HealthBar>();
         }
 
@@ -28,10 +34,19 @@ namespace Dzajna
             maxHealth = SetMaxHealthFromHealthLevel();
             healthBar.SetMaxHealth(maxHealth);
             currentHealth = maxHealth;
+
+            maxStamina = SetMaxStaminaFromStaminaLevel();
+            // set stamina max bar
+            staminaBar.SetMaxStamina(maxStamina);
+            currentStamina = maxStamina;
         }
 
         private int SetMaxHealthFromHealthLevel() {
             return healthLevel * healthPerLevel;
+        }
+
+        private int SetMaxStaminaFromStaminaLevel() {
+            return staminaLevel * staminaPerLevel;
         }
 
         public void TakeDamage(int _dmg) {
@@ -51,6 +66,11 @@ namespace Dzajna
             GameManager.Instance.ChangeState(GameState.Lose);
             yield return new WaitForSeconds(1f);
             UnitManager.Instance.DespawnPlayer(transform.gameObject);
+        }
+
+        public void TakeStaminaDamage(int _dmg) {
+            currentStamina -= _dmg;
+            staminaBar.SetCurrentStamina(currentStamina);
         }
     }
     
