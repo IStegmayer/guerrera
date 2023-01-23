@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2642487707785373121}
   - component: {fileID: 2642487707767128305}
   - component: {fileID: 2642487707767725935}
-  - component: {fileID: 2642487708204832382}
   - component: {fileID: 5079337710158058171}
+  - component: {fileID: 459311748}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -4781,20 +4781,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!136 &2642487708204832382
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2642487707785576673}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.33662727
-  m_Height: 1.9791491
-  m_Direction: 1
-  m_Center: {x: -0.039968967, y: 0.34699643, z: 0.06204617}
 --- !u!114 &5079337710158058171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4808,5 +4794,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.6
-  InteractableText: 
+  InteractableText: Pick up Red Sword
   Weapon: {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+--- !u!135 &459311748
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2642487707785576673}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.24
+  m_Center: {x: 0, y: 0, z: 0}

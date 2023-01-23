@@ -21,6 +21,7 @@ namespace Dzajna
         public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool JumpInput;
         public bool d_pad_up_Input;
         public bool d_pad_down_Input;
         public bool d_pad_left_Input;
@@ -63,6 +64,7 @@ namespace Dzajna
             HandleAttackInput(_delta);
             HandleQuickSlotsInput();
             HandleInteractInput();
+            HandleJumpInput();
         }
 
         private void HandleMoveInput(float _delta) {
@@ -132,7 +134,11 @@ namespace Dzajna
 
         private void HandleInteractInput() {
             a_Input = inputActions.PlayerActions.A.WasPerformedThisFrame();
-            Debug.Log(a_Input);
+        }
+
+        // TODO: ideally this should be the same input as interact
+        private void HandleJumpInput() {
+            JumpInput =  inputActions.PlayerActions.Jump.WasPerformedThisFrame();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Dzajna
 
         [Header("Player flags")] public bool IsInteracting;
         public bool IsSprinting;
-        public bool IsInAir;
+        public bool IsInAir = false;
         public bool IsGrounded;
         public bool CanDoCombo;
 
@@ -35,6 +35,7 @@ namespace Dzajna
             float _delta = Time.deltaTime;
             IsInteracting = anim.GetBool(animatorHandler.IsInteractingHash);
             CanDoCombo = anim.GetBool(animatorHandler.CanDoComboHash);
+            IsInAir = anim.GetBool(animatorHandler.IsInAirHash);
 
             inputHandler.TickInput(_delta);
             CheckForInteractableObject();
@@ -42,6 +43,7 @@ namespace Dzajna
             playerLocomotion.HandleRolling(_delta);
             // TODO: WTF CALLING with its own property? 
             playerLocomotion.HandleFalling(_delta, playerLocomotion.moveDirection);
+            playerLocomotion.HandleJumping();
         }
 
         private void FixedUpdate() {
@@ -59,6 +61,7 @@ namespace Dzajna
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.a_Input = false;
+            inputHandler.JumpInput = false;
             inputHandler.d_pad_right_Input = false;
             inputHandler.d_pad_left_Input = false;
             inputHandler.d_pad_up_Input = false;

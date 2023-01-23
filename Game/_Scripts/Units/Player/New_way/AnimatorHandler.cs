@@ -17,6 +17,7 @@ namespace Dzajna
         public int HorizontalHash;
         public int IsInteractingHash;
         public int CanDoComboHash;
+        public int IsInAirHash;
         
         // states hashes
         public int RollHash;
@@ -27,6 +28,7 @@ namespace Dzajna
         public int EmptyHash;
         public int Damage1Hash;
         public int DeathHash;
+        public int JumpHash;
         
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
@@ -45,6 +47,8 @@ namespace Dzajna
             EmptyHash = Animator.StringToHash("Empty");
             Damage1Hash = Animator.StringToHash("Damage1");
             DeathHash = Animator.StringToHash("Death");
+            JumpHash = Animator.StringToHash("Jump");
+            IsInAirHash = Animator.StringToHash("isInAir");
             CanRotate = true;
         }
 

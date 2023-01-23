@@ -171,6 +171,21 @@ namespace Dzajna
                 MyTransform.position = targetPlayerPosition;
         }
 
+        public void HandleJumping() {
+            if (PlayerManager.IsInteracting) return;
+            if (!inputHandler.JumpInput) return;
+            if (inputHandler.MoveAmount <= 0) return;
+
+            Vector3 _moveDirection = cameraObject.forward * inputHandler.Vertical;
+            _moveDirection += cameraObject.right * inputHandler.Horizontal;
+            
+            _moveDirection.Normalize();
+            _moveDirection.y = 0;
+            MyTransform.rotation = Quaternion.LookRotation(_moveDirection);
+
+            AnimatorHandler.PlayTargetAnimation(AnimatorHandler.JumpHash, true);
+        }
+
         #endregion
     }
 }
