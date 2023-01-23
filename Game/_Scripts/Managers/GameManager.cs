@@ -10,6 +10,7 @@ public class GameManager : StaticInstance<GameManager>
     [SerializeField] private Transform _enemySpawn2;
     [SerializeField] private Transform _enemySpawn3;
     [SerializeField] private Transform _mainCamera;
+    [SerializeField] private UIManager _uiManager;
     public static event Action<GameState> OnBeforeStateChanged;
     public static event Action<GameState> OnAfterStateChanged;
 
@@ -62,6 +63,7 @@ public class GameManager : StaticInstance<GameManager>
         Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
         //TODO: this is lazy af
         CameraManager.Instance.playerTargetTransform = playerInstance.transform;
+        _uiManager.PlayerInventory = playerInstance.GetComponent<PlayerInventory>();
         ChangeState(GameState.SpawningEnemies);
     }
 

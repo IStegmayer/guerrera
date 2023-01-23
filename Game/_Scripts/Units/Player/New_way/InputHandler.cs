@@ -12,9 +12,6 @@ namespace Dzajna
         public float MoveAmount;
         public float CameraX;
         public float CameraY;
-        public bool SprintFlag;
-        public bool RollFlag;
-        public bool ComboFlag;
         public float RollInputTimer;
 
         public bool b_Input;
@@ -26,11 +23,18 @@ namespace Dzajna
         public bool d_pad_down_Input;
         public bool d_pad_left_Input;
         public bool d_pad_right_Input;
+        public bool inventory_Input;
+
+        public bool SprintFlag;
+        public bool RollFlag;
+        public bool ComboFlag;
+        public bool InventoryFlag;
 
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
         private PlayerManager playerManager;
+        private UIManager uiManager;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -39,6 +43,7 @@ namespace Dzajna
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         public void OnEnable() {
@@ -65,6 +70,7 @@ namespace Dzajna
             HandleQuickSlotsInput();
             HandleInteractInput();
             HandleJumpInput();
+            HandleInventoryInput();
         }
 
         private void HandleMoveInput(float _delta) {
@@ -114,8 +120,8 @@ namespace Dzajna
                     ComboFlag = true;
                     playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
                     ComboFlag = false;
-                } else if (!playerManager.IsInteracting && !playerManager.CanDoCombo)
-                {
+                }
+                else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
                     playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
                 }
             }
@@ -124,10 +130,11 @@ namespace Dzajna
         private void HandleQuickSlotsInput() {
             d_pad_right_Input = inputActions.PlayerControls.DPadRight.WasPerformedThisFrame();
             d_pad_left_Input = inputActions.PlayerControls.DPadLeft.WasPerformedThisFrame();
-            
+
             if (d_pad_right_Input) {
                 playerInventory.ChangeRightWeapon();
-            } else if (d_pad_left_Input) {
+            }
+            else if (d_pad_left_Input) {
                 playerInventory.ChangeLeftWeapon();
             }
         }
@@ -138,7 +145,18 @@ namespace Dzajna
 
         // TODO: ideally this should be the same input as interact
         private void HandleJumpInput() {
-            JumpInput =  inputActions.PlayerActions.Jump.WasPerformedThisFrame();
+            JumpInput = inputActions.PlayerActions.Jump.WasPerformedThisFrame();
+        }
+
+        private void HandleInventoryInput() {
+            inventory_Input = inputActions.PlayerControls.Inventory.WasPerformedThisFrame();
+            if (inventory_Input) {
+                InventoryFlag = !InventoryFlag;
+                uiManager.ToggleSelectWindow(InventoryFlag);
+                if (InventoryFlag) uiManager.UpdateUI();
+                else uiManager.ToggleAllInventoryWindows(InventoryFlag);
+                uiManager.ToggleHUDWindow(!InventoryFlag);
+            }
         }
     }
 }
