@@ -1312,38 +1312,6 @@ MonoBehaviour:
     m_ActionId: 1f356080-dc00-474f-b488-b40e3df91aa7
     m_ActionName: Player Movement/Camera[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Game._Scripts.PlayerStateMachine, Assembly-CSharp
-        m_MethodName: OnJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 8cc3ac53-96ed-4f3c-a46c-4f89d7a95260
-    m_ActionName: Player Movement/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Game._Scripts.PlayerStateMachine, Assembly-CSharp
-        m_MethodName: OnRun
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 44dc0669-efc7-41a1-a3d0-00b11276cecc
-    m_ActionName: Player Movement/Run[/Keyboard/leftShift]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 2ea862fb-d5e2-4425-a096-cbcf6d0fb97d
     m_ActionName: Player Actions/Roll[/Keyboard/leftShift]
@@ -1371,6 +1339,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 05615aad-32ff-4b26-8ab1-59320272de22
     m_ActionName: Player Controls/D-Pad Right[/Keyboard/rightArrow,/XInputControllerWindows/dpad/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1473bd2d-a7ab-4d3a-8e97-6008b2063ab7
+    m_ActionName: Player Controls/Inventory[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5e45e5f3-22d6-4f09-a942-330fee09caca
+    m_ActionName: Player Actions/A[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 176b8fe5-d68a-4f2f-ac5d-9728209dfc22
+    m_ActionName: Player Actions/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1443,18 +1423,21 @@ MonoBehaviour:
   MoveAmount: 0
   CameraX: 0
   CameraY: 0
-  SprintFlag: 0
-  RollFlag: 0
-  ComboFlag: 0
   RollInputTimer: 0
   b_Input: 0
   a_Input: 0
   rb_Input: 0
   rt_Input: 0
+  JumpInput: 0
   d_pad_up_Input: 0
   d_pad_down_Input: 0
   d_pad_left_Input: 0
   d_pad_right_Input: 0
+  inventory_Input: 0
+  SprintFlag: 0
+  RollFlag: 0
+  ComboFlag: 0
+  InventoryFlag: 0
 --- !u!114 &3082654960006943387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1473,6 +1456,7 @@ MonoBehaviour:
   HorizontalHash: 0
   IsInteractingHash: 0
   CanDoComboHash: 0
+  IsInAirHash: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
@@ -1481,6 +1465,7 @@ MonoBehaviour:
   EmptyHash: 0
   Damage1Hash: 0
   DeathHash: 0
+  JumpHash: 0
 --- !u!114 &278320265215529766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1553,13 +1538,15 @@ MonoBehaviour:
   UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   WeaponsInRightHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
   WeaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
   currentRightWeaponIndex: -1
   currentLeftWeaponIndex: -1
-  WeaponsInventory: []
+  WeaponsInventory:
+  - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
+  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
 --- !u!114 &96056487394725359
 MonoBehaviour:
   m_ObjectHideFlags: 0

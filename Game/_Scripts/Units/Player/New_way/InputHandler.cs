@@ -154,7 +154,7 @@ namespace Dzajna
                 InventoryFlag = !InventoryFlag;
                 uiManager.ToggleSelectWindow(InventoryFlag);
                 if (InventoryFlag) uiManager.UpdateUI();
-                else uiManager.ToggleAllInventoryWindows(InventoryFlag);
+                else uiManager.CloseAllInventoryWindows();
                 uiManager.ToggleHUDWindow(!InventoryFlag);
             }
         }

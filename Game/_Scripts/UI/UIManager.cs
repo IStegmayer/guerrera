@@ -11,15 +11,22 @@ namespace Dzajna
         [SerializeField] private GameObject HUDWindow;
         [SerializeField] private GameObject selectWindow;
         [SerializeField] private GameObject weaponInventoryWindow;
+        [SerializeField] private GameObject equipmentWindow;
 
         [Header("Weapons Inventory")]
         [SerializeField] private Transform weaponInventorySlotsContainer;
         [SerializeField] private Transform weaponInventorySlotPrefab;
+        [SerializeField] private EquipmentWindowUI equipmentWindowUI;
         private WeaponInventorySlot[] weaponInventorySlots;
         public PlayerInventory PlayerInventory;
 
+        private void Awake() {
+            equipmentWindowUI = GetComponentInChildren<EquipmentWindowUI>(true);
+        }
+
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
+            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(PlayerInventory);
         }
 
         public void UpdateUI() {
@@ -36,9 +43,9 @@ namespace Dzajna
 
                     weaponInventorySlots[_i].AddItem(PlayerInventory.WeaponsInventory[_i]);
                 }
-                // else {
-                //     weaponInventorySlots[_i].ClearInventorySlot();
-                // }
+                else {
+                    weaponInventorySlots[_i].ClearInventorySlot();
+                }
             }
 
             #endregion
@@ -46,6 +53,9 @@ namespace Dzajna
 
         public void ToggleSelectWindow(bool _active) => selectWindow.SetActive(_active);
         public void ToggleHUDWindow(bool _active) => HUDWindow.SetActive(_active);
-        public void ToggleAllInventoryWindows(bool _active) => weaponInventoryWindow.SetActive(_active);
+        public void CloseAllInventoryWindows() {
+            weaponInventoryWindow.SetActive(false);
+            equipmentWindow.SetActive(false);
+        }
     }
 }

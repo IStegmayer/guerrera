@@ -26,6 +26,7 @@ namespace Dzajna
         private void Start() {
             LeftWeapon = UnarmedWeapon;
             RightWeapon = UnarmedWeapon;
+            
         }
 
         public void ChangeRightWeapon() {
