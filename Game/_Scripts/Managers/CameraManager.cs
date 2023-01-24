@@ -81,8 +81,8 @@ namespace Dzajna
         }
 
         public void HandleCameraRotation(float _delta, float _cameraXInput, float _cameraYInput) {
-            lookAngle += (_cameraXInput * lookSpeed) / _delta;
-            pivotAngle -= (_cameraYInput * pivotSpeed) / _delta;
+            lookAngle += _cameraXInput * lookSpeed * _delta;
+            pivotAngle -= _cameraYInput * pivotSpeed * _delta;
             pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
             // set look/horizontal rotation
