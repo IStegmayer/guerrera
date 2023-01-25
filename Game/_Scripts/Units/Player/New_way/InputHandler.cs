@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 
 namespace Dzajna
 {
@@ -50,8 +51,20 @@ namespace Dzajna
             // read input and populate our fields
             if (inputActions == null) {
                 inputActions = new PlayerInputActions();
+                
                 inputActions.PlayerMovement.Movement.performed += _input => movementInput = _input.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += _input => cameraInput = _input.ReadValue<Vector2>();
+                
+                // inputActions.PlayerActions.Jump.performed += HandleJumpInput;
+                // inputActions.PlayerActions.A.performed += HandleInteractInput;
+                inputActions.PlayerActions.RB.performed += _input => rb_Input = true;
+                inputActions.PlayerActions.RT.performed += _input => rt_Input = true;
+                inputActions.PlayerActions.Jump.performed += _input => JumpInput = true;
+                inputActions.PlayerActions.A.performed += _input => a_Input = true;
+                
+                inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
+                inputActions.PlayerControls.DPadRight.performed += _input => d_pad_right_Input = true;
+                inputActions.PlayerControls.DPadLeft.performed += _input => d_pad_left_Input = true;
             }
 
             // enable our created inputActions 
@@ -64,16 +77,13 @@ namespace Dzajna
         }
 
         public void TickInput(float _delta) {
-            HandleMoveInput(_delta);
+            HandleMoveInput();
             HandleRollInput(_delta);
-            HandleAttackInput(_delta);
+            HandleAttackInput();
             HandleQuickSlotsInput();
-            HandleInteractInput();
-            HandleJumpInput();
-            HandleInventoryInput();
         }
 
-        private void HandleMoveInput(float _delta) {
+        private void HandleMoveInput() {
             Horizontal = movementInput.x;
             Vertical = movementInput.y;
             MoveAmount = Mathf.Clamp01(Mathf.Abs(Horizontal) + Mathf.Abs(Vertical));
@@ -98,10 +108,7 @@ namespace Dzajna
             }
         }
 
-        private void HandleAttackInput(float _delta) {
-            rb_Input = inputActions.PlayerActions.RB.WasPerformedThisFrame();
-            rt_Input = inputActions.PlayerActions.RT.WasPerformedThisFrame();
-
+        private void HandleAttackInput() {
             // TODO: does this really belong here? also check for isInteracting
             // TODO: refactor this shit logic
             if (rb_Input) {
@@ -128,9 +135,6 @@ namespace Dzajna
         }
 
         private void HandleQuickSlotsInput() {
-            d_pad_right_Input = inputActions.PlayerControls.DPadRight.WasPerformedThisFrame();
-            d_pad_left_Input = inputActions.PlayerControls.DPadLeft.WasPerformedThisFrame();
-
             if (d_pad_right_Input) {
                 playerInventory.ChangeRightWeapon();
             }
@@ -139,17 +143,15 @@ namespace Dzajna
             }
         }
 
-        private void HandleInteractInput() {
-            a_Input = inputActions.PlayerActions.A.WasPerformedThisFrame();
+        private void HandleInteractInput(CallbackContext _callbackContext) {
+            a_Input = _callbackContext.action.WasPerformedThisFrame();
         }
-
-        // TODO: ideally this should be the same input as interact
-        private void HandleJumpInput() {
-            JumpInput = inputActions.PlayerActions.Jump.WasPerformedThisFrame();
+        private void HandleJumpInput(CallbackContext _callbackContext) {
+            JumpInput = _callbackContext.action.WasPerformedThisFrame();
         }
-
-        private void HandleInventoryInput() {
-            inventory_Input = inputActions.PlayerControls.Inventory.WasPerformedThisFrame();
+        
+        private void HandleInventoryInput(CallbackContext _callbackContext) {
+            inventory_Input = _callbackContext.action.WasPerformedThisFrame();
             if (inventory_Input) {
                 InventoryFlag = !InventoryFlag;
                 uiManager.ToggleSelectWindow(InventoryFlag);
