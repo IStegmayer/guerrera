@@ -20,6 +20,7 @@ namespace Dzajna
         public bool rb_Input;
         public bool rt_Input;
         public bool JumpInput;
+        public bool lockOn_Input;
         public bool d_pad_up_Input;
         public bool d_pad_down_Input;
         public bool d_pad_left_Input;
@@ -30,11 +31,13 @@ namespace Dzajna
         public bool RollFlag;
         public bool ComboFlag;
         public bool InventoryFlag;
+        public bool LockOnFlag;
 
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
         private PlayerManager playerManager;
+        private CameraManager cameraManager;
         private UIManager uiManager;
 
         private Vector2 movementInput;
@@ -44,6 +47,8 @@ namespace Dzajna
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            // TODO: inefficient asf
+            cameraManager = FindObjectOfType<CameraManager>();
             uiManager = FindObjectOfType<UIManager>();
         }
 
@@ -51,17 +56,18 @@ namespace Dzajna
             // read input and populate our fields
             if (inputActions == null) {
                 inputActions = new PlayerInputActions();
-                
+
                 inputActions.PlayerMovement.Movement.performed += _input => movementInput = _input.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += _input => cameraInput = _input.ReadValue<Vector2>();
-                
+
                 // inputActions.PlayerActions.Jump.performed += HandleJumpInput;
                 // inputActions.PlayerActions.A.performed += HandleInteractInput;
                 inputActions.PlayerActions.RB.performed += _input => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += _input => rt_Input = true;
                 inputActions.PlayerActions.Jump.performed += _input => JumpInput = true;
                 inputActions.PlayerActions.A.performed += _input => a_Input = true;
-                
+                inputActions.PlayerActions.LockOn.performed += _input => lockOn_Input = true;
+
                 inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
                 inputActions.PlayerControls.DPadRight.performed += _input => d_pad_right_Input = true;
                 inputActions.PlayerControls.DPadLeft.performed += _input => d_pad_left_Input = true;
@@ -81,6 +87,7 @@ namespace Dzajna
             HandleRollInput(_delta);
             HandleAttackInput();
             HandleQuickSlotsInput();
+            HandleLockOnInput();
         }
 
         private void HandleMoveInput() {
@@ -146,18 +153,34 @@ namespace Dzajna
         private void HandleInteractInput(CallbackContext _callbackContext) {
             a_Input = _callbackContext.action.WasPerformedThisFrame();
         }
+
         private void HandleJumpInput(CallbackContext _callbackContext) {
             JumpInput = _callbackContext.action.WasPerformedThisFrame();
         }
-        
+
         private void HandleInventoryInput(CallbackContext _callbackContext) {
             inventory_Input = _callbackContext.action.WasPerformedThisFrame();
-            if (inventory_Input) {
-                InventoryFlag = !InventoryFlag;
-                uiManager.ToggleSelectWindow(InventoryFlag);
-                if (InventoryFlag) uiManager.UpdateUI();
-                else uiManager.CloseAllInventoryWindows();
-                uiManager.ToggleHUDWindow(!InventoryFlag);
+            if (!inventory_Input) return;
+
+            InventoryFlag = !InventoryFlag;
+            uiManager.ToggleSelectWindow(InventoryFlag);
+            if (InventoryFlag) uiManager.UpdateUI();
+            else uiManager.CloseAllInventoryWindows();
+            uiManager.ToggleHUDWindow(!InventoryFlag);
+        }
+
+        private void HandleLockOnInput() {
+            if (!lockOn_Input) return;
+
+            if (!LockOnFlag) {
+                lockOn_Input = false;
+                cameraManager.HandleLockOn();
+                LockOnFlag = cameraManager.SetCurrentLockOnTarget();
+            }
+            else {
+                lockOn_Input = false;
+                LockOnFlag = false;
+                cameraManager.ClearLockOnTargets();
             }
         }
     }

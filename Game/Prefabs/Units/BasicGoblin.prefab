@@ -1185,8 +1185,9 @@ GameObject:
   - component: {fileID: 6955296484019310890}
   - component: {fileID: 1072462377}
   - component: {fileID: 2076437697}
+  - component: {fileID: -5052775884964827217}
   m_Layer: 6
-  m_Name: Character_Goblin_Female
+  m_Name: BasicGoblin
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1287,11 +1288,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageDealer: {fileID: 5037546904636873859}
-  _attackRange: 1.6
-  _aggroRange: 6
+  _attackRange: 0
+  _aggroRange: 0
   _attackCd: 2
   _reaggroCd: 0.5
-  _lockOnTransform: {fileID: 2620820575646276582}
+  LockOnTransform: {fileID: 2620820575646276582}
 --- !u!195 &2076437697
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1314,6 +1315,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-5052775884964827217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435744202117670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c6b606b2b14aca99754b6d49935077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LockOnTransform: {fileID: 2620820575646276582}
 --- !u!1 &1439348661205246
 GameObject:
   m_ObjectHideFlags: 0

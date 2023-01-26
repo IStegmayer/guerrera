@@ -11,7 +11,7 @@ public class BasicGoblin : BaseUnit
     [SerializeField] private float _aggroRange = 6f;
     [SerializeField] private float _attackCd = 2f;
     [SerializeField] private float _reaggroCd = 0.5f;
-    public Transform _lockOnTransform;
+    public Transform LockOnTransform;
 
     //TODO: this could be further abstracted
     public static event Action<BasicGoblin> GoblinSpawned;

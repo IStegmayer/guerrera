@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
         private InputHandler inputHandler;
         private Animator anim;
@@ -62,6 +62,7 @@ namespace Dzajna
             inputHandler.rt_Input = false;
             inputHandler.a_Input = false;
             inputHandler.JumpInput = false;
+            inputHandler.lockOn_Input = false;
             inputHandler.d_pad_right_Input = false;
             inputHandler.d_pad_left_Input = false;
             inputHandler.d_pad_up_Input = false;

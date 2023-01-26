@@ -8,15 +8,19 @@ namespace Dzajna
     //TODO: prolly a static instance
     public class CameraManager : StaticInstance<CameraManager>
     {
-        [Header("References")]
+        [Header("References")] private InputHandler inputHandler;
+
         //TODO: FIX
         public Transform playerTargetTransform;
+
 
         [SerializeField] private Transform cameraTransform;
         [SerializeField] private Transform cameraPivotTransform;
         private Transform myTransform;
         private Vector3 cameraTransformPosition;
+
         private Vector3 cameraFollowVelocity = Vector3.zero;
+
         //TODO: only public getter
         public LayerMask ignoreLayers;
 
@@ -37,9 +41,9 @@ namespace Dzajna
 
         [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
 
-        // switch this to characterManager
-        private List<BasicGoblin> availableTargets = new List<BasicGoblin>();
+        private Transform currentLockOnTarget;
         private Transform nearestLockOnTarget;
+        private List<EnemyManager> availableTargets = new List<EnemyManager>();
 
 
         protected override void Awake() {
@@ -50,6 +54,7 @@ namespace Dzajna
             //TODO: better undestand this
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
         }
+
 
         public void FollowTarget(float _delta) {
             Vector3 _targetPosition = Vector3.SmoothDamp(myTransform.position, playerTargetTransform.position,
@@ -81,54 +86,90 @@ namespace Dzajna
         }
 
         public void HandleCameraRotation(float _delta, float _cameraXInput, float _cameraYInput) {
-            lookAngle += _cameraXInput * lookSpeed * _delta;
-            pivotAngle -= _cameraYInput * pivotSpeed * _delta;
-            pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
+            if (inputHandler == null || (!inputHandler.LockOnFlag && currentLockOnTarget == null)) {
+                lookAngle += _cameraXInput * lookSpeed * _delta;
+                pivotAngle -= _cameraYInput * pivotSpeed * _delta;
+                pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
-            // set look/horizontal rotation
-            Vector3 _rotation = Vector3.zero;
-            _rotation.y = lookAngle;
-            Quaternion _targetRotation = Quaternion.Euler(_rotation);
-            myTransform.rotation = Quaternion.Slerp
-                (myTransform.rotation, _targetRotation, cameraDamp * _delta);
+                // set look/horizontal rotation
+                Vector3 _rotation = Vector3.zero;
+                _rotation.y = lookAngle;
+                Quaternion _targetRotation = Quaternion.Euler(_rotation);
+                myTransform.rotation = Quaternion.Slerp
+                    (myTransform.rotation, _targetRotation, cameraDamp * _delta);
 
-            // set pivot/vertical rotation
-            _rotation = Vector3.zero;
-            _rotation.x = pivotAngle;
-            _targetRotation = Quaternion.Euler(_rotation);
-            cameraPivotTransform.localRotation = Quaternion.Slerp
-                (cameraPivotTransform.localRotation, _targetRotation, cameraDamp * _delta);
+                // set pivot/vertical rotation
+                _rotation = Vector3.zero;
+                _rotation.x = pivotAngle;
+                _targetRotation = Quaternion.Euler(_rotation);
+                cameraPivotTransform.localRotation = Quaternion.Slerp
+                    (cameraPivotTransform.localRotation, _targetRotation, cameraDamp * _delta);
+            }
+            else {
+                float _velocity = 0;
+
+                Vector3 _dir = currentLockOnTarget.position - transform.position;
+                _dir.Normalize();
+                _dir.y = 0;
+
+                //TODO: Slerp both of these?
+                Quaternion _targetRotation = Quaternion.LookRotation(_dir);
+                myTransform.rotation = _targetRotation;
+
+                _dir = currentLockOnTarget.position - cameraPivotTransform.position;
+                _dir.Normalize();
+
+                _targetRotation = Quaternion.LookRotation(_dir);
+                Vector3 _eulerAngle = _targetRotation.eulerAngles;
+                _eulerAngle.y = 0;
+                cameraPivotTransform.localEulerAngles = _eulerAngle;
+            }
         }
+
 
         //TODO: finish implementing this 
         public void HandleLockOn() {
+            //TODO: HORRIBLE FIX
+            if (playerTargetTransform != null) inputHandler = playerTargetTransform.GetComponent<InputHandler>();
             float _shortestDistance = Mathf.Infinity;
 
-            Collider[] _overlapSphere = Physics.OverlapSphere(playerTargetTransform.position, maximumLockOnDistance);
+            Collider[] _colliders = Physics.OverlapSphere(playerTargetTransform.position, 26);
 
-            for (int _i = 0; _i < _overlapSphere.Length; _i++) {
-                BasicGoblin _unit = _overlapSphere[_i].GetComponent<BasicGoblin>();
+            for (int _i = 0; _i < _colliders.Length; _i++) {
+                EnemyManager _char = _colliders[_i].GetComponent<EnemyManager>();
+                if (_char == null) continue;
 
-                if (_unit != null) {
-                    Vector3 _lockTargetDirection = _unit.transform.position - playerTargetTransform.position;
-                    float _distanceFromTarget =
-                        Vector3.Distance(playerTargetTransform.position, _unit.transform.position);
-                    float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
+                Vector3 _lockTargetDirection = _char.transform.position - playerTargetTransform.position;
+                float _distanceFromTarget =
+                    Vector3.Distance(playerTargetTransform.position, _char.transform.position);
+                float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
 
-                    if (_unit.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
-                        _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance)
-                        availableTargets.Add(_unit);
-                }
+                if (_char.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
+                    _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance)
+                    availableTargets.Add(_char);
             }
 
             for (int i = 0; i < availableTargets.Count; i++) {
                 float _distanceFromTarget =
                     Vector3.Distance(playerTargetTransform.position, availableTargets[i].transform.position);
-                if (_distanceFromTarget < _shortestDistance) {
-                    _shortestDistance = _distanceFromTarget;
-                    nearestLockOnTarget = availableTargets[i].transform;
-                }
+                if (_distanceFromTarget > _shortestDistance) continue;
+
+                _shortestDistance = _distanceFromTarget;
+                nearestLockOnTarget = availableTargets[i].LockOnTransform;
             }
+        }
+
+        public bool SetCurrentLockOnTarget() {
+            if (nearestLockOnTarget == null) return false;
+
+            currentLockOnTarget = nearestLockOnTarget;
+            return true;
+        }
+
+        public void ClearLockOnTargets() {
+            availableTargets.Clear();
+            nearestLockOnTarget = null;             
+            currentLockOnTarget = null;
         }
     }
 }

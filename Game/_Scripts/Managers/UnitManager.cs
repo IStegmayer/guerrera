@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using Dzajna;
 using UnityEngine;
 
 public class UnitManager : StaticInstance<UnitManager>
 {
-    private Dictionary<int, BaseUnit> _spawnedEnemies = new Dictionary<int, BaseUnit>();
-    private int _enemyCount;
-    private BaseUnit _playerInstance;
+    [SerializeField] private CameraManager cameraManager; 
+    private Dictionary<int, BaseUnit> spawnedEnemies = new Dictionary<int, BaseUnit>();
+    private int enemyCount;
+    private BaseUnit playerInstance;
     
     public Transform SpawnPlayer(Transform transform, int level = 1) {
         ScriptableUnitBase playerScriptable = ResourceSystem.Instance.GetPlayer(level);
@@ -21,10 +23,10 @@ public class UnitManager : StaticInstance<UnitManager>
         GameObject spawnedGO = SpawnUnit(enemyScriptable, transform.position, transform.rotation);
         
         BaseUnit enemy = spawnedGO.GetComponentInChildren<BaseUnit>();
-        enemy.SetId(_enemyCount);
+        enemy.SetId(enemyCount);
         enemy.SetStats(enemyScriptable.BaseStats);
-        _spawnedEnemies.Add(_enemyCount, enemy);
-        _enemyCount++;
+        spawnedEnemies.Add(enemyCount, enemy);
+        enemyCount++;
     }
 
     private GameObject SpawnUnit(ScriptableUnitBase unitScriptable, Vector3 pos, Quaternion rotation) {
@@ -35,13 +37,13 @@ public class UnitManager : StaticInstance<UnitManager>
     }
 
     public void DespawnPlayer(GameObject obj) {
-        _playerInstance = null;
+        playerInstance = null;
         Destroy(obj);
     }
 
     public void DespawnEnemy(int id, GameObject obj) {
-        _spawnedEnemies.Remove(id);
+        spawnedEnemies.Remove(id);
         Destroy(obj);
-        if (_spawnedEnemies.Count == 0) GameManager.Instance.ChangeState(GameState.Win);
+        if (spawnedEnemies.Count == 0) GameManager.Instance.ChangeState(GameState.Win);
     }
 }
