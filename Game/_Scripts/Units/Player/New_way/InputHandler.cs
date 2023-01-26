@@ -19,13 +19,16 @@ namespace Dzajna
         public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
-        public bool JumpInput;
+        public bool jump_Input;
+        public bool inventory_Input;
         public bool lockOn_Input;
+        public bool lockOn_left_Input;
+        public bool lockOn_right_Input;
+        
         public bool d_pad_up_Input;
         public bool d_pad_down_Input;
         public bool d_pad_left_Input;
         public bool d_pad_right_Input;
-        public bool inventory_Input;
 
         public bool SprintFlag;
         public bool RollFlag;
@@ -62,15 +65,17 @@ namespace Dzajna
 
                 // inputActions.PlayerActions.Jump.performed += HandleJumpInput;
                 // inputActions.PlayerActions.A.performed += HandleInteractInput;
-                inputActions.PlayerActions.RB.performed += _input => rb_Input = true;
-                inputActions.PlayerActions.RT.performed += _input => rt_Input = true;
-                inputActions.PlayerActions.Jump.performed += _input => JumpInput = true;
-                inputActions.PlayerActions.A.performed += _input => a_Input = true;
-                inputActions.PlayerActions.LockOn.performed += _input => lockOn_Input = true;
+                inputActions.PlayerActions.RB.performed += _ => rb_Input = true;
+                inputActions.PlayerActions.RT.performed += _ => rt_Input = true;
+                inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
+                inputActions.PlayerActions.A.performed += _ => a_Input = true;
+                inputActions.PlayerActions.LockOn.performed += _ => lockOn_Input = true;
+                inputActions.PlayerActions.LockOnTargetLeft.performed += _ => lockOn_left_Input = true;
+                inputActions.PlayerActions.LockOnTargetRight.performed += _ => lockOn_right_Input = true;
 
                 inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
-                inputActions.PlayerControls.DPadRight.performed += _input => d_pad_right_Input = true;
-                inputActions.PlayerControls.DPadLeft.performed += _input => d_pad_left_Input = true;
+                inputActions.PlayerControls.DPadRight.performed += _ => d_pad_right_Input = true;
+                inputActions.PlayerControls.DPadLeft.performed += _ => d_pad_left_Input = true;
             }
 
             // enable our created inputActions 
@@ -88,6 +93,7 @@ namespace Dzajna
             HandleAttackInput();
             HandleQuickSlotsInput();
             HandleLockOnInput();
+            HandleLockOnSwitch();
         }
 
         private void HandleMoveInput() {
@@ -155,7 +161,7 @@ namespace Dzajna
         }
 
         private void HandleJumpInput(CallbackContext _callbackContext) {
-            JumpInput = _callbackContext.action.WasPerformedThisFrame();
+            jump_Input = _callbackContext.action.WasPerformedThisFrame();
         }
 
         private void HandleInventoryInput(CallbackContext _callbackContext) {
@@ -182,6 +188,16 @@ namespace Dzajna
                 LockOnFlag = false;
                 cameraManager.ClearLockOnTargets();
             }
+        }
+
+        private void HandleLockOnSwitch() {
+            if (!LockOnFlag) return;
+            if (!lockOn_right_Input && !lockOn_left_Input) return;
+            
+            cameraManager.HandleLockOn();
+            cameraManager.SwitchLockOnTarget(lockOn_left_Input, lockOn_right_Input);
+            lockOn_left_Input = false;
+            lockOn_right_Input = false;
         }
     }
 }

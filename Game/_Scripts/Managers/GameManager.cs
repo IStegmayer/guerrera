@@ -77,8 +77,8 @@ public class GameManager : StaticInstance<GameManager>
     private void HandleSpawningEnemies() {
         
         UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
         
         ChangeState(GameState.HeroTurn);
     }

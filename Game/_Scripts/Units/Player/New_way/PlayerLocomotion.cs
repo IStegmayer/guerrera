@@ -173,7 +173,7 @@ namespace Dzajna
 
         public void HandleJumping() {
             if (PlayerManager.IsInteracting) return;
-            if (!inputHandler.JumpInput) return;
+            if (!inputHandler.jump_Input) return;
             if (inputHandler.MoveAmount <= 0) return;
 
             Vector3 _moveDirection = cameraObject.forward * inputHandler.Vertical;

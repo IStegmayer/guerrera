@@ -43,6 +43,8 @@ namespace Dzajna
 
         private Transform currentLockOnTarget;
         private Transform nearestLockOnTarget;
+        private Transform leftLockOnTarget;
+        private Transform rightLockOnTarget;
         private List<EnemyManager> availableTargets = new List<EnemyManager>();
 
 
@@ -126,22 +128,22 @@ namespace Dzajna
             }
         }
 
-
-        //TODO: finish implementing this 
         public void HandleLockOn() {
             //TODO: HORRIBLE FIX
             if (playerTargetTransform != null) inputHandler = playerTargetTransform.GetComponent<InputHandler>();
+            Vector3 _playerTargetPosition = playerTargetTransform.position;
             float _shortestDistance = Mathf.Infinity;
+            float _shortestDistanceOfLeftTarget = Mathf.Infinity;
+            float _shortestDistanceOfRightTarget = Mathf.Infinity;
 
-            Collider[] _colliders = Physics.OverlapSphere(playerTargetTransform.position, 26);
+            Collider[] _colliders = Physics.OverlapSphere(_playerTargetPosition, 26);
 
             for (int _i = 0; _i < _colliders.Length; _i++) {
                 EnemyManager _char = _colliders[_i].GetComponent<EnemyManager>();
                 if (_char == null) continue;
 
-                Vector3 _lockTargetDirection = _char.transform.position - playerTargetTransform.position;
-                float _distanceFromTarget =
-                    Vector3.Distance(playerTargetTransform.position, _char.transform.position);
+                Vector3 _lockTargetDirection = _char.transform.position - _playerTargetPosition;
+                float _distanceFromTarget = Vector3.Distance(_playerTargetPosition, _char.transform.position);
                 float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
 
                 if (_char.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
@@ -149,13 +151,31 @@ namespace Dzajna
                     availableTargets.Add(_char);
             }
 
-            for (int i = 0; i < availableTargets.Count; i++) {
-                float _distanceFromTarget =
-                    Vector3.Distance(playerTargetTransform.position, availableTargets[i].transform.position);
-                if (_distanceFromTarget > _shortestDistance) continue;
+            for (int _j = 0; _j < availableTargets.Count; _j++) {
+                Vector3 _targetPosition = availableTargets[_j].transform.position;
 
-                _shortestDistance = _distanceFromTarget;
-                nearestLockOnTarget = availableTargets[i].LockOnTransform;
+                float _distanceFromTarget =
+                    Vector3.Distance(_playerTargetPosition, _targetPosition);
+                if (_distanceFromTarget < _shortestDistance) {
+                    _shortestDistance = _distanceFromTarget;
+                    nearestLockOnTarget = availableTargets[_j].LockOnTransform;
+                }
+
+                if (!inputHandler.LockOnFlag) return;
+
+                Vector3 _relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(_targetPosition);
+                float _distanceFromLeftTarget = currentLockOnTarget.transform.position.x - _targetPosition.x;
+                float _distanceFromRightTarget = currentLockOnTarget.transform.position.x + _targetPosition.x;
+
+                if (_relativeEnemyPosition.x > 0.0f && _distanceFromLeftTarget < _shortestDistanceOfLeftTarget) {
+                    _shortestDistanceOfLeftTarget = _distanceFromLeftTarget;
+                    leftLockOnTarget = availableTargets[_j].LockOnTransform;
+                }
+
+                if (_relativeEnemyPosition.x < 0.0f && _distanceFromRightTarget < _shortestDistanceOfRightTarget) {
+                    _shortestDistanceOfRightTarget = _distanceFromRightTarget;
+                    rightLockOnTarget = availableTargets[_j].LockOnTransform;
+                }
             }
         }
 
@@ -166,10 +186,17 @@ namespace Dzajna
             return true;
         }
 
+        public void SwitchLockOnTarget(bool _leftInput, bool _rightInput) {
+            if (_leftInput && leftLockOnTarget != null) currentLockOnTarget = leftLockOnTarget;
+            if (_rightInput && rightLockOnTarget != null) currentLockOnTarget = rightLockOnTarget;
+        }
+
         public void ClearLockOnTargets() {
             availableTargets.Clear();
-            nearestLockOnTarget = null;             
+            nearestLockOnTarget = null;
             currentLockOnTarget = null;
+            leftLockOnTarget = null;
+            rightLockOnTarget = null;
         }
     }
 }
