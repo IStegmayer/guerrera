@@ -98,7 +98,7 @@ namespace Dzajna
             //TODO: this is ridiculous
             if (inputHandler.LockOnFlag && !inputHandler.SprintFlag && !inputHandler.RollFlag) {
                 Vector3 _rotationDirection = moveDirection;
-                _rotationDirection = cameraManager.CurrentLockOnTarget.position - transform.position;
+                _rotationDirection = cameraManager.CurrentLockOnTarget.transform.position - transform.position;
                 _rotationDirection.y = 0;
                 _rotationDirection.Normalize();
                 Quaternion _tr = Quaternion.LookRotation(_rotationDirection);

@@ -44,11 +44,11 @@ namespace Dzajna
         [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
         [SerializeField] private float lockedPivotPosition = 2.25f;
         [SerializeField] private float unlockedPivotPosition = 1.65f;
-        public Transform CurrentLockOnTarget;
-        private Transform nearestLockOnTarget;
-        private Transform leftLockOnTarget;
-        private Transform rightLockOnTarget;
-        private List<EnemyManager> availableTargets = new List<EnemyManager>();
+        public CharacterManager CurrentLockOnTarget;
+        private CharacterManager nearestLockOnTarget;
+        private CharacterManager leftLockOnTarget;
+        private CharacterManager rightLockOnTarget;
+        private List<CharacterManager> availableTargets = new List<CharacterManager>();
 
 
         protected override void Awake() {
@@ -118,7 +118,7 @@ namespace Dzajna
             else {
                 float _velocity = 0;
 
-                Vector3 _dir = CurrentLockOnTarget.position - transform.position;
+                Vector3 _dir = CurrentLockOnTarget.transform.position - transform.position;
                 _dir.Normalize();
                 _dir.y = 0;
 
@@ -126,7 +126,7 @@ namespace Dzajna
                 Quaternion _targetRotation = Quaternion.LookRotation(_dir);
                 myTransform.rotation = _targetRotation;
 
-                _dir = CurrentLockOnTarget.position - cameraPivotTransform.position;
+                _dir = CurrentLockOnTarget.transform.position - cameraPivotTransform.position;
                 _dir.Normalize();
 
                 _targetRotation = Quaternion.LookRotation(_dir);
@@ -141,7 +141,7 @@ namespace Dzajna
             if (playerTargetTransform != null) inputHandler = playerTargetTransform.GetComponent<InputHandler>();
             Vector3 _playerTargetPosition = playerTargetTransform.position;
             float _shortestDistance = Mathf.Infinity;
-            float _shortestDistanceOfLeftTarget = Mathf.Infinity;
+            float _shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float _shortestDistanceOfRightTarget = Mathf.Infinity;
 
             Collider[] _colliders = Physics.OverlapSphere(_playerTargetPosition, 26);
@@ -173,23 +173,24 @@ namespace Dzajna
                     Vector3.Distance(_playerTargetPosition, _targetPosition);
                 if (_distanceFromTarget < _shortestDistance) {
                     _shortestDistance = _distanceFromTarget;
-                    nearestLockOnTarget = availableTargets[_j].LockOnTransform;
+                    nearestLockOnTarget = availableTargets[_j];
                 }
 
                 if (!inputHandler.LockOnFlag) return;
 
-                Vector3 _relativeEnemyPosition = CurrentLockOnTarget.InverseTransformPoint(_targetPosition);
-                float _distanceFromLeftTarget = CurrentLockOnTarget.transform.position.x - _targetPosition.x;
-                float _distanceFromRightTarget = CurrentLockOnTarget.transform.position.x + _targetPosition.x;
+                Vector3 _relativeEnemyPosition = playerManager.transform.InverseTransformPoint(_targetPosition);
+                float _distanceFromLeftTarget = _relativeEnemyPosition.x;
+                float _distanceFromRightTarget = _relativeEnemyPosition.x;
 
-                if (_relativeEnemyPosition.x > 0.0f && _distanceFromLeftTarget < _shortestDistanceOfLeftTarget) {
+                if (_relativeEnemyPosition.x <= 0.0f && _distanceFromLeftTarget > _shortestDistanceOfLeftTarget &&
+                    availableTargets[_j] != CurrentLockOnTarget) {
                     _shortestDistanceOfLeftTarget = _distanceFromLeftTarget;
-                    leftLockOnTarget = availableTargets[_j].LockOnTransform;
+                    leftLockOnTarget = availableTargets[_j];
                 }
-
-                if (_relativeEnemyPosition.x < 0.0f && _distanceFromRightTarget < _shortestDistanceOfRightTarget) {
+                else if (_relativeEnemyPosition.x > 0.0f && _distanceFromRightTarget < _shortestDistanceOfRightTarget &&
+                         availableTargets[_j] != CurrentLockOnTarget) {
                     _shortestDistanceOfRightTarget = _distanceFromRightTarget;
-                    rightLockOnTarget = availableTargets[_j].LockOnTransform;
+                    rightLockOnTarget = availableTargets[_j];
                 }
             }
         }
