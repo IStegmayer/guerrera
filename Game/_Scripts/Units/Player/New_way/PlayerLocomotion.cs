@@ -5,9 +5,10 @@ namespace Dzajna
 {
     public class PlayerLocomotion : MonoBehaviour
     {
-        private Transform cameraObject;
+        private Transform cameraTransform;
         private InputHandler inputHandler;
-        private PlayerManager PlayerManager;
+        private PlayerManager playerManager;
+        private CameraManager cameraManager;
         public Vector3 moveDirection;
 
         // these could be protected
@@ -35,18 +36,22 @@ namespace Dzajna
         private LayerMask ignoreForGroundCheck;
         public float InAirTimer;
 
+        private void Awake() {
+            cameraManager = FindObjectOfType<CameraManager>();
+        }
+
         private void Start() {
             Rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
-            PlayerManager = GetComponent<PlayerManager>();
-            cameraObject = Camera.main.transform;
+            playerManager = GetComponent<PlayerManager>();
+            cameraTransform = Camera.main.transform;
             MyTransform = transform;
             AnimatorHandler = GetComponent<AnimatorHandler>();
             AnimatorHandler.Initialize();
 
-            PlayerManager.IsGrounded = true;
+            playerManager.IsGrounded = true;
             //TODO: better understand this
-            ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
+            ignoreForGroundCheck = ~(1 << 11);
         }
 
         #region Movement
@@ -56,10 +61,10 @@ namespace Dzajna
 
         public void HandleMovement(float _delta) {
             if (inputHandler.RollFlag) return;
-            if (PlayerManager.IsInAir) return;
+            if (playerManager.IsInAir) return;
 
-            moveDirection = cameraObject.forward * inputHandler.Vertical;
-            moveDirection += cameraObject.right * inputHandler.Horizontal;
+            moveDirection = cameraTransform.forward * inputHandler.Vertical;
+            moveDirection += cameraTransform.right * inputHandler.Horizontal;
             moveDirection.Normalize();
             // moveDirection.y = Rigidbody.velocity.y;
             moveDirection.y = 0;
@@ -67,12 +72,12 @@ namespace Dzajna
             float _speed;
             if (inputHandler.SprintFlag && inputHandler.MoveAmount > 0.5f) {
                 _speed = sprintSpeed;
-                PlayerManager.IsSprinting = true;
+                playerManager.IsSprinting = true;
             }
             else {
                 // TODO: walking isnt actually working
                 _speed = inputHandler.MoveAmount < 0.5f ? walkingSpeed : movementSpeed;
-                PlayerManager.IsSprinting = false;
+                playerManager.IsSprinting = false;
             }
 
             moveDirection *= _speed;
@@ -81,27 +86,44 @@ namespace Dzajna
             _projectedVelocity.y = 0;
             Rigidbody.velocity = _projectedVelocity;
 
-            AnimatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount, 0, PlayerManager.IsSprinting);
+            if (inputHandler.LockOnFlag)
+                AnimatorHandler.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
+                    playerManager.IsSprinting);
+            else
+                AnimatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
             if (AnimatorHandler.CanRotate) HandleRotation(_delta);
         }
 
         private void HandleRotation(float _delta) {
-            Vector3 _targetDir = Vector3.zero;
-            float _moveOverride = inputHandler.MoveAmount;
+            //TODO: this is ridiculous
+            if (inputHandler.LockOnFlag && !inputHandler.SprintFlag && !inputHandler.RollFlag) {
+                Vector3 _rotationDirection = moveDirection;
+                _rotationDirection = cameraManager.CurrentLockOnTarget.position - transform.position;
+                _rotationDirection.y = 0;
+                _rotationDirection.Normalize();
+                Quaternion _tr = Quaternion.LookRotation(_rotationDirection);
+                Quaternion _targetRotation = Quaternion.Slerp(transform.rotation, _tr, rotationSpeed * _delta);
 
-            _targetDir = cameraObject.forward * inputHandler.Vertical;
-            _targetDir += cameraObject.right * inputHandler.Horizontal;
-            _targetDir.Normalize();
-            _targetDir.y = 0;
+                transform.rotation = _targetRotation;
+            }
+            else {
+                Vector3 _targetDir = Vector3.zero;
+                float _moveOverride = inputHandler.MoveAmount;
 
-            if (_targetDir == Vector3.zero) _targetDir = MyTransform.forward;
+                _targetDir = cameraTransform.forward * inputHandler.Vertical;
+                _targetDir += cameraTransform.right * inputHandler.Horizontal;
+                _targetDir.Normalize();
+                _targetDir.y = 0;
 
-            float _rs = rotationSpeed;
+                if (_targetDir == Vector3.zero) _targetDir = MyTransform.forward;
 
-            Quaternion _transformRotation = Quaternion.LookRotation(_targetDir);
-            Quaternion _targetRotation = Quaternion.Slerp(MyTransform.rotation, _transformRotation, _rs * _delta);
+                float _rs = rotationSpeed;
 
-            MyTransform.rotation = _targetRotation;
+                Quaternion _transformRotation = Quaternion.LookRotation(_targetDir);
+                Quaternion _targetRotation = Quaternion.Slerp(MyTransform.rotation, _transformRotation, _rs * _delta);
+
+                MyTransform.rotation = _targetRotation;
+            }
         }
 
         public void HandleRolling(float _delta) {
@@ -113,7 +135,7 @@ namespace Dzajna
         }
 
         public void HandleFalling(float _delta, Vector3 _moveDirection) {
-            PlayerManager.IsGrounded = false;
+            playerManager.IsGrounded = false;
             RaycastHit hit;
             Vector3 _origin = MyTransform.position;
             _origin.y += groundDetectionRayStartPoint;
@@ -121,7 +143,7 @@ namespace Dzajna
             //TODO: these hardcoded floats are pretty arbitrary 
             if (Physics.Raycast(_origin, MyTransform.forward, out hit, 0.4f)) _moveDirection = Vector3.zero;
 
-            if (PlayerManager.IsInAir) {
+            if (playerManager.IsInAir) {
                 Rigidbody.AddForce(Vector3.down * fallingSpeed);
                 Rigidbody.AddForce(transform.forward * 20f);
             }
@@ -136,10 +158,10 @@ namespace Dzajna
             if (Physics.Raycast(_origin, Vector3.down, out hit, minimumDistanceNeededToFall, ignoreForGroundCheck)) {
                 normalVector = hit.normal;
                 Vector3 _targetPosition = hit.point;
-                PlayerManager.IsGrounded = true;
+                playerManager.IsGrounded = true;
                 targetPlayerPosition.y = _targetPosition.y;
 
-                if (PlayerManager.IsInAir) {
+                if (playerManager.IsInAir) {
                     if (InAirTimer > 0.5f) {
                         Debug.Log("air time: " + InAirTimer);
                         AnimatorHandler.PlayTargetAnimation(AnimatorHandler.LandHash, true);
@@ -149,36 +171,36 @@ namespace Dzajna
                     }
 
                     InAirTimer = 0;
-                    PlayerManager.IsInAir = false;
+                    playerManager.IsInAir = false;
                 }
             }
             else {
-                if (PlayerManager.IsGrounded) PlayerManager.IsGrounded = false;
-                if (PlayerManager.IsInAir == false) {
-                    if (PlayerManager.IsInteracting == false)
+                if (playerManager.IsGrounded) playerManager.IsGrounded = false;
+                if (playerManager.IsInAir == false) {
+                    if (playerManager.IsInteracting == false)
                         AnimatorHandler.PlayTargetAnimation(AnimatorHandler.FallHash, true);
 
                     Vector3 _velocity = Rigidbody.velocity;
                     _velocity.Normalize();
                     Rigidbody.velocity = _velocity * (movementSpeed / 2);
-                    PlayerManager.IsInAir = true;
+                    playerManager.IsInAir = true;
                 }
             }
 
-            if (PlayerManager.IsInteracting || inputHandler.MoveAmount > 0)
+            if (playerManager.IsInteracting || inputHandler.MoveAmount > 0)
                 MyTransform.position = Vector3.Lerp(MyTransform.position, targetPlayerPosition, Time.deltaTime / 0.1f);
             else
                 MyTransform.position = targetPlayerPosition;
         }
 
         public void HandleJumping() {
-            if (PlayerManager.IsInteracting) return;
+            if (playerManager.IsInteracting) return;
             if (!inputHandler.jump_Input) return;
             if (inputHandler.MoveAmount <= 0) return;
 
-            Vector3 _moveDirection = cameraObject.forward * inputHandler.Vertical;
-            _moveDirection += cameraObject.right * inputHandler.Horizontal;
-            
+            Vector3 _moveDirection = cameraTransform.forward * inputHandler.Vertical;
+            _moveDirection += cameraTransform.right * inputHandler.Horizontal;
+
             _moveDirection.Normalize();
             _moveDirection.y = 0;
             MyTransform.rotation = Quaternion.LookRotation(_moveDirection);

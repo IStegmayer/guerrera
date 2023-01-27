@@ -12,6 +12,7 @@ namespace Dzajna
 
         //TODO: FIX
         public Transform playerTargetTransform;
+        private PlayerManager playerManager;
 
 
         [SerializeField] private Transform cameraTransform;
@@ -23,6 +24,7 @@ namespace Dzajna
 
         //TODO: only public getter
         public LayerMask ignoreLayers;
+        private LayerMask environmentLayer;
 
         [Header("Config")] [SerializeField] private float lookSpeed = 0.01f;
         [SerializeField] private float followSpeed = 0.01f;
@@ -40,8 +42,9 @@ namespace Dzajna
         [SerializeField] private float minimumCollisionOffset = 0.2f;
 
         [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
-
-        private Transform currentLockOnTarget;
+        [SerializeField] private float lockedPivotPosition = 2.25f;
+        [SerializeField] private float unlockedPivotPosition = 1.65f;
+        public Transform CurrentLockOnTarget;
         private Transform nearestLockOnTarget;
         private Transform leftLockOnTarget;
         private Transform rightLockOnTarget;
@@ -54,9 +57,13 @@ namespace Dzajna
             defaultZPosition = cameraTransform.localPosition.z;
             cameraTransformPosition = cameraTransform.position;
             //TODO: better undestand this
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            ignoreLayers = ~(1 << 9 | 1 << 10);
+            environmentLayer = LayerMask.NameToLayer("Environment");
         }
 
+        private void Start() {
+            playerManager = playerTargetTransform.GetComponent<PlayerManager>();
+        }
 
         public void FollowTarget(float _delta) {
             Vector3 _targetPosition = Vector3.SmoothDamp(myTransform.position, playerTargetTransform.position,
@@ -88,7 +95,8 @@ namespace Dzajna
         }
 
         public void HandleCameraRotation(float _delta, float _cameraXInput, float _cameraYInput) {
-            if (inputHandler == null || (!inputHandler.LockOnFlag && currentLockOnTarget == null)) {
+            SetCameraHeight(_delta);
+            if (inputHandler == null || (!inputHandler.LockOnFlag && CurrentLockOnTarget == null)) {
                 lookAngle += _cameraXInput * lookSpeed * _delta;
                 pivotAngle -= _cameraYInput * pivotSpeed * _delta;
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
@@ -110,7 +118,7 @@ namespace Dzajna
             else {
                 float _velocity = 0;
 
-                Vector3 _dir = currentLockOnTarget.position - transform.position;
+                Vector3 _dir = CurrentLockOnTarget.position - transform.position;
                 _dir.Normalize();
                 _dir.y = 0;
 
@@ -118,7 +126,7 @@ namespace Dzajna
                 Quaternion _targetRotation = Quaternion.LookRotation(_dir);
                 myTransform.rotation = _targetRotation;
 
-                _dir = currentLockOnTarget.position - cameraPivotTransform.position;
+                _dir = CurrentLockOnTarget.position - cameraPivotTransform.position;
                 _dir.Normalize();
 
                 _targetRotation = Quaternion.LookRotation(_dir);
@@ -145,10 +153,17 @@ namespace Dzajna
                 Vector3 _lockTargetDirection = _char.transform.position - _playerTargetPosition;
                 float _distanceFromTarget = Vector3.Distance(_playerTargetPosition, _char.transform.position);
                 float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
+                RaycastHit _hit;
 
                 if (_char.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
-                    _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance)
-                    availableTargets.Add(_char);
+                    _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance) {
+                    if (Physics.Linecast(playerManager.LockOnTransform.position, _char.LockOnTransform.position,
+                            out _hit)) {
+                        Debug.DrawLine(playerManager.LockOnTransform.position, _char.LockOnTransform.position);
+                        if (_hit.transform.gameObject.layer != environmentLayer)
+                            availableTargets.Add(_char);
+                    }
+                }
             }
 
             for (int _j = 0; _j < availableTargets.Count; _j++) {
@@ -163,9 +178,9 @@ namespace Dzajna
 
                 if (!inputHandler.LockOnFlag) return;
 
-                Vector3 _relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(_targetPosition);
-                float _distanceFromLeftTarget = currentLockOnTarget.transform.position.x - _targetPosition.x;
-                float _distanceFromRightTarget = currentLockOnTarget.transform.position.x + _targetPosition.x;
+                Vector3 _relativeEnemyPosition = CurrentLockOnTarget.InverseTransformPoint(_targetPosition);
+                float _distanceFromLeftTarget = CurrentLockOnTarget.transform.position.x - _targetPosition.x;
+                float _distanceFromRightTarget = CurrentLockOnTarget.transform.position.x + _targetPosition.x;
 
                 if (_relativeEnemyPosition.x > 0.0f && _distanceFromLeftTarget < _shortestDistanceOfLeftTarget) {
                     _shortestDistanceOfLeftTarget = _distanceFromLeftTarget;
@@ -182,21 +197,31 @@ namespace Dzajna
         public bool SetCurrentLockOnTarget() {
             if (nearestLockOnTarget == null) return false;
 
-            currentLockOnTarget = nearestLockOnTarget;
+            CurrentLockOnTarget = nearestLockOnTarget;
             return true;
         }
 
         public void SwitchLockOnTarget(bool _leftInput, bool _rightInput) {
-            if (_leftInput && leftLockOnTarget != null) currentLockOnTarget = leftLockOnTarget;
-            if (_rightInput && rightLockOnTarget != null) currentLockOnTarget = rightLockOnTarget;
+            if (_leftInput && leftLockOnTarget != null) CurrentLockOnTarget = leftLockOnTarget;
+            if (_rightInput && rightLockOnTarget != null) CurrentLockOnTarget = rightLockOnTarget;
         }
 
         public void ClearLockOnTargets() {
             availableTargets.Clear();
             nearestLockOnTarget = null;
-            currentLockOnTarget = null;
+            CurrentLockOnTarget = null;
             leftLockOnTarget = null;
             rightLockOnTarget = null;
+        }
+
+        private void SetCameraHeight(float _delta) {
+            Vector3 _velocity = Vector3.zero;
+            float _newPivotY = CurrentLockOnTarget != null ? lockedPivotPosition : unlockedPivotPosition;
+            Vector3 _newPivotPosition = new Vector3(0, _newPivotY);
+
+            cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(
+                cameraPivotTransform.transform.localPosition,
+                _newPivotPosition, ref _velocity, (cameraDamp / 2) * _delta);
         }
     }
 }

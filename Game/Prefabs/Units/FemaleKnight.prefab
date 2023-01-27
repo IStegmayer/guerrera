@@ -1250,6 +1250,7 @@ Transform:
   - {fileID: 6880589535415455415}
   - {fileID: 6880589535415448281}
   - {fileID: 3529816735490954948}
+  - {fileID: 1011016027224932732}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1351,6 +1352,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 176b8fe5-d68a-4f2f-ac5d-9728209dfc22
     m_ActionName: Player Actions/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c20d8002-5d0a-4f90-bb5e-6f952da1ebab
+    m_ActionName: Player Actions/LockOn[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 163fa870-1040-443a-af65-7bc03a4d3182
+    m_ActionName: Player Actions/LockOnTargetLeft[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8aa74d29-d0db-4fa1-89d1-f472742d980f
+    m_ActionName: Player Actions/LockOnTargetRight[/Keyboard/2]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1428,16 +1441,20 @@ MonoBehaviour:
   a_Input: 0
   rb_Input: 0
   rt_Input: 0
-  JumpInput: 0
+  jump_Input: 0
+  inventory_Input: 0
+  lockOn_Input: 0
+  lockOn_left_Input: 0
+  lockOn_right_Input: 0
   d_pad_up_Input: 0
   d_pad_down_Input: 0
   d_pad_left_Input: 0
   d_pad_right_Input: 0
-  inventory_Input: 0
   SprintFlag: 0
   RollFlag: 0
   ComboFlag: 0
   InventoryFlag: 0
+  LockOnFlag: 0
 --- !u!114 &3082654960006943387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,6 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef99291c0774f948c171892764c0d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LockOnTransform: {fileID: 1011016027224932732}
   IsInteracting: 0
   IsSprinting: 0
   IsInAir: 0
@@ -3235,6 +3253,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8488032529208512861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1011016027224932732}
+  m_Layer: 10
+  m_Name: LockOnTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1011016027224932732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488032529208512861}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.256, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6880589535415498431}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6880589534818996419
 PrefabInstance:
   m_ObjectHideFlags: 0
