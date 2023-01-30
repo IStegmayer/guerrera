@@ -12,8 +12,8 @@ namespace Dzajna
 
         public WeaponItem[] WeaponsInRightHandSlots = new WeaponItem[1];
         public WeaponItem[] WeaponsInLeftHandSlots = new WeaponItem[1];
-        public int currentRightWeaponIndex = -1;
-        public int currentLeftWeaponIndex = -1;
+        public int currentRightWeaponIndex = 0;
+        public int currentLeftWeaponIndex = 0;
 
         public List<WeaponItem> WeaponsInventory = new List<WeaponItem>();
 
@@ -24,9 +24,10 @@ namespace Dzajna
         }
 
         private void Start() {
-            LeftWeapon = UnarmedWeapon;
-            RightWeapon = UnarmedWeapon;
-            
+            LeftWeapon = WeaponsInLeftHandSlots[0];
+            RightWeapon = WeaponsInRightHandSlots[0];
+            weaponSlotManager.LoadWeaponOnSlot(LeftWeapon, true);
+            weaponSlotManager.LoadWeaponOnSlot(RightWeapon, false);
         }
 
         public void ChangeRightWeapon() {

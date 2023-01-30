@@ -60,27 +60,30 @@ namespace Dzajna
 
         public void UpdateAnimatorValues(float _verticalMovement, float _horizontalMovement, bool _isSprinting) {
             //clamp values
-            #region Vertical
-            
-            float _vertical = 0;
-            
-            if (_verticalMovement > 0 && _verticalMovement < 0.55f) _vertical = 0.5f;
-            else if (_verticalMovement > 0.55f) _vertical = 1f;
-            else if (_verticalMovement < 0 && _verticalMovement > -0.55f) _vertical = -0.5f;
-            else if (_verticalMovement < -0.55f) _vertical = 1f;
-            else _vertical = 0f;
-            
-            #endregion
-            #region Horizontal
-            
-            float _horizontal = 0;
-            
-            if (_horizontalMovement > 0 && _horizontalMovement < 0.55f) _horizontal = 0.5f;
-            else if (_horizontalMovement > 0.55f) _horizontal = 1f;
-            else if (_horizontalMovement < 0 && _horizontalMovement > -0.55f) _horizontal = -0.5f;
-            else if (_horizontalMovement < -0.55f) _horizontal = 1f;
-            else _horizontal = 0f;
-            #endregion
+            // #region Vertical
+            //
+            // float _vertical = 0;
+            //
+            // if (_verticalMovement > 0 && _verticalMovement < 0.55f) _vertical = 0.5f;
+            // else if (_verticalMovement > 0.55f) _vertical = 1f;
+            // else if (_verticalMovement < 0 && _verticalMovement > -0.55f) _vertical = -0.5f;
+            // else if (_verticalMovement < -0.55f) _vertical = -1f;
+            // else _vertical = 0f;
+            //
+            // #endregion
+            // #region Horizontal
+            //
+            // float _horizontal = 0;
+            //
+            // if (_horizontalMovement > 0 && _horizontalMovement < 0.55f) _horizontal = 0.5f;
+            // else if (_horizontalMovement > 0.55f) _horizontal = 1f;
+            // else if (_horizontalMovement < 0 && _horizontalMovement > -0.55f) _horizontal = -0.5f;
+            // else if (_horizontalMovement < -0.55f) _horizontal = -1f;
+            // else _horizontal = 0f;
+            // #endregion
+
+            float _horizontal = _horizontalMovement;
+            float _vertical = _verticalMovement;
 
             if (_isSprinting) {
                 _vertical = 2;

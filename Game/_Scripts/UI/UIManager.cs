@@ -7,18 +7,25 @@ namespace Dzajna
 {
     public class UIManager : MonoBehaviour
     {
+        public PlayerInventory PlayerInventory;
+        
         [Header("UI Windows")]
         [SerializeField] private GameObject HUDWindow;
         [SerializeField] private GameObject selectWindow;
         [SerializeField] private GameObject weaponInventoryWindow;
         [SerializeField] private GameObject equipmentWindow;
 
+        [Header("Equipment Window Slot Selected")]
+        public bool RightHandSlot1Selected;
+        public bool RightHandSlot2Selected;
+        public bool LeftHandSlot1Selected;
+        public bool LeftHandSlot2Selected;
+
         [Header("Weapons Inventory")]
         [SerializeField] private Transform weaponInventorySlotsContainer;
         [SerializeField] private Transform weaponInventorySlotPrefab;
         [SerializeField] private EquipmentWindowUI equipmentWindowUI;
         private WeaponInventorySlot[] weaponInventorySlots;
-        public PlayerInventory PlayerInventory;
 
         private void Awake() {
             equipmentWindowUI = GetComponentInChildren<EquipmentWindowUI>(true);
@@ -54,8 +61,16 @@ namespace Dzajna
         public void ToggleSelectWindow(bool _active) => selectWindow.SetActive(_active);
         public void ToggleHUDWindow(bool _active) => HUDWindow.SetActive(_active);
         public void CloseAllInventoryWindows() {
+            ResetAllSelectedSlots();
             weaponInventoryWindow.SetActive(false);
             equipmentWindow.SetActive(false);
+        }
+        
+        public void ResetAllSelectedSlots() {
+            RightHandSlot1Selected = false;
+            RightHandSlot2Selected = false;
+            LeftHandSlot1Selected = false;
+            LeftHandSlot2Selected = false;
         }
     }
 }
