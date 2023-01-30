@@ -19,10 +19,15 @@ MonoBehaviour:
   IsUnarmed: 0
   OH_RightArmIdle: 
   OH_LeftArmIdle: 
+  TH_Idle: TH_Idle
   OH_Light_Attack_1: LightAttack1
   OH_Light_Attack_2: LightAttack2
   OH_Heavy_Attack_1: HeavyAttack1
   OH_Heavy_Attack_2: HeavyAttack2
+  TH_Light_Attack_1: TH_LightAttack1
+  TH_Light_Attack_2: TH_LightAttack2
+  TH_Heavy_Attack_1: TH_HeavyAttack1
+  TH_Heavy_Attack_2: TH_HeavyAttack2
   BaseStamina: 20
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2

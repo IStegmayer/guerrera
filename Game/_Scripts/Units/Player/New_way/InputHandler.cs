@@ -20,6 +20,7 @@ namespace Dzajna
         public bool rb_Input;
         public bool rt_Input;
         public bool jump_Input;
+        public bool twoHand_Input;
         public bool inventory_Input;
         public bool lockOn_Input;
         public bool lockOn_left_Input;
@@ -35,6 +36,7 @@ namespace Dzajna
         public bool ComboFlag;
         public bool InventoryFlag;
         public bool LockOnFlag;
+        public bool TwoHandFlag;
 
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
@@ -42,6 +44,7 @@ namespace Dzajna
         private PlayerManager playerManager;
         private CameraManager cameraManager;
         private UIManager uiManager;
+        private WeaponSlotManager weaponSlotManager;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -50,6 +53,7 @@ namespace Dzajna
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             // TODO: inefficient asf
             cameraManager = FindObjectOfType<CameraManager>();
             uiManager = FindObjectOfType<UIManager>();
@@ -72,6 +76,7 @@ namespace Dzajna
                 inputActions.PlayerActions.LockOn.performed += _ => lockOn_Input = true;
                 inputActions.PlayerActions.LockOnTargetLeft.performed += _ => lockOn_left_Input = true;
                 inputActions.PlayerActions.LockOnTargetRight.performed += _ => lockOn_right_Input = true;
+                inputActions.PlayerActions.TwoHand.performed += _ => twoHand_Input = true;
 
                 inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
                 inputActions.PlayerControls.DPadRight.performed += _ => d_pad_right_Input = true;
@@ -94,6 +99,7 @@ namespace Dzajna
             HandleQuickSlotsInput();
             HandleLockOnInput();
             HandleLockOnSwitch();
+            HandleTwoHandInput();
         }
 
         private void HandleMoveInput() {
@@ -198,6 +204,20 @@ namespace Dzajna
             cameraManager.SwitchLockOnTarget(lockOn_left_Input, lockOn_right_Input);
             lockOn_left_Input = false;
             lockOn_right_Input = false;
+        }
+
+        private void HandleTwoHandInput() {
+            if (!twoHand_Input) return;
+
+            twoHand_Input = false;
+            TwoHandFlag = !TwoHandFlag;
+            if (TwoHandFlag) {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.RightWeapon, false);
+            }
+            else {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.RightWeapon, false);
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.LeftWeapon, true);
+            }
         }
     }
 }

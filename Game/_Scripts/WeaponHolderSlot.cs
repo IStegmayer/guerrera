@@ -7,8 +7,10 @@ namespace Dzajna
         public Transform parentOverride;
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
+        public bool isBackSlot;
 
         public GameObject CurrentWeaponModel;
+        public WeaponItem CurrentWeaponItem;
 
         public void UnloadWeapon() {
             if (CurrentWeaponModel != null) CurrentWeaponModel.SetActive(false);

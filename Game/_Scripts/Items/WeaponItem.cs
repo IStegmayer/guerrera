@@ -11,12 +11,18 @@ namespace Dzajna
         [Header("Idle Animations")] 
         public string OH_RightArmIdle;
         public string OH_LeftArmIdle;
+        public string TH_Idle;
         
         [Header("One Handed Attack Animations")]
         public string OH_Light_Attack_1;
         public string OH_Light_Attack_2;
         public string OH_Heavy_Attack_1;
         public string OH_Heavy_Attack_2;
+        public string TH_Light_Attack_1;
+        public string TH_Light_Attack_2;
+        public string TH_Heavy_Attack_1;
+        public string TH_Heavy_Attack_2;
+        
 
         [Header("Stamina Costs")] 
         public int BaseStamina;

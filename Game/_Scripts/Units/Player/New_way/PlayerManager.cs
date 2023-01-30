@@ -62,7 +62,7 @@ namespace Dzajna
             inputHandler.rt_Input = false;
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
-            inputHandler.lockOn_Input = false;
+            inputHandler.lockOn_Input = false; 
             inputHandler.d_pad_right_Input = false;
             inputHandler.d_pad_left_Input = false;
             inputHandler.d_pad_up_Input = false;

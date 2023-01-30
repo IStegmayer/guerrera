@@ -11,7 +11,7 @@ namespace Dzajna
         private InputHandler inputHandler;
         private WeaponSlotManager weaponSlotManager;
         public string LastAttackString;
-        
+
         private void Awake() {
             animatorHandler = GetComponent<AnimatorHandler>();
             inputHandler = GetComponent<InputHandler>();
@@ -21,11 +21,18 @@ namespace Dzajna
         public void HandleWeaponCombo(WeaponItem _weaponItem) {
             if (!inputHandler.ComboFlag) return;
 
+            //TODO: not good
             if (LastAttackString == _weaponItem.OH_Light_Attack_1) {
                 animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Light_Attack_2), true);
             }
             else if (LastAttackString == _weaponItem.OH_Heavy_Attack_1) {
                 animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Heavy_Attack_2), true);
+            }
+            else if (LastAttackString == _weaponItem.TH_Light_Attack_1) {
+                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Light_Attack_2), true);
+            }
+            else if (LastAttackString == _weaponItem.TH_Heavy_Attack_1) {
+                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Heavy_Attack_2), true);
             }
 
             animatorHandler.Anim.SetBool(Animator.StringToHash("canDoCombo"), false);
@@ -33,17 +40,34 @@ namespace Dzajna
 
         public void HandleLightAttack(WeaponItem _weaponItem) {
             weaponSlotManager.SetAttackingWeapon(_weaponItem);
-            int _attackHash = Animator.StringToHash(_weaponItem.OH_Light_Attack_1);
-            animatorHandler.PlayTargetAnimation(_attackHash, true);
-            LastAttackString = _weaponItem.OH_Light_Attack_1;
+
+            if (inputHandler.TwoHandFlag) {
+                int _attackHash = Animator.StringToHash(_weaponItem.TH_Light_Attack_1);
+                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                LastAttackString = _weaponItem.TH_Light_Attack_1;
+            }
+            else {
+                // TODO: this is inefficient
+                int _attackHash = Animator.StringToHash(_weaponItem.OH_Light_Attack_1);
+                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                LastAttackString = _weaponItem.OH_Light_Attack_1;
+            }
         }
 
         public void HandleHeavyAttack(WeaponItem _weaponItem) {
             weaponSlotManager.SetAttackingWeapon(_weaponItem);
-            // TODO: this is inefficient
-            int _attackHash = Animator.StringToHash(_weaponItem.OH_Heavy_Attack_1);
-            animatorHandler.PlayTargetAnimation(_attackHash, true);
-            LastAttackString = _weaponItem.OH_Heavy_Attack_1;
+
+            if (inputHandler.TwoHandFlag) {
+                int _attackHash = Animator.StringToHash(_weaponItem.TH_Heavy_Attack_1);
+                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                LastAttackString = _weaponItem.TH_Heavy_Attack_1;
+            }
+            else {
+                // TODO: this is inefficient
+                int _attackHash = Animator.StringToHash(_weaponItem.OH_Heavy_Attack_1);
+                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                LastAttackString = _weaponItem.OH_Heavy_Attack_1;
+            }
         }
     }
 }
