@@ -1186,6 +1186,7 @@ GameObject:
   - component: {fileID: 1072462377}
   - component: {fileID: 2076437697}
   - component: {fileID: -5052775884964827217}
+  - component: {fileID: 2063817065715994182}
   m_Layer: 6
   m_Name: BasicGoblin
   m_TagString: Enemy
@@ -1275,6 +1276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthLevel: 1
   healthPerLevel: 50
+  staminaLevel: 10
+  staminaPerLevel: 5
 --- !u!114 &1072462377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1331,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LockOnTransform: {fileID: 2620820575646276582}
+--- !u!114 &2063817065715994182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435744202117670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330137d828a241c98f18f71d0ac3cbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &1439348661205246
 GameObject:
   m_ObjectHideFlags: 0

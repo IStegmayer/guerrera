@@ -6,13 +6,8 @@ using UnityEngine;
 namespace Dzajna
 {
     // TODO: I'll get back to this when I do AI 
-    public class EnemyStats : MonoBehaviour
+    public class EnemyStats : CharacterStats
     {
-        //TODO: ofc this is all simplified
-        [SerializeField] private int healthLevel = 10;
-        [SerializeField] private int healthPerLevel = 5;
-        private int maxHealth;
-        private int currentHealth;
 
         // private HealthBar healthBar;
         // private AnimatorHandler animatorHandler;

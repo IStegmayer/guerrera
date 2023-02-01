@@ -5,18 +5,8 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class PlayerStats : MonoBehaviour
+    public class PlayerStats : CharacterStats
     {
-        //TODO: ofc this is all simplified
-        [SerializeField] private int healthLevel = 10;
-        [SerializeField] private int healthPerLevel = 5;
-        [SerializeField] private int staminaLevel = 10;
-        [SerializeField] private int staminaPerLevel = 5;
-        private int maxHealth;
-        private int currentHealth;
-        private int maxStamina;
-        private int currentStamina;
-
         private HealthBar healthBar;
         private StaminaBar staminaBar;
         private AnimatorHandler animatorHandler;
