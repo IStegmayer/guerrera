@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnitManager : StaticInstance<UnitManager>
 {
     [SerializeField] private CameraManager cameraManager; 
-    private Dictionary<int, BaseUnit> spawnedEnemies = new Dictionary<int, BaseUnit>();
+    private Dictionary<int, CharacterManager> spawnedEnemies = new Dictionary<int, CharacterManager>();
     private int enemyCount;
     private BaseUnit playerInstance;
     
@@ -22,9 +22,7 @@ public class UnitManager : StaticInstance<UnitManager>
         ScriptableUnitBase enemyScriptable = ResourceSystem.Instance.GetEnemy(type);
         GameObject spawnedGO = SpawnUnit(enemyScriptable, transform.position, transform.rotation);
         
-        BaseUnit enemy = spawnedGO.GetComponentInChildren<BaseUnit>();
-        enemy.SetId(enemyCount);
-        enemy.SetStats(enemyScriptable.BaseStats);
+        CharacterManager enemy = spawnedGO.GetComponentInChildren<CharacterManager>();
         spawnedEnemies.Add(enemyCount, enemy);
         enemyCount++;
     }

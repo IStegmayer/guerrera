@@ -7,7 +7,7 @@ namespace Dzajna
     {
         private InputHandler inputHandler;
         private Animator anim;
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager playerAnimatorManager;
         private CameraManager cameraManager;
         private PlayerLocomotion playerLocomotion;
 
@@ -26,16 +26,16 @@ namespace Dzajna
 
         private void Start() {
             inputHandler = GetComponent<InputHandler>();
-            animatorHandler = GetComponent<AnimatorHandler>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
         }
 
         private void Update() {
             float _delta = Time.deltaTime;
-            IsInteracting = anim.GetBool(animatorHandler.IsInteractingHash);
-            CanDoCombo = anim.GetBool(animatorHandler.CanDoComboHash);
-            IsInAir = anim.GetBool(animatorHandler.IsInAirHash);
+            IsInteracting = anim.GetBool(playerAnimatorManager.IsInteractingHash);
+            CanDoCombo = anim.GetBool(playerAnimatorManager.CanDoComboHash);
+            IsInAir = anim.GetBool(playerAnimatorManager.IsInAirHash);
 
             inputHandler.TickInput(_delta);
             CheckForInteractableObject();

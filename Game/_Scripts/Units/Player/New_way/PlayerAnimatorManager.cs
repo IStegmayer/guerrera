@@ -3,10 +3,9 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class AnimatorHandler : MonoBehaviour
+    public class PlayerAnimatorManager : AnimatorManager
     {
         // TODO: public?
-        public Animator Anim;
         private PlayerManager playerManager;
         private InputHandler inputHandler;
         private PlayerLocomotion playerLocomotion;
@@ -15,7 +14,6 @@ namespace Dzajna
         // properties hashes
         public int VerticalHash;
         public int HorizontalHash;
-        public int IsInteractingHash;
         public int CanDoComboHash;
         public int IsInAirHash;
         
@@ -50,12 +48,6 @@ namespace Dzajna
             JumpHash = Animator.StringToHash("Jump");
             IsInAirHash = Animator.StringToHash("isInAir");
             CanRotate = true;
-        }
-
-        public void PlayTargetAnimation(int _targetAnim, bool _isInteracting) {
-            Anim.applyRootMotion = _isInteracting;
-            Anim.SetBool(IsInteractingHash, _isInteracting);
-            Anim.CrossFade(_targetAnim, 0.2f);
         }
 
         public void UpdateAnimatorValues(float _verticalMovement, float _horizontalMovement, bool _isSprinting) {

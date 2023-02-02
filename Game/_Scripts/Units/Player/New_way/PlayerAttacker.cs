@@ -7,13 +7,13 @@ namespace Dzajna
     // also combo can just be an array of attacks and have a tree in anim. Overall a faulty script
     public class PlayerAttacker : MonoBehaviour
     {
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager playerAnimatorManager;
         private InputHandler inputHandler;
         private WeaponSlotManager weaponSlotManager;
         public string LastAttackString;
 
         private void Awake() {
-            animatorHandler = GetComponent<AnimatorHandler>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             inputHandler = GetComponent<InputHandler>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
@@ -23,19 +23,19 @@ namespace Dzajna
 
             //TODO: not good
             if (LastAttackString == _weaponItem.OH_Light_Attack_1) {
-                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Light_Attack_2), true);
+                playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Light_Attack_2), true);
             }
             else if (LastAttackString == _weaponItem.OH_Heavy_Attack_1) {
-                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Heavy_Attack_2), true);
+                playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash(_weaponItem.OH_Heavy_Attack_2), true);
             }
             else if (LastAttackString == _weaponItem.TH_Light_Attack_1) {
-                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Light_Attack_2), true);
+                playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Light_Attack_2), true);
             }
             else if (LastAttackString == _weaponItem.TH_Heavy_Attack_1) {
-                animatorHandler.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Heavy_Attack_2), true);
+                playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash(_weaponItem.TH_Heavy_Attack_2), true);
             }
 
-            animatorHandler.Anim.SetBool(Animator.StringToHash("canDoCombo"), false);
+            playerAnimatorManager.Anim.SetBool(Animator.StringToHash("canDoCombo"), false);
         }
 
         public void HandleLightAttack(WeaponItem _weaponItem) {
@@ -43,13 +43,13 @@ namespace Dzajna
 
             if (inputHandler.TwoHandFlag) {
                 int _attackHash = Animator.StringToHash(_weaponItem.TH_Light_Attack_1);
-                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                playerAnimatorManager.PlayTargetAnimation(_attackHash, true);
                 LastAttackString = _weaponItem.TH_Light_Attack_1;
             }
             else {
                 // TODO: this is inefficient
                 int _attackHash = Animator.StringToHash(_weaponItem.OH_Light_Attack_1);
-                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                playerAnimatorManager.PlayTargetAnimation(_attackHash, true);
                 LastAttackString = _weaponItem.OH_Light_Attack_1;
             }
         }
@@ -59,13 +59,13 @@ namespace Dzajna
 
             if (inputHandler.TwoHandFlag) {
                 int _attackHash = Animator.StringToHash(_weaponItem.TH_Heavy_Attack_1);
-                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                playerAnimatorManager.PlayTargetAnimation(_attackHash, true);
                 LastAttackString = _weaponItem.TH_Heavy_Attack_1;
             }
             else {
                 // TODO: this is inefficient
                 int _attackHash = Animator.StringToHash(_weaponItem.OH_Heavy_Attack_1);
-                animatorHandler.PlayTargetAnimation(_attackHash, true);
+                playerAnimatorManager.PlayTargetAnimation(_attackHash, true);
                 LastAttackString = _weaponItem.OH_Heavy_Attack_1;
             }
         }

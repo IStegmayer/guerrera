@@ -10,14 +10,14 @@ namespace Dzajna
     {
 
         // private HealthBar healthBar;
-        // private AnimatorHandler animatorHandler;
+        // private PlayerAnimatorManager playerAnimatorManager;
         private Animator animator;
 
         private Coroutine deathRoutine;
 
         private void Awake() {
             animator = GetComponent<Animator>();
-            // animatorHandler = GetComponent<AnimatorHandler>();
+            // playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             //TODO: this could be better
             // healthBar = FindObjectOfType<HealthBar>();
         }

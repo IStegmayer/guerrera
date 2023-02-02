@@ -15,16 +15,16 @@ namespace Dzajna
         private void PickUpItem(PlayerManager _playerManager) {
             PlayerInventory _playerInventory;
             PlayerLocomotion _playerLocomotion;
-            AnimatorHandler _animatorHandler;
+            PlayerAnimatorManager _playerAnimatorManager;
             InteractableUI _interactableUI;
             _playerInventory = _playerManager.GetComponent<PlayerInventory>();
             _playerLocomotion = _playerManager.GetComponent<PlayerLocomotion>();
-            _animatorHandler = _playerManager.GetComponent<AnimatorHandler>();
+            _playerAnimatorManager = _playerManager.GetComponent<PlayerAnimatorManager>();
             _interactableUI = FindObjectOfType<InteractableUI>();
             
             
             _playerLocomotion.Rigidbody.velocity = Vector3.zero; // Stop movement
-            _animatorHandler.PlayTargetAnimation(Animator.StringToHash("PickUpItem"), true);
+            _playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash("PickUpItem"), true);
             _playerInventory.WeaponsInventory.Add(Weapon);
             _interactableUI.ItemPickupText.text = Weapon.ItemName;
             _interactableUI.ItemPickupImage.texture = Weapon.ItemIcon.texture;

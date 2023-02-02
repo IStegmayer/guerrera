@@ -9,12 +9,12 @@ namespace Dzajna
     {
         private HealthBar healthBar;
         private StaminaBar staminaBar;
-        private AnimatorHandler animatorHandler;
+        private PlayerAnimatorManager playerAnimatorManager;
 
         private Coroutine deathRoutine;
 
         private void Awake() {
-            animatorHandler = GetComponent<AnimatorHandler>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             //TODO: this could be better
             staminaBar = FindObjectOfType<StaminaBar>();
             healthBar = FindObjectOfType<HealthBar>();
@@ -42,7 +42,7 @@ namespace Dzajna
         public void TakeDamage(int _dmg) {
             currentHealth -= _dmg;
             healthBar.SetCurrentHealth(currentHealth);
-            animatorHandler.PlayTargetAnimation(animatorHandler.Damage1Hash, true);
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.Damage1Hash, true);
             
             if (currentHealth <= 0) {
                 deathRoutine = StartCoroutine(DeathRoutine());
@@ -51,7 +51,7 @@ namespace Dzajna
         
         private IEnumerator DeathRoutine() {
             // start death animation
-            animatorHandler.PlayTargetAnimation(animatorHandler.DeathHash, true);
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.DeathHash, true);
             yield return new WaitForSeconds(1f);
             GameManager.Instance.ChangeState(GameState.Lose);
             yield return new WaitForSeconds(1f);

@@ -13,7 +13,7 @@ namespace Dzajna
 
         // these could be protected
         [HideInInspector] public Transform MyTransform;
-        [HideInInspector] public AnimatorHandler AnimatorHandler;
+        [HideInInspector] public PlayerAnimatorManager _playerAnimatorManager;
         public new Rigidbody Rigidbody;
         public GameObject normalCamera;
 
@@ -46,8 +46,8 @@ namespace Dzajna
             playerManager = GetComponent<PlayerManager>();
             cameraTransform = Camera.main.transform;
             MyTransform = transform;
-            AnimatorHandler = GetComponent<AnimatorHandler>();
-            AnimatorHandler.Initialize();
+            _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            _playerAnimatorManager.Initialize();
 
             playerManager.IsGrounded = true;
             //TODO: better understand this
@@ -87,11 +87,11 @@ namespace Dzajna
             Rigidbody.velocity = _projectedVelocity;
 
             if (inputHandler.LockOnFlag)
-                AnimatorHandler.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
+                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
                     playerManager.IsSprinting);
             else
-                AnimatorHandler.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
-            if (AnimatorHandler.CanRotate) HandleRotation(_delta);
+                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
+            if (_playerAnimatorManager.CanRotate) HandleRotation(_delta);
         }
 
         private void HandleRotation(float _delta) {
@@ -127,11 +127,11 @@ namespace Dzajna
         }
 
         public void HandleRolling(float _delta) {
-            if (AnimatorHandler.Anim.GetBool(AnimatorHandler.IsInteractingHash)) return;
+            if (_playerAnimatorManager.Anim.GetBool(_playerAnimatorManager.IsInteractingHash)) return;
             if (!inputHandler.RollFlag) return;
 
-            if (inputHandler.MoveAmount > 0) AnimatorHandler.PlayTargetAnimation(AnimatorHandler.RollHash, true);
-            else AnimatorHandler.PlayTargetAnimation(AnimatorHandler.BackstepHash, true);
+            if (inputHandler.MoveAmount > 0) _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.RollHash, true);
+            else _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.BackstepHash, true);
         }
 
         public void HandleFalling(float _delta, Vector3 _moveDirection) {
@@ -164,10 +164,10 @@ namespace Dzajna
                 if (playerManager.IsInAir) {
                     if (InAirTimer > 0.5f) {
                         Debug.Log("air time: " + InAirTimer);
-                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.LandHash, true);
+                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.LandHash, true);
                     }
                     else {
-                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.EmptyHash, false);
+                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.EmptyHash, false);
                     }
 
                     InAirTimer = 0;
@@ -178,7 +178,7 @@ namespace Dzajna
                 if (playerManager.IsGrounded) playerManager.IsGrounded = false;
                 if (playerManager.IsInAir == false) {
                     if (playerManager.IsInteracting == false)
-                        AnimatorHandler.PlayTargetAnimation(AnimatorHandler.FallHash, true);
+                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.FallHash, true);
 
                     Vector3 _velocity = Rigidbody.velocity;
                     _velocity.Normalize();
@@ -205,7 +205,7 @@ namespace Dzajna
             _moveDirection.y = 0;
             MyTransform.rotation = Quaternion.LookRotation(_moveDirection);
 
-            AnimatorHandler.PlayTargetAnimation(AnimatorHandler.JumpHash, true);
+            _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.JumpHash, true);
         }
 
         #endregion
