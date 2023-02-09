@@ -16,7 +16,9 @@ public class EnemyManager : CharacterManager {
 
     public float ViewableAngle;
 
-    [Header("AI Settings")] public bool IsPerformingAction;
+    [Header("AI Settings")] 
+    public bool IsPerformingAction;
+    public bool IsInteracting;
     public float MinDetectionAngle = 50;
     public float MaxDetectionAngle = -50;
     public float CurrentRecoveryTime = 0;
@@ -38,6 +40,7 @@ public class EnemyManager : CharacterManager {
 
     private void Update() {
         HandleRecoveryTimer();
+        IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
     }
 
     private void FixedUpdate() {

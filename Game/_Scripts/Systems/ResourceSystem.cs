@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class ResourceSystem : StaticInstance<ResourceSystem>d
+public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     private ScriptablePlayer _baseScriptablePlayer;
     public List<ScriptableEnemy> Enemies { get; private set; }

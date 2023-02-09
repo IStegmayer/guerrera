@@ -15,7 +15,7 @@ MonoBehaviour:
   ActionAnimation: LightAttack2
   AttackScore: 3
   RecoveryTime: 2
-  MaximumAttackAngle: 35
-  MinimumAttackAngle: -35
-  MinimumDistanceNeededToAttack: 0
-  MaximumDistanceNeededToAttack: 3
+  MaxAttackAngle: 90
+  MinAttackAngle: -90
+  MinDistanceNeededToAttack: 0
+  MaxDistanceNeededToAttack: 3
