@@ -11,6 +11,12 @@ namespace Dzajna
             Anim.SetBool(IsInteractingHash, _isInteracting);
             Anim.CrossFade(_targetAnim, 0.2f);
         }
+        
+        public void PlayTargetAnimation(string _targetAnim, bool _isInteracting) {
+            Anim.applyRootMotion = _isInteracting;
+            Anim.SetBool(IsInteractingHash, _isInteracting);
+            Anim.CrossFade(_targetAnim, 0.2f);
+        }
 
     }
 }

@@ -1,38 +1,64 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
-namespace Dzajna
-{
-    public class EnemyManager : CharacterManager
-    {
-        private EnemyLocomotionManager enemyLocomotionManager;
+namespace Dzajna {
+public class EnemyManager : CharacterManager {
+    private EnemyAnimatorManager enemyAnimatorM;
+    private EnemyStats enemyStats;
 
-        [Header("AI Settings")] public bool IsPerformingAction;
+    public NavMeshAgent NavMeshAgent;
+    public Rigidbody Rigidbody;
+    public State CurrentState;
+    public CharacterStats CurrentTarget;
+    public float DistanceFromTarget;
 
-        // public float MinimumDetectionAngle { get; private set; }
-        // public float MaximumDetectionAngle { get; private set; }
-        
-        // public float AggroRange { get; private set; }
-        [SerializeField] float aggroRange = 10;
-        public float AggroRange {
-            get => aggroRange;
-        }
+    public float ViewableAngle;
 
-        public float MinimumDetectionAngle = 50;
-        public float MaximumDetectionAngle = -50;
+    [Header("AI Settings")] public bool IsPerformingAction;
+    public float MinDetectionAngle = 50;
+    public float MaxDetectionAngle = -50;
+    public float CurrentRecoveryTime = 0;
+    public float AggroRange = 10;
+    public float RotationSpeed = 100f;
+    public float MaxAttackRange = 3f;
 
-
-        private void Awake() {
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
-        }
-
-        private void FixedUpdate() {
-            HandleCurrentAction();
-        }
-
-        private void HandleCurrentAction() {
-            if (enemyLocomotionManager.CurrentTarget == null) enemyLocomotionManager.HandleDetection();
-            else enemyLocomotionManager.HandleMoveToTarget();
-        }
+    private void Awake() {
+        enemyAnimatorM = GetComponent<EnemyAnimatorManager>();
+        enemyStats = GetComponent<EnemyStats>();
+        NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
+        Rigidbody = GetComponent<Rigidbody>();
     }
+    
+    private void Start() {
+        NavMeshAgent.enabled = false;
+        Rigidbody.isKinematic = false;
+    }
+
+    private void Update() {
+        HandleRecoveryTimer();
+    }
+
+    private void FixedUpdate() {
+        HandleStateMachine();
+    }
+
+    private void HandleStateMachine() {
+        // Actually handle this error
+        if (CurrentState == null) return;
+        
+        State _nextState = CurrentState.Tick(this, enemyStats, enemyAnimatorM);
+        if (_nextState != null) SwitchToNextState(_nextState);
+    }
+
+    private void SwitchToNextState(State _newState) {
+        CurrentState = _newState;
+    }
+    
+    private void HandleRecoveryTimer() {
+        if (CurrentRecoveryTime > 0) CurrentRecoveryTime -= Time.deltaTime;
+        if (IsPerformingAction && CurrentRecoveryTime <= 0) IsPerformingAction = false;
+    }
+}
 }

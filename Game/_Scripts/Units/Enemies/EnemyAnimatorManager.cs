@@ -5,12 +5,10 @@ namespace Dzajna
 {
     public class EnemyAnimatorManager : AnimatorManager
     {
-        private EnemyLocomotionManager enemyLocomotionManager;
         private Rigidbody rigidbody;
         
         private void Awake() {
             Anim = GetComponent<Animator>();
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             rigidbody = GetComponent<Rigidbody>();
             IsInteractingHash = Animator.StringToHash("isInteracting");
         }
