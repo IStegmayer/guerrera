@@ -18,17 +18,18 @@ public class AttackState : State {
         if (_enemyManager.IsPerformingAction) return combatStanceState;
 
         Vector3 _targetPos = _enemyManager.CurrentTarget.transform.position;
-        Vector3 _targetsDirection = _targetPos - transform.position;
-        _enemyManager.ViewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
+        Vector3 _targetsDirection = _targetPos - _enemyManager.transform.position;
+        float _distanceFromTarget = Vector3.Distance(_targetPos, _enemyManager.transform.position);
+        float _viewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
 
         if (CurrentAttack != null) {
             // If we are too close to the enemy to perform current attack, get a new attack
-            if (_enemyManager.DistanceFromTarget < CurrentAttack.MinDistanceNeededToAttack) return this;
+            if (_distanceFromTarget < CurrentAttack.MinDistanceNeededToAttack) return this;
             // If we are close enough to attack, then let us proceed
-            else if (_enemyManager.DistanceFromTarget < CurrentAttack.MaxDistanceNeededToAttack) {
+            else if (_distanceFromTarget < CurrentAttack.MaxDistanceNeededToAttack) {
                 // If our enemy is within our attacks viewable angle, we attack
-                if (_enemyManager.ViewableAngle <= CurrentAttack.MaxAttackAngle &&
-                    _enemyManager.ViewableAngle >= CurrentAttack.MinAttackAngle) {
+                if (_viewableAngle <= CurrentAttack.MaxAttackAngle &&
+                    _viewableAngle >= CurrentAttack.MinAttackAngle) {
                     if (_enemyManager.CurrentRecoveryTime <= 0 && !_enemyManager.IsPerformingAction) {
                         _enemyAnimatorManager.Anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                         _enemyAnimatorManager.Anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
@@ -41,21 +42,19 @@ public class AttackState : State {
                 }
             }
         }
-        else GetNewAttack(_enemyManager, _targetPos, _enemyManager.ViewableAngle);
+        else GetNewAttack(_enemyManager, _targetPos, _viewableAngle, _distanceFromTarget);
 
         return combatStanceState;
     }
 
-    private void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle) {
-        _enemyManager.DistanceFromTarget = Vector3.Distance(_targetPos, transform.position);
-
+    private void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle, float _distanceFromTarget) {
         int _maxScore = 0;
 
         for (int i = 0; i < EnemyAttacks.Length; i++) {
             EnemyAttackAction _enemyAttackAction = EnemyAttacks[i];
 
-            if (_enemyManager.DistanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
-                _enemyManager.DistanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
+            if (_distanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
+                _distanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
                 if (_viewableAngle <= _enemyAttackAction.MaxAttackAngle &&
                     _viewableAngle >= _enemyAttackAction.MinAttackAngle) {
                     _maxScore += _enemyAttackAction.AttackScore;
@@ -69,8 +68,8 @@ public class AttackState : State {
         for (int j = 0; j < EnemyAttacks.Length; j++) {
             EnemyAttackAction _enemyAttackAction = EnemyAttacks[j];
 
-            if (_enemyManager.DistanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
-                _enemyManager.DistanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
+            if (_distanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
+                _distanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
                 if (_viewableAngle <= _enemyAttackAction.MaxAttackAngle &&
                     _viewableAngle >= _enemyAttackAction.MinAttackAngle) {
                     if (CurrentAttack != null) return;

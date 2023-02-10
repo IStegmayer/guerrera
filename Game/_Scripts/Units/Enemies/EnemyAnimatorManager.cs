@@ -9,7 +9,7 @@ namespace Dzajna
         
         private void Awake() {
             Anim = GetComponent<Animator>();
-            rigidbody = GetComponent<Rigidbody>();
+            rigidbody = GetComponentInChildren<Rigidbody>();
             IsInteractingHash = Animator.StringToHash("isInteracting");
         }
 

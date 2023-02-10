@@ -12,9 +12,6 @@ public class EnemyManager : CharacterManager {
     public Rigidbody Rigidbody;
     public State CurrentState;
     public CharacterStats CurrentTarget;
-    public float DistanceFromTarget;
-
-    public float ViewableAngle;
 
     [Header("AI Settings")] 
     public bool IsPerformingAction;

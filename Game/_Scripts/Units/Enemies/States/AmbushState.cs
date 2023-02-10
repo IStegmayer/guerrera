@@ -29,10 +29,9 @@ public class AmbushState : State {
             if (_characterStats == null) continue;
 
             Vector3 _targetsDirection = _characterStats.transform.position - _enemyManager.transform.position;
-            _enemyManager.ViewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
+            float _viewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
 
-            if (_enemyManager.ViewableAngle < _enemyManager.MinDetectionAngle &&
-                _enemyManager.ViewableAngle > _enemyManager.MaxDetectionAngle) {
+            if (_viewableAngle < _enemyManager.MinDetectionAngle && _viewableAngle > _enemyManager.MaxDetectionAngle) {
                 _enemyManager.CurrentTarget = _characterStats;
                 IsSleeping = false;
                 _enemyAnimatorManager.PlayTargetAnimation(wakeAnimation, true);
