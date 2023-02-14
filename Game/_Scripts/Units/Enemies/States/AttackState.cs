@@ -15,10 +15,12 @@ public class AttackState : State {
         // If the attack is viable, stop our movement and attack our target
         // Set our recovery timer to the attacks recovery time
         // Return to the combat stance state
-        if (_enemyManager.IsPerformingAction) return combatStanceState;
-
         Vector3 _targetPos = _enemyManager.CurrentTarget.transform.position;
         Vector3 _targetsDirection = _targetPos - _enemyManager.transform.position;
+        HandleRotateTowardsTarget(_enemyManager, _targetsDirection);
+        
+        if (_enemyManager.IsPerformingAction) return combatStanceState;
+
         float _distanceFromTarget = Vector3.Distance(_targetPos, _enemyManager.transform.position);
         float _viewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
 
@@ -47,7 +49,34 @@ public class AttackState : State {
         return combatStanceState;
     }
 
-    private void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle, float _distanceFromTarget) {
+    private void HandleRotateTowardsTarget(EnemyManager _enemyManager, Vector3 _direction) {
+        if (_enemyManager.IsPerformingAction) {
+            _direction.y = 0;
+            _direction.Normalize();
+
+            if (_direction == Vector3.zero) _direction = _enemyManager.transform.forward;
+
+            Quaternion _targetRotation = Quaternion.LookRotation(_direction);
+            _enemyManager.transform.rotation =
+                Quaternion.Slerp(transform.rotation, _targetRotation,
+                    _enemyManager.RotationSpeed / Time.fixedDeltaTime);
+        }
+        else {
+            Vector3 _relativeDirection =
+                transform.InverseTransformDirection(_enemyManager.NavMeshAgent.desiredVelocity);
+            Vector3 _targetVelocity = _enemyManager.Rigidbody.velocity;
+
+            _enemyManager.NavMeshAgent.enabled = true;
+            _enemyManager.NavMeshAgent.SetDestination(_enemyManager.CurrentTarget.transform.position);
+            _enemyManager.Rigidbody.velocity = _targetVelocity;
+            _enemyManager.transform.rotation = Quaternion.Slerp(_enemyManager.transform.rotation,
+                _enemyManager.NavMeshAgent.transform.rotation,
+                _enemyManager.RotationSpeed / Time.fixedDeltaTime);
+        }
+    }
+
+    private void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle,
+        float _distanceFromTarget) {
         int _maxScore = 0;
 
         for (int i = 0; i < EnemyAttacks.Length; i++) {

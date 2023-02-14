@@ -33,12 +33,14 @@ namespace Dzajna
         }
 
         public void TakeDamage(int _dmg) {
+            if (isDead) return;
             currentHealth -= _dmg;
             // healthBar.SetCurrentHealth(currentHealth);
             animator.Play("Damage1");
             
             if (currentHealth <= 0) {
                 deathRoutine = StartCoroutine(DeathRoutine());
+                isDead = true;
             }
         }
         

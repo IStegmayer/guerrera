@@ -18,6 +18,8 @@ namespace Dzajna
         public bool IsInAir = false;
         public bool IsGrounded;
         public bool CanDoCombo;
+        public bool IsUsingRightHand;
+        public bool IsUsingLeftHand;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;
@@ -36,6 +38,8 @@ namespace Dzajna
             IsInteracting = anim.GetBool(playerAnimatorManager.IsInteractingHash);
             CanDoCombo = anim.GetBool(playerAnimatorManager.CanDoComboHash);
             IsInAir = anim.GetBool(playerAnimatorManager.IsInAirHash);
+            IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
+            IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
 
             inputHandler.TickInput(_delta);
             CheckForInteractableObject();

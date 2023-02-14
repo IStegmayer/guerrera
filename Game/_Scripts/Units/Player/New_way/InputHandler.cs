@@ -38,6 +38,7 @@ namespace Dzajna
         public bool LockOnFlag;
         public bool TwoHandFlag;
 
+        private PlayerAnimatorManager playerAnimatorManager;
         private PlayerInputActions inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
@@ -53,6 +54,7 @@ namespace Dzajna
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             // TODO: inefficient asf
             cameraManager = FindObjectOfType<CameraManager>();
@@ -137,6 +139,7 @@ namespace Dzajna
                     ComboFlag = false;
                 }
                 else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
+                    playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
                     playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
                 }
             }
@@ -148,6 +151,7 @@ namespace Dzajna
                     ComboFlag = false;
                 }
                 else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
+                    playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
                     playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
                 }
             }

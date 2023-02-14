@@ -14,6 +14,7 @@ namespace Dzajna
         protected int currentHealth;
         protected int maxStamina;
         protected int currentStamina;
-        
+        protected bool isDead;
+
     }
 }

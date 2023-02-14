@@ -6,13 +6,16 @@ public class PursueTargetState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
+
+        Vector3 _targetDir = _enemyManager.CurrentTarget.transform.position - _enemyManager.transform.position;
+        HandleRotateTowardsTarget(_enemyManager, _targetDir);
+        
         if (_enemyManager.IsPerformingAction) {
             _enemyAnimatorManager.Anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             return this;
         }
         
         // Chase the target
-        Vector3 _targetDir = _enemyManager.CurrentTarget.transform.position - _enemyManager.transform.position;
         float _distanceFromTarget =
             Vector3.Distance(_enemyManager.CurrentTarget.transform.position, _enemyManager.transform.position);
         float _viewableAngle = Vector3.Angle(_targetDir, _enemyManager.transform.forward);

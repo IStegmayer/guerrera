@@ -25,13 +25,14 @@ namespace Dzajna
 
         private void OnTriggerEnter(Collider _collider) {
             //TODO: dont use a tag for this, maybe an interface?
-            if (_collider.tag == "Player") {
+            
+            if (_collider.gameObject.CompareTag("Player")) {
                 PlayerStats _playerStats = _collider.GetComponent<PlayerStats>();
                 if (_playerStats != null) {
                     _playerStats.TakeDamage(_currentWeaponDamage);
                 }
             }
-            if (_collider.tag == "Enemy") {
+            if (_collider.gameObject.CompareTag("Enemy")) {
                 EnemyStats _enemyStats = _collider.GetComponent<EnemyStats>();
                 if (_enemyStats != null) {
                     _enemyStats.TakeDamage(_currentWeaponDamage);

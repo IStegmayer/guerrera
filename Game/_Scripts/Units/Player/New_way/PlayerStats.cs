@@ -40,12 +40,14 @@ namespace Dzajna
         }
 
         public void TakeDamage(int _dmg) {
+            if (isDead) return;
             currentHealth -= _dmg;
             healthBar.SetCurrentHealth(currentHealth);
             playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.Damage1Hash, true);
             
             if (currentHealth <= 0) {
                 deathRoutine = StartCoroutine(DeathRoutine());
+                isDead = true;
             }
         }
         

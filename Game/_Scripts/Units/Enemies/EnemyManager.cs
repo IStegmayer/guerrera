@@ -23,6 +23,8 @@ public class EnemyManager : CharacterManager {
     public float RotationSpeed = 100f;
     public float MaxAttackRange = 3f;
 
+    [SerializeField] private CapsuleCollider characterCollider;
+    [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
     private void Awake() {
         enemyAnimatorM = GetComponent<EnemyAnimatorManager>();
         enemyStats = GetComponent<EnemyStats>();
@@ -33,6 +35,7 @@ public class EnemyManager : CharacterManager {
     private void Start() {
         NavMeshAgent.enabled = false;
         Rigidbody.isKinematic = false;
+        Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
     }
 
     private void Update() {

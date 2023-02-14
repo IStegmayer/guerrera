@@ -16,6 +16,8 @@ namespace Dzajna
         public int HorizontalHash;
         public int CanDoComboHash;
         public int IsInAirHash;
+        public int IsUsingRightHandHash;
+        public int IsUsingLeftHandHash;
         
         // states hashes
         public int RollHash;
@@ -37,6 +39,8 @@ namespace Dzajna
             HorizontalHash = Animator.StringToHash("Horizontal");
             IsInteractingHash = Animator.StringToHash("isInteracting");
             CanDoComboHash = Animator.StringToHash("canDoCombo");
+            IsUsingRightHandHash = Animator.StringToHash("isUsingRightHand");
+            IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
             LandHash = Animator.StringToHash("Land");

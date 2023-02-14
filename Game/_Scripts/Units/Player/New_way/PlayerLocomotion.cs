@@ -33,11 +33,14 @@ namespace Dzajna
 
         [SerializeField] private float minimumDistanceNeededToFall = 1f;
         [SerializeField] private float groundDirectionRayOffset = 0.2f;
-        private LayerMask ignoreForGroundCheck;
+        [SerializeField] private LayerMask ignoreForGroundCheck;
+        [SerializeField] private CapsuleCollider characterCollider;
+        [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
         public float InAirTimer;
 
         private void Awake() {
             cameraManager = FindObjectOfType<CameraManager>();
+            Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
         }
 
         private void Start() {
@@ -50,8 +53,6 @@ namespace Dzajna
             _playerAnimatorManager.Initialize();
 
             playerManager.IsGrounded = true;
-            //TODO: better understand this
-            ignoreForGroundCheck = ~(1 << 11);
         }
 
         #region Movement
