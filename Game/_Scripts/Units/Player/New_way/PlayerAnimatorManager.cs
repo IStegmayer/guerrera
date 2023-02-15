@@ -18,6 +18,7 @@ namespace Dzajna
         public int IsInAirHash;
         public int IsUsingRightHandHash;
         public int IsUsingLeftHandHash;
+        public int IsInvulnerableHash;
         
         // states hashes
         public int RollHash;
@@ -41,6 +42,7 @@ namespace Dzajna
             CanDoComboHash = Animator.StringToHash("canDoCombo");
             IsUsingRightHandHash = Animator.StringToHash("isUsingRightHand");
             IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
+            IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
             LandHash = Animator.StringToHash("Land");
@@ -107,5 +109,7 @@ namespace Dzajna
         public void DisableRotation() => CanRotate = false;
         public void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
+        public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
+        public void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
     }
 }

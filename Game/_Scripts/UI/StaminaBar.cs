@@ -19,7 +19,7 @@ namespace Dzajna
             slider.value = _maxStamina;
         }
 
-        public void SetCurrentStamina(int _currentStamina) {
+        public void SetCurrentStamina(float _currentStamina) {
             slider.value = _currentStamina;
         }
     }

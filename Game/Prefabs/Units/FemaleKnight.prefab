@@ -1625,6 +1625,7 @@ MonoBehaviour:
   IsInAirHash: 0
   IsUsingRightHandHash: 0
   IsUsingLeftHandHash: 0
+  IsInvulnerableHash: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
@@ -1685,6 +1686,7 @@ MonoBehaviour:
   CanDoCombo: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
+  IsInvulnerable: 0
 --- !u!114 &738407556784705057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,6 +1754,7 @@ MonoBehaviour:
   healthPerLevel: 5
   staminaLevel: 10
   staminaPerLevel: 5
+  staminaRegenAmount: 20
 --- !u!1 &6880589535415209113
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace Dzajna
         private PlayerAnimatorManager playerAnimatorManager;
         private CameraManager cameraManager;
         private PlayerLocomotion playerLocomotion;
+        private PlayerStats playerStats;
 
         private InteractableUI interactableUI;
 
@@ -20,6 +21,7 @@ namespace Dzajna
         public bool CanDoCombo;
         public bool IsUsingRightHand;
         public bool IsUsingLeftHand;
+        public bool IsInvulnerable;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;
@@ -31,6 +33,7 @@ namespace Dzajna
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerStats = GetComponent<PlayerStats>();
         }
 
         private void Update() {
@@ -40,14 +43,18 @@ namespace Dzajna
             IsInAir = anim.GetBool(playerAnimatorManager.IsInAirHash);
             IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
             IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
+            IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
 
             inputHandler.TickInput(_delta);
+            
             CheckForInteractableObject();
             playerLocomotion.HandleMovement(_delta);
             playerLocomotion.HandleRolling(_delta);
             // TODO: WTF CALLING with its own property? 
             playerLocomotion.HandleFalling(_delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleJumping();
+            
+            playerStats.RegenerateStamina();
         }
 
         private void FixedUpdate() {

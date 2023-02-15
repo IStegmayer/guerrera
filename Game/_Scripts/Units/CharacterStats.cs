@@ -9,11 +9,13 @@ namespace Dzajna
         [SerializeField] protected int healthPerLevel = 5;
         [SerializeField] protected int staminaLevel = 10;
         [SerializeField] protected int staminaPerLevel = 5;
+        [SerializeField] protected float staminaRegenAmount = 2f;
         
         protected int maxHealth;
         protected int currentHealth;
         protected int maxStamina;
-        protected int currentStamina;
+        protected float currentStamina;
+        protected float staminaRegenTimer;
         protected bool isDead;
 
     }
