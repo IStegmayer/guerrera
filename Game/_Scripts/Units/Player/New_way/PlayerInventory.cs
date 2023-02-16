@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class PlayerInventory : MonoBehaviour
-    {
+    public class PlayerInventory : MonoBehaviour {
+        public SpellItem CurrentSpell;
         public WeaponItem RightWeapon;
         public WeaponItem LeftWeapon;
         public WeaponItem UnarmedWeapon;

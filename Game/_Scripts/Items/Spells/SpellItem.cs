@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Dzajna {
+    public class SpellItem : Item {
+        [SerializeField] protected GameObject spellWarmUpFX;
+        [SerializeField] protected GameObject spellCastFX;
+        [SerializeField] protected string spellAnimation;
+
+        [Header("Spell Type")] 
+        public bool isFaithSpell;
+        public bool isMagicSpell;
+        public bool isPyroSpell;
+        
+        [Header("Spell Description")]
+        [TextArea][SerializeField] protected string spellDescription;
+
+        public virtual void AttemptToCastSpell(AnimatorManager _animatorManager, PlayerStats _playerStats) {
+            Debug.Log("Attempting to cast spell");
+        }
+
+        public virtual void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats) {
+            Debug.Log("Successfully casted a spell");
+        }
+    }
+}

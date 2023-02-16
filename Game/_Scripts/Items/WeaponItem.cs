@@ -29,5 +29,12 @@ namespace Dzajna
         public float LightAttackMultiplier;
         public float HeavyAttackMultiplier;
 
+        [Header("Weapon Type")] 
+        public bool isMagicCaster;
+        public bool isFaithCaster;
+        public bool isPyroCaster;
+        public bool isMeleeWeapon;
+
+
     }
 }

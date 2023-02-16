@@ -1511,6 +1511,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8aa74d29-d0db-4fa1-89d1-f472742d980f
     m_ActionName: Player Actions/LockOnTargetRight[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cae286b4-baca-41c0-8dd1-43ba7440ded3
+    m_ActionName: Player Actions/TwoHand[/Keyboard/v]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1711,12 +1715,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6949f5e838b457eaf228d2825c9f4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentSpell: {fileID: 11400000, guid: b6fe2cad168c30449a65230acee6c5b5, type: 2}
   RightWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   LeftWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   WeaponsInRightHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
-  - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
+  - {fileID: 11400000, guid: 1d8aba7f171a710468e206b032b6ef8e, type: 2}
   WeaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
   - {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}

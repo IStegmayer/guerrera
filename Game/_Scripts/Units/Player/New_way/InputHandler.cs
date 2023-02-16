@@ -133,15 +133,7 @@ namespace Dzajna
             // TODO: does this really belong here? also check for isInteracting
             // TODO: refactor this shit logic
             if (rb_Input) {
-                if (playerManager.CanDoCombo) {
-                    ComboFlag = true;
-                    playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
-                    ComboFlag = false;
-                }
-                else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
-                    playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
-                    playerAttacker.HandleLightAttack(playerInventory.RightWeapon);
-                }
+                playerAttacker.HandleRBAction();
             }
 
             if (rt_Input) {
