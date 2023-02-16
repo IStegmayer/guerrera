@@ -30,6 +30,7 @@ namespace Dzajna
         public int Damage1Hash;
         public int DeathHash;
         public int JumpHash;
+        public int FailedCastHash;
         
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
@@ -52,6 +53,7 @@ namespace Dzajna
             Damage1Hash = Animator.StringToHash("Damage1");
             DeathHash = Animator.StringToHash("Death");
             JumpHash = Animator.StringToHash("Jump");
+            FailedCastHash = Animator.StringToHash("FailedCast");
             IsInAirHash = Animator.StringToHash("isInAir");
             CanRotate = true;
         }

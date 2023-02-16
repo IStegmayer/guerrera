@@ -9,6 +9,7 @@ public class PlayerStats : CharacterStats {
 
     private HealthBar healthBar;
     private StaminaBar staminaBar;
+    private StatusBar FPBar;
     private PlayerAnimatorManager playerAnimatorManager;
 
     private Coroutine deathRoutine;
@@ -19,6 +20,7 @@ public class PlayerStats : CharacterStats {
         //TODO: this could be better
         staminaBar = FindObjectOfType<StaminaBar>();
         healthBar = FindObjectOfType<HealthBar>();
+        FPBar = FindObjectOfType<StatusBar>();
     }
 
     private void Start() {
@@ -30,6 +32,10 @@ public class PlayerStats : CharacterStats {
         // set stamina max bar
         staminaBar.SetMaxStamina(maxStamina);
         currentStamina = maxStamina;
+
+        maxFP = SetMaxFPAmountFromFocusLevel();
+        FPBar.SetMaxStat(maxFP);
+        currentFP = maxFP;
     }
 
     private int SetMaxHealthFromHealthLevel() {
@@ -38,6 +44,13 @@ public class PlayerStats : CharacterStats {
 
     private int SetMaxStaminaFromStaminaLevel() {
         return staminaLevel * staminaPerLevel;
+    }
+    private int SetMaxFPAmountFromFocusLevel() {
+        return focusLevel * focusPerLevel;
+    }
+
+    public bool CheckIfCanCast(int _FPCost) {
+        return currentFP >= _FPCost;
     }
 
     public void TakeDamage(int _dmg) {
@@ -65,6 +78,10 @@ public class PlayerStats : CharacterStats {
     public void TakeStaminaDamage(int _dmg) {
         currentStamina -= _dmg;
         staminaBar.SetCurrentStamina(currentStamina);
+    }
+    public void TakeFPDamage(int _dmg) {
+        currentFP -= _dmg;
+        FPBar.SetCurrentStat(currentFP);
     }
 
     public void RegenerateStamina() {

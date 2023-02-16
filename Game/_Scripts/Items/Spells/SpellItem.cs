@@ -8,6 +8,9 @@ namespace Dzajna {
         [SerializeField] protected GameObject spellCastFX;
         [SerializeField] protected string spellAnimation;
 
+        [Header("FP cost")] 
+        public int FPCost;
+        
         [Header("Spell Type")] 
         public bool isFaithSpell;
         public bool isMagicSpell;
@@ -22,6 +25,7 @@ namespace Dzajna {
 
         public virtual void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats) {
             Debug.Log("Successfully casted a spell");
+            _playerStats.TakeFPDamage(FPCost);
         }
     }
 }

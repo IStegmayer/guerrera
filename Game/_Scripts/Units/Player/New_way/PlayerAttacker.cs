@@ -46,18 +46,24 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     private void PerformRBMagicCast(WeaponItem _weapon) {
+        if (playerManager.IsInteracting) return;
+        
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isMagicSpell) {
-            // Check for FP
-            _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
 
     private void PerformRBFaithCast(WeaponItem _weapon) {
+        if (playerManager.IsInteracting) return;
+        
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isFaithSpell) {
-            // Check for FP
-            _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
 

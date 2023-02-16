@@ -10,11 +10,15 @@ namespace Dzajna
         [SerializeField] protected int staminaLevel = 10;
         [SerializeField] protected int staminaPerLevel = 5;
         [SerializeField] protected float staminaRegenAmount = 2f;
+        [SerializeField] protected int focusLevel = 10;
+        [SerializeField] protected int focusPerLevel = 5;
         
         protected int maxHealth;
         protected int currentHealth;
         protected int maxStamina;
         protected float currentStamina;
+        protected int maxFP;
+        protected float currentFP;
         protected float staminaRegenTimer;
         protected bool isDead;
 
