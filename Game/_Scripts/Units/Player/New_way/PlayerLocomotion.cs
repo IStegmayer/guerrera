@@ -92,10 +92,11 @@ namespace Dzajna
                     playerManager.IsSprinting);
             else
                 _playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
-            if (_playerAnimatorManager.CanRotate) HandleRotation(_delta);
         }
 
-        private void HandleRotation(float _delta) {
+        public void HandleRotation(float _delta) {
+            if (!_playerAnimatorManager.CanRotate) return;
+            
             //TODO: this is ridiculous
             if (inputHandler.LockOnFlag && !inputHandler.SprintFlag && !inputHandler.RollFlag) {
                 Vector3 _rotationDirection = moveDirection;

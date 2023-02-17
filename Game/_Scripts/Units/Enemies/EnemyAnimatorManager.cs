@@ -16,6 +16,7 @@ namespace Dzajna
             enemyStats = GetComponent<EnemyStats>();
             IsInteractingHash = Animator.StringToHash("isInteracting");
             IsDeadHash = Animator.StringToHash("isDead");
+            CanRotateHash = Animator.StringToHash("canRotate");
         }
 
         private void OnAnimatorMove() {

@@ -45,12 +45,14 @@ namespace Dzajna
             IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
             IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
             IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
+            playerAnimatorManager.CanRotate = anim.GetBool(playerAnimatorManager.CanRotateHash);
             playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsDeadHash, playerStats.IsDead);
 
             inputHandler.TickInput(_delta);
             
             CheckForInteractableObject();
             playerLocomotion.HandleMovement(_delta);
+            playerLocomotion.HandleRotation(_delta);
             playerLocomotion.HandleRolling(_delta);
             // TODO: WTF CALLING with its own property? 
             playerLocomotion.HandleFalling(_delta, playerLocomotion.moveDirection);

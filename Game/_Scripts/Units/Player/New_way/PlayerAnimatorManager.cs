@@ -10,7 +10,6 @@ namespace Dzajna
         private InputHandler inputHandler;
         private PlayerLocomotion playerLocomotion;
         private PlayerStats playerStats;
-        public bool CanRotate;
         
         // properties hashes
         public int VerticalHash;
@@ -48,6 +47,7 @@ namespace Dzajna
             IsUsingRightHandHash = Animator.StringToHash("isUsingRightHand");
             IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
             IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
+            CanRotateHash = Animator.StringToHash("canRotate");
             IsDeadHash = Animator.StringToHash("isDead");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
@@ -114,8 +114,8 @@ namespace Dzajna
             playerLocomotion.Rigidbody.velocity = _velocity;
         }
 
-        public void EnableRotation() => CanRotate = true;
-        public void DisableRotation() => CanRotate = false;
+        public void EnableRotation() => Anim.SetBool(CanRotateHash, true);
+        public void DisableRotation() => Anim.SetBool(CanRotateHash, false);
         public void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
         public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
