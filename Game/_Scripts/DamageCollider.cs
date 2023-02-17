@@ -10,8 +10,7 @@ namespace Dzajna
     public class DamageCollider : MonoBehaviour
     {
         private Collider damageCollider;
-        //TODO: this doesnt belong here
-        [SerializeField] private int _currentWeaponDamage = 25;
+        public float CurrentWeaponDamage = 25;
 
         private void Awake() {
             damageCollider = GetComponent<Collider>();
@@ -29,13 +28,13 @@ namespace Dzajna
             if (_collider.gameObject.CompareTag("Player")) {
                 PlayerStats _playerStats = _collider.GetComponent<PlayerStats>();
                 if (_playerStats != null) {
-                    _playerStats.TakeDamage(_currentWeaponDamage);
+                    _playerStats.TakeDamage(CurrentWeaponDamage);
                 }
             }
             if (_collider.gameObject.CompareTag("Enemy")) {
                 EnemyStats _enemyStats = _collider.GetComponent<EnemyStats>();
                 if (_enemyStats != null) {
-                    _enemyStats.TakeDamage(_currentWeaponDamage);
+                    _enemyStats.TakeDamage(CurrentWeaponDamage);
                 }
             }
         }

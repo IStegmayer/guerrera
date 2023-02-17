@@ -244,7 +244,7 @@ namespace Game._Scripts
         private IEnumerator DeathRoutine() {
             // start death animation
             _animator.Play(PlayerAnimHashes.Death);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(3f);
             GameManager.Instance.ChangeState(GameState.Lose);
             yield return new WaitForSeconds(1f);
             UnitManager.Instance.DespawnPlayer(transform.gameObject);

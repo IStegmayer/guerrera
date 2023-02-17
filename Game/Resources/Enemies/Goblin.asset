@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: 
   _stats:
-    Health: 20
+    Health: 100
     BaseAttackPower: 10
     BaseSpeed: 2
   Prefab: {fileID: 1435744202117670, guid: 8cccb88f6abce2445aec080d5a965bfb, type: 3}

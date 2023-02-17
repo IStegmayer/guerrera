@@ -14,7 +14,7 @@ namespace Dzajna
             slider = GetComponent<Slider>();
         }
 
-        public void SetMaxStamina(int _maxStamina) {
+        public void SetMaxStamina(float _maxStamina) {
             slider.maxValue = _maxStamina;
             slider.value = _maxStamina;
         }

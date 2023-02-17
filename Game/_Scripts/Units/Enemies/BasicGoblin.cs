@@ -81,8 +81,8 @@ public class BasicGoblin : BaseUnit
         _animator.Play(GoblinAnimHashes.Death);
         _navMeshAgent.isStopped = true;
         GoblinKilled?.Invoke(this);
-        yield return new WaitForSeconds(2f);
-        UnitManager.Instance.DespawnEnemy(_id, this.gameObject);
+        yield return new WaitForSeconds(4f);
+        UnitManager.Instance.DespawnEnemy(this.gameObject);
     }
 
     private void OnDrawGizmos() {

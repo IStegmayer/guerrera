@@ -24,7 +24,7 @@ namespace Dzajna
 
         //TODO: only public getter
         public LayerMask ignoreLayers;
-        private LayerMask environmentLayer;
+        public LayerMask environmentLayer;
 
         [Header("Config")] [SerializeField] private float lookSpeed = 0.01f;
         [SerializeField] private float followSpeed = 0.01f;

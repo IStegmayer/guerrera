@@ -7,10 +7,11 @@ public class WeaponSlotManager : MonoBehaviour {
     private WeaponHolderSlot rightHandSlot;
     private WeaponHolderSlot backSlot;
 
-    private DamageCollider leftDamageCollider;
-    private DamageCollider rightDamageCollider;
+    public DamageCollider LeftDamageCollider { get; private set; }
+    public DamageCollider RightDamageCollider { get; private set; }
 
     private WeaponItem attackingWeapon;
+    public float CurrentWeaponDamage;
 
     private PlayerManager playerManager;
     private Animator animator;
@@ -68,22 +69,28 @@ public class WeaponSlotManager : MonoBehaviour {
 
     #region Handle Weapon's Damage Collider
 
-    private void LoadLeftWeaponDamageCollider() => leftDamageCollider =
-        leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+    private void LoadLeftWeaponDamageCollider() {
+        LeftDamageCollider =
+            leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+        LeftDamageCollider.CurrentWeaponDamage = leftHandSlot.CurrentWeaponItem.BaseDamage;
+    }
 
-    private void LoadRightWeaponDamageCollider() => rightDamageCollider =
-        rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+    private void LoadRightWeaponDamageCollider() {
+        RightDamageCollider =
+            rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+        RightDamageCollider.CurrentWeaponDamage = rightHandSlot.CurrentWeaponItem.BaseDamage;
+    } 
 
     public void OpenDamageCollider() {
         if (playerManager.IsUsingLeftHand)
-            leftDamageCollider.EnableDamageCollider();
+            LeftDamageCollider.EnableDamageCollider();
         else if (playerManager.IsUsingRightHand)
-            rightDamageCollider.EnableDamageCollider();
+            RightDamageCollider.EnableDamageCollider();
     }
 
     public void CloseDamageCollider() {
-        leftDamageCollider.DisableDamageCollider();
-        rightDamageCollider.DisableDamageCollider();
+        LeftDamageCollider.DisableDamageCollider();
+        RightDamageCollider.DisableDamageCollider();
     }
 
     #endregion

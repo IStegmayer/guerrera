@@ -19,6 +19,7 @@ namespace Dzajna
         public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool critical_Input;
         public bool jump_Input;
         public bool twoHand_Input;
         public bool inventory_Input;
@@ -73,6 +74,7 @@ namespace Dzajna
                 // inputActions.PlayerActions.A.performed += HandleInteractInput;
                 inputActions.PlayerActions.RB.performed += _ => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += _ => rt_Input = true;
+                inputActions.PlayerActions.Critical.performed += _ => critical_Input = true;
                 inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
                 inputActions.PlayerActions.A.performed += _ => a_Input = true;
                 inputActions.PlayerActions.LockOn.performed += _ => lockOn_Input = true;
@@ -102,6 +104,7 @@ namespace Dzajna
             HandleLockOnInput();
             HandleLockOnSwitch();
             HandleTwoHandInput();
+            HandleCriticalInput();
         }
 
         private void HandleMoveInput() {
@@ -213,6 +216,13 @@ namespace Dzajna
             else {
                 weaponSlotManager.LoadWeaponOnSlot(playerInventory.RightWeapon, false);
                 weaponSlotManager.LoadWeaponOnSlot(playerInventory.LeftWeapon, true);
+            }
+        }
+
+        private void HandleCriticalInput() {
+            if (critical_Input) {
+                critical_Input = false;
+                playerAttacker.AttemptBackStabOrRiposte();
             }
         }
     }

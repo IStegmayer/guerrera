@@ -34,6 +34,7 @@ namespace Dzajna
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
+            BackStabCollider = GetComponentInChildren<BackStabCollider>();
         }
 
         private void Update() {
@@ -44,6 +45,7 @@ namespace Dzajna
             IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
             IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
             IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
+            playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsDeadHash, playerStats.IsDead);
 
             inputHandler.TickInput(_delta);
             

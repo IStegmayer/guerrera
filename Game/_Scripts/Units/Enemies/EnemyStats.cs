@@ -32,26 +32,35 @@ namespace Dzajna
             return healthLevel * healthPerLevel;
         }
 
-        public void TakeDamage(int _dmg) {
-            if (isDead) return;
+        public void TakeDamageWithoutAnimation(float _dmg) {
+            if (IsDead) return;
+            currentHealth -= _dmg;
+            
+            if (currentHealth <= 0) {
+                deathRoutine = StartCoroutine(DeathRoutine());
+                IsDead = true;
+            }
+        }
+
+        public void TakeDamage(float _dmg) {
+            if (IsDead) return;
             currentHealth -= _dmg;
             // healthBar.SetCurrentHealth(currentHealth);
             animator.Play("Damage1");
             
             if (currentHealth <= 0) {
+                animator.Play("Death");
                 deathRoutine = StartCoroutine(DeathRoutine());
-                isDead = true;
+                IsDead = true;
             }
         }
         
         private IEnumerator DeathRoutine() {
-            // start death animation
-            animator.Play("Death");
             yield return new WaitForSeconds(1f);
             //TODO: This could be a bitch. 
             GameManager.Instance.ChangeState(GameState.Win);
-            yield return new WaitForSeconds(1f);
-            UnitManager.Instance.DespawnPlayer(transform.gameObject);
+            yield return new WaitForSeconds(5f);
+            UnitManager.Instance.DespawnEnemy(transform.gameObject);
         }
     }
     

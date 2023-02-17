@@ -297,6 +297,15 @@
                     "id": "9a8cc622-7bdd-49e2-817e-d441261b548d",
                     "expectedControlType": "Button",
                     "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Critical",
+                    "type": "Button",
+                    "id": "e5c25eb4-c0b6-492d-8dce-3c949adfbf6e",
+                    "expectedControlType": "Button",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
@@ -560,6 +569,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TwoHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e58e9b2-82f4-45b6-b6d8-164b02e3e162",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Critical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1495ef7e-ec7d-4a31-b053-d2d959906dc3",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Critical",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

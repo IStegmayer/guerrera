@@ -8,6 +8,10 @@ namespace Dzajna
         public GameObject ModelPrefab;
         public bool IsUnarmed;
 
+        [Header("Damage")] 
+        public int BaseDamage;
+        public int CriticalDamageMultiplier;
+
         [Header("Idle Animations")] 
         public string OH_RightArmIdle;
         public string OH_LeftArmIdle;

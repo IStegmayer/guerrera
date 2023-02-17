@@ -53,33 +53,43 @@ public class PlayerStats : CharacterStats {
         return currentFP >= _FPCost;
     }
 
-    public void TakeDamage(int _dmg) {
+    public void TakeDamageWithoutAnimation(float _dmg) {
+        if (IsDead) return;
+        currentHealth -= _dmg;
+            
+        if (currentHealth <= 0) {
+            deathRoutine = StartCoroutine(DeathRoutine());
+            IsDead = true;
+        }
+    }
+    
+    public void TakeDamage(float _dmg) {
         if (playerManager.IsInvulnerable) return;
-        if (isDead) return;
+        if (IsDead) return;
         currentHealth -= _dmg;
         healthBar.SetCurrentHealth(currentHealth);
         playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.Damage1Hash, true);
 
         if (currentHealth <= 0) {
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.DeathHash, true);   
             deathRoutine = StartCoroutine(DeathRoutine());
-            isDead = true;
+            IsDead = true;
         }
     }
 
     private IEnumerator DeathRoutine() {
         // start death animation
-        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.DeathHash, true);
         yield return new WaitForSeconds(1f);
         GameManager.Instance.ChangeState(GameState.Lose);
         yield return new WaitForSeconds(1f);
         UnitManager.Instance.DespawnPlayer(transform.gameObject);
     }
 
-    public void TakeStaminaDamage(int _dmg) {
+    public void TakeStaminaDamage(float _dmg) {
         currentStamina -= _dmg;
         staminaBar.SetCurrentStamina(currentStamina);
     }
-    public void TakeFPDamage(int _dmg) {
+    public void TakeFPDamage(float _dmg) {
         currentFP -= _dmg;
         FPBar.SetCurrentStat(currentFP);
     }

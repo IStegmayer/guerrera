@@ -9,6 +9,7 @@ namespace Dzajna
         private PlayerManager playerManager;
         private InputHandler inputHandler;
         private PlayerLocomotion playerLocomotion;
+        private PlayerStats playerStats;
         public bool CanRotate;
         
         // properties hashes
@@ -31,12 +32,15 @@ namespace Dzajna
         public int DeathHash;
         public int JumpHash;
         public int FailedCastHash;
+        public int BackStabHash;
+        public int BackStabbedHash;
         
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
             Anim = GetComponent<Animator>();
             inputHandler = GetComponent<InputHandler>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerStats = GetComponent<PlayerStats>(); 
             VerticalHash = Animator.StringToHash("Vertical");
             HorizontalHash = Animator.StringToHash("Horizontal");
             IsInteractingHash = Animator.StringToHash("isInteracting");
@@ -44,6 +48,7 @@ namespace Dzajna
             IsUsingRightHandHash = Animator.StringToHash("isUsingRightHand");
             IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
             IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
+            IsDeadHash = Animator.StringToHash("isDead");
             RollHash = Animator.StringToHash("Roll");
             BackstepHash = Animator.StringToHash("Backstep");
             LandHash = Animator.StringToHash("Land");
@@ -55,6 +60,8 @@ namespace Dzajna
             JumpHash = Animator.StringToHash("Jump");
             FailedCastHash = Animator.StringToHash("FailedCast");
             IsInAirHash = Animator.StringToHash("isInAir");
+            BackStabHash = Animator.StringToHash("BackStab");
+            BackStabbedHash = Animator.StringToHash("BackStabbed");
             CanRotate = true;
         }
 
@@ -113,5 +120,10 @@ namespace Dzajna
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
         public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
         public void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
+
+        public override void TakeCriticalDamageAnimEvent() {
+            playerStats.TakeDamageWithoutAnimation(playerManager.PendingCriticalDamage);
+            playerManager.PendingCriticalDamage = 0;
+        }
     }
 }

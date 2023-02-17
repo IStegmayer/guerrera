@@ -13,6 +13,10 @@ public class PlayerAttacker : MonoBehaviour {
     private WeaponSlotManager weaponSlotManager;
     public string LastAttackString;
 
+    private float maxCritDistance = 0.5f;
+    [SerializeField] private Transform critRayCastStartPoint;
+    [SerializeField] private LayerMask backStabLayer;
+
     private void Awake() {
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerManager = GetComponent<PlayerManager>();
@@ -47,7 +51,7 @@ public class PlayerAttacker : MonoBehaviour {
 
     private void PerformRBMagicCast(WeaponItem _weapon) {
         if (playerManager.IsInteracting) return;
-        
+
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isMagicSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
@@ -58,12 +62,46 @@ public class PlayerAttacker : MonoBehaviour {
 
     private void PerformRBFaithCast(WeaponItem _weapon) {
         if (playerManager.IsInteracting) return;
-        
+
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isFaithSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
             if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
+        }
+    }
+
+    public void AttemptBackStabOrRiposte() {
+        RaycastHit hit;
+
+        if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit,
+                maxCritDistance, backStabLayer)) {
+            CharacterManager _enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
+            DamageCollider _rightWeapon = weaponSlotManager.RightDamageCollider;
+
+            if (_enemyCharacterManager == null) return;
+            // Pull us in position to backstab
+            playerManager.transform.position = _enemyCharacterManager.BackStabCollider.GetBackStabStandPoint().position;
+            // rotate towards transform
+            // Vector3 _rotationDirection = playerManager.transform.root.eulerAngles;
+            Vector3 _rotationDirection = hit.transform.position - playerManager.transform.position;
+            _rotationDirection.y = 0;
+            _rotationDirection.Normalize();
+            Quaternion _tr = Quaternion.LookRotation(_rotationDirection);
+            Quaternion _targetRotation =
+                Quaternion.Slerp(playerManager.transform.rotation, _tr, 500f * Time.deltaTime);
+            playerManager.transform.rotation = _targetRotation;
+
+            // play animation
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.BackStabHash, true);
+            // make enemy play animation
+            _enemyCharacterManager.GetComponent<EnemyAnimatorManager>()
+                .PlayTargetAnimation(playerAnimatorManager.BackStabbedHash, true);
+
+            // deal dmg
+            // TODO: this is not taking into account the player stats
+            float _critDamage = playerInventory.RightWeapon.BaseDamage * playerInventory.RightWeapon.CriticalDamageMultiplier;
+            _enemyCharacterManager.PendingCriticalDamage = _critDamage;
         }
     }
 

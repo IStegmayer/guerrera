@@ -13,14 +13,14 @@ namespace Dzajna
         [SerializeField] protected int focusLevel = 10;
         [SerializeField] protected int focusPerLevel = 5;
         
-        protected int maxHealth;
-        protected int currentHealth;
-        protected int maxStamina;
+        protected float maxHealth;
+        protected float currentHealth;
+        protected float maxStamina;
         protected float currentStamina;
-        protected int maxFP;
+        protected float maxFP;
         protected float currentFP;
         protected float staminaRegenTimer;
-        protected bool isDead;
+        public bool IsDead;
 
     }
 }
