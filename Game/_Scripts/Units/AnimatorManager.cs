@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dzajna {
 public class AnimatorManager : MonoBehaviour {
@@ -14,7 +15,8 @@ public class AnimatorManager : MonoBehaviour {
         Anim.SetBool(IsInteractingHash, _isInteracting);
         Anim.CrossFade(_targetAnim, 0.2f);
     }
-
+    public UnityEvent CharacterDeathAnimEvent;
+    
     public void PlayTargetAnimation(string _targetAnim, bool _isInteracting) {
         Anim.applyRootMotion = _isInteracting;
         Anim.SetBool(CanRotateHash, false);

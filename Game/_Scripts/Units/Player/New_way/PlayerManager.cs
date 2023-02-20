@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Dzajna
@@ -86,7 +87,7 @@ namespace Dzajna
             if (IsInAir) playerLocomotion.InAirTimer += Time.deltaTime;
         }
 
-        public void CheckForInteractableObject() {
+        private void CheckForInteractableObject() {
             RaycastHit _hit;
             Interactable _interactable;
 
@@ -107,5 +108,12 @@ namespace Dzajna
                 _interactable.Interact(this);
             }
         }
+
+        public void OpenChestInteraction(Transform _playerStandingPoint) {
+            playerLocomotion.Rigidbody.velocity = Vector3.zero;
+            transform.position = _playerStandingPoint.transform.position;
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.OpenChestHash, true);
+        }
+
     }
 }

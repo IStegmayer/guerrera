@@ -33,6 +33,7 @@ namespace Dzajna
         public int FailedCastHash;
         public int BackStabHash;
         public int BackStabbedHash;
+        public int OpenChestHash;
         
         public void Initialize() {
             playerManager = GetComponent<PlayerManager>();
@@ -62,6 +63,7 @@ namespace Dzajna
             IsInAirHash = Animator.StringToHash("isInAir");
             BackStabHash = Animator.StringToHash("BackStab");
             BackStabbedHash = Animator.StringToHash("BackStabbed");
+            OpenChestHash = Animator.StringToHash("OpenChest");
             CanRotate = true;
         }
 
@@ -118,6 +120,10 @@ namespace Dzajna
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
         public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
         public void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
+
+        public void AwardSoulsOnDeath() {
+            //TODO:  Placeholder for enemynimator event.
+        }
 
         public override void TakeCriticalDamageAnimEvent() {
             playerStats.TakeDamageWithoutAnimation(playerManager.PendingCriticalDamage);

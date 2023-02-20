@@ -8,7 +8,7 @@ namespace Dzajna
         private Rigidbody rigidbody;
         private EnemyStats enemyStats;
         private EnemyManager enemyManager;
-        
+
         private void Awake() {
             Anim = GetComponent<Animator>();
             rigidbody = GetComponentInChildren<Rigidbody>();
@@ -29,6 +29,13 @@ namespace Dzajna
             rigidbody.velocity = _velocity;
         }
         
+        //TODO: this is not the best to communicate between scripts for sure, use unitmanager instead! 
+        public void AwardSoulsOnDeath() {
+            PlayerStats _playerStats = FindObjectOfType<PlayerStats>();
+            SoulCountUI _soulCount = FindObjectOfType<SoulCountUI>();
+            if (_playerStats != null) _playerStats.AddSouls(enemyStats.SoulsReward);
+            if (_soulCount != null) _soulCount.SetSoulCountText(_playerStats.SoulCount);
+        }
         public override void TakeCriticalDamageAnimEvent() {
             enemyStats.TakeDamageWithoutAnimation(enemyManager.PendingCriticalDamage);
             enemyManager.PendingCriticalDamage = 0;

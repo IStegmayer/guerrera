@@ -6,13 +6,14 @@ using UnityEngine;
 namespace Dzajna {
 public class PlayerStats : CharacterStats {
     private PlayerManager playerManager;
+    private PlayerAnimatorManager playerAnimatorManager;
 
     private HealthBar healthBar;
     private StaminaBar staminaBar;
     private StatusBar FPBar;
-    private PlayerAnimatorManager playerAnimatorManager;
-
     private Coroutine deathRoutine;
+
+    public int SoulCount = 0;
 
     private void Awake() {
         playerManager = GetComponent<PlayerManager>();
@@ -64,7 +65,7 @@ public class PlayerStats : CharacterStats {
             IsDead = true;
         }
     }
-    
+
     public void TakeDamage(float _dmg) {
         if (playerManager.IsInvulnerable) return;
         if (IsDead) return;
@@ -107,7 +108,8 @@ public class PlayerStats : CharacterStats {
                 staminaBar.SetCurrentStamina(currentStamina);
             }
         }
-
     }
+
+    public void AddSouls(int _souls) => SoulCount += _souls;
 }
 }

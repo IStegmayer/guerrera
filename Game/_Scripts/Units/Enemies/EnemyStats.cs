@@ -6,9 +6,8 @@ using UnityEngine;
 namespace Dzajna
 {
     // TODO: I'll get back to this when I do AI 
-    public class EnemyStats : CharacterStats
-    {
-
+    public class EnemyStats : CharacterStats {
+        public int SoulsReward;
         // private HealthBar healthBar;
         private EnemyAnimatorManager enemyAnimatorManager;
 
@@ -25,6 +24,7 @@ namespace Dzajna
             // healthBar.SetMaxHealth(maxHealth);
             currentHealth = maxHealth;
         }
+
 
         private int SetMaxHealthFromHealthLevel() {
             return healthLevel * healthPerLevel;
