@@ -22,6 +22,8 @@ public class AnimatorManager : MonoBehaviour {
         Anim.CrossFade(_targetAnim, 0.2f);
     }
 
+    public void EnableRotation() => Anim.SetBool(CanRotateHash, true);
+    public void DisableRotation() => Anim.SetBool(CanRotateHash, false);
     public virtual void TakeCriticalDamageAnimEvent() { }
 }
 }

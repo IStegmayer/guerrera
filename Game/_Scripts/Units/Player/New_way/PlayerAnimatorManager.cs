@@ -114,8 +114,6 @@ namespace Dzajna
             playerLocomotion.Rigidbody.velocity = _velocity;
         }
 
-        public void EnableRotation() => Anim.SetBool(CanRotateHash, true);
-        public void DisableRotation() => Anim.SetBool(CanRotateHash, false);
         public void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
         public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);

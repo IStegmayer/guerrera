@@ -9,6 +9,7 @@ namespace Dzajna
         private InputHandler inputHandler;
         private PlayerManager playerManager;
         private CameraManager cameraManager;
+        private PlayerStats playerStats;
         public Vector3 moveDirection;
 
         // these could be protected
@@ -28,9 +29,13 @@ namespace Dzajna
         //TODO: improve this with terminal velocity and such
         [SerializeField] private float fallingSpeed = 160;
 
-        [Header("Ground Detection Stats")] [SerializeField]
-        private float groundDetectionRayStartPoint = 0.5f;
-
+        [Header("Stamina Costs")] 
+        [SerializeField] private float rollStaminaCost;
+        [SerializeField] private float backstepStaminaCost;
+        [SerializeField] private float sprintStaminaCost;
+        
+        [Header("Ground Detection Stats")] 
+        [SerializeField] private float groundDetectionRayStartPoint = 0.5f;
         [SerializeField] private float minimumDistanceNeededToFall = 1f;
         [SerializeField] private float groundDirectionRayOffset = 0.2f;
         [SerializeField] private LayerMask ignoreForGroundCheck;
@@ -47,6 +52,7 @@ namespace Dzajna
             Rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             cameraTransform = Camera.main.transform;
             MyTransform = transform;
             _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
@@ -74,6 +80,7 @@ namespace Dzajna
             if (inputHandler.SprintFlag && inputHandler.MoveAmount > 0.5f) {
                 _speed = sprintSpeed;
                 playerManager.IsSprinting = true;
+                playerStats.TakeStaminaDamage(sprintStaminaCost);
             }
             else {
                 // TODO: walking isnt actually working
@@ -131,9 +138,16 @@ namespace Dzajna
         public void HandleRolling(float _delta) {
             if (_playerAnimatorManager.Anim.GetBool(_playerAnimatorManager.IsInteractingHash)) return;
             if (!inputHandler.RollFlag) return;
+            if (!playerStats.CheckHasStamina()) return;
 
-            if (inputHandler.MoveAmount > 0) _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.RollHash, true);
-            else _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.BackstepHash, true);
+            if (inputHandler.MoveAmount > 0) {
+                _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.RollHash, true);
+                playerStats.TakeStaminaDamage(rollStaminaCost);
+            }
+            else {
+                _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.BackstepHash, true);
+                playerStats.TakeStaminaDamage(backstepStaminaCost);
+            }
         }
 
         public void HandleFalling(float _delta, Vector3 _moveDirection) {
@@ -199,6 +213,7 @@ namespace Dzajna
             if (playerManager.IsInteracting) return;
             if (!inputHandler.jump_Input) return;
             if (inputHandler.MoveAmount <= 0) return;
+            if (!playerStats.CheckHasStamina()) return;
 
             Vector3 _moveDirection = cameraTransform.forward * inputHandler.Vertical;
             _moveDirection += cameraTransform.right * inputHandler.Horizontal;

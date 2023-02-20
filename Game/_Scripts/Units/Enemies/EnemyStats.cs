@@ -10,14 +10,12 @@ namespace Dzajna
     {
 
         // private HealthBar healthBar;
-        // private PlayerAnimatorManager playerAnimatorManager;
-        private Animator animator;
+        private EnemyAnimatorManager enemyAnimatorManager;
 
         private Coroutine deathRoutine;
 
         private void Awake() {
-            animator = GetComponent<Animator>();
-            // playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             //TODO: this could be better
             // healthBar = FindObjectOfType<HealthBar>();
         }
@@ -46,10 +44,10 @@ namespace Dzajna
             if (IsDead) return;
             currentHealth -= _dmg;
             // healthBar.SetCurrentHealth(currentHealth);
-            animator.Play("Damage1");
+            enemyAnimatorManager.PlayTargetAnimation("Damage1", true);
             
             if (currentHealth <= 0) {
-                animator.Play("Death");
+                enemyAnimatorManager.PlayTargetAnimation("Death", true);
                 deathRoutine = StartCoroutine(DeathRoutine());
                 IsDead = true;
             }

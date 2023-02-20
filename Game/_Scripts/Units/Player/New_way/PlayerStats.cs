@@ -53,6 +53,8 @@ public class PlayerStats : CharacterStats {
         return currentFP >= _FPCost;
     }
 
+    public bool CheckHasStamina() => currentStamina >= 0;
+
     public void TakeDamageWithoutAnimation(float _dmg) {
         if (IsDead) return;
         currentHealth -= _dmg;

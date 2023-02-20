@@ -1780,6 +1780,7 @@ MonoBehaviour:
   Anim: {fileID: 0}
   IsInteractingHash: 0
   IsDeadHash: 0
+  CanRotateHash: 0
   CanRotate: 1
   VerticalHash: 0
   HorizontalHash: 0
@@ -1822,6 +1823,9 @@ MonoBehaviour:
   sprintSpeed: 8
   rotationSpeed: 10
   fallingSpeed: 45
+  rollStaminaCost: 15
+  backstepStaminaCost: 12
+  sprintStaminaCost: 0.5
   groundDetectionRayStartPoint: 0.5
   minimumDistanceNeededToFall: 1
   groundDirectionRayOffset: 0.2

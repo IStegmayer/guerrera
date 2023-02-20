@@ -44,6 +44,7 @@ namespace Dzajna
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
         private PlayerManager playerManager;
+        private PlayerStats playerStats;
         private CameraManager cameraManager;
         private UIManager uiManager;
         private WeaponSlotManager weaponSlotManager;
@@ -56,6 +57,7 @@ namespace Dzajna
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerStats = GetComponent<PlayerStats>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             // TODO: inefficient asf
             cameraManager = FindObjectOfType<CameraManager>();
@@ -77,6 +79,8 @@ namespace Dzajna
                 inputActions.PlayerActions.Critical.performed += _ => critical_Input = true;
                 inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
                 inputActions.PlayerActions.A.performed += _ => a_Input = true;
+                inputActions.PlayerActions.B.performed += _ => b_Input = true;
+                inputActions.PlayerActions.B.canceled += _ => b_Input = false;
                 inputActions.PlayerActions.LockOn.performed += _ => lockOn_Input = true;
                 inputActions.PlayerActions.LockOnTargetLeft.performed += _ => lockOn_left_Input = true;
                 inputActions.PlayerActions.LockOnTargetRight.performed += _ => lockOn_right_Input = true;
@@ -116,16 +120,21 @@ namespace Dzajna
         }
 
         private void HandleRollInput(float _delta) {
-            b_Input = inputActions.PlayerActions.B.IsPressed();
-
             if (b_Input) {
                 RollInputTimer += _delta;
-                if (MoveAmount > 0) SprintFlag = true;
+                bool _hasStamina = playerStats.CheckHasStamina();
+                
+                if (!_hasStamina) {
+                    b_Input = false;
+                    SprintFlag = false;
+                } else if (MoveAmount > 0.5f) {
+                    SprintFlag = true;
+                }
             }
             else {
+                SprintFlag = false;
                 if (RollInputTimer > 0 && RollInputTimer < 0.5f) {
                     RollFlag = true;
-                    SprintFlag = false;
                 }
 
                 RollInputTimer = 0;

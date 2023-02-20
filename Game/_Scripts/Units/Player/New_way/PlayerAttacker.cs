@@ -27,6 +27,7 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     public void HandleRBAction() {
+        if (!playerStats.CheckHasStamina()) return;
         WeaponItem _weapon = playerInventory.RightWeapon;
         if (_weapon.isMeleeWeapon) PerformRBMeleeAction(_weapon);
         else if (_weapon.isMagicCaster) {
@@ -72,6 +73,8 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     public void AttemptBackStabOrRiposte() {
+        if (!playerStats.CheckHasStamina()) return;
+
         RaycastHit hit;
 
         if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit,
@@ -100,7 +103,8 @@ public class PlayerAttacker : MonoBehaviour {
 
             // deal dmg
             // TODO: this is not taking into account the player stats
-            float _critDamage = playerInventory.RightWeapon.BaseDamage * playerInventory.RightWeapon.CriticalDamageMultiplier;
+            float _critDamage = playerInventory.RightWeapon.BaseDamage *
+                                playerInventory.RightWeapon.CriticalDamageMultiplier;
             _enemyCharacterManager.PendingCriticalDamage = _critDamage;
         }
     }
@@ -142,9 +146,11 @@ public class PlayerAttacker : MonoBehaviour {
         }
     }
 
+    // TODO: im checking here for now
     public void HandleHeavyAttack(WeaponItem _weaponItem) {
+        if (!playerStats.CheckHasStamina()) return;
+        
         weaponSlotManager.SetAttackingWeapon(_weaponItem);
-
         if (inputHandler.TwoHandFlag) {
             playerAnimatorManager.PlayTargetAnimation(_weaponItem.TH_Heavy_Attack_1, true);
             LastAttackString = _weaponItem.TH_Heavy_Attack_1;
