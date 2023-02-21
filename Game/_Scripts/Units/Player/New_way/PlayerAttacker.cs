@@ -13,9 +13,10 @@ public class PlayerAttacker : MonoBehaviour {
     private WeaponSlotManager weaponSlotManager;
     public string LastAttackString;
 
-    private float maxCritDistance = 0.5f;
+    private float maxCritDistance = 0.75f;
     [SerializeField] private Transform critRayCastStartPoint;
     [SerializeField] private LayerMask backStabLayer;
+    [SerializeField] private LayerMask riposteLayer;
 
     private void Awake() {
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
@@ -84,10 +85,10 @@ public class PlayerAttacker : MonoBehaviour {
 
             if (_enemyCharacterManager == null) return;
             // Pull us in position to backstab
-            playerManager.transform.position = _enemyCharacterManager.BackStabCollider.GetBackStabStandPoint().position;
+            playerManager.transform.position = _enemyCharacterManager.BackStabCollider.GetAttackerStandPoint().position;
             // rotate towards transform
-            // Vector3 _rotationDirection = playerManager.transform.root.eulerAngles;
-            Vector3 _rotationDirection = hit.transform.position - playerManager.transform.position;
+            Vector3 _rotationDirection = playerManager.transform.root.eulerAngles;
+            _rotationDirection = hit.transform.position - playerManager.transform.position;
             _rotationDirection.y = 0;
             _rotationDirection.Normalize();
             Quaternion _tr = Quaternion.LookRotation(_rotationDirection);
@@ -100,6 +101,36 @@ public class PlayerAttacker : MonoBehaviour {
             // make enemy play animation
             _enemyCharacterManager.GetComponent<EnemyAnimatorManager>()
                 .PlayTargetAnimation(playerAnimatorManager.BackStabbedHash, true);
+
+            // deal dmg
+            // TODO: this is not taking into account the player stats
+            float _critDamage = playerInventory.RightWeapon.BaseDamage *
+                                playerInventory.RightWeapon.CriticalDamageMultiplier;
+            _enemyCharacterManager.PendingCriticalDamage = _critDamage;
+        } else if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward),
+                       out hit, maxCritDistance, riposteLayer)) {
+            //TODO: repeating code
+            CharacterManager _enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
+            DamageCollider _rightWeapon = weaponSlotManager.RightDamageCollider;
+
+            if (_enemyCharacterManager == null || !_enemyCharacterManager.CanBeRiposted) return;
+            
+            playerManager.transform.position = _enemyCharacterManager.RiposteCollider.GetAttackerStandPoint().position;
+            // rotate towards transform
+            Vector3 _rotationDirection = playerManager.transform.root.eulerAngles;
+            _rotationDirection = hit.transform.position - playerManager.transform.position;
+            _rotationDirection.y = 0;
+            _rotationDirection.Normalize();
+            Quaternion _tr = Quaternion.LookRotation(_rotationDirection);
+            Quaternion _targetRotation =
+                Quaternion.Slerp(playerManager.transform.rotation, _tr, 500f * Time.deltaTime);
+            playerManager.transform.rotation = _targetRotation;
+            
+            // play animation
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.RiposteHash, true);
+            // make enemy play animation
+            EnemyAnimatorManager anm = _enemyCharacterManager.GetComponent<EnemyAnimatorManager>();
+            anm.PlayTargetAnimation(playerAnimatorManager.RipostedHash, true);
 
             // deal dmg
             // TODO: this is not taking into account the player stats

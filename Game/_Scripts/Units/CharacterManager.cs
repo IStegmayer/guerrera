@@ -8,9 +8,11 @@ namespace Dzajna
         public Transform LockOnTransform;
         
         [Header("Combat Colliders")]
-        public BoxCollider BackStabBoxCollider;
+        public CriticalDamageCollider BackStabCollider;
+        public CriticalDamageCollider RiposteCollider;
 
-        public BackStabCollider BackStabCollider;
+        [Header("Combat Flags")] 
+        public bool CanBeRiposted;
 
         // Damage will be inflicted during an animation event
         // Used in backstab or riposte animations

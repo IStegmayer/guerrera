@@ -35,7 +35,7 @@ namespace Dzajna
             anim = GetComponent<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
-            BackStabCollider = GetComponentInChildren<BackStabCollider>();
+            BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
         }
 
         private void Update() {

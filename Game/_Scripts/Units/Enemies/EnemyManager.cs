@@ -30,7 +30,7 @@ public class EnemyManager : CharacterManager {
         enemyStats = GetComponent<EnemyStats>();
         NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
         Rigidbody = GetComponent<Rigidbody>();
-        BackStabCollider = GetComponentInChildren<BackStabCollider>();
+        BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
     }
     
     private void Start() {

@@ -32,6 +32,8 @@ namespace Dzajna
         public int JumpHash;
         public int FailedCastHash;
         public int BackStabHash;
+        public int RiposteHash;
+        public int RipostedHash;
         public int BackStabbedHash;
         public int OpenChestHash;
         
@@ -63,6 +65,8 @@ namespace Dzajna
             IsInAirHash = Animator.StringToHash("isInAir");
             BackStabHash = Animator.StringToHash("BackStab");
             BackStabbedHash = Animator.StringToHash("BackStabbed");
+            RiposteHash = Animator.StringToHash("Riposte");
+            RipostedHash = Animator.StringToHash("Riposted");
             OpenChestHash = Animator.StringToHash("OpenChest");
             CanRotate = true;
         }
