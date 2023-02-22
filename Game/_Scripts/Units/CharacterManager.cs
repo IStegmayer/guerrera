@@ -13,6 +13,8 @@ namespace Dzajna
 
         [Header("Combat Flags")] 
         public bool CanBeRiposted;
+        public bool CanBeParried;
+        public bool IsParrying;
 
         // Damage will be inflicted during an animation event
         // Used in backstab or riposte animations

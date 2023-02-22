@@ -65,6 +65,8 @@ namespace Dzajna
             IsInAirHash = Animator.StringToHash("isInAir");
             BackStabHash = Animator.StringToHash("BackStab");
             BackStabbedHash = Animator.StringToHash("BackStabbed");
+            ParriedHash = Animator.StringToHash("Parried");
+            ParryHash = Animator.StringToHash("Parry");
             RiposteHash = Animator.StringToHash("Riposte");
             RipostedHash = Animator.StringToHash("Riposted");
             OpenChestHash = Animator.StringToHash("OpenChest");
@@ -124,6 +126,10 @@ namespace Dzajna
         public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
         public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
         public void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
+        public void EnableIsParrying() => playerManager.IsParrying = true;
+        public void DisableIsParrying() => playerManager.IsParrying = false;
+        public void EnableCanBeRiposted() => playerManager.CanBeRiposted = true;
+        public void DisableCanBeRiposted() => playerManager.CanBeRiposted = false;
 
         public void AwardSoulsOnDeath() {
             //TODO:  Placeholder for enemynimator event.

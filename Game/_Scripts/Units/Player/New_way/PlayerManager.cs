@@ -76,6 +76,7 @@ namespace Dzajna
             inputHandler.SprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.lt_Input = false;
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.lockOn_Input = false; 

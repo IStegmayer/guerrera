@@ -44,9 +44,11 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
     private void LoadWeaponsDamageCollider(bool _isLeft) {
         if (_isLeft) {
             leftDamageCollider = leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            leftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         }
         else {
             rightDamageCollider = rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            rightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         }
     }
 
@@ -59,11 +61,19 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
 
     #region Handle Weapon's Damage Collider
 
-    private void LoadLeftWeaponDamageCollider() => leftDamageCollider =
-        leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+    private void LoadLeftWeaponDamageCollider() {
+        leftDamageCollider =
+            leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+        leftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+        Debug.Log("?");
+    }
 
-    private void LoadRightWeaponDamageCollider() => rightDamageCollider =
-        rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+    private void LoadRightWeaponDamageCollider() {
+        rightDamageCollider =
+            rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+        rightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+        Debug.Log("?");
+    }
 
     public void OpenDamageCollider() {
         rightDamageCollider.EnableDamageCollider();

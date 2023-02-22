@@ -22,11 +22,15 @@ namespace Dzajna
         public string OH_Light_Attack_2;
         public string OH_Heavy_Attack_1;
         public string OH_Heavy_Attack_2;
+
+        [Header("Two Handed Attack Animations")]
         public string TH_Light_Attack_1;
         public string TH_Light_Attack_2;
         public string TH_Heavy_Attack_1;
         public string TH_Heavy_Attack_2;
-        
+
+        [Header("Weapon Art")] 
+        public string WeaponArt;
 
         [Header("Stamina Costs")] 
         public int BaseStamina;
@@ -38,6 +42,7 @@ namespace Dzajna
         public bool isFaithCaster;
         public bool isPyroCaster;
         public bool isMeleeWeapon;
+        public bool isShieldWeapon;
 
 
     }

@@ -8,6 +8,8 @@ public class AnimatorManager : MonoBehaviour {
     public int IsDeadHash;
     public int CanRotateHash;
     public bool CanRotate;
+    public int ParriedHash;
+    public int ParryHash;
 
     public void PlayTargetAnimation(int _targetAnim, bool _isInteracting) {
         Anim.applyRootMotion = _isInteracting;

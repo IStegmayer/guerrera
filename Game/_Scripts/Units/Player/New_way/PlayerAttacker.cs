@@ -27,6 +27,13 @@ public class PlayerAttacker : MonoBehaviour {
         weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
     }
 
+    public void HandleLTAction() {
+        WeaponItem _weapon = playerInventory.LeftWeapon;
+        if (_weapon.isShieldWeapon) {
+            PerformLTWeaponArt(_weapon, false);
+        }
+    }
+
     public void HandleRBAction() {
         if (!playerStats.CheckHasStamina()) return;
         WeaponItem _weapon = playerInventory.RightWeapon;
@@ -71,6 +78,20 @@ public class PlayerAttacker : MonoBehaviour {
             if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
+    }
+
+    private void PerformLTWeaponArt(WeaponItem _weapon, bool _isTwoHanding) {
+        if (playerManager.IsInteracting) return;
+
+        if (_isTwoHanding) {
+        }
+        else {
+            playerAnimatorManager.PlayTargetAnimation(_weapon.WeaponArt, true);
+        }
+        
+        // If we are two handing perform weapon art for right weapon
+        // else perform art for left handed weapon
+        
     }
 
     public void AttemptBackStabOrRiposte() {

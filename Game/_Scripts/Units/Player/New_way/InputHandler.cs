@@ -19,6 +19,7 @@ namespace Dzajna
         public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool lt_Input;
         public bool critical_Input;
         public bool jump_Input;
         public bool twoHand_Input;
@@ -76,6 +77,7 @@ namespace Dzajna
                 // inputActions.PlayerActions.A.performed += HandleInteractInput;
                 inputActions.PlayerActions.RB.performed += _ => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += _ => rt_Input = true;
+                inputActions.PlayerActions.LT.performed += _ => lt_Input = true;
                 inputActions.PlayerActions.Critical.performed += _ => critical_Input = true;
                 inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
                 inputActions.PlayerActions.A.performed += _ => a_Input = true;
@@ -147,7 +149,7 @@ namespace Dzajna
             if (rb_Input) {
                 playerAttacker.HandleRBAction();
             }
-
+            
             if (rt_Input) {
                 if (playerManager.CanDoCombo) {
                     ComboFlag = true;
@@ -158,6 +160,19 @@ namespace Dzajna
                     playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
                     playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
                 }
+            }
+
+            if (lt_Input) {
+                //TODO: this is some shit placeholder logic
+                if (TwoHandFlag) {
+                    // If two handing handle ruightweapon art
+                }
+                else {
+                    // handle weapon art if shield (parry)
+                    playerAttacker.HandleLTAction();
+                }
+                // else handle light attack if melee weapon
+                
             }
         }
 

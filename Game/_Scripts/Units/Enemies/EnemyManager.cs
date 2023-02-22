@@ -46,13 +46,14 @@ public class EnemyManager : CharacterManager {
     }
 
     private void FixedUpdate() {
+        if (CanBeRiposted) return;
         HandleStateMachine();
     }
 
     private void HandleStateMachine() {
         // Actually handle this error
         if (CurrentState == null) return;
-        
+
         State _nextState = CurrentState.Tick(this, enemyStats, enemyAnimatorM);
         if (_nextState != null) SwitchToNextState(_nextState);
     }

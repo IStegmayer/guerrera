@@ -319,6 +319,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LT",
+                    "type": "Button",
+                    "id": "fb3bf906-d5e6-45ba-8e13-cb2a768bc341",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "A",
                     "type": "Button",
                     "id": "5e45e5f3-22d6-4f09-a942-330fee09caca",
@@ -591,6 +600,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Critical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e9c91e6-be73-415a-a508-56c2ebf9c743",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4201ed8-0e96-4428-a084-1f8ae0175971",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LT",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
