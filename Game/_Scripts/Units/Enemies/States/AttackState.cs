@@ -8,8 +8,19 @@ public class AttackState : State {
     public EnemyAttackAction[] EnemyAttacks;
     public EnemyAttackAction CurrentAttack;
 
+    private bool isComboing = false;
+
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
+        if (_enemyManager.IsInteracting) {
+            if (!_enemyManager.CanDoCombo) return this;
+            if (isComboing) {
+                _enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
+                isComboing = false;
+            }
+        }
+        if (_enemyManager.IsPerformingAction) return combatStanceState;
+
         // Select one of our many attacks based on attack scores
         // If the selected attack is not able to be used because of bad angle or distance, select a new attack
         // If the attack is viable, stop our movement and attack our target
@@ -19,7 +30,6 @@ public class AttackState : State {
         Vector3 _targetsDirection = _targetPos - _enemyManager.transform.position;
         HandleRotateTowardsTarget(_enemyManager, _targetsDirection);
         
-        if (_enemyManager.IsPerformingAction) return combatStanceState;
 
         float _distanceFromTarget = Vector3.Distance(_targetPos, _enemyManager.transform.position);
         float _viewableAngle = Vector3.Angle(_targetsDirection, _enemyManager.transform.forward);
@@ -37,9 +47,19 @@ public class AttackState : State {
                         _enemyAnimatorManager.Anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                         _enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
                         _enemyManager.IsPerformingAction = true;
-                        _enemyManager.CurrentRecoveryTime = CurrentAttack.RecoveryTime;
-                        CurrentAttack = null;
-                        return combatStanceState;
+
+                        if (CurrentAttack.canCombo) {
+                            CurrentAttack = CurrentAttack.comboAction;
+                            isComboing = true;
+                            return this;
+                        }
+                        else
+                        {
+                            _enemyManager.CurrentRecoveryTime = CurrentAttack.RecoveryTime;
+                            CurrentAttack = null;
+                            return combatStanceState;
+                        }
+                        
                     }
                 }
             }

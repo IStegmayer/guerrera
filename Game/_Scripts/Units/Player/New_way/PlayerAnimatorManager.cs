@@ -14,11 +14,9 @@ namespace Dzajna
         // properties hashes
         public int VerticalHash;
         public int HorizontalHash;
-        public int CanDoComboHash;
         public int IsInAirHash;
         public int IsUsingRightHandHash;
         public int IsUsingLeftHandHash;
-        public int IsInvulnerableHash;
         
         // states hashes
         public int RollHash;
@@ -121,16 +119,7 @@ namespace Dzajna
             Vector3 _velocity = _deltaPosition / _delta;
             playerLocomotion.Rigidbody.velocity = _velocity;
         }
-
-        public void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
-        public void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
-        public void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
-        public void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
-        public void EnableIsParrying() => playerManager.IsParrying = true;
-        public void DisableIsParrying() => playerManager.IsParrying = false;
-        public void EnableCanBeRiposted() => playerManager.CanBeRiposted = true;
-        public void DisableCanBeRiposted() => playerManager.CanBeRiposted = false;
-
+        
         public void AwardSoulsOnDeath() {
             //TODO:  Placeholder for enemynimator event.
         }

@@ -17,7 +17,7 @@ MonoBehaviour:
   ModelPrefab: {fileID: 5562503580730339140, guid: eca7f84e40d81fc45993f192f6e3fea0,
     type: 3}
   IsUnarmed: 0
-  BaseDamage: 20
+  BaseDamage: 30
   CriticalDamageMultiplier: 4
   OH_RightArmIdle: 
   OH_LeftArmIdle: 
@@ -30,6 +30,7 @@ MonoBehaviour:
   TH_Light_Attack_2: TH_LightAttack2
   TH_Heavy_Attack_1: TH_HeavyAttack1
   TH_Heavy_Attack_2: TH_HeavyAttack2
+  WeaponArt: 
   BaseStamina: 20
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
@@ -37,3 +38,4 @@ MonoBehaviour:
   isFaithCaster: 0
   isPyroCaster: 0
   isMeleeWeapon: 1
+  isShieldWeapon: 0

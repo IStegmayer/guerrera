@@ -7,6 +7,8 @@ public class IdleState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
+        if (_enemyManager.IsInteracting) return this;
+        
         // Look for a potential target
         Collider[] _colliders =
             Physics.OverlapSphere(_enemyManager.transform.position, _enemyManager.AggroRange, layerMask);

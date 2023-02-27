@@ -22,6 +22,7 @@ public class EnemyManager : CharacterManager {
     public float AggroRange = 10;
     public float RotationSpeed = 100f;
     public float MaxAttackRange = 3f;
+    
 
     [SerializeField] private CapsuleCollider characterCollider;
     [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
@@ -42,12 +43,14 @@ public class EnemyManager : CharacterManager {
     private void Update() {
         HandleRecoveryTimer();
         IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
+        CanDoCombo = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanDoComboHash);
         enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStats.IsDead);
+        HandleStateMachine();
     }
 
-    private void FixedUpdate() {
-        if (CanBeRiposted) return;
-        HandleStateMachine();
+    private void LateUpdate() {
+        NavMeshAgent.transform.localPosition = Vector3.zero;
+        NavMeshAgent.transform.localRotation = Quaternion.identity;
     }
 
     private void HandleStateMachine() {

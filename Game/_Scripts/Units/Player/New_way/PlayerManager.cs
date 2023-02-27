@@ -15,11 +15,11 @@ namespace Dzajna
 
         private InteractableUI interactableUI;
 
-        [Header("Player flags")] public bool IsInteracting;
+        [Header("Player flags")] 
+        public bool IsInteracting;
         public bool IsSprinting;
         public bool IsInAir = false;
         public bool IsGrounded;
-        public bool CanDoCombo;
         public bool IsUsingRightHand;
         public bool IsUsingLeftHand;
         public bool IsInvulnerable;

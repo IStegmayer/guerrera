@@ -7,6 +7,8 @@ public class CombatStanceState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
+        if (_enemyManager.IsInteracting) return this;
+        
         float _distanceFromTarget =
             Vector3.Distance(_enemyManager.CurrentTarget.transform.position, _enemyManager.transform.position);
 

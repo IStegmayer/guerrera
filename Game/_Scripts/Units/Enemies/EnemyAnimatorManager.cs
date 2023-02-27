@@ -19,6 +19,9 @@ namespace Dzajna
             CanRotateHash = Animator.StringToHash("canRotate");
             ParriedHash = Animator.StringToHash("Parried");
             ParryHash = Animator.StringToHash("Parry");
+            CanDoComboHash = Animator.StringToHash("canDoCombo");
+            IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
+            CanRotateHash = Animator.StringToHash("canRotate");
         }
 
         private void OnAnimatorMove() {
@@ -38,10 +41,6 @@ namespace Dzajna
             if (_playerStats != null) _playerStats.AddSouls(enemyStats.SoulsReward);
             if (_soulCount != null) _soulCount.SetSoulCountText(_playerStats.SoulCount);
         }
-        public void EnableIsParrying() => enemyManager.IsParrying = true;
-        public void DisableIsParrying() => enemyManager.IsParrying = false;
-        public void EnableCanBeRiposted() => enemyManager.CanBeRiposted = true;
-        public void DisableCanBeRiposted() => enemyManager.CanBeRiposted = false;
         public override void TakeCriticalDamageAnimEvent() {
             enemyStats.TakeDamageWithoutAnimation(enemyManager.PendingCriticalDamage);
             enemyManager.PendingCriticalDamage = 0;

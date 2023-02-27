@@ -11,9 +11,8 @@ public class AmbushState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
-        if (IsSleeping && !_enemyManager.IsInteracting) {
-            _enemyAnimatorManager.PlayTargetAnimation(sleepAnimation, true);
-        }
+        if (_enemyManager.IsInteracting) return this;
+        if (IsSleeping) _enemyAnimatorManager.PlayTargetAnimation(sleepAnimation, true);
 
         HandleTargetDetection(_enemyManager, _enemyAnimatorManager);
         if (_enemyManager.CurrentTarget != null) return pursueTargetState;

@@ -6,6 +6,7 @@ public class PursueTargetState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
+        if (_enemyManager.IsInteracting) return this;
 
         Vector3 _targetDir = _enemyManager.CurrentTarget.transform.position - _enemyManager.transform.position;
         HandleRotateTowardsTarget(_enemyManager, _targetDir);
@@ -25,8 +26,6 @@ public class PursueTargetState : State {
 
 
         HandleRotateTowardsTarget(_enemyManager, _targetDir);
-        _enemyManager.NavMeshAgent.transform.localPosition = Vector3.zero;
-        _enemyManager.NavMeshAgent.transform.localRotation = Quaternion.identity;
         // If within attack range, switch to combat stance state
         // If target is out of attack range, return this state and continue giving chase
         if (_distanceFromTarget <= _enemyManager.MaxAttackRange) return combatStanceState;
