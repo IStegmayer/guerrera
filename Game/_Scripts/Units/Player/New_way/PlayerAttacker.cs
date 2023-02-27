@@ -46,6 +46,10 @@ public class PlayerAttacker : MonoBehaviour {
         }
     }
 
+    public void HandleLBAction() {
+        PerformLBBlockingAction();
+    }
+
     private void PerformRBMeleeAction(WeaponItem _weapon) {
         if (playerManager.CanDoCombo) {
             inputHandler.ComboFlag = true;
@@ -196,6 +200,14 @@ public class PlayerAttacker : MonoBehaviour {
             playerAnimatorManager.PlayTargetAnimation(_weaponItem.OH_Light_Attack_1, true);
             LastAttackString = _weaponItem.OH_Light_Attack_1;
         }
+    }
+
+    private void PerformLBBlockingAction() {
+        if (playerManager.IsInteracting) return;
+        if (playerManager.IsBlocking) return;
+        
+        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.BlockHash, false, true);
+        playerManager.IsBlocking = true;
     }
 
     // TODO: im checking here for now

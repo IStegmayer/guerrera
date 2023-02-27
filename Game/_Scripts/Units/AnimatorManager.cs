@@ -8,27 +8,29 @@ public class AnimatorManager : MonoBehaviour {
     public Animator Anim;
     public int IsInteractingHash;
     public int IsDeadHash;
+    public int IsBlockingHash;
     public int CanRotateHash;
     public bool CanRotate;
     public int ParriedHash;
     public int ParryHash;
     public int CanDoComboHash;
     public int IsInvulnerableHash;
+    public int BlockHash;
 
     public void Awake() {
         characterManager = GetComponent<CharacterManager>();
     }
 
-    public void PlayTargetAnimation(int _targetAnim, bool _isInteracting) {
+    public void PlayTargetAnimation(int _targetAnim, bool _isInteracting, bool _canRotate = false) {
         Anim.applyRootMotion = _isInteracting;
-        Anim.SetBool(CanRotateHash, false);
+        Anim.SetBool(CanRotateHash, _canRotate);
         Anim.SetBool(IsInteractingHash, _isInteracting);
         Anim.CrossFade(_targetAnim, 0.2f);
     }
-    
-    public void PlayTargetAnimation(string _targetAnim, bool _isInteracting) {
+
+    public void PlayTargetAnimation(string _targetAnim, bool _isInteracting, bool _canRotate = false) {
         Anim.applyRootMotion = _isInteracting;
-        Anim.SetBool(CanRotateHash, false);
+        Anim.SetBool(CanRotateHash, _canRotate);
         Anim.SetBool(IsInteractingHash, _isInteracting);
         Anim.CrossFade(_targetAnim, 0.2f);
     }

@@ -48,6 +48,7 @@ namespace Dzajna
             IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
             playerAnimatorManager.CanRotate = anim.GetBool(playerAnimatorManager.CanRotateHash);
             playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsDeadHash, playerStats.IsDead);
+            playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsBlockingHash, IsBlocking);
 
             inputHandler.TickInput(_delta);
             

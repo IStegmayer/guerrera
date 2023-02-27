@@ -20,6 +20,7 @@ namespace Dzajna
         public bool rb_Input;
         public bool rt_Input;
         public bool lt_Input;
+        public bool lb_Input;
         public bool critical_Input;
         public bool jump_Input;
         public bool twoHand_Input;
@@ -78,6 +79,8 @@ namespace Dzajna
                 inputActions.PlayerActions.RB.performed += _ => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += _ => rt_Input = true;
                 inputActions.PlayerActions.LT.performed += _ => lt_Input = true;
+                inputActions.PlayerActions.LB.performed += _ => lb_Input = true;
+                inputActions.PlayerActions.LB.canceled += _ => lb_Input = false;
                 inputActions.PlayerActions.Critical.performed += _ => critical_Input = true;
                 inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
                 inputActions.PlayerActions.A.performed += _ => a_Input = true;
@@ -105,7 +108,7 @@ namespace Dzajna
         public void TickInput(float _delta) {
             HandleMoveInput();
             HandleRollInput(_delta);
-            HandleAttackInput();
+            HandleCombatInput();
             HandleQuickSlotsInput();
             HandleLockOnInput();
             HandleLockOnSwitch();
@@ -143,12 +146,13 @@ namespace Dzajna
             }
         }
 
-        private void HandleAttackInput() {
+        private void HandleCombatInput() {
             // TODO: does this really belong here? also check for isInteracting
             // TODO: refactor this shit logic
-            if (rb_Input) {
-                playerAttacker.HandleRBAction();
-            }
+            if (rb_Input) playerAttacker.HandleRBAction();
+
+            if (lb_Input) playerAttacker.HandleLBAction();
+            else playerManager.IsBlocking = false;
             
             if (rt_Input) {
                 if (playerManager.CanDoCombo) {

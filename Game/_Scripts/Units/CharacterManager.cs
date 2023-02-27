@@ -16,6 +16,7 @@ namespace Dzajna
         public bool CanBeParried;
         public bool CanDoCombo;
         public bool IsParrying;
+        public bool IsBlocking;
 
         // Damage will be inflicted during an animation event
         // Used in backstab or riposte animations

@@ -48,6 +48,7 @@ namespace Dzajna
             IsUsingRightHandHash = Animator.StringToHash("isUsingRightHand");
             IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
             IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
+            IsBlockingHash = Animator.StringToHash("isBlocking");
             CanRotateHash = Animator.StringToHash("canRotate");
             IsDeadHash = Animator.StringToHash("isDead");
             RollHash = Animator.StringToHash("Roll");
@@ -65,6 +66,7 @@ namespace Dzajna
             BackStabbedHash = Animator.StringToHash("BackStabbed");
             ParriedHash = Animator.StringToHash("Parried");
             ParryHash = Animator.StringToHash("Parry");
+            BlockHash = Animator.StringToHash("Block");
             RiposteHash = Animator.StringToHash("Riposte");
             RipostedHash = Animator.StringToHash("Riposted");
             OpenChestHash = Animator.StringToHash("OpenChest");
