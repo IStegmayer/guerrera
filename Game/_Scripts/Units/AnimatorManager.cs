@@ -16,6 +16,7 @@ public class AnimatorManager : MonoBehaviour {
     public int CanDoComboHash;
     public int IsInvulnerableHash;
     public int BlockHash;
+    public int BlockDamage1Hash;
 
     public void Awake() {
         characterManager = GetComponent<CharacterManager>();

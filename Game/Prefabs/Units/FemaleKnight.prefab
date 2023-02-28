@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8452621548664578238
 Transform:
   m_ObjectHideFlags: 0
@@ -215,6 +215,7 @@ Transform:
   - {fileID: 8452621548664578238}
   - {fileID: 2577106954799377342}
   - {fileID: 4016288747616088214}
+  - {fileID: 9006283397920563364}
   m_Father: {fileID: 6880589535415498431}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -390,6 +391,65 @@ Transform:
   m_Father: {fileID: 6880589535415424763}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 31.039, y: -186.665, z: -51.409}
+--- !u!1 &4486761910094556401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9006283397920563364}
+  - component: {fileID: 7124618873591375936}
+  - component: {fileID: 4058143339192305897}
+  m_Layer: 10
+  m_Name: BlockingCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9006283397920563364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486761910094556401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.502, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5351911129682374362}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7124618873591375936
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486761910094556401}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1424758, y: 1.5054264, z: 0.09426367}
+  m_Center: {x: -0.0033924282, y: 0.2527132, z: -0.45286816}
+--- !u!114 &4058143339192305897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486761910094556401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14cb15bb46669c746a431de644f7632c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockingPhysicalDmgAbsorption: 0
 --- !u!1 &4693682408969075295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,6 +1679,7 @@ GameObject:
   - component: {fileID: 2899108450045193141}
   - component: {fileID: 96056487394725359}
   - component: {fileID: 5353905217364029986}
+  - component: {fileID: 2834991936200951273}
   m_Layer: 9
   m_Name: FemaleKnight
   m_TagString: Player
@@ -1848,6 +1909,7 @@ MonoBehaviour:
   rb_Input: 0
   rt_Input: 0
   lt_Input: 0
+  lb_Input: 0
   critical_Input: 0
   jump_Input: 0
   twoHand_Input: 0
@@ -1880,17 +1942,20 @@ MonoBehaviour:
   Anim: {fileID: 0}
   IsInteractingHash: 0
   IsDeadHash: 0
+  IsBlockingHash: 0
   CanRotateHash: 0
   CanRotate: 1
   ParriedHash: 0
   ParryHash: 0
+  CanDoComboHash: 0
+  IsInvulnerableHash: 0
+  BlockHash: 0
+  BlockDamage1Hash: 0
   VerticalHash: 0
   HorizontalHash: 0
-  CanDoComboHash: 0
   IsInAirHash: 0
   IsUsingRightHandHash: 0
   IsUsingLeftHandHash: 0
-  IsInvulnerableHash: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
@@ -1957,13 +2022,14 @@ MonoBehaviour:
   RiposteCollider: {fileID: 802744864166102261}
   CanBeRiposted: 0
   CanBeParried: 0
+  CanDoCombo: 0
   IsParrying: 0
+  IsBlocking: 0
   PendingCriticalDamage: 0
   IsInteracting: 0
   IsSprinting: 0
   IsInAir: 0
   IsGrounded: 0
-  CanDoCombo: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
   IsInvulnerable: 0
@@ -2046,6 +2112,18 @@ MonoBehaviour:
   focusPerLevel: 5
   IsDead: 0
   SoulCount: 0
+--- !u!114 &2834991936200951273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880589535415207573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c6550002c8c604ba143488c8b155b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6880589535415209113
 GameObject:
   m_ObjectHideFlags: 0

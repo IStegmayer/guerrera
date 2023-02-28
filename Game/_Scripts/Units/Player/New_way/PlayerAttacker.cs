@@ -6,6 +6,7 @@ namespace Dzajna {
 // also combo can just be an array of attacks and have a tree in anim. Overall a faulty script
 public class PlayerAttacker : MonoBehaviour {
     private PlayerAnimatorManager playerAnimatorManager;
+    private PlayerEquipmentManager playerEquipmentManager;
     private PlayerManager playerManager;
     private PlayerInventory playerInventory;
     private PlayerStats playerStats;
@@ -20,6 +21,7 @@ public class PlayerAttacker : MonoBehaviour {
 
     private void Awake() {
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+        playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         playerManager = GetComponent<PlayerManager>();
         playerInventory = GetComponent<PlayerInventory>();
         playerStats = GetComponent<PlayerStats>();
@@ -208,6 +210,7 @@ public class PlayerAttacker : MonoBehaviour {
         
         playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.BlockHash, false, true);
         playerManager.IsBlocking = true;
+        playerEquipmentManager.OpenBlockingCollider();
     }
 
     // TODO: im checking here for now

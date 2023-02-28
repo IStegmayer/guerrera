@@ -19,6 +19,7 @@ MonoBehaviour:
   IsUnarmed: 0
   BaseDamage: 5
   CriticalDamageMultiplier: 2
+  pshysicalDmgAbsorption: 80
   OH_RightArmIdle: 
   OH_LeftArmIdle: 
   TH_Idle: TH_Idle

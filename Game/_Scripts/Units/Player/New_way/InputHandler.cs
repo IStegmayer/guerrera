@@ -47,6 +47,7 @@ namespace Dzajna
         private PlayerInventory playerInventory;
         private PlayerManager playerManager;
         private PlayerStats playerStats;
+        private PlayerEquipmentManager playerEquipmentManager;
         private CameraManager cameraManager;
         private UIManager uiManager;
         private WeaponSlotManager weaponSlotManager;
@@ -61,6 +62,7 @@ namespace Dzajna
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerStats = GetComponent<PlayerStats>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
             // TODO: inefficient asf
             cameraManager = FindObjectOfType<CameraManager>();
             uiManager = FindObjectOfType<UIManager>();
@@ -152,7 +154,11 @@ namespace Dzajna
             if (rb_Input) playerAttacker.HandleRBAction();
 
             if (lb_Input) playerAttacker.HandleLBAction();
-            else playerManager.IsBlocking = false;
+            else {
+                playerManager.IsBlocking = false;
+                //TODO: this should just be an animation event
+                playerEquipmentManager.CloseBlockingCollider();
+            }
             
             if (rt_Input) {
                 if (playerManager.CanDoCombo) {

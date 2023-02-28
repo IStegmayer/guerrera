@@ -12,6 +12,9 @@ namespace Dzajna
         public int BaseDamage;
         public int CriticalDamageMultiplier;
 
+        [Header("Absorption")] 
+        public float pshysicalDmgAbsorption;
+        
         [Header("Idle Animations")] 
         public string OH_RightArmIdle;
         public string OH_LeftArmIdle;

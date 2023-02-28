@@ -66,12 +66,14 @@ public class PlayerStats : CharacterStats {
         }
     }
 
-    public void TakeDamage(float _dmg) {
+    public void TakeDamage(float _dmg, bool _isBlocking = false) {
         if (playerManager.IsInvulnerable) return;
         if (IsDead) return;
+        
+        int _dmgAnim = _isBlocking ? playerAnimatorManager.BlockDamage1Hash : playerAnimatorManager.Damage1Hash; 
         currentHealth -= _dmg;
         healthBar.SetCurrentHealth(currentHealth);
-        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.Damage1Hash, true);
+        playerAnimatorManager.PlayTargetAnimation(_dmgAnim, true);
 
         if (currentHealth <= 0) {
             playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.DeathHash, true);   

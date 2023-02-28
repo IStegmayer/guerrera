@@ -58,6 +58,7 @@ namespace Dzajna
             FallHash = Animator.StringToHash("Fall");
             EmptyHash = Animator.StringToHash("Empty");
             Damage1Hash = Animator.StringToHash("Damage1");
+            BlockDamage1Hash = Animator.StringToHash("BlockDamage1");
             DeathHash = Animator.StringToHash("Death");
             JumpHash = Animator.StringToHash("Jump");
             FailedCastHash = Animator.StringToHash("FailedCast");

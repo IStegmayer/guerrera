@@ -27,19 +27,27 @@ public class DamageCollider : MonoBehaviour {
         if (_collider.gameObject.CompareTag("Player")) {
             PlayerStats _playerStats = _collider.GetComponent<PlayerStats>();
             CharacterManager _enemyCharacterManager = _collider.GetComponent<CharacterManager>();
-            if (_enemyCharacterManager != null && _enemyCharacterManager.IsParrying) {
+            BlockingCollider _shield = _collider.GetComponentInChildren<BlockingCollider>(true);
+            float _dmgToBeDealt = CurrentWeaponDamage;
+            
+            if (_enemyCharacterManager == null) throw new Exception("No enemy character manager found.");
+            if (_playerStats == null) throw new Exception("No player stats manager found.");
+            
+            if (_enemyCharacterManager.IsParrying) {
                 // CHECK IF YOU ARE PARRIABLE
                 AnimatorManager _anim = characterManager.GetComponent<AnimatorManager>();
                 _anim.PlayTargetAnimation(_anim.ParriedHash, true);
                 return;
             }
 
-            if (_playerStats != null) {
-                _playerStats.TakeDamage(CurrentWeaponDamage);
+            if (_shield != null && _enemyCharacterManager.IsBlocking) {
+                _dmgToBeDealt = CurrentWeaponDamage - (CurrentWeaponDamage * _shield.blockingPhysicalDmgAbsorption)/100;
             }
+            _playerStats.TakeDamage(_dmgToBeDealt, _enemyCharacterManager.IsBlocking);
         }
 
         if (_collider.gameObject.CompareTag("Enemy")) {
+            //TODO: add blocking
             EnemyStats _enemyStats = _collider.GetComponent<EnemyStats>();
             CharacterManager _enemyCharacterManager = _collider.GetComponent<CharacterManager>();
             if (_enemyCharacterManager != null && _enemyCharacterManager.IsParrying) {

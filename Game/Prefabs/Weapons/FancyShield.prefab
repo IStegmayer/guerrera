@@ -138,6 +138,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4994219200247948655}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &4573699220075561600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4994219200247818517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.92797846, y: 1.6043742, z: 0.16867356}
+  m_Center: {x: 0.0000000025916442, y: 0.028545907, z: 0.072440624}
 --- !u!114 &736536393613837933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,17 +163,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1103877e5c351b4594ddf4f49b7695d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManager: {fileID: 0}
   CurrentWeaponDamage: 5
---- !u!65 &4573699220075561600
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4994219200247818517}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.92797846, y: 1.6043742, z: 0.16867356}
-  m_Center: {x: 0.0000000025916442, y: 0.028545907, z: 0.072440624}
