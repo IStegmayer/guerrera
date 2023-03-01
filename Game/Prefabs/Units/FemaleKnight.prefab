@@ -1939,6 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69a44a5bae9418abf225911b8685d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManager: {fileID: -4984005286210543844}
   Anim: {fileID: 0}
   IsInteractingHash: 0
   IsDeadHash: 0

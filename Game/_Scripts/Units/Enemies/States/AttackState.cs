@@ -8,15 +8,15 @@ public class AttackState : State {
     public EnemyAttackAction[] EnemyAttacks;
     public EnemyAttackAction CurrentAttack;
 
-    private bool isComboing = false;
+    private bool willComboNextAttack = false;
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorManager) {
         if (_enemyManager.IsInteracting) {
             if (!_enemyManager.CanDoCombo) return this;
-            if (isComboing) {
+            if (willComboNextAttack) {
                 _enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
-                isComboing = false;
+                willComboNextAttack = false;
             }
         }
         if (_enemyManager.IsPerformingAction) return combatStanceState;
@@ -28,7 +28,7 @@ public class AttackState : State {
         // Return to the combat stance state
         Vector3 _targetPos = _enemyManager.CurrentTarget.transform.position;
         Vector3 _targetsDirection = _targetPos - _enemyManager.transform.position;
-        HandleRotateTowardsTarget(_enemyManager, _targetsDirection);
+        // if (_enemyManager.CanRotate) HandleRotateTowardsTarget(_enemyManager, _targetsDirection);
         
 
         float _distanceFromTarget = Vector3.Distance(_targetPos, _enemyManager.transform.position);
@@ -47,10 +47,10 @@ public class AttackState : State {
                         _enemyAnimatorManager.Anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                         _enemyAnimatorManager.PlayTargetAnimation(CurrentAttack.ActionAnimation, true);
                         _enemyManager.IsPerformingAction = true;
+                        RollForComboChance(_enemyManager);
 
-                        if (CurrentAttack.canCombo) {
+                        if (CurrentAttack.canCombo && willComboNextAttack) {
                             CurrentAttack = CurrentAttack.comboAction;
-                            isComboing = true;
                             return this;
                         }
                         else
@@ -67,6 +67,14 @@ public class AttackState : State {
         else GetNewAttack(_enemyManager, _targetPos, _viewableAngle, _distanceFromTarget);
 
         return combatStanceState;
+    }
+
+    private void RollForComboChance(EnemyManager _enemyManager) {
+        float _comboChance = Random.Range(0, 100);
+
+        if (_enemyManager.AllowAIToPerformCombos && _comboChance <= _enemyManager.ComboChance) {
+            willComboNextAttack = true;
+        }
     }
 
     private void HandleRotateTowardsTarget(EnemyManager _enemyManager, Vector3 _direction) {

@@ -22,7 +22,9 @@ public class EnemyManager : CharacterManager {
     public float AggroRange = 10;
     public float RotationSpeed = 100f;
     public float MaxAttackRange = 3f;
-    
+    public bool AllowAIToPerformCombos = true;
+    public float ComboChance = 50;
+    public bool CanRotate;
 
     [SerializeField] private CapsuleCollider characterCollider;
     [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
@@ -44,7 +46,9 @@ public class EnemyManager : CharacterManager {
         HandleRecoveryTimer();
         IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
         CanDoCombo = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanDoComboHash);
+        CanRotate = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanRotateHash);
         enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStats.IsDead);
+        
         HandleStateMachine();
     }
 

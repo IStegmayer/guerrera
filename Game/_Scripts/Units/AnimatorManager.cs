@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Dzajna {
 public class AnimatorManager : MonoBehaviour {
-    private CharacterManager characterManager;
+    public CharacterManager characterManager;
     public Animator Anim;
     public int IsInteractingHash;
     public int IsDeadHash;
@@ -18,9 +18,6 @@ public class AnimatorManager : MonoBehaviour {
     public int BlockHash;
     public int BlockDamage1Hash;
 
-    public void Awake() {
-        characterManager = GetComponent<CharacterManager>();
-    }
 
     public void PlayTargetAnimation(int _targetAnim, bool _isInteracting, bool _canRotate = false) {
         Anim.applyRootMotion = _isInteracting;

@@ -1302,6 +1302,10 @@ MonoBehaviour:
   BackStabCollider: {fileID: 7491566976902157786}
   RiposteCollider: {fileID: 2945911429765819789}
   CanBeRiposted: 0
+  CanBeParried: 0
+  CanDoCombo: 0
+  IsParrying: 0
+  IsBlocking: 0
   PendingCriticalDamage: 0
   NavMeshAgent: {fileID: 0}
   Rigidbody: {fileID: 0}
@@ -1315,6 +1319,9 @@ MonoBehaviour:
   AggroRange: 10
   RotationSpeed: 15
   MaxAttackRange: 1.5
+  AllowAIToPerformCombos: 1
+  ComboChance: 50
+  CanRotate: 0
   characterCollider: {fileID: 7638918461268105012}
   characterCollisionBlockerCollider: {fileID: 1636510941392958957}
 --- !u!114 &2059672717170127504
@@ -1329,11 +1336,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5724e2aabdf4ef88618abc6406dab0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterManager: {fileID: -5052775884964827217}
   Anim: {fileID: 95285293887918914}
   IsInteractingHash: 0
   IsDeadHash: 0
+  IsBlockingHash: 0
   CanRotateHash: 0
   CanRotate: 0
+  ParriedHash: 0
+  ParryHash: 0
+  CanDoComboHash: 0
+  IsInvulnerableHash: 0
+  BlockHash: 0
+  BlockDamage1Hash: 0
 --- !u!114 &-8497628568145790431
 MonoBehaviour:
   m_ObjectHideFlags: 0

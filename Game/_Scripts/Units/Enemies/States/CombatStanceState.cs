@@ -11,6 +11,8 @@ public class CombatStanceState : State {
         
         float _distanceFromTarget =
             Vector3.Distance(_enemyManager.CurrentTarget.transform.position, _enemyManager.transform.position);
+        Vector3 _targetsDirection = _enemyManager.CurrentTarget.transform.position - _enemyManager.transform.position;
+        // if (_enemyManager.CanRotate) HandleRotateTowardsTarget(_enemyManager, _targetsDirection); 
 
         if (_enemyManager.CurrentRecoveryTime <= 0 && _distanceFromTarget <= _enemyManager.MaxAttackRange)
             return attackState;
