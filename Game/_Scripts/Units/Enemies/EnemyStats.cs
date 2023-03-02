@@ -7,21 +7,19 @@ namespace Dzajna
 {
     // TODO: I'll get back to this when I do AI 
     public class EnemyStats : CharacterStats {
+        [SerializeField] private UIEnemyHealthBar healthBar;
         public int SoulsReward;
-        // private HealthBar healthBar;
         private EnemyAnimatorManager enemyAnimatorManager;
 
         private Coroutine deathRoutine;
 
         private void Awake() {
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
-            //TODO: this could be better
-            // healthBar = FindObjectOfType<HealthBar>();
         }
 
         private void Start() {
             maxHealth = SetMaxHealthFromHealthLevel();
-            // healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetMaxHealth(maxHealth);
             currentHealth = maxHealth;
         }
 
@@ -33,6 +31,7 @@ namespace Dzajna
         public void TakeDamageWithoutAnimation(float _dmg) {
             if (IsDead) return;
             currentHealth -= _dmg;
+            healthBar.SetCurrentHealth(currentHealth);
             
             if (currentHealth <= 0) {
                 deathRoutine = StartCoroutine(DeathRoutine());
@@ -40,11 +39,11 @@ namespace Dzajna
             }
         }
 
-        public void TakeDamage(float _dmg) {
+        public void TakeDamage(float _dmg, string _dmgAnimation = "Damage1") {
             if (IsDead) return;
             currentHealth -= _dmg;
-            // healthBar.SetCurrentHealth(currentHealth);
-            enemyAnimatorManager.PlayTargetAnimation("Damage1", true);
+            healthBar.SetCurrentHealth(currentHealth);
+            enemyAnimatorManager.PlayTargetAnimation(_dmgAnimation, true);
             
             if (currentHealth <= 0) {
                 enemyAnimatorManager.PlayTargetAnimation("Death", true);
