@@ -1831,6 +1831,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fb3bf906-d5e6-45ba-8e13-cb2a768bc341
     m_ActionName: Player Actions/LT[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 08a849c7-c9c7-445c-a600-db68dfadd20c
+    m_ActionName: Player Actions/LB[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -1945,6 +1949,7 @@ MonoBehaviour:
   IsDeadHash: 0
   IsBlockingHash: 0
   CanRotateHash: 0
+  IsFiringSpellHash: 0
   CanRotate: 1
   ParriedHash: 0
   ParryHash: 0
@@ -2026,6 +2031,7 @@ MonoBehaviour:
   CanDoCombo: 0
   IsParrying: 0
   IsBlocking: 0
+  IsFiringSpell: 0
   PendingCriticalDamage: 0
   IsInteracting: 0
   IsSprinting: 0
@@ -2059,7 +2065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6949f5e838b457eaf228d2825c9f4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentSpell: {fileID: 11400000, guid: b6fe2cad168c30449a65230acee6c5b5, type: 2}
+  CurrentSpell: {fileID: 11400000, guid: 895fd6860faf12344bf04c0ca2f9c3d9, type: 2}
   RightWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   LeftWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}

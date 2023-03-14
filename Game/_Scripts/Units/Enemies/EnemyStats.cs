@@ -39,7 +39,7 @@ namespace Dzajna
             }
         }
 
-        public void TakeDamage(float _dmg, string _dmgAnimation = "Damage1") {
+        public override void TakeDamage(float _dmg, string _dmgAnimation = "Damage1") {
             if (IsDead) return;
             currentHealth -= _dmg;
             healthBar.SetCurrentHealth(currentHealth);

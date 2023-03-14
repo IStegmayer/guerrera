@@ -224,5 +224,8 @@ namespace Dzajna
                 cameraPivotTransform.transform.localPosition,
                 _newPivotPosition, ref _velocity, (cameraDamp / 2) * _delta);
         }
+
+        public Quaternion GetCameraRotation() => cameraPivotTransform.rotation;
+        public Transform GetCameraTransform() => cameraPivotTransform;
     }
 }

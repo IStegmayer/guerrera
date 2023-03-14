@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dzajna {
-    public class SpellItem : Item {
-        [SerializeField] protected GameObject spellWarmUpFX;
-        [SerializeField] protected GameObject spellCastFX;
-        [SerializeField] protected string spellAnimation;
+public class SpellItem : Item {
+    [SerializeField] protected GameObject spellWarmUpFX;
+    [SerializeField] protected GameObject spellCastFX;
+    [SerializeField] protected string spellAnimation;
 
-        [Header("FP cost")] 
-        public int FPCost;
-        
-        [Header("Spell Type")] 
-        public bool isFaithSpell;
-        public bool isMagicSpell;
-        public bool isPyroSpell;
-        
-        [Header("Spell Description")]
-        [TextArea][SerializeField] protected string spellDescription;
+    [Header("FP cost")] public int FPCost;
 
-        public virtual void AttemptToCastSpell(AnimatorManager _animatorManager, PlayerStats _playerStats) {
-            Debug.Log("Attempting to cast spell");
-        }
+    [Header("Spell Type")] public bool isFaithSpell;
+    public bool isMagicSpell;
+    public bool isPyroSpell;
 
-        public virtual void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats) {
-            Debug.Log("Successfully casted a spell");
-            _playerStats.TakeFPDamage(FPCost);
-        }
+    [Header("Spell Description")] [TextArea] [SerializeField]
+    protected string spellDescription;
+
+    public virtual void AttemptToCastSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
+        CameraManager _cameraManager,
+        WeaponSlotManager _weaponSlotManager) {
+        Debug.Log("Attempting to cast spell");
     }
+
+    public virtual void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
+        CameraManager _cameraManager, WeaponSlotManager _weaponSlotManager) {
+        Debug.Log("Successfully casted a spell");
+        //TODO: for testing purposes only
+        // _playerStats.TakeFPDamage(FPCost);
+    }
+}
 }

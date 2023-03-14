@@ -25,7 +25,6 @@ namespace Dzajna
         public int LocomotionHash;
         public int FallHash;
         public int EmptyHash;
-        public int Damage1Hash;
         public int DeathHash;
         public int JumpHash;
         public int FailedCastHash;
@@ -49,6 +48,7 @@ namespace Dzajna
             IsUsingLeftHandHash = Animator.StringToHash("isUsingLeftHand");
             IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
             IsBlockingHash = Animator.StringToHash("isBlocking");
+            IsFiringSpellHash = Animator.StringToHash("isFiringSpell");
             CanRotateHash = Animator.StringToHash("canRotate");
             IsDeadHash = Animator.StringToHash("isDead");
             RollHash = Animator.StringToHash("Roll");

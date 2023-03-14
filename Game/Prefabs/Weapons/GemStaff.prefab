@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1831267560903501710}
   - component: {fileID: 1831267560904752836}
   - component: {fileID: 1831267560905716136}
+  - component: {fileID: 765373202869094759}
+  - component: {fileID: 7837603420419412591}
   m_Layer: 0
   m_Name: GemStaffModel
   m_TagString: Untagged
@@ -83,6 +85,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &765373202869094759
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831267560903777380}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.18741252
+  m_Height: 1.5027717
+  m_Direction: 1
+  m_Center: {x: -0.000000089097185, y: 0.52804095, z: -0.109928526}
+--- !u!114 &7837603420419412591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831267560903777380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1103877e5c351b4594ddf4f49b7695d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterManager: {fileID: 0}
+  enabledOnStartup: 0
+  CurrentWeaponDamage: 5
 --- !u!1 &2222554663853303960
 GameObject:
   m_ObjectHideFlags: 0

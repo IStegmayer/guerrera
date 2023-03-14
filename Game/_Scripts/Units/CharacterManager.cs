@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Dzajna
 {
@@ -17,6 +18,9 @@ namespace Dzajna
         public bool CanDoCombo;
         public bool IsParrying;
         public bool IsBlocking;
+        
+        [Header("Spell Flags")]
+        public bool IsFiringSpell;
 
         // Damage will be inflicted during an animation event
         // Used in backstab or riposte animations

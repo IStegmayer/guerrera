@@ -109,5 +109,7 @@ public class WeaponSlotManager : MonoBehaviour {
         playerStats.TakeStaminaDamage(
             Mathf.RoundToInt(attackingWeapon.BaseStamina * attackingWeapon.HeavyAttackMultiplier));
     }
+
+    public Transform GetRightHandTransform() => rightHandSlot.transform;
 }
 }

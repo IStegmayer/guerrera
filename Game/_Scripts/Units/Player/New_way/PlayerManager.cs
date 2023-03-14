@@ -46,6 +46,7 @@ namespace Dzajna
             IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
             IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
             IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
+            IsFiringSpell = anim.GetBool(playerAnimatorManager.IsFiringSpellHash);
             playerAnimatorManager.CanRotate = anim.GetBool(playerAnimatorManager.CanRotateHash);
             playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsDeadHash, playerStats.IsDead);
             playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsBlockingHash, IsBlocking);

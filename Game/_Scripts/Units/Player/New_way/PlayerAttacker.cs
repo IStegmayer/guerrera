@@ -10,8 +10,9 @@ public class PlayerAttacker : MonoBehaviour {
     private PlayerManager playerManager;
     private PlayerInventory playerInventory;
     private PlayerStats playerStats;
-    private InputHandler inputHandler;
     private WeaponSlotManager weaponSlotManager;
+    private InputHandler inputHandler;
+    private CameraManager cameraManager;
     public string LastAttackString;
 
     private float maxCritDistance = 0.75f;
@@ -27,6 +28,7 @@ public class PlayerAttacker : MonoBehaviour {
         playerStats = GetComponent<PlayerStats>();
         inputHandler = GetComponent<InputHandler>();
         weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+        cameraManager = FindObjectOfType<CameraManager>();
     }
 
     public void HandleLTAction() {
@@ -65,12 +67,13 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     private void PerformRBMagicCast(WeaponItem _weapon) {
-        if (playerManager.IsInteracting) return;
+        //TODO: debugging purposes only
+        // if (playerManager.IsInteracting) return;
 
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isMagicSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
-            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -81,7 +84,7 @@ public class PlayerAttacker : MonoBehaviour {
         SpellItem _spell = playerInventory.CurrentSpell;
         if (_spell != null && _spell.isFaithSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
-            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -168,7 +171,7 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     public void SuccessfullyCastSpell() {
-        playerInventory.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats);
+        playerInventory.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
     }
 
     public void HandleWeaponCombo(WeaponItem _weaponItem) {

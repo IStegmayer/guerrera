@@ -10,6 +10,7 @@ public class AnimatorManager : MonoBehaviour {
     public int IsDeadHash;
     public int IsBlockingHash;
     public int CanRotateHash;
+    public int IsFiringSpellHash;
     public bool CanRotate;
     public int ParriedHash;
     public int ParryHash;
@@ -17,6 +18,7 @@ public class AnimatorManager : MonoBehaviour {
     public int IsInvulnerableHash;
     public int BlockHash;
     public int BlockDamage1Hash;
+    public int Damage1Hash;
 
 
     public void PlayTargetAnimation(int _targetAnim, bool _isInteracting, bool _canRotate = false) {

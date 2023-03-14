@@ -22,5 +22,6 @@ namespace Dzajna
         protected float staminaRegenTimer;
         public bool IsDead;
 
+        public virtual void TakeDamage(float _dmg, string _dmgAnimation = "Damage1"){}
     }
 }
