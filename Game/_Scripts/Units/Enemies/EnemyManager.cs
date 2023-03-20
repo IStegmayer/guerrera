@@ -47,6 +47,7 @@ public class EnemyManager : CharacterManager {
         IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
         CanDoCombo = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanDoComboHash);
         CanRotate = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanRotateHash);
+        IsRotatingWithRM = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsRotatingWithRMHash);
         enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStats.IsDead);
         
         HandleStateMachine();

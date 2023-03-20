@@ -14,6 +14,8 @@ namespace Dzajna
             rigidbody = GetComponentInChildren<Rigidbody>();
             enemyManager = GetComponent<EnemyManager>();
             enemyStats = GetComponent<EnemyStats>();
+            VerticalHash = Animator.StringToHash("Vertical");
+            HorizontalHash = Animator.StringToHash("Horizontal");
             IsInteractingHash = Animator.StringToHash("isInteracting");
             IsDeadHash = Animator.StringToHash("isDead");
             CanRotateHash = Animator.StringToHash("canRotate");
@@ -22,6 +24,10 @@ namespace Dzajna
             CanDoComboHash = Animator.StringToHash("canDoCombo");
             IsInvulnerableHash = Animator.StringToHash("isInvulnerable");
             CanRotateHash = Animator.StringToHash("canRotate");
+            IsRotatingWithRMHash = Animator.StringToHash("isRotatingWithRM");
+            TurnAroundHash = Animator.StringToHash("TurnAround");
+            TurnLeftHash = Animator.StringToHash("TurnLeft");
+            TurnRightHash = Animator.StringToHash("TurnRight");
         }
 
         private void OnAnimatorMove() {
@@ -32,6 +38,8 @@ namespace Dzajna
             
             rigidbody.drag = 0;
             rigidbody.velocity = _velocity;
+
+            if (enemyManager.IsRotatingWithRM) enemyManager.transform.rotation *= Anim.deltaRotation;
         }
         
         //TODO: this is not the best to communicate between scripts for sure, use unitmanager instead! 

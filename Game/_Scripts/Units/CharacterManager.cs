@@ -18,6 +18,9 @@ namespace Dzajna
         public bool CanDoCombo;
         public bool IsParrying;
         public bool IsBlocking;
+
+        [Header("MovementFlags")] 
+        public bool IsRotatingWithRM;
         
         [Header("Spell Flags")]
         public bool IsFiringSpell;

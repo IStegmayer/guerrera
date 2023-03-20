@@ -12,8 +12,6 @@ namespace Dzajna
         private PlayerStats playerStats;
         
         // properties hashes
-        public int VerticalHash;
-        public int HorizontalHash;
         public int IsInAirHash;
         public int IsUsingRightHandHash;
         public int IsUsingLeftHandHash;
