@@ -3,29 +3,31 @@
 namespace Dzajna {
 public class PursueTargetState : State {
     [SerializeField] private CombatStanceState combatStanceState;
+    [SerializeField] private RotateTowardsTargetState rotateTowardsTargetState;
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
-        EnemyAnimatorManager _enemyAnimatorManager) {
+        EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
 
         Vector3 _targetDir = _enemyManager.CurrentTarget.transform.position - _enemyManager.transform.position;
         HandleRotateTowardsTarget(_enemyManager, _targetDir);
         
         if (_enemyManager.IsPerformingAction) {
-            _enemyAnimatorManager.Anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            _enemyAnimatorM.Anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             return this;
         }
         
         // Chase the target
         float _distanceFromTarget =
             Vector3.Distance(_enemyManager.CurrentTarget.transform.position, _enemyManager.transform.position);
-        float _viewableAngle = Vector3.Angle(_targetDir, _enemyManager.transform.forward);
+        float _viewableAngle = Vector3.SignedAngle(_targetDir, _enemyManager.transform.forward, Vector3.up);
 
+        if (_viewableAngle > 65 || _viewableAngle < -65) return rotateTowardsTargetState;
+        
         if (_distanceFromTarget > _enemyManager.MaxAttackRange)
-            _enemyAnimatorManager.Anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+            _enemyAnimatorM.Anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+        
 
-
-        HandleRotateTowardsTarget(_enemyManager, _targetDir);
         // If within attack range, switch to combat stance state
         // If target is out of attack range, return this state and continue giving chase
         if (_distanceFromTarget <= _enemyManager.MaxAttackRange) return combatStanceState;

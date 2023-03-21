@@ -1313,9 +1313,8 @@ MonoBehaviour:
   PendingCriticalDamage: 0
   NavMeshAgent: {fileID: 0}
   Rigidbody: {fileID: 0}
-  CurrentState: {fileID: 3078244042409291809}
-  CurrentTarget: {fileID: 5353905217364029986, guid: e1f43a8f85d4bfe4d963acffdca06749,
-    type: 3}
+  CurrentState: {fileID: 6944966797566502690}
+  CurrentTarget: {fileID: 0}
   IsPerformingAction: 0
   IsInteracting: 0
   MinDetectionAngle: 50
@@ -1324,6 +1323,7 @@ MonoBehaviour:
   AggroRange: 10
   RotationSpeed: 15
   MaxAttackRange: 1.5
+  MaxAggroRadius: 5
   AllowAIToPerformCombos: 1
   ComboChance: 50
   CanRotate: 0
@@ -3611,6 +3611,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: {fileID: 8769028343426625269}
   pursueTargetState: {fileID: 5426028579295898210}
+  EnemyAttacks:
+  - {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
+  - {fileID: 11400000, guid: 34c36acbc88c4e94bb45e3fdb26d2a37, type: 2}
 --- !u!1 &5870934184127408232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3741,10 +3744,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 6688805407186104409}
-  EnemyAttacks:
-  - {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
-  - {fileID: 11400000, guid: 34c36acbc88c4e94bb45e3fdb26d2a37, type: 2}
-  CurrentAttack: {fileID: 0}
+  pursueTargetState: {fileID: 5426028579295898210}
+  rotateTowardsTargetState: {fileID: 3078244042409291809}
+  CurrentAttack: {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
 --- !u!1 &6885489929377302404
 GameObject:
   m_ObjectHideFlags: 0
@@ -3789,6 +3791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287bc07602e4cdab65f8e7decdd09f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatStanceState: {fileID: 6688805407186104409}
 --- !u!1 &8361282250470623009
 GameObject:
   m_ObjectHideFlags: 0
@@ -3834,6 +3837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 6688805407186104409}
+  rotateTowardsTargetState: {fileID: 3078244042409291809}
 --- !u!1 &8377576170671548983
 GameObject:
   m_ObjectHideFlags: 0

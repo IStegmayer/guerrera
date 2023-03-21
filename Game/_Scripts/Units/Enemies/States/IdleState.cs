@@ -6,7 +6,7 @@ public class IdleState : State {
     [SerializeField] private LayerMask layerMask;
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
-        EnemyAnimatorManager _enemyAnimatorManager) {
+        EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
         
         // Look for a potential target

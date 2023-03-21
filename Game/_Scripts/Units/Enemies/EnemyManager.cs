@@ -22,6 +22,7 @@ public class EnemyManager : CharacterManager {
     public float AggroRange = 10;
     public float RotationSpeed = 100f;
     public float MaxAttackRange = 3f;
+    public float MaxAggroRadius = 10f;
     public bool AllowAIToPerformCombos = true;
     public float ComboChance = 50;
     public bool CanRotate;

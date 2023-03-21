@@ -10,11 +10,11 @@ public class AmbushState : State {
     [SerializeField] PursueTargetState pursueTargetState;
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
-        EnemyAnimatorManager _enemyAnimatorManager) {
+        EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
-        if (IsSleeping) _enemyAnimatorManager.PlayTargetAnimation(sleepAnimation, true);
+        if (IsSleeping) _enemyAnimatorM.PlayTargetAnimation(sleepAnimation, true);
 
-        HandleTargetDetection(_enemyManager, _enemyAnimatorManager);
+        HandleTargetDetection(_enemyManager, _enemyAnimatorM);
         if (_enemyManager.CurrentTarget != null) return pursueTargetState;
         else return this;
     }
