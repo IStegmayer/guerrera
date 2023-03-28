@@ -21,9 +21,6 @@ public class PursueTargetState : State {
         float _distanceFromTarget =
             Vector3.Distance(_enemyManager.CurrentTarget.transform.position, _enemyManager.transform.position);
         float _viewableAngle = Vector3.SignedAngle(_targetDir, _enemyManager.transform.forward, Vector3.up);
-
-        if (_viewableAngle > 65 || _viewableAngle < -65) return rotateTowardsTargetState;
-        
         if (_distanceFromTarget > _enemyManager.MaxAttackRange)
             _enemyAnimatorM.Anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
         

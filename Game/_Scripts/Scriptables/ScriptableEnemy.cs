@@ -13,5 +13,5 @@ public class ScriptableEnemy : ScriptableUnitBase {
 public enum EnemyType {
     Goblin = 0,
     Shaman = 1,
-    Warchief = 2
+    BossGoblin = 2
 }

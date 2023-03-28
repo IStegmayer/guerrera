@@ -47,7 +47,7 @@ public class GameManager : StaticInstance<GameManager>
 
         OnAfterStateChanged?.Invoke(newState);
         
-        Debug.Log($"New state: {newState}");
+        // Debug.Log($"New state: {newState}");
     }
 
 
@@ -76,7 +76,7 @@ public class GameManager : StaticInstance<GameManager>
 
     private void HandleSpawningEnemies() {
         
-        UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.BossGoblin);
         // UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
         // UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
         
