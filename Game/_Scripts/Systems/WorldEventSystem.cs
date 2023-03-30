@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dzajna {
+
+// TODO: this is just GameManager tbh
 public class WorldEventSystem : MonoBehaviour {
     // Fog Wall
     [SerializeField] private BossHealthBar bossHealthBar;
+    [SerializeField] private List<FogWall> fogWalls;
     [SerializeField] private EnemyBossManager boss;
+    
 
     public bool BossFightIsActive; // Is currently fighting boss
     public bool BossHasBeenAwakened; // Woke the boss/watched cutscene but died during fight
@@ -17,13 +21,15 @@ public class WorldEventSystem : MonoBehaviour {
         BossFightIsActive = true;
         BossHasBeenAwakened = true;
         bossHealthBar.ToggleBossHealthBarActivation(true);
-        //Activate Fog Wall(s)
+        foreach (var _fogWall in fogWalls)
+            _fogWall.ToggleFogWallActivation(true);
     }
 
     public void BossDefeated() {
         BossHasBeenDefeated = true;
         BossFightIsActive = false;
-        // Deactivate Fog Wall(s)
+        foreach (var _fogWall in fogWalls)
+            _fogWall.ToggleFogWallActivation(false);
     }
 }
 }

@@ -226,5 +226,17 @@ namespace Dzajna
         }
 
         #endregion
+
+        public void DisableColliders() {
+            characterCollider.enabled = false;
+            characterCollisionBlockerCollider.enabled = false;
+        }
+
+        public void EnableColliders() {
+            characterCollider.enabled = true;
+            characterCollisionBlockerCollider.enabled = true;
+            
+        }
     }
+
 }

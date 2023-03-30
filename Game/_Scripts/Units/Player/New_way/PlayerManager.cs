@@ -118,5 +118,14 @@ namespace Dzajna
             playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.OpenChestHash, true);
         }
 
+        public void PassThroughFoggWallInteraction(Transform _fogWallEntrance) {
+            playerLocomotion.Rigidbody.velocity = Vector3.zero;
+            Vector3 _rotationDirection = _fogWallEntrance.transform.forward;
+            Quaternion _turnRotation = Quaternion.LookRotation(_rotationDirection);
+            transform.rotation = _turnRotation;
+            
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.PassThroughFogWallHash, true);
+        }
+
     }
 }
