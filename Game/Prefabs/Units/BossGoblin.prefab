@@ -721,6 +721,11 @@ MonoBehaviour:
   staminaRegenAmount: 2
   focusLevel: 10
   focusPerLevel: 5
+  TotalPoise: 0
+  OffensivePoise: 20
+  ArmorPoise: 50
+  TotalPoiseResetTime: 5
+  PoiseResetTimer: 0
   IsDead: 0
   healthBar: {fileID: 0}
   SoulsReward: 50
@@ -745,6 +750,7 @@ MonoBehaviour:
   CanDoCombo: 0
   IsParrying: 0
   IsBlocking: 0
+  IsInvulnerable: 0
   IsRotatingWithRM: 0
   IsFiringSpell: 0
   PendingCriticalDamage: 0
@@ -754,6 +760,7 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   IsPerformingAction: 0
   IsInteracting: 0
+  IsPhaseShifting: 0
   MinDetectionAngle: 50
   MaxDetectionAngle: -50
   CurrentRecoveryTime: 2
@@ -800,6 +807,7 @@ MonoBehaviour:
   TurnRightHash: 0
   TurnLeftHash: 0
   PhaseTransitionHash: 0
+  IsPhaseShiftingHash: 0
 --- !u!114 &6526004045350254382
 MonoBehaviour:
   m_ObjectHideFlags: 0

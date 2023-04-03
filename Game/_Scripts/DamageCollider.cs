@@ -11,7 +11,12 @@ public class DamageCollider : MonoBehaviour {
     public bool EnabledOnStartup;
 
     protected Collider damageCollider;
+    [Header("Damage")]
     public float CurrentWeaponDamage = 25;
+
+    [Header("Poise")] 
+    public float PoiseBreak = 10;
+    public float OffensivePoiseBonus = 10;
 
     private void Awake() {
         damageCollider = GetComponent<Collider>();
@@ -48,7 +53,13 @@ public class DamageCollider : MonoBehaviour {
             }
 
             string _dmgAnim = _enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1";
-            _playerStats.TakeDamage(_dmgToBeDealt, _dmgAnim);
+            _playerStats.ResetPoiseTimer();
+            _playerStats.DealPoiseDamage(PoiseBreak);
+            if (_playerStats.TotalPoise > PoiseBreak) {
+                _playerStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+                Debug.Log("Enemy's poise is: " + _playerStats.TotalPoise);
+            }
+            else _playerStats.TakeDamage(CurrentWeaponDamage);
         }
 
         if (_collider.gameObject.CompareTag("Enemy")) {
@@ -63,8 +74,13 @@ public class DamageCollider : MonoBehaviour {
             }
 
             if (_enemyStats != null) {
-                if (_enemyStats.IsBoss) _enemyStats.TakeDamage(CurrentWeaponDamage);
-                else _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+                _enemyStats.ResetPoiseTimer();
+                _enemyStats.DealPoiseDamage(PoiseBreak);
+                if (_enemyStats.TotalPoise > PoiseBreak) {
+                    _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+                    Debug.Log("Enemy's poise is: " + _enemyStats.TotalPoise);
+                }
+                else _enemyStats.TakeDamage(CurrentWeaponDamage);
             }
         }
     }

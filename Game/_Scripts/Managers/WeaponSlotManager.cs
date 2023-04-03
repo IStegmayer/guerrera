@@ -73,12 +73,16 @@ public class WeaponSlotManager : MonoBehaviour {
         LeftDamageCollider =
             leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         LeftDamageCollider.CurrentWeaponDamage = leftHandSlot.CurrentWeaponItem.BaseDamage;
+        LeftDamageCollider.PoiseBreak = leftHandSlot.CurrentWeaponItem.PoiseBreak;
+        LeftDamageCollider.OffensivePoiseBonus = leftHandSlot.CurrentWeaponItem.OffensivePoiseBonus;
     }
 
     private void LoadRightWeaponDamageCollider() {
         RightDamageCollider =
             rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         RightDamageCollider.CurrentWeaponDamage = rightHandSlot.CurrentWeaponItem.BaseDamage;
+        RightDamageCollider.PoiseBreak = rightHandSlot.CurrentWeaponItem.PoiseBreak;
+        RightDamageCollider.OffensivePoiseBonus = rightHandSlot.CurrentWeaponItem.OffensivePoiseBonus;
     } 
 
     public void OpenDamageCollider() {

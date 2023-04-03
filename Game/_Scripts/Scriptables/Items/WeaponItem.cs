@@ -12,6 +12,11 @@ namespace Dzajna
         public int BaseDamage;
         public int CriticalDamageMultiplier;
 
+        [Header("Poise")]
+        public float PoiseBreak;
+        public float OffensivePoiseBonus;
+        
+        
         [Header("Absorption")] 
         public float pshysicalDmgAbsorption;
         
