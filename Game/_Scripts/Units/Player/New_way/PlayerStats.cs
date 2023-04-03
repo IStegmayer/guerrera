@@ -57,7 +57,7 @@ public class PlayerStats : CharacterStats {
     public bool CheckHasStamina() => currentStamina >= 0;
 
     public void TakeDamageWithoutAnimation(float _dmg) {
-        if (IsDead) return;
+        if (IsDead || playerManager.IsInvulnerable) return;
         currentHealth -= _dmg;
             
         if (currentHealth <= 0) {
@@ -67,8 +67,7 @@ public class PlayerStats : CharacterStats {
     }
 
     public override void TakeDamage(float _dmg, string _dmgAnimation = "Damage1") {
-        if (playerManager.IsInvulnerable) return;
-        if (IsDead) return;
+        if (IsDead || playerManager.IsInvulnerable) return;
         
         currentHealth -= _dmg;
         healthBar.SetCurrentHealth(currentHealth);

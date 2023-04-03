@@ -9,6 +9,9 @@ namespace Dzajna
         private EnemyStats enemyStats;
         private EnemyManager enemyManager;
 
+        public int PhaseTransitionHash;
+        public int IsPhaseShiftingHash;
+        
         private void Awake() {
             Anim = GetComponent<Animator>();
             rigidbody = GetComponentInChildren<Rigidbody>();
@@ -28,6 +31,8 @@ namespace Dzajna
             TurnAroundHash = Animator.StringToHash("TurnAround");
             TurnLeftHash = Animator.StringToHash("TurnLeft");
             TurnRightHash = Animator.StringToHash("TurnRight");
+            PhaseTransitionHash = Animator.StringToHash("PhaseTransition");
+            IsPhaseShiftingHash = Animator.StringToHash("isPhaseShifting");
         }
 
         private void OnAnimatorMove() {

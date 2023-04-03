@@ -6,9 +6,9 @@ public class CombatStanceState : State {
     [SerializeField] private PursueTargetState pursueTargetState;
     public EnemyAttackAction[] EnemyAttacks;
 
-    private bool randomDestinationSet;
-    private float verticalMovementValue;
-    private float horizontalMovementValue;
+    protected bool randomDestinationSet;
+    protected float verticalMovementValue;
+    protected float horizontalMovementValue;
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorM) {
@@ -47,12 +47,13 @@ public class CombatStanceState : State {
         return this;
     }
     
-    private void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle,
+    protected virtual void GetNewAttack(EnemyManager _enemyManager, Vector3 _targetPos, float _viewableAngle,
         float _distanceFromTarget) {
         int _maxScore = 0;
+        EnemyAttackAction[] _attacks = GetEligibleAttacks(); 
 
-        for (int i = 0; i < EnemyAttacks.Length; i++) {
-            EnemyAttackAction _enemyAttackAction = EnemyAttacks[i];
+        for (int i = 0; i < _attacks.Length; i++) {
+            EnemyAttackAction _enemyAttackAction = _attacks[i];
 
             if (_distanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
                 _distanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
@@ -66,8 +67,8 @@ public class CombatStanceState : State {
         int _randomValue = Random.Range(0, _maxScore);
         int _temporaryScore = 0;
 
-        for (int j = 0; j < EnemyAttacks.Length; j++) {
-            EnemyAttackAction _enemyAttackAction = EnemyAttacks[j];
+        for (int j = 0; j < _attacks.Length; j++) {
+            EnemyAttackAction _enemyAttackAction = _attacks[j];
 
             if (_distanceFromTarget <= _enemyAttackAction.MaxDistanceNeededToAttack &&
                 _distanceFromTarget >= _enemyAttackAction.MinDistanceNeededToAttack) {
@@ -82,7 +83,7 @@ public class CombatStanceState : State {
         }
     }
 
-    private void HandleRotateTowardsTarget(EnemyManager _enemyManager, Vector3 _direction) {
+    protected virtual void HandleRotateTowardsTarget(EnemyManager _enemyManager, Vector3 _direction) {
         if (_enemyManager.IsPerformingAction) {
             _direction.y = 0;
             _direction.Normalize();
@@ -108,7 +109,7 @@ public class CombatStanceState : State {
         }
     }
 
-    private void DecideCirclingAction(EnemyAnimatorManager _enemyAnimatorManager) {
+    protected virtual void DecideCirclingAction(EnemyAnimatorManager _enemyAnimatorManager) {
         WalkAroundTarget(_enemyAnimatorManager);
         // Circle with only forward vertical movement
         // Circle with running 
@@ -116,7 +117,7 @@ public class CombatStanceState : State {
         // Don't circle
     }
 
-    private void WalkAroundTarget(EnemyAnimatorManager _enemyAnimatorM) {
+    protected virtual void WalkAroundTarget(EnemyAnimatorManager _enemyAnimatorM) {
         float _walkSpeed = 0.5f;
         float _runSpeed = 1f;
         verticalMovementValue = _walkSpeed; // To include backwards, values (-1,1)
@@ -124,6 +125,10 @@ public class CombatStanceState : State {
 
         if (horizontalMovementValue <= 1 && horizontalMovementValue >= 0) horizontalMovementValue = 0.5f;
         else if (horizontalMovementValue >= -1 && horizontalMovementValue < 0) horizontalMovementValue = -0.5f;
+    }
+
+    protected virtual EnemyAttackAction[] GetEligibleAttacks() {
+        return EnemyAttacks;
     }
 }
 }

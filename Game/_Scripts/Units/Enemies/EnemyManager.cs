@@ -16,6 +16,7 @@ public class EnemyManager : CharacterManager {
     [Header("AI Settings")] 
     public bool IsPerformingAction;
     public bool IsInteracting;
+    public bool IsPhaseShifting;
     public float MinDetectionAngle = 50;
     public float MaxDetectionAngle = -50;
     public float CurrentRecoveryTime = 0;
@@ -45,10 +46,13 @@ public class EnemyManager : CharacterManager {
 
     private void Update() {
         HandleRecoveryTimer();
+        IsPhaseShifting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsPhaseShiftingHash);
         IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
         CanDoCombo = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanDoComboHash);
         CanRotate = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.CanRotateHash);
         IsRotatingWithRM = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsRotatingWithRMHash);
+        IsInvulnerable = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInvulnerableHash);
+        
         enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStats.IsDead);
         
         HandleStateMachine();

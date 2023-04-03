@@ -22,7 +22,6 @@ namespace Dzajna
         public bool IsGrounded;
         public bool IsUsingRightHand;
         public bool IsUsingLeftHand;
-        public bool IsInvulnerable;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;

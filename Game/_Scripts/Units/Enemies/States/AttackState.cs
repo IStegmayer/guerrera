@@ -14,6 +14,8 @@ public class AttackState : State {
 
     public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
         EnemyAnimatorManager _enemyAnimatorM) {
+        if (_enemyManager.IsInteracting) return this;
+        
         Vector3 _targetPos = _enemyManager.CurrentTarget.transform.position;
         Vector3 _targetsDirection = _targetPos - _enemyManager.transform.position;
         float _distanceFromTarget = Vector3.Distance(_targetPos, _enemyManager.transform.position);

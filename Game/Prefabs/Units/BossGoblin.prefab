@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17b72d6d4adb4aca8149f83d5edc4b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 887267231403244886}
+  combatStanceState: {fileID: 6129188573474008463}
   pursueTargetState: {fileID: 2003677363462006637}
   rotateTowardsTargetState: {fileID: 8807707614913559854}
   CurrentAttack: {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287bc07602e4cdab65f8e7decdd09f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 887267231403244886}
+  combatStanceState: {fileID: 6129188573474008463}
 --- !u!1 &1922972739526872709
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2334894163147199377}
-  - component: {fileID: 887267231403244886}
+  - component: {fileID: 6129188573474008463}
   m_Layer: 6
   m_Name: CombatStanceState
   m_TagString: Untagged
@@ -210,7 +210,7 @@ Transform:
   m_Father: {fileID: 3796299491173372558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &887267231403244886
+--- !u!114 &6129188573474008463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,14 +219,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 1922972739526872709}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61cf851438cc42b880927d14bdd291a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 702984e2145049a2a206a648832c197f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackState: {fileID: 2968581467295114234}
   pursueTargetState: {fileID: 2003677363462006637}
   EnemyAttacks:
   - {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
+  - {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
+  HasPhaseShifted: 0
+  SecondPhaseAttacks:
   - {fileID: 11400000, guid: 34c36acbc88c4e94bb45e3fdb26d2a37, type: 2}
+  - {fileID: 11400000, guid: 34c36acbc88c4e94bb45e3fdb26d2a37, type: 2}
+--- !u!1 &2168392428628862386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4200194727782495088}
+  - component: {fileID: 9083247146013912999}
+  m_Layer: 0
+  m_Name: BossFXTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4200194727782495088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168392428628862386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.887, z: 0.187}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8017784378080733108}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9083247146013912999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168392428628862386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80710cbcbb2a16f4f8ad1c51111e9fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2633022642197416494
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff03ef57caa14068a79ffa0a5e3fea3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 887267231403244886}
+  combatStanceState: {fileID: 6129188573474008463}
   rotateTowardsTargetState: {fileID: 8807707614913559854}
 --- !u!1 &2648253919923267384
 GameObject:
@@ -417,6 +465,38 @@ Transform:
   - {fileID: 2685936341783168458}
   m_Father: {fileID: 5806094093626403377}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3126475570960043285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8017784378080733108}
+  m_Layer: 0
+  m_Name: FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8017784378080733108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126475570960043285}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4200194727782495088}
+  m_Father: {fileID: 5806094093626403377}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3189501164433509130
 GameObject:
@@ -568,6 +648,7 @@ Transform:
   - {fileID: 1197816826476121304}
   - {fileID: 6133768453675178601}
   - {fileID: 6125062658029686691}
+  - {fileID: 8017784378080733108}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -634,7 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthLevel: 1
-  healthPerLevel: 1000
+  healthPerLevel: 100
   staminaLevel: 10
   staminaPerLevel: 5
   staminaRegenAmount: 2
@@ -718,6 +799,7 @@ MonoBehaviour:
   TurnAroundHash: 0
   TurnRightHash: 0
   TurnLeftHash: 0
+  PhaseTransitionHash: 0
 --- !u!114 &6526004045350254382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,6 +827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: Warchief, The Goblin Boss
+  phaseTransitionFX: {fileID: 103198, guid: f65b497ff807d95439b38e7da2fab667, type: 3}
 --- !u!1 &6026368025034241739
 GameObject:
   m_ObjectHideFlags: 0

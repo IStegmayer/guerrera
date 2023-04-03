@@ -9,7 +9,7 @@ namespace Dzajna {
 public class DamageCollider : MonoBehaviour {
     public CharacterManager characterManager;
     public bool EnabledOnStartup;
-    
+
     protected Collider damageCollider;
     public float CurrentWeaponDamage = 25;
 
@@ -32,10 +32,10 @@ public class DamageCollider : MonoBehaviour {
             BlockingCollider _shield = _collider.GetComponentInChildren<BlockingCollider>(true);
             AnimatorManager _anim = characterManager.GetComponent<AnimatorManager>();
             float _dmgToBeDealt = CurrentWeaponDamage;
-            
+
             if (_enemyCharacterManager == null) throw new Exception("No enemy character manager found.");
             if (_playerStats == null) throw new Exception("No player stats manager found.");
-            
+
             if (_enemyCharacterManager.IsParrying) {
                 // CHECK IF YOU ARE PARRIABLE
                 _anim.PlayTargetAnimation(_anim.ParriedHash, true);
@@ -43,10 +43,11 @@ public class DamageCollider : MonoBehaviour {
             }
 
             if (_shield != null && _enemyCharacterManager.IsBlocking) {
-                _dmgToBeDealt = CurrentWeaponDamage - (CurrentWeaponDamage * _shield.blockingPhysicalDmgAbsorption)/100;
+                _dmgToBeDealt = CurrentWeaponDamage -
+                                (CurrentWeaponDamage * _shield.blockingPhysicalDmgAbsorption) / 100;
             }
-            
-            string _dmgAnim = _enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1"; 
+
+            string _dmgAnim = _enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1";
             _playerStats.TakeDamage(_dmgToBeDealt, _dmgAnim);
         }
 
@@ -62,7 +63,8 @@ public class DamageCollider : MonoBehaviour {
             }
 
             if (_enemyStats != null) {
-                _enemyStats.TakeDamage(CurrentWeaponDamage);
+                if (_enemyStats.IsBoss) _enemyStats.TakeDamage(CurrentWeaponDamage);
+                else _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
             }
         }
     }
