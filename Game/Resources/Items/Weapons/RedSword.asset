@@ -19,6 +19,9 @@ MonoBehaviour:
   IsUnarmed: 0
   BaseDamage: 30
   CriticalDamageMultiplier: 4
+  PoiseBreak: 20
+  OffensivePoiseBonus: 10
+  pshysicalDmgAbsorption: 0
   OH_RightArmIdle: 
   OH_LeftArmIdle: 
   TH_Idle: TH_Idle

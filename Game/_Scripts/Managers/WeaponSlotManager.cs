@@ -91,10 +91,9 @@ public class WeaponSlotManager : MonoBehaviour {
         else if (playerManager.IsUsingRightHand)
             RightDamageCollider.EnableDamageCollider();
     }
-
     public void CloseDamageCollider() {
-        LeftDamageCollider.DisableDamageCollider();
-        RightDamageCollider.DisableDamageCollider();
+        if (LeftDamageCollider != null) LeftDamageCollider.DisableDamageCollider();
+        if (RightDamageCollider != null) RightDamageCollider.DisableDamageCollider();
     }
 
     #endregion
@@ -108,11 +107,18 @@ public class WeaponSlotManager : MonoBehaviour {
         playerStats.TakeStaminaDamage(
             Mathf.RoundToInt(attackingWeapon.BaseStamina * attackingWeapon.LightAttackMultiplier));
     }
-
     public void DrainStaminaHeavyAttack() {
         playerStats.TakeStaminaDamage(
             Mathf.RoundToInt(attackingWeapon.BaseStamina * attackingWeapon.HeavyAttackMultiplier));
     }
+    
+    public void GrantWeaponAttackingPoiseBonus() {
+        playerStats.TotalPoise += attackingWeapon.OffensivePoiseBonus;
+    }
+    public void RemoveWeaponAttackingPoiseBonus() {
+        playerStats.TotalPoise -= attackingWeapon.OffensivePoiseBonus;
+    }
+    
 
     public Transform GetRightHandTransform() => rightHandSlot.transform;
 }

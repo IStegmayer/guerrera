@@ -19,6 +19,9 @@ MonoBehaviour:
   IsUnarmed: 0
   BaseDamage: 15
   CriticalDamageMultiplier: 3
+  PoiseBreak: 10
+  OffensivePoiseBonus: 5
+  pshysicalDmgAbsorption: 0
   OH_RightArmIdle: 
   OH_LeftArmIdle: 
   TH_Idle: TH_Idle
@@ -30,6 +33,7 @@ MonoBehaviour:
   TH_Light_Attack_2: TH_LightAttack2
   TH_Heavy_Attack_1: TH_HeavyAttack1
   TH_Heavy_Attack_2: TH_HeavyAttack2
+  WeaponArt: 
   BaseStamina: 10
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
@@ -37,3 +41,4 @@ MonoBehaviour:
   isFaithCaster: 0
   isPyroCaster: 0
   isMeleeWeapon: 1
+  isShieldWeapon: 0

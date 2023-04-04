@@ -39,6 +39,11 @@ public class PlayerStats : CharacterStats {
         currentFP = maxFP;
     }
 
+    protected override void HandlePoiseResetTimer() {
+        if (PoiseResetTimer > 0) PoiseResetTimer = PoiseResetTimer - Time.deltaTime;
+        else if (!playerManager.IsInteracting) TotalPoise = ArmorPoise;
+    }
+
     private int SetMaxHealthFromHealthLevel() {
         return healthLevel * healthPerLevel;
     }

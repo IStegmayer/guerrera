@@ -40,10 +40,7 @@ namespace Dzajna
             TotalPoise = ArmorPoise;
         }
 
-        protected virtual void HandlePoiseResetTimer() {
-            if (PoiseResetTimer > 0) PoiseResetTimer = PoiseResetTimer - Time.deltaTime;
-            else TotalPoise = ArmorPoise;
-        }
+        protected virtual void HandlePoiseResetTimer() { }
 
         public void ResetPoiseTimer() => PoiseResetTimer = TotalPoiseResetTime;
         public void DealPoiseDamage(float _dmg) => TotalPoise = TotalPoise - _dmg;

@@ -14,12 +14,11 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
     private DamageCollider rightDamageCollider;
     private DamageCollider leftDamageCollider;
 
+    private EnemyStats enemyStats;
+
     private void Awake() {
-        WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
-        foreach (WeaponHolderSlot _weaponSlot in _weaponHolderSlots) {
-            if (_weaponSlot.isLeftHandSlot) leftHandSlot = _weaponSlot;
-            else if (_weaponSlot.isRightHandSlot) rightHandSlot = _weaponSlot;
-        }
+        enemyStats = GetComponentInParent<EnemyStats>();
+        LoadWeaponHolderSlots();
     }
 
     private void Start() {
@@ -27,6 +26,13 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
         if (leftHandWeapon != null) LoadWeaponOnSlot(leftHandWeapon, true);
     }
 
+    private void LoadWeaponHolderSlots() {
+        WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+        foreach (WeaponHolderSlot _weaponSlot in _weaponHolderSlots) {
+            if (_weaponSlot.isLeftHandSlot) leftHandSlot = _weaponSlot;
+            else if (_weaponSlot.isRightHandSlot) rightHandSlot = _weaponSlot;
+        }
+    }
 
     private void LoadWeaponOnSlot(WeaponItem _weapon, bool _isLeft) {
         if (_isLeft) {
@@ -79,6 +85,14 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
 
     public void CloseDamageCollider() {
         rightDamageCollider.DisableDamageCollider();
+    }
+    
+    //TODO: test if this actually works
+    public void GrantWeaponAttackingPoiseBonus() {
+        enemyStats.TotalPoise += enemyStats.OffensivePoise;
+    }
+    public void RemoveWeaponAttackingPoiseBonus() {
+        enemyStats.TotalPoise -= enemyStats.OffensivePoise;
     }
 
     #endregion

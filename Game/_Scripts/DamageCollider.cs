@@ -55,11 +55,12 @@ public class DamageCollider : MonoBehaviour {
             string _dmgAnim = _enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1";
             _playerStats.ResetPoiseTimer();
             _playerStats.DealPoiseDamage(PoiseBreak);
+            Debug.Log("Player's poise is: " + _playerStats.TotalPoise);
             if (_playerStats.TotalPoise > PoiseBreak) {
                 _playerStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
                 Debug.Log("Enemy's poise is: " + _playerStats.TotalPoise);
             }
-            else _playerStats.TakeDamage(CurrentWeaponDamage);
+            else _playerStats.TakeDamage(CurrentWeaponDamage, _dmgAnim);
         }
 
         if (_collider.gameObject.CompareTag("Enemy")) {
@@ -76,11 +77,12 @@ public class DamageCollider : MonoBehaviour {
             if (_enemyStats != null) {
                 _enemyStats.ResetPoiseTimer();
                 _enemyStats.DealPoiseDamage(PoiseBreak);
-                if (_enemyStats.TotalPoise > PoiseBreak) {
+                Debug.Log("Enemy's poise is: " + _enemyStats.TotalPoise);
+                if (_enemyStats.TotalPoise > PoiseBreak) _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+                else {
                     _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
-                    Debug.Log("Enemy's poise is: " + _enemyStats.TotalPoise);
+                    _enemyStats.BreakGuard();
                 }
-                else _enemyStats.TakeDamage(CurrentWeaponDamage);
             }
         }
     }

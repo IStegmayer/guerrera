@@ -27,6 +27,11 @@ public class EnemyStats : CharacterStats {
         if (!IsBoss) healthBar.SetMaxHealth(maxHealth);
     }
 
+    protected override void HandlePoiseResetTimer() {
+        if (PoiseResetTimer > 0) PoiseResetTimer = PoiseResetTimer - Time.deltaTime;
+        else if (!enemyManager.IsInteracting) TotalPoise = ArmorPoise;
+    }
+    
     private int SetMaxHealthFromHealthLevel() {
         return healthLevel * healthPerLevel;
     }
@@ -62,6 +67,10 @@ public class EnemyStats : CharacterStats {
             deathRoutine = StartCoroutine(DeathRoutine());
             IsDead = true;
         }
+    }
+
+    public void BreakGuard() {
+        enemyAnimatorManager.PlayTargetAnimation(enemyAnimatorManager.ParriedHash, true);
     }
 
     private IEnumerator DeathRoutine() {
