@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class PlayerInventory : MonoBehaviour {
+    public class PlayerInventoryManager : MonoBehaviour {
         public SpellItem CurrentSpell;
         public WeaponItem RightWeapon;
         public WeaponItem LeftWeapon;
@@ -17,17 +17,17 @@ namespace Dzajna
 
         public List<WeaponItem> WeaponsInventory = new List<WeaponItem>();
 
-        private WeaponSlotManager weaponSlotManager;
+        private PlayerWeaponSlotManager playerWeaponSlotManager;
 
         private void Awake() {
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerWeaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         private void Start() {
             LeftWeapon = WeaponsInLeftHandSlots[0];
             RightWeapon = WeaponsInRightHandSlots[0];
-            weaponSlotManager.LoadWeaponOnSlot(LeftWeapon, true);
-            weaponSlotManager.LoadWeaponOnSlot(RightWeapon, false);
+            playerWeaponSlotManager.LoadWeaponOnSlot(LeftWeapon, true);
+            playerWeaponSlotManager.LoadWeaponOnSlot(RightWeapon, false);
         }
 
         public void ChangeRightWeapon() {
@@ -44,7 +44,7 @@ namespace Dzajna
 
         private void LoadRightWeapon(WeaponItem _weapon) {
             RightWeapon = _weapon;
-            weaponSlotManager.LoadWeaponOnSlot(_weapon, false);
+            playerWeaponSlotManager.LoadWeaponOnSlot(_weapon, false);
         }
         
         public void ChangeLeftWeapon() {
@@ -60,7 +60,7 @@ namespace Dzajna
         }
         private void LoadLeftWeapon(WeaponItem _weapon) {
             LeftWeapon = _weapon;
-            weaponSlotManager.LoadWeaponOnSlot(_weapon, true);
+            playerWeaponSlotManager.LoadWeaponOnSlot(_weapon, true);
         }
     }
 }

@@ -1945,11 +1945,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: -4984005286210543844}
   Anim: {fileID: 0}
+  VerticalHash: 0
+  HorizontalHash: 0
   IsInteractingHash: 0
   IsDeadHash: 0
   IsBlockingHash: 0
   CanRotateHash: 0
   IsFiringSpellHash: 0
+  IsRotatingWithRMHash: 0
   CanRotate: 1
   ParriedHash: 0
   ParryHash: 0
@@ -1957,8 +1960,10 @@ MonoBehaviour:
   IsInvulnerableHash: 0
   BlockHash: 0
   BlockDamage1Hash: 0
-  VerticalHash: 0
-  HorizontalHash: 0
+  Damage1Hash: 0
+  TurnAroundHash: 0
+  TurnRightHash: 0
+  TurnLeftHash: 0
   IsInAirHash: 0
   IsUsingRightHandHash: 0
   IsUsingLeftHandHash: 0
@@ -1968,7 +1973,6 @@ MonoBehaviour:
   LocomotionHash: 0
   FallHash: 0
   EmptyHash: 0
-  Damage1Hash: 0
   DeathHash: 0
   JumpHash: 0
   FailedCastHash: 0
@@ -1977,6 +1981,7 @@ MonoBehaviour:
   RipostedHash: 0
   BackStabbedHash: 0
   OpenChestHash: 0
+  PassThroughFogWallHash: 0
 --- !u!114 &278320265215529766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,6 +2036,8 @@ MonoBehaviour:
   CanDoCombo: 0
   IsParrying: 0
   IsBlocking: 0
+  IsInvulnerable: 0
+  IsRotatingWithRM: 0
   IsFiringSpell: 0
   PendingCriticalDamage: 0
   IsInteracting: 0
@@ -2039,7 +2046,6 @@ MonoBehaviour:
   IsGrounded: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
-  IsInvulnerable: 0
 --- !u!114 &738407556784705057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,7 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69119192097042708405840dd35517a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentWeaponDamage: 0
+  unarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
 --- !u!114 &2899108450045193141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,6 +2123,11 @@ MonoBehaviour:
   staminaRegenAmount: 20
   focusLevel: 10
   focusPerLevel: 5
+  TotalPoise: 0
+  OffensivePoise: 0
+  ArmorPoise: 0
+  TotalPoiseResetTime: 5
+  PoiseResetTimer: 0
   IsDead: 0
   SoulCount: 0
 --- !u!114 &2834991936200951273

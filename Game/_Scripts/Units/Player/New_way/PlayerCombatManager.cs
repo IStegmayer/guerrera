@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Dzajna {
 // TODO: All this hash management is very inefficient, weaponItem should have its animations already hashed 
 // also combo can just be an array of attacks and have a tree in anim. Overall a faulty script
-public class PlayerAttacker : MonoBehaviour {
+public class PlayerCombatManager : MonoBehaviour {
     private PlayerAnimatorManager playerAnimatorManager;
     private PlayerEquipmentManager playerEquipmentManager;
     private PlayerManager playerManager;
-    private PlayerInventory playerInventory;
+    private PlayerInventoryManager playerInventoryManager;
     private PlayerStats playerStats;
-    private WeaponSlotManager weaponSlotManager;
+    private PlayerWeaponSlotManager playerWeaponSlotManager;
     private InputHandler inputHandler;
     private CameraManager cameraManager;
     public string LastAttackString;
@@ -24,15 +24,15 @@ public class PlayerAttacker : MonoBehaviour {
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         playerManager = GetComponent<PlayerManager>();
-        playerInventory = GetComponent<PlayerInventory>();
+        playerInventoryManager = GetComponent<PlayerInventoryManager>();
         playerStats = GetComponent<PlayerStats>();
         inputHandler = GetComponent<InputHandler>();
-        weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+        playerWeaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
         cameraManager = FindObjectOfType<CameraManager>();
     }
 
     public void HandleLTAction() {
-        WeaponItem _weapon = playerInventory.LeftWeapon;
+        WeaponItem _weapon = playerInventoryManager.LeftWeapon;
         if (_weapon.isShieldWeapon) {
             PerformLTWeaponArt(_weapon, false);
         }
@@ -40,7 +40,7 @@ public class PlayerAttacker : MonoBehaviour {
 
     public void HandleRBAction() {
         if (!playerStats.CheckHasStamina()) return;
-        WeaponItem _weapon = playerInventory.RightWeapon;
+        WeaponItem _weapon = playerInventoryManager.RightWeapon;
         if (_weapon.isMeleeWeapon) PerformRBMeleeAction(_weapon);
         else if (_weapon.isMagicCaster) {
             PerformRBMagicCast(_weapon);
@@ -70,10 +70,10 @@ public class PlayerAttacker : MonoBehaviour {
         //TODO: debugging purposes only
         // if (playerManager.IsInteracting) return;
 
-        SpellItem _spell = playerInventory.CurrentSpell;
+        SpellItem _spell = playerInventoryManager.CurrentSpell;
         if (_spell != null && _spell.isMagicSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
-            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -81,10 +81,10 @@ public class PlayerAttacker : MonoBehaviour {
     private void PerformRBFaithCast(WeaponItem _weapon) {
         if (playerManager.IsInteracting) return;
 
-        SpellItem _spell = playerInventory.CurrentSpell;
+        SpellItem _spell = playerInventoryManager.CurrentSpell;
         if (_spell != null && _spell.isFaithSpell) {
             bool _canCast = playerStats.CheckIfCanCast(_spell.FPCost);
-            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
+            if (_canCast) _spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -111,7 +111,7 @@ public class PlayerAttacker : MonoBehaviour {
         if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit,
                 maxCritDistance, backStabLayer)) {
             CharacterManager _enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
-            DamageCollider _rightWeapon = weaponSlotManager.RightDamageCollider;
+            DamageCollider _rightWeapon = playerWeaponSlotManager.RightDamageCollider;
 
             if (_enemyCharacterManager == null) return;
             // Pull us in position to backstab
@@ -134,14 +134,14 @@ public class PlayerAttacker : MonoBehaviour {
 
             // deal dmg
             // TODO: this is not taking into account the player stats
-            float _critDamage = playerInventory.RightWeapon.BaseDamage *
-                                playerInventory.RightWeapon.CriticalDamageMultiplier;
+            float _critDamage = playerInventoryManager.RightWeapon.BaseDamage *
+                                playerInventoryManager.RightWeapon.CriticalDamageMultiplier;
             _enemyCharacterManager.PendingCriticalDamage = _critDamage;
         } else if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward),
                        out hit, maxCritDistance, riposteLayer)) {
             //TODO: repeating code
             CharacterManager _enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
-            DamageCollider _rightWeapon = weaponSlotManager.RightDamageCollider;
+            DamageCollider _rightWeapon = playerWeaponSlotManager.RightDamageCollider;
 
             if (_enemyCharacterManager == null || !_enemyCharacterManager.CanBeRiposted) return;
             
@@ -164,14 +164,14 @@ public class PlayerAttacker : MonoBehaviour {
 
             // deal dmg
             // TODO: this is not taking into account the player stats
-            float _critDamage = playerInventory.RightWeapon.BaseDamage *
-                                playerInventory.RightWeapon.CriticalDamageMultiplier;
+            float _critDamage = playerInventoryManager.RightWeapon.BaseDamage *
+                                playerInventoryManager.RightWeapon.CriticalDamageMultiplier;
             _enemyCharacterManager.PendingCriticalDamage = _critDamage;
         }
     }
 
     public void SuccessfullyCastSpell() {
-        playerInventory.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats, cameraManager, weaponSlotManager);
+        playerInventoryManager.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
     }
 
     public void HandleWeaponCombo(WeaponItem _weaponItem) {
@@ -195,7 +195,7 @@ public class PlayerAttacker : MonoBehaviour {
     }
 
     private void HandleLightAttack(WeaponItem _weaponItem) {
-        weaponSlotManager.SetAttackingWeapon(_weaponItem);
+        playerWeaponSlotManager.SetAttackingWeapon(_weaponItem);
 
         if (inputHandler.TwoHandFlag) {
             playerAnimatorManager.PlayTargetAnimation(_weaponItem.TH_Light_Attack_1, true);
@@ -220,7 +220,7 @@ public class PlayerAttacker : MonoBehaviour {
     public void HandleHeavyAttack(WeaponItem _weaponItem) {
         if (!playerStats.CheckHasStamina()) return;
         
-        weaponSlotManager.SetAttackingWeapon(_weaponItem);
+        playerWeaponSlotManager.SetAttackingWeapon(_weaponItem);
         if (inputHandler.TwoHandFlag) {
             playerAnimatorManager.PlayTargetAnimation(_weaponItem.TH_Heavy_Attack_1, true);
             LastAttackString = _weaponItem.TH_Heavy_Attack_1;

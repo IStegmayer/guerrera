@@ -17,19 +17,19 @@ public class ProjectileSpell : SpellItem {
         AnimatorManager _animatorManager,
         PlayerStats _playerStats,
         CameraManager _cameraManager,
-        WeaponSlotManager _weaponSlotManager) {
-        base.AttemptToCastSpell(_animatorManager, _playerStats, _cameraManager, _weaponSlotManager);
+        PlayerWeaponSlotManager _playerWeaponSlotManager) {
+        base.AttemptToCastSpell(_animatorManager, _playerStats, _cameraManager, _playerWeaponSlotManager);
         //TODO: add this camerahandler
         castRotation = _cameraManager.GetCameraRotation();
-        GameObject _warmUpSFXInstance = Instantiate(spellWarmUpFX, _weaponSlotManager.GetRightHandTransform());
+        GameObject _warmUpSFXInstance = Instantiate(spellWarmUpFX, _playerWeaponSlotManager.GetRightHandTransform());
         _animatorManager.PlayTargetAnimation(spellAnimation, true);
     }
 
     public override void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
-        CameraManager _cameraManager, WeaponSlotManager _weaponSlotManager) {
-        base.SuccessfullyCastedSpell(_animatorManager, _playerStats, _cameraManager, _weaponSlotManager);
+        CameraManager _cameraManager, PlayerWeaponSlotManager _playerWeaponSlotManager) {
+        base.SuccessfullyCastedSpell(_animatorManager, _playerStats, _cameraManager, _playerWeaponSlotManager);
         _animatorManager.Anim.SetBool(_animatorManager.IsFiringSpellHash, true);
-        GameObject _spellFXInstance = Instantiate(spellCastFX, _weaponSlotManager.GetRightHandTransform().position,
+        GameObject _spellFXInstance = Instantiate(spellCastFX, _playerWeaponSlotManager.GetRightHandTransform().position,
             castRotation);
         rigidbody = _spellFXInstance.GetComponent<Rigidbody>();
         // spellDamageCollider - _spellFXInstance.GetComponent<SpellDamageCollider>();

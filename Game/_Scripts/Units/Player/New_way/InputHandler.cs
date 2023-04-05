@@ -43,25 +43,25 @@ namespace Dzajna
 
         private PlayerAnimatorManager playerAnimatorManager;
         private PlayerInputActions inputActions;
-        private PlayerAttacker playerAttacker;
-        private PlayerInventory playerInventory;
+        private PlayerCombatManager playerCombatManager;
+        private PlayerInventoryManager playerInventoryManager;
         private PlayerManager playerManager;
         private PlayerStats playerStats;
         private PlayerEquipmentManager playerEquipmentManager;
         private CameraManager cameraManager;
         private UIManager uiManager;
-        private WeaponSlotManager weaponSlotManager;
+        private PlayerWeaponSlotManager playerWeaponSlotManager;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
 
         private void Awake() {
-            playerAttacker = GetComponent<PlayerAttacker>();
-            playerInventory = GetComponent<PlayerInventory>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerManager = GetComponent<PlayerManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerStats = GetComponent<PlayerStats>();
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            playerWeaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
             playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
             // TODO: inefficient asf
             cameraManager = FindObjectOfType<CameraManager>();
@@ -151,9 +151,9 @@ namespace Dzajna
         private void HandleCombatInput() {
             // TODO: does this really belong here? also check for isInteracting
             // TODO: refactor this shit logic
-            if (rb_Input) playerAttacker.HandleRBAction();
+            if (rb_Input) playerCombatManager.HandleRBAction();
 
-            if (lb_Input) playerAttacker.HandleLBAction();
+            if (lb_Input) playerCombatManager.HandleLBAction();
             else {
                 playerManager.IsBlocking = false;
                 //TODO: this should just be an animation event
@@ -163,12 +163,12 @@ namespace Dzajna
             if (rt_Input) {
                 if (playerManager.CanDoCombo) {
                     ComboFlag = true;
-                    playerAttacker.HandleWeaponCombo(playerInventory.RightWeapon);
+                    playerCombatManager.HandleWeaponCombo(playerInventoryManager.RightWeapon);
                     ComboFlag = false;
                 }
                 else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
                     playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
-                    playerAttacker.HandleHeavyAttack(playerInventory.RightWeapon);
+                    playerCombatManager.HandleHeavyAttack(playerInventoryManager.RightWeapon);
                 }
             }
 
@@ -179,7 +179,7 @@ namespace Dzajna
                 }
                 else {
                     // handle weapon art if shield (parry)
-                    playerAttacker.HandleLTAction();
+                    playerCombatManager.HandleLTAction();
                 }
                 // else handle light attack if melee weapon
                 
@@ -188,10 +188,10 @@ namespace Dzajna
 
         private void HandleQuickSlotsInput() {
             if (d_pad_right_Input) {
-                playerInventory.ChangeRightWeapon();
+                playerInventoryManager.ChangeRightWeapon();
             }
             else if (d_pad_left_Input) {
-                playerInventory.ChangeLeftWeapon();
+                playerInventoryManager.ChangeLeftWeapon();
             }
         }
 
@@ -245,18 +245,18 @@ namespace Dzajna
             twoHand_Input = false;
             TwoHandFlag = !TwoHandFlag;
             if (TwoHandFlag) {
-                weaponSlotManager.LoadWeaponOnSlot(playerInventory.RightWeapon, false);
+                playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.RightWeapon, false);
             }
             else {
-                weaponSlotManager.LoadWeaponOnSlot(playerInventory.RightWeapon, false);
-                weaponSlotManager.LoadWeaponOnSlot(playerInventory.LeftWeapon, true);
+                playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.RightWeapon, false);
+                playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.LeftWeapon, true);
             }
         }
 
         private void HandleCriticalInput() {
             if (critical_Input) {
                 critical_Input = false;
-                playerAttacker.AttemptBackStabOrRiposte();
+                playerCombatManager.AttemptBackStabOrRiposte();
             }
         }
     }

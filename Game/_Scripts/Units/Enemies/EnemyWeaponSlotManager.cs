@@ -4,20 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dzajna {
-public class EnemyWeaponSlotManager : MonoBehaviour {
-    [SerializeField] private WeaponItem rightHandWeapon;
-    [SerializeField] private WeaponItem leftHandWeapon;
+public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
 
-    private WeaponHolderSlot rightHandSlot;
-    private WeaponHolderSlot leftHandSlot;
-
-    private DamageCollider rightDamageCollider;
-    private DamageCollider leftDamageCollider;
-
-    private EnemyStats enemyStats;
+    private EnemyStatsManager enemyStatsManager;
 
     private void Awake() {
-        enemyStats = GetComponentInParent<EnemyStats>();
+        enemyStatsManager = GetComponentInParent<EnemyStatsManager>();
         LoadWeaponHolderSlots();
     }
 
@@ -35,26 +27,28 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
     }
 
     private void LoadWeaponOnSlot(WeaponItem _weapon, bool _isLeft) {
+        WeaponItem _weaponToEquip = _weapon != null ? _weapon : unarmedWeapon;
+
         if (_isLeft) {
-            leftHandSlot.CurrentWeaponItem = _weapon;
-            leftHandSlot.LoadWeaponModel(_weapon);
+            leftHandSlot.CurrentWeaponItem = _weaponToEquip;
+            leftHandSlot.LoadWeaponModel(_weaponToEquip);
             LoadLeftWeaponDamageCollider();
         }
         else {
-            rightHandSlot.CurrentWeaponItem = _weapon;
-            rightHandSlot.LoadWeaponModel(_weapon);
+            rightHandSlot.CurrentWeaponItem = _weaponToEquip;
+            rightHandSlot.LoadWeaponModel(_weaponToEquip);
             LoadRightWeaponDamageCollider();
         }
     }
 
     private void LoadWeaponsDamageCollider(bool _isLeft) {
         if (_isLeft) {
-            leftDamageCollider = leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-            leftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+            LeftDamageCollider = leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            LeftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         }
         else {
-            rightDamageCollider = rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-            rightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+            RightDamageCollider = rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+            RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         }
     }
 
@@ -68,31 +62,31 @@ public class EnemyWeaponSlotManager : MonoBehaviour {
     #region Handle Weapon's Damage Collider
 
     private void LoadLeftWeaponDamageCollider() {
-        leftDamageCollider =
+        LeftDamageCollider =
             leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-        leftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+        LeftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
     }
 
     private void LoadRightWeaponDamageCollider() {
-        rightDamageCollider =
+        RightDamageCollider =
             rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-        rightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+        RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
     }
 
     public void OpenDamageCollider() {
-        rightDamageCollider.EnableDamageCollider();
+        RightDamageCollider.EnableDamageCollider();
     }
 
     public void CloseDamageCollider() {
-        rightDamageCollider.DisableDamageCollider();
+        RightDamageCollider.DisableDamageCollider();
     }
     
     //TODO: test if this actually works
     public void GrantWeaponAttackingPoiseBonus() {
-        enemyStats.TotalPoise += enemyStats.OffensivePoise;
+        enemyStatsManager.TotalPoise += enemyStatsManager.OffensivePoise;
     }
     public void RemoveWeaponAttackingPoiseBonus() {
-        enemyStats.TotalPoise -= enemyStats.OffensivePoise;
+        enemyStatsManager.TotalPoise -= enemyStatsManager.OffensivePoise;
     }
 
     #endregion

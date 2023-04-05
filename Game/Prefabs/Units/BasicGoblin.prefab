@@ -1285,9 +1285,15 @@ MonoBehaviour:
   staminaRegenAmount: 2
   focusLevel: 10
   focusPerLevel: 5
+  TotalPoise: 0
+  OffensivePoise: 0
+  ArmorPoise: 0
+  TotalPoiseResetTime: 5
+  PoiseResetTimer: 0
   IsDead: 0
   healthBar: {fileID: 3955794179418183908}
   SoulsReward: 50
+  IsBoss: 0
 --- !u!114 &-5052775884964827217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,6 +1314,7 @@ MonoBehaviour:
   CanDoCombo: 0
   IsParrying: 0
   IsBlocking: 0
+  IsInvulnerable: 0
   IsRotatingWithRM: 0
   IsFiringSpell: 0
   PendingCriticalDamage: 0
@@ -1317,6 +1324,7 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   IsPerformingAction: 0
   IsInteracting: 0
+  IsPhaseShifting: 0
   MinDetectionAngle: 50
   MaxDetectionAngle: -50
   CurrentRecoveryTime: 2
@@ -1362,6 +1370,8 @@ MonoBehaviour:
   TurnAroundHash: 0
   TurnRightHash: 0
   TurnLeftHash: 0
+  PhaseTransitionHash: 0
+  IsPhaseShiftingHash: 0
 --- !u!114 &-8497628568145790431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1376,6 +1386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandWeapon: {fileID: 11400000, guid: af4523b00cfc1964cac366f625a7e5d9, type: 2}
   leftHandWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  unarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
 --- !u!1 &1439348661205246
 GameObject:
   m_ObjectHideFlags: 0

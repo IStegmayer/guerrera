@@ -10,18 +10,10 @@ namespace Dzajna
         private Animator anim;
         private PlayerAnimatorManager playerAnimatorManager;
         private CameraManager cameraManager;
-        private PlayerLocomotion playerLocomotion;
+        private PlayerLocomotionManager playerLocomotionManager;
         private PlayerStats playerStats;
 
         private InteractableUI interactableUI;
-
-        [Header("Player flags")] 
-        public bool IsInteracting;
-        public bool IsSprinting;
-        public bool IsInAir = false;
-        public bool IsGrounded;
-        public bool IsUsingRightHand;
-        public bool IsUsingLeftHand;
 
         private void Awake() {
             cameraManager = CameraManager.Instance;
@@ -32,7 +24,7 @@ namespace Dzajna
             inputHandler = GetComponent<InputHandler>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             anim = GetComponent<Animator>();
-            playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerStats = GetComponent<PlayerStats>();
             BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
         }
@@ -53,12 +45,12 @@ namespace Dzajna
             inputHandler.TickInput(_delta);
             
             CheckForInteractableObject();
-            playerLocomotion.HandleMovement(_delta);
-            playerLocomotion.HandleRotation(_delta);
-            playerLocomotion.HandleRolling(_delta);
+            playerLocomotionManager.HandleMovement(_delta);
+            playerLocomotionManager.HandleRotation(_delta);
+            playerLocomotionManager.HandleRolling(_delta);
             // TODO: WTF CALLING with its own property? 
-            playerLocomotion.HandleFalling(_delta, playerLocomotion.moveDirection);
-            playerLocomotion.HandleJumping();
+            playerLocomotionManager.HandleFalling(_delta, playerLocomotionManager.moveDirection);
+            playerLocomotionManager.HandleJumping();
             
             playerStats.RegenerateStamina();
         }
@@ -86,7 +78,7 @@ namespace Dzajna
             inputHandler.d_pad_up_Input = false;
             inputHandler.d_pad_down_Input = false;
 
-            if (IsInAir) playerLocomotion.InAirTimer += Time.deltaTime;
+            if (IsInAir) playerLocomotionManager.InAirTimer += Time.deltaTime;
         }
 
         private void CheckForInteractableObject() {
@@ -112,13 +104,13 @@ namespace Dzajna
         }
 
         public void OpenChestInteraction(Transform _playerStandingPoint) {
-            playerLocomotion.Rigidbody.velocity = Vector3.zero;
+            playerLocomotionManager.Rigidbody.velocity = Vector3.zero;
             transform.position = _playerStandingPoint.transform.position;
             playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.OpenChestHash, true);
         }
 
         public void PassThroughFoggWallInteraction(Transform _fogWallEntrance) {
-            playerLocomotion.Rigidbody.velocity = Vector3.zero;
+            playerLocomotionManager.Rigidbody.velocity = Vector3.zero;
             Vector3 _rotationDirection = _fogWallEntrance.transform.forward;
             Quaternion _turnRotation = Quaternion.LookRotation(_rotationDirection);
             transform.rotation = _turnRotation;

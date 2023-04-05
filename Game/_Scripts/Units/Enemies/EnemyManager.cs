@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace Dzajna {
 public class EnemyManager : CharacterManager {
     private EnemyAnimatorManager enemyAnimatorM;
-    private EnemyStats enemyStats;
+    private EnemyStatsManager enemyStatsManager;
 
     public NavMeshAgent NavMeshAgent;
     public Rigidbody Rigidbody;
@@ -15,7 +15,6 @@ public class EnemyManager : CharacterManager {
 
     [Header("AI Settings")] 
     public bool IsPerformingAction;
-    public bool IsInteracting;
     public bool IsPhaseShifting;
     public float MinDetectionAngle = 50;
     public float MaxDetectionAngle = -50;
@@ -32,7 +31,7 @@ public class EnemyManager : CharacterManager {
     [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
     private void Awake() {
         enemyAnimatorM = GetComponent<EnemyAnimatorManager>();
-        enemyStats = GetComponent<EnemyStats>();
+        enemyStatsManager = GetComponent<EnemyStatsManager>();
         NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
         Rigidbody = GetComponent<Rigidbody>();
         BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
@@ -53,7 +52,7 @@ public class EnemyManager : CharacterManager {
         IsRotatingWithRM = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsRotatingWithRMHash);
         IsInvulnerable = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInvulnerableHash);
         
-        enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStats.IsDead);
+        enemyAnimatorM.Anim.SetBool(enemyAnimatorM.IsDeadHash, enemyStatsManager.IsDead);
         
         HandleStateMachine();
     }
@@ -67,7 +66,7 @@ public class EnemyManager : CharacterManager {
         // Actually handle this error
         if (CurrentState == null) return;
 
-        State _nextState = CurrentState.Tick(this, enemyStats, enemyAnimatorM);
+        State _nextState = CurrentState.Tick(this, enemyStatsManager, enemyAnimatorM);
         if (_nextState != null) SwitchToNextState(_nextState);
     }
 

@@ -4,7 +4,7 @@ namespace Dzajna {
 public class RotateTowardsTargetState : State {
     [SerializeField] private CombatStanceState combatStanceState;
     
-    public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
+    public override State Tick(EnemyManager _enemyManager, EnemyStatsManager _enemyStatsManager,
         EnemyAnimatorManager _enemyAnimatorM) {
         _enemyAnimatorM.Anim.SetFloat(_enemyAnimatorM.VerticalHash, 0);
         _enemyAnimatorM.Anim.SetFloat(_enemyAnimatorM.HorizontalHash, 0);

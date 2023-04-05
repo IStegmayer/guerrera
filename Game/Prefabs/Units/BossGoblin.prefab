@@ -822,6 +822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandWeapon: {fileID: 11400000, guid: af4523b00cfc1964cac366f625a7e5d9, type: 2}
   leftHandWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  unarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
 --- !u!114 &1108569587161236560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,6 +1247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6133878207992329581}
+  - component: {fileID: 9101688665680579356}
   m_Layer: 0
   m_Name: Hand_R
   m_TagString: Untagged
@@ -1271,6 +1273,24 @@ Transform:
   m_Father: {fileID: 6125117809770041967}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9101688665680579356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6127507340192870517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b77dc1f321a4980a3229df19b6585f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentOverride: {fileID: 6133878207992329581}
+  isLeftHandSlot: 0
+  isRightHandSlot: 1
+  isBackSlot: 0
+  CurrentWeaponModel: {fileID: 0}
+  CurrentWeaponItem: {fileID: 0}
 --- !u!1 &6127508145074851055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +2002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b77dc1f321a4980a3229df19b6585f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentOverride: {fileID: 0}
+  parentOverride: {fileID: 6125313694674989699}
   isLeftHandSlot: 1
   isRightHandSlot: 0
   isBackSlot: 0

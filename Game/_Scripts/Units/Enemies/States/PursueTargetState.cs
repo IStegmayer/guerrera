@@ -5,7 +5,7 @@ public class PursueTargetState : State {
     [SerializeField] private CombatStanceState combatStanceState;
     [SerializeField] private RotateTowardsTargetState rotateTowardsTargetState;
 
-    public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
+    public override State Tick(EnemyManager _enemyManager, EnemyStatsManager _enemyStatsManager,
         EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
 

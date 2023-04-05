@@ -61,7 +61,7 @@ public class PlayerStats : CharacterStats {
 
     public bool CheckHasStamina() => currentStamina >= 0;
 
-    public void TakeDamageWithoutAnimation(float _dmg) {
+    public override void TakeDamageWithoutAnimation(float _dmg) {
         if (IsDead || playerManager.IsInvulnerable) return;
         currentHealth -= _dmg;
             

@@ -63,7 +63,7 @@ public class GameManager : StaticInstance<GameManager>
         Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
         //TODO: this is lazy af
         CameraManager.Instance.playerTargetTransform = playerInstance.transform;
-        _uiManager.PlayerInventory = playerInstance.GetComponent<PlayerInventory>();
+        _uiManager._playerInventoryManager = playerInstance.GetComponent<PlayerInventoryManager>();
         ChangeState(GameState.SpawningEnemies);
     }
 

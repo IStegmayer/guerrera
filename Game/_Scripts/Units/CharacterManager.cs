@@ -19,6 +19,14 @@ namespace Dzajna
         public bool IsParrying;
         public bool IsBlocking;
         public bool IsInvulnerable;
+        
+        [Header("Player flags")] 
+        public bool IsInteracting;
+        public bool IsSprinting;
+        public bool IsInAir = false;
+        public bool IsGrounded;
+        public bool IsUsingRightHand;
+        public bool IsUsingLeftHand;
 
         [Header("MovementFlags")] 
         public bool IsRotatingWithRM;

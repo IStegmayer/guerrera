@@ -7,12 +7,12 @@ public class EnemyBossManager : MonoBehaviour {
     private BossHealthBar bossHealthBar;
     private BossCombatStanceState bossCombatStanceState;
     private EnemyAnimatorManager enemyAnimatorManager;
-    private EnemyStats enemyStats;
+    private EnemyStatsManager enemyStatsManager;
     private EnemyManager enemyManager;
 
     private void Awake() {
         bossHealthBar = FindObjectOfType<BossHealthBar>(true);
-        enemyStats = GetComponent<EnemyStats>();
+        enemyStatsManager = GetComponent<EnemyStatsManager>();
         enemyManager = GetComponent<EnemyManager>();
         enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
         bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
@@ -21,7 +21,7 @@ public class EnemyBossManager : MonoBehaviour {
     private void Start() {
         bossHealthBar.ToggleBossHealthBarActivation(true);
         bossHealthBar.SetBossName(bossName);
-        bossHealthBar.SetBossMaxHealth(enemyStats.GetMaxHealth());
+        bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
     }
 
     public void UpdateBossHealthBar(float _currentHealth, float _maxHealth) {

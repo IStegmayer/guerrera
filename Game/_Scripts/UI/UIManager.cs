@@ -7,7 +7,7 @@ namespace Dzajna
 {
     public class UIManager : MonoBehaviour
     {
-        public PlayerInventory PlayerInventory;
+        public PlayerInventoryManager _playerInventoryManager;
         
         [Header("UI Windows")]
         [SerializeField] private GameObject HUDWindow;
@@ -33,13 +33,13 @@ namespace Dzajna
 
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
-            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(PlayerInventory);
+            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(_playerInventoryManager);
         }
 
         public void UpdateUI() {
             #region WeaponInventorySlots
 
-            int _inventoryCount = PlayerInventory.WeaponsInventory.Count;
+            int _inventoryCount = _playerInventoryManager.WeaponsInventory.Count;
             for (int _i = 0; _i < weaponInventorySlots.Length; _i++) {
                 if (_i < _inventoryCount) {
                     if (weaponInventorySlots.Length < _inventoryCount) {
@@ -48,7 +48,7 @@ namespace Dzajna
                             weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
                     }
 
-                    weaponInventorySlots[_i].AddItem(PlayerInventory.WeaponsInventory[_i]);
+                    weaponInventorySlots[_i].AddItem(_playerInventoryManager.WeaponsInventory[_i]);
                 }
                 else {
                     weaponInventorySlots[_i].ClearInventorySlot();

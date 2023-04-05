@@ -10,7 +10,7 @@ public class CombatStanceState : State {
     protected float verticalMovementValue;
     protected float horizontalMovementValue;
 
-    public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
+    public override State Tick(EnemyManager _enemyManager, EnemyStatsManager _enemyStatsManager,
         EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) {
             _enemyAnimatorM.Anim.SetFloat(_enemyAnimatorM.VerticalHash, 0);

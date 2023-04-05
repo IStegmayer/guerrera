@@ -5,7 +5,7 @@ public class IdleState : State {
     [SerializeField] private PursueTargetState pursueTargetState;
     [SerializeField] private LayerMask layerMask;
 
-    public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
+    public override State Tick(EnemyManager _enemyManager, EnemyStatsManager _enemyStatsManager,
         EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
         

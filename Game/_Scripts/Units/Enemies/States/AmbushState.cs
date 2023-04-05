@@ -9,7 +9,7 @@ public class AmbushState : State {
     [SerializeField] private LayerMask detectionLayer;
     [SerializeField] PursueTargetState pursueTargetState;
 
-    public override State Tick(EnemyManager _enemyManager, EnemyStats _enemyStats,
+    public override State Tick(EnemyManager _enemyManager, EnemyStatsManager _enemyStatsManager,
         EnemyAnimatorManager _enemyAnimatorM) {
         if (_enemyManager.IsInteracting) return this;
         if (IsSleeping) _enemyAnimatorM.PlayTargetAnimation(sleepAnimation, true);

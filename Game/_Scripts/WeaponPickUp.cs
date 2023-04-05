@@ -13,19 +13,19 @@ namespace Dzajna
         }
 
         private void PickUpItem(PlayerManager _playerManager) {
-            PlayerInventory _playerInventory;
-            PlayerLocomotion _playerLocomotion;
+            PlayerInventoryManager _playerInventoryManager;
+            PlayerLocomotionManager _playerLocomotionManager;
             PlayerAnimatorManager _playerAnimatorManager;
             InteractableUI _interactableUI;
-            _playerInventory = _playerManager.GetComponent<PlayerInventory>();
-            _playerLocomotion = _playerManager.GetComponent<PlayerLocomotion>();
+            _playerInventoryManager = _playerManager.GetComponent<PlayerInventoryManager>();
+            _playerLocomotionManager = _playerManager.GetComponent<PlayerLocomotionManager>();
             _playerAnimatorManager = _playerManager.GetComponent<PlayerAnimatorManager>();
             _interactableUI = FindObjectOfType<InteractableUI>();
             
             
-            _playerLocomotion.Rigidbody.velocity = Vector3.zero; // Stop movement
+            _playerLocomotionManager.Rigidbody.velocity = Vector3.zero; // Stop movement
             _playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash("PickUpItem"), true);
-            _playerInventory.WeaponsInventory.Add(Weapon);
+            _playerInventoryManager.WeaponsInventory.Add(Weapon);
             _interactableUI.ItemPickupText.text = Weapon.ItemName;
             _interactableUI.ItemPickupImage.texture = Weapon.ItemIcon.texture;
             _interactableUI.ItemPickupUIGameObject.SetActive(true);

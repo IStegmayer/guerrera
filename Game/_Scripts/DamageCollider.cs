@@ -65,7 +65,7 @@ public class DamageCollider : MonoBehaviour {
 
         if (_collider.gameObject.CompareTag("Enemy")) {
             //TODO: add blocking
-            EnemyStats _enemyStats = _collider.GetComponent<EnemyStats>();
+            EnemyStatsManager _enemyStatsManager = _collider.GetComponent<EnemyStatsManager>();
             CharacterManager _enemyCharacterManager = _collider.GetComponent<CharacterManager>();
             if (_enemyCharacterManager != null && _enemyCharacterManager.IsParrying) {
                 // CHECK IF YOU ARE PARRIABLE
@@ -74,14 +74,14 @@ public class DamageCollider : MonoBehaviour {
                 return;
             }
 
-            if (_enemyStats != null) {
-                _enemyStats.ResetPoiseTimer();
-                _enemyStats.DealPoiseDamage(PoiseBreak);
-                Debug.Log("Enemy's poise is: " + _enemyStats.TotalPoise);
-                if (_enemyStats.TotalPoise > PoiseBreak) _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+            if (_enemyStatsManager != null) {
+                _enemyStatsManager.ResetPoiseTimer();
+                _enemyStatsManager.DealPoiseDamage(PoiseBreak);
+                Debug.Log("Enemy's poise is: " + _enemyStatsManager.TotalPoise);
+                if (_enemyStatsManager.TotalPoise > PoiseBreak) _enemyStatsManager.TakeDamageWithoutAnimation(CurrentWeaponDamage);
                 else {
-                    _enemyStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
-                    _enemyStats.BreakGuard();
+                    _enemyStatsManager.TakeDamageWithoutAnimation(CurrentWeaponDamage);
+                    _enemyStatsManager.BreakGuard();
                 }
             }
         }

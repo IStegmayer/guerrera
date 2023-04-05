@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6661585950636793380}
   - component: {fileID: 3310268542717386028}
   m_Layer: 0
-  m_Name: Unarmed
+  m_Name: DamageCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1103877e5c351b4594ddf4f49b7695d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentWeaponDamage: 5
+  characterManager: {fileID: 0}
+  EnabledOnStartup: 0
+  CurrentWeaponDamage: 25
+  PoiseBreak: 10
+  OffensivePoiseBonus: 10
 --- !u!1 &9125274802050466198
 GameObject:
   m_ObjectHideFlags: 0

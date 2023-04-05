@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class PlayerLocomotion : MonoBehaviour
+    public class PlayerLocomotionManager : MonoBehaviour
     {
         private Transform cameraTransform;
         private InputHandler inputHandler;
@@ -14,7 +14,7 @@ namespace Dzajna
 
         // these could be protected
         [HideInInspector] public Transform MyTransform;
-        [HideInInspector] public PlayerAnimatorManager _playerAnimatorManager;
+        [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         public new Rigidbody Rigidbody;
         public GameObject normalCamera;
 
@@ -55,8 +55,7 @@ namespace Dzajna
             playerStats = GetComponent<PlayerStats>();
             cameraTransform = Camera.main.transform;
             MyTransform = transform;
-            _playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
-            _playerAnimatorManager.Initialize();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
 
             playerManager.IsGrounded = true;
         }
@@ -95,14 +94,14 @@ namespace Dzajna
             Rigidbody.velocity = _projectedVelocity;
 
             if (inputHandler.LockOnFlag)
-                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
                     playerManager.IsSprinting);
             else
-                _playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
+                playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, playerManager.IsSprinting);
         }
 
         public void HandleRotation(float _delta) {
-            if (!_playerAnimatorManager.CanRotate) return;
+            if (!playerAnimatorManager.CanRotate) return;
             
             //TODO: this is ridiculous
             if (inputHandler.LockOnFlag && !inputHandler.SprintFlag && !inputHandler.RollFlag) {
@@ -136,16 +135,16 @@ namespace Dzajna
         }
 
         public void HandleRolling(float _delta) {
-            if (_playerAnimatorManager.Anim.GetBool(_playerAnimatorManager.IsInteractingHash)) return;
+            if (playerAnimatorManager.Anim.GetBool(playerAnimatorManager.IsInteractingHash)) return;
             if (!inputHandler.RollFlag) return;
             if (!playerStats.CheckHasStamina()) return;
 
             if (inputHandler.MoveAmount > 0) {
-                _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.RollHash, true);
+                playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.RollHash, true);
                 playerStats.TakeStaminaDamage(rollStaminaCost);
             }
             else {
-                _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.BackstepHash, true);
+                playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.BackstepHash, true);
                 playerStats.TakeStaminaDamage(backstepStaminaCost);
             }
         }
@@ -180,10 +179,10 @@ namespace Dzajna
                 if (playerManager.IsInAir) {
                     if (InAirTimer > 0.5f) {
                         Debug.Log("air time: " + InAirTimer);
-                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.LandHash, true);
+                        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.LandHash, true);
                     }
                     else {
-                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.EmptyHash, false);
+                        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.EmptyHash, false);
                     }
 
                     InAirTimer = 0;
@@ -194,7 +193,7 @@ namespace Dzajna
                 if (playerManager.IsGrounded) playerManager.IsGrounded = false;
                 if (playerManager.IsInAir == false) {
                     if (playerManager.IsInteracting == false)
-                        _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.FallHash, true);
+                        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FallHash, true);
 
                     Vector3 _velocity = Rigidbody.velocity;
                     _velocity.Normalize();
@@ -222,7 +221,7 @@ namespace Dzajna
             _moveDirection.y = 0;
             MyTransform.rotation = Quaternion.LookRotation(_moveDirection);
 
-            _playerAnimatorManager.PlayTargetAnimation(_playerAnimatorManager.JumpHash, true);
+            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.JumpHash, true);
         }
 
         #endregion

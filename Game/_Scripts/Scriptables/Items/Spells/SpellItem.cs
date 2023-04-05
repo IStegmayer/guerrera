@@ -19,12 +19,12 @@ public class SpellItem : Item {
 
     public virtual void AttemptToCastSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
         CameraManager _cameraManager,
-        WeaponSlotManager _weaponSlotManager) {
+        PlayerWeaponSlotManager _playerWeaponSlotManager) {
         Debug.Log("Attempting to cast spell");
     }
 
     public virtual void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
-        CameraManager _cameraManager, WeaponSlotManager _weaponSlotManager) {
+        CameraManager _cameraManager, PlayerWeaponSlotManager _playerWeaponSlotManager) {
         Debug.Log("Successfully casted a spell");
         //TODO: for testing purposes only
         // _playerStats.TakeFPDamage(FPCost);

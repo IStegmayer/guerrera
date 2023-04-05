@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Dzajna {
 // TODO: I'll get back to this when I do AI 
-public class EnemyStats : CharacterStats {
+public class EnemyStatsManager : CharacterStats {
     [SerializeField] private UIEnemyHealthBar healthBar;
     public int SoulsReward;
     public bool IsBoss;
@@ -36,7 +36,7 @@ public class EnemyStats : CharacterStats {
         return healthLevel * healthPerLevel;
     }
 
-    public void TakeDamageWithoutAnimation(float _dmg) {
+    public override void TakeDamageWithoutAnimation(float _dmg) {
         if (IsDead || enemyManager.IsInvulnerable) return;
         
         currentHealth -= _dmg;

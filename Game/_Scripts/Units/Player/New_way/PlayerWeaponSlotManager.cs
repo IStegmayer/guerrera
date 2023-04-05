@@ -2,16 +2,8 @@
 using UnityEngine;
 
 namespace Dzajna {
-public class WeaponSlotManager : MonoBehaviour {
-    private WeaponHolderSlot leftHandSlot;
-    private WeaponHolderSlot rightHandSlot;
-    private WeaponHolderSlot backSlot;
-
-    public DamageCollider LeftDamageCollider { get; private set; }
-    public DamageCollider RightDamageCollider { get; private set; }
-
+public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
     private WeaponItem attackingWeapon;
-    public float CurrentWeaponDamage;
 
     private PlayerManager playerManager;
     private Animator animator;
@@ -27,6 +19,11 @@ public class WeaponSlotManager : MonoBehaviour {
         playerManager = GetComponentInParent<PlayerManager>();
         //TODO: im still using this...
         quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
+        
+        LoadWeaponHolderSlots();
+    }
+
+    private void LoadWeaponHolderSlots() {
         WeaponHolderSlot[] _weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
         foreach (WeaponHolderSlot _weaponSlot in _weaponHolderSlots) {
             if (_weaponSlot.isLeftHandSlot) leftHandSlot = _weaponSlot;
@@ -36,34 +33,30 @@ public class WeaponSlotManager : MonoBehaviour {
     }
 
     public void LoadWeaponOnSlot(WeaponItem _weaponItem, bool _isLeft) {
+        WeaponItem _weaponToEquip = _weaponItem != null ? _weaponItem : unarmedWeapon;
+        
         if (_isLeft) {
-            leftHandSlot.CurrentWeaponItem = _weaponItem;
-            leftHandSlot.LoadWeaponModel(_weaponItem);
+            leftHandSlot.CurrentWeaponItem = _weaponToEquip;
+            leftHandSlot.LoadWeaponModel(_weaponToEquip);
             LoadLeftWeaponDamageCollider();
-            quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponItem, true);
-            //TODO: hashes
-            if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_LeftArmIdle, 0.2f);
-            else animator.CrossFade("LeftArmEmpty", 0.2f);
+            quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponToEquip, true);
+            animator.CrossFade(_weaponToEquip.OH_LeftArmIdle, 0.2f);
         }
         else {
             if (inputHandler.TwoHandFlag) {
                 backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
-                animator.CrossFade(_weaponItem.TH_Idle, 0.2f);
+                animator.CrossFade(_weaponToEquip.TH_Idle, 0.2f);
                 leftHandSlot.UnloadWeaponAndDestroy();
             }
             else {
-                //TODO: hashes
-                animator.CrossFade("BothArmsEmpty", 0.2f);
-                if (_weaponItem != null) animator.CrossFade(_weaponItem.OH_RightArmIdle, 0.2f);
-                else animator.CrossFade("RightArmEmpty", 0.2f);
-
+                animator.CrossFade(_weaponToEquip.OH_RightArmIdle, 0.2f);
                 backSlot.UnloadWeaponAndDestroy();
             }
 
-            rightHandSlot.CurrentWeaponItem = _weaponItem;
-            rightHandSlot.LoadWeaponModel(_weaponItem);
+            rightHandSlot.CurrentWeaponItem = _weaponToEquip;
+            rightHandSlot.LoadWeaponModel(_weaponToEquip);
             LoadRightWeaponDamageCollider();
-            quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponItem, false);
+            quickSlotsUI.UpdateWeaponQuickSlotsUI(_weaponToEquip, false);
         }
     }
 
