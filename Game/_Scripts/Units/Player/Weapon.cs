@@ -10,17 +10,17 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _weaponDmg = 2;
     private bool _canDealDamage;
 
-    public void ToggleEnableDamage(bool state) => _canDealDamage = state;
+    public void ToggleEnableDamage(bool _state) => _canDealDamage = _state;
     
     private void Awake() {
         _unit = transform.root.gameObject.GetComponentInChildren<BaseUnit>();
     }
 
-    private void OnCollisionEnter(Collision other) {
+    private void OnCollisionEnter(Collision _other) {
         if (!_canDealDamage) return;
         
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
-            BaseUnit enemy = other.gameObject.GetComponent<BaseUnit>();
+        if (_other.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
+            BaseUnit enemy = _other.gameObject.GetComponent<BaseUnit>();
             enemy.TakeDamage(_unit.Stats.BaseAttackPower + _weaponDmg);
         }
 

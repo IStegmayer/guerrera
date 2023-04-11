@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace Dzajna {
 public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
-
     private EnemyStatsManager enemyStatsManager;
+    private CharacterEffectsManager characterEffectsManager;
 
     private void Awake() {
         enemyStatsManager = GetComponentInParent<EnemyStatsManager>();
+        characterEffectsManager = GetComponentInParent<CharacterEffectsManager>();
         LoadWeaponHolderSlots();
     }
 
@@ -65,12 +66,16 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
         LeftDamageCollider =
             leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         LeftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+
+        characterEffectsManager.LeftWeaponFX = leftHandSlot.CurrentWeaponModel.GetComponentInChildren<WeaponFX>();
     }
 
     private void LoadRightWeaponDamageCollider() {
         RightDamageCollider =
             rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+            
+        characterEffectsManager.RightWeaponFX = rightHandSlot.CurrentWeaponModel.GetComponentInChildren<WeaponFX>();
     }
 
     public void OpenDamageCollider() {
@@ -80,11 +85,12 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
     public void CloseDamageCollider() {
         RightDamageCollider.DisableDamageCollider();
     }
-    
+
     //TODO: test if this actually works
     public void GrantWeaponAttackingPoiseBonus() {
         enemyStatsManager.TotalPoise += enemyStatsManager.OffensivePoise;
     }
+
     public void RemoveWeaponAttackingPoiseBonus() {
         enemyStatsManager.TotalPoise -= enemyStatsManager.OffensivePoise;
     }

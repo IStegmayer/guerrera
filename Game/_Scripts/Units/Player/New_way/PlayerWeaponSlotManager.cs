@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Dzajna {
@@ -10,13 +11,14 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
     private QuickSlotsUI quickSlotsUI;
     private PlayerStats playerStats;
     private InputHandler inputHandler;
-
+    private PlayerEffectsManager playerEffectsManager;
 
     private void Awake() {
         animator = GetComponent<Animator>();
         playerStats = GetComponentInParent<PlayerStats>();
         inputHandler = GetComponentInParent<InputHandler>();
         playerManager = GetComponentInParent<PlayerManager>();
+        playerEffectsManager = GetComponentInParent<PlayerEffectsManager>();
         //TODO: im still using this...
         quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
         
@@ -63,26 +65,32 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
     #region Handle Weapon's Damage Collider
 
     private void LoadLeftWeaponDamageCollider() {
-        LeftDamageCollider =
-            leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-        LeftDamageCollider.CurrentWeaponDamage = leftHandSlot.CurrentWeaponItem.BaseDamage;
-        LeftDamageCollider.PoiseBreak = leftHandSlot.CurrentWeaponItem.PoiseBreak;
-        LeftDamageCollider.OffensivePoiseBonus = leftHandSlot.CurrentWeaponItem.OffensivePoiseBonus;
+        WeaponItem _weapon = leftHandSlot.CurrentWeaponItem;
+        GameObject _weaponModel = leftHandSlot.CurrentWeaponModel;
+        
+        LeftDamageCollider = _weaponModel.GetComponentInChildren<DamageCollider>();
+        LeftDamageCollider.CurrentWeaponDamage = _weapon.BaseDamage;
+        LeftDamageCollider.PoiseBreak = _weapon.PoiseBreak;
+        LeftDamageCollider.OffensivePoiseBonus = _weapon.OffensivePoiseBonus;
+
+        playerEffectsManager.LeftWeaponFX = _weaponModel.GetComponentInChildren<WeaponFX>();
     }
 
     private void LoadRightWeaponDamageCollider() {
-        RightDamageCollider =
-            rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
-        RightDamageCollider.CurrentWeaponDamage = rightHandSlot.CurrentWeaponItem.BaseDamage;
-        RightDamageCollider.PoiseBreak = rightHandSlot.CurrentWeaponItem.PoiseBreak;
-        RightDamageCollider.OffensivePoiseBonus = rightHandSlot.CurrentWeaponItem.OffensivePoiseBonus;
+        WeaponItem _weapon = rightHandSlot.CurrentWeaponItem;
+        GameObject _weaponModel = rightHandSlot.CurrentWeaponModel;
+        
+        RightDamageCollider = _weaponModel.GetComponentInChildren<DamageCollider>();
+        RightDamageCollider.CurrentWeaponDamage = _weapon.BaseDamage;
+        RightDamageCollider.PoiseBreak = _weapon.PoiseBreak;
+        RightDamageCollider.OffensivePoiseBonus = _weapon.OffensivePoiseBonus;
+        
+        playerEffectsManager.RightWeaponFX = _weaponModel.GetComponentInChildren<WeaponFX>();
     } 
 
     public void OpenDamageCollider() {
-        if (playerManager.IsUsingLeftHand)
-            LeftDamageCollider.EnableDamageCollider();
-        else if (playerManager.IsUsingRightHand)
-            RightDamageCollider.EnableDamageCollider();
+        if (playerManager.IsUsingLeftHand) LeftDamageCollider.EnableDamageCollider();
+        else if (playerManager.IsUsingRightHand) RightDamageCollider.EnableDamageCollider();
     }
     public void CloseDamageCollider() {
         if (LeftDamageCollider != null) LeftDamageCollider.DisableDamageCollider();

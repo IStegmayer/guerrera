@@ -11,6 +11,7 @@ public class PlayerCombatManager : MonoBehaviour {
     private PlayerInventoryManager playerInventoryManager;
     private PlayerStats playerStats;
     private PlayerWeaponSlotManager playerWeaponSlotManager;
+    private PlayerEffectsManager playerEffectsManager;
     private InputHandler inputHandler;
     private CameraManager cameraManager;
     public string LastAttackString;
@@ -27,6 +28,7 @@ public class PlayerCombatManager : MonoBehaviour {
         playerInventoryManager = GetComponent<PlayerInventoryManager>();
         playerStats = GetComponent<PlayerStats>();
         inputHandler = GetComponent<InputHandler>();
+        playerEffectsManager = GetComponent<PlayerEffectsManager>();
         playerWeaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
         cameraManager = FindObjectOfType<CameraManager>();
     }
@@ -67,8 +69,7 @@ public class PlayerCombatManager : MonoBehaviour {
     }
 
     private void PerformRBMagicCast(WeaponItem _weapon) {
-        //TODO: debugging purposes only
-        // if (playerManager.IsInteracting) return;
+        if (playerManager.IsInteracting) return;
 
         SpellItem _spell = playerInventoryManager.CurrentSpell;
         if (_spell != null && _spell.isMagicSpell) {

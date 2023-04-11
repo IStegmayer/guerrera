@@ -34,7 +34,7 @@ MonoBehaviour:
   TH_Heavy_Attack_1: TH_HeavyAttack1
   TH_Heavy_Attack_2: TH_HeavyAttack2
   WeaponArt: 
-  BaseStamina: 20
+  BaseStamina: 5
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
   isMagicCaster: 0

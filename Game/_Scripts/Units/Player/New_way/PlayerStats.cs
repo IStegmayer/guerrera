@@ -105,7 +105,7 @@ public class PlayerStats : CharacterStats {
     public void RegenerateStamina() {
         if (currentStamina >= maxStamina) return;
 
-        if (playerManager.IsInteracting) staminaRegenTimer = 0;
+        if (playerManager.IsInteracting || playerManager.IsSprinting) staminaRegenTimer = 0;
         else {
             staminaRegenTimer += Time.deltaTime;
             if (staminaRegenTimer > 1f) {
