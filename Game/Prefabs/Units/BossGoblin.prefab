@@ -739,7 +739,7 @@ Transform:
   m_GameObject: {fileID: 5802399943424450345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5129466, y: 0.094866276, z: 0.5846741}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8420706151007917801}
@@ -972,6 +972,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294e82a973fd48b7bbfc8e93fc87ec8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterFX: {fileID: 1026642433091512, guid: ed67c2cb8e3a7fb418c6fbb1b001dce2,
+    type: 3}
   RightWeaponFX: {fileID: 0}
   LeftWeaponFX: {fileID: 0}
 --- !u!1 &6026368025034241739

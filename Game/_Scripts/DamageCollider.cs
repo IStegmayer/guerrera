@@ -30,12 +30,13 @@ public class DamageCollider : MonoBehaviour {
 
     private void OnTriggerEnter(Collider _collider) {
         //TODO: dont use a tag for this, maybe an interface?
-
+        
         if (_collider.gameObject.CompareTag("Player")) {
             PlayerStats _playerStats = _collider.GetComponent<PlayerStats>();
             CharacterManager _enemyCharacterManager = _collider.GetComponent<CharacterManager>();
             BlockingCollider _shield = _collider.GetComponentInChildren<BlockingCollider>(true);
             AnimatorManager _anim = characterManager.GetComponent<AnimatorManager>();
+            CharacterEffectsManager _charEffectsManager = _collider.GetComponent<CharacterEffectsManager>();
             float _dmgToBeDealt = CurrentWeaponDamage;
 
             if (_enemyCharacterManager == null) throw new Exception("No enemy character manager found.");
@@ -53,20 +54,22 @@ public class DamageCollider : MonoBehaviour {
             }
 
             string _dmgAnim = _enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1";
+            Vector3 _contactPoint =
+                _collider.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+            _charEffectsManager.PlayBloodSplatterFX(_contactPoint);
             _playerStats.ResetPoiseTimer();
             _playerStats.DealPoiseDamage(PoiseBreak);
-            Debug.Log("Player's poise is: " + _playerStats.TotalPoise);
             if (_playerStats.TotalPoise > PoiseBreak) {
                 _playerStats.TakeDamageWithoutAnimation(CurrentWeaponDamage);
-                Debug.Log("Enemy's poise is: " + _playerStats.TotalPoise);
             }
-            else _playerStats.TakeDamage(CurrentWeaponDamage, _dmgAnim);
+            else _playerStats.TakeDamage(_dmgToBeDealt, _dmgAnim);
         }
 
         if (_collider.gameObject.CompareTag("Enemy")) {
             //TODO: add blocking
             EnemyStatsManager _enemyStatsManager = _collider.GetComponent<EnemyStatsManager>();
             CharacterManager _enemyCharacterManager = _collider.GetComponent<CharacterManager>();
+            CharacterEffectsManager _charEffectsManager = _collider.GetComponent<CharacterEffectsManager>();
             if (_enemyCharacterManager != null && _enemyCharacterManager.IsParrying) {
                 // CHECK IF YOU ARE PARRIABLE
                 AnimatorManager _anim = characterManager.GetComponent<AnimatorManager>();
@@ -75,9 +78,11 @@ public class DamageCollider : MonoBehaviour {
             }
 
             if (_enemyStatsManager != null) {
+                Vector3 _contactPoint =
+                    _collider.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                _charEffectsManager.PlayBloodSplatterFX(_contactPoint);
                 _enemyStatsManager.ResetPoiseTimer();
                 _enemyStatsManager.DealPoiseDamage(PoiseBreak);
-                Debug.Log("Enemy's poise is: " + _enemyStatsManager.TotalPoise);
                 if (_enemyStatsManager.TotalPoise > PoiseBreak) _enemyStatsManager.TakeDamageWithoutAnimation(CurrentWeaponDamage);
                 else {
                     _enemyStatsManager.TakeDamageWithoutAnimation(CurrentWeaponDamage);

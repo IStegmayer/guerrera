@@ -2,6 +2,10 @@
 
 namespace Dzajna {
 public class CharacterEffectsManager : MonoBehaviour {
+    [Header("Damage FX")]
+    [SerializeField] private GameObject bloodSplatterFX;
+    
+    [Header("Weapon FX")]
     public WeaponFX RightWeaponFX;
     public WeaponFX LeftWeaponFX;
 
@@ -19,6 +23,10 @@ public class CharacterEffectsManager : MonoBehaviour {
 
     public virtual void StopLeftWeaponFX() {
         if (LeftWeaponFX != null) LeftWeaponFX.StopWeaponFX();
+    }
+
+    public virtual void PlayBloodSplatterFX(Vector3 _bloodSplatterPos) {
+        GameObject blood = Instantiate(bloodSplatterFX, _bloodSplatterPos, Quaternion.identity);
     }
 }
 }

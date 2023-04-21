@@ -9,6 +9,7 @@ public class GameManager : StaticInstance<GameManager>
     [SerializeField] private Transform _enemySpawn;
     [SerializeField] private Transform _enemySpawn2;
     [SerializeField] private Transform _enemySpawn3;
+    [SerializeField] private Transform _enemySpawn4;
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private UIManager _uiManager;
     public static event Action<GameState> OnBeforeStateChanged;
@@ -77,8 +78,9 @@ public class GameManager : StaticInstance<GameManager>
     private void HandleSpawningEnemies() {
         
         UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.BossGoblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);;
+        UnitManager.Instance.SpawnEnemy(_enemySpawn4, EnemyType.BossGoblin);
         
         ChangeState(GameState.HeroTurn);
     }

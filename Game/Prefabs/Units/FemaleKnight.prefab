@@ -2008,7 +2008,7 @@ MonoBehaviour:
   fallingSpeed: 45
   rollStaminaCost: 10
   backstepStaminaCost: 10
-  sprintStaminaCost: 0.15
+  sprintStaminaCost: 0.03
   groundDetectionRayStartPoint: 0.5
   minimumDistanceNeededToFall: 1
   groundDirectionRayOffset: 0.2
@@ -2158,6 +2158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1728c62751374904bc86aa09615cba1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterFX: {fileID: 1026642433091512, guid: ed67c2cb8e3a7fb418c6fbb1b001dce2,
+    type: 3}
   RightWeaponFX: {fileID: 0}
   LeftWeaponFX: {fileID: 0}
 --- !u!1 &6880589535415209113
