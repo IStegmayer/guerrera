@@ -8,7 +8,7 @@ namespace Dzajna
         private Transform cameraTransform;
         private InputHandler inputHandler;
         private PlayerManager playerManager;
-        private CameraManager cameraManager;
+        private PlayerCamera playerCamera;
         private PlayerStats playerStats;
         public Vector3 moveDirection;
 
@@ -44,12 +44,12 @@ namespace Dzajna
         public float InAirTimer;
 
         private void Awake() {
-            cameraManager = FindObjectOfType<CameraManager>();
-            inputHandler = InputHandler.Instance;
             Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
         }
 
         private void Start() {
+            playerCamera = PlayerCamera.Instance;
+            inputHandler = InputHandler.Instance;
             Rigidbody = GetComponent<Rigidbody>();
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
@@ -106,7 +106,7 @@ namespace Dzajna
             //TODO: this is ridiculous
             if (inputHandler.LockOnFlag && !inputHandler.SprintFlag && !inputHandler.RollFlag) {
                 Vector3 _rotationDirection = moveDirection;
-                _rotationDirection = cameraManager.CurrentLockOnTarget.transform.position - transform.position;
+                _rotationDirection = playerCamera.CurrentLockOnTarget.transform.position - transform.position;
                 _rotationDirection.y = 0;
                 _rotationDirection.Normalize();
                 Quaternion _tr = Quaternion.LookRotation(_rotationDirection);

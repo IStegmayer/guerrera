@@ -13,7 +13,7 @@ public class PlayerCombatManager : MonoBehaviour {
     private PlayerWeaponSlotManager playerWeaponSlotManager;
     private PlayerEffectsManager playerEffectsManager;
     private InputHandler inputHandler;
-    private CameraManager cameraManager;
+    private PlayerCamera playerCamera;
     public string LastAttackString;
 
     private float maxCritDistance = 0.75f;
@@ -27,10 +27,13 @@ public class PlayerCombatManager : MonoBehaviour {
         playerManager = GetComponent<PlayerManager>();
         playerInventoryManager = GetComponent<PlayerInventoryManager>();
         playerStats = GetComponent<PlayerStats>();
-        inputHandler = InputHandler.Instance;
         playerEffectsManager = GetComponent<PlayerEffectsManager>();
         playerWeaponSlotManager = GetComponentInChildren<PlayerWeaponSlotManager>();
-        cameraManager = CameraManager.Instance;
+    }
+
+    private void Start() {
+        inputHandler = InputHandler.Instance;
+        playerCamera = PlayerCamera.Instance;
     }
 
     public void HandleLTAction() {
@@ -74,7 +77,7 @@ public class PlayerCombatManager : MonoBehaviour {
         SpellItem spell = playerInventoryManager.CurrentSpell;
         if (spell != null && spell.isMagicSpell) {
             bool canCast = playerStats.CheckIfCanCast(spell.FPCost);
-            if (canCast) spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
+            if (canCast) spell.AttemptToCastSpell(playerAnimatorManager, playerStats, playerCamera, playerWeaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -85,7 +88,7 @@ public class PlayerCombatManager : MonoBehaviour {
         SpellItem spell = playerInventoryManager.CurrentSpell;
         if (spell != null && spell.isFaithSpell) {
             bool canCast = playerStats.CheckIfCanCast(spell.FPCost);
-            if (canCast) spell.AttemptToCastSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
+            if (canCast) spell.AttemptToCastSpell(playerAnimatorManager, playerStats, playerCamera, playerWeaponSlotManager);
             else playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.FailedCastHash, true);
         }
     }
@@ -172,7 +175,7 @@ public class PlayerCombatManager : MonoBehaviour {
     }
 
     public void SuccessfullyCastSpell() {
-        playerInventoryManager.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats, cameraManager, playerWeaponSlotManager);
+        playerInventoryManager.CurrentSpell.SuccessfullyCastedSpell(playerAnimatorManager, playerStats, playerCamera, playerWeaponSlotManager);
     }
 
     public void HandleWeaponCombo(WeaponItem weaponItem) {

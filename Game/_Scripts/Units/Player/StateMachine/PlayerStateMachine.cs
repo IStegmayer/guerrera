@@ -223,12 +223,6 @@ namespace Game._Scripts
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
         }
 
-        private void FixedUpdate() {
-            float delta = Time.fixedDeltaTime;
-            CameraManager.Instance.FollowPlayer(delta);
-            CameraManager.Instance.HandleCameraRotation(delta, _input.CameraMovement.x, _input.CameraMovement.y);
-        }
-
         //TODO: Create a separate health/Damage script for everyone
         public override void TakeDamage(int dmg) {
             if (_deathRoutine != null) return;

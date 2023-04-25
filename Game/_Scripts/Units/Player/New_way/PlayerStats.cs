@@ -8,9 +8,9 @@ public class PlayerStats : CharacterStats {
     private PlayerManager playerManager;
     private PlayerAnimatorManager playerAnimatorManager;
 
-    private HealthBar healthBar;
-    private StaminaBar staminaBar;
-    private StatusBar FPBar;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private StaminaBar staminaBar;
+    [SerializeField] private StatusBar FPBar;
     private Coroutine deathRoutine;
 
     public int SoulCount = 0;
@@ -18,10 +18,6 @@ public class PlayerStats : CharacterStats {
     private void Awake() {
         playerManager = GetComponent<PlayerManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
-        //TODO: this could be better
-        staminaBar = FindObjectOfType<StaminaBar>();
-        healthBar = FindObjectOfType<HealthBar>();
-        FPBar = FindObjectOfType<StatusBar>();
     }
 
     private void Start() {

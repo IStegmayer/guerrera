@@ -3,26 +3,26 @@ using UnityEngine;
 
 public class EnemyMeleeDamageDealer : MonoBehaviour
 {
-    private BaseUnit _enemy;
+    private BaseUnit enemy;
 
     //TODO: This should be a class managed by the Unit itself using scriptableObjects
     // but this'll do for now
-    [SerializeField] private int _weaponDmg = 1;
-    private bool _canDealDamage;
+    [SerializeField] private int weaponDmg = 1;
+    private bool canDealDamage;
 
-    public void ToggleEnableDamage(bool state) => _canDealDamage = state;
+    public void ToggleEnableDamage(bool state) => canDealDamage = state;
 
     private void Awake() {
-        _enemy = transform.root.gameObject.GetComponentInChildren<BasicGoblin>();
+        enemy = transform.root.gameObject.GetComponentInChildren<BasicGoblin>();
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (!_canDealDamage) return;
+        if (!canDealDamage) return;
         if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         if (!other.gameObject.TryGetComponent(out BaseUnit player)) return;
         
         AudioSystem.Instance.PlaySound("playerDamage", player.transform.position);
-        player.TakeDamage(_enemy.Stats.BaseAttackPower + _weaponDmg);
-        _canDealDamage = false;
+        player.TakeDamage(enemy.Stats.BaseAttackPower + weaponDmg);
+        canDealDamage = false;
     }
 }

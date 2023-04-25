@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -61,8 +62,11 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         playerWeaponSlotManager = playerManager.GetComponentInChildren<PlayerWeaponSlotManager>();
         playerEquipmentManager = playerManager.GetComponentInChildren<PlayerEquipmentManager>();
         // TODO: inefficient asf
-        playerCamera = PlayerCamera.Instance;
         uiManager = FindObjectOfType<UIManager>();
+    }
+
+    protected void Start() {
+        playerCamera = PlayerCamera.Instance;
     }
 
     public void OnEnable() {
@@ -230,26 +234,26 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     private void HandleLockOnInput() {
         if (!lockOn_Input) return;
 
-        // if (!LockOnFlag) {
-        //     lockOn_Input = false;
-        //     playerCamera.HandleLockOn();
-        //     LockOnFlag = playerCamera.SetCurrentLockOnTarget();
-        // }
-        // else {
-        //     lockOn_Input = false;
-        //     LockOnFlag = false;
-        //     playerCamera.ClearLockOnTargets();
-        // }
+        if (!LockOnFlag) {
+            lockOn_Input = false;
+            playerCamera.HandleLockOn();
+            LockOnFlag = playerCamera.SetCurrentLockOnTarget();
+        }
+        else {
+            lockOn_Input = false;
+            LockOnFlag = false;
+            playerCamera.ClearLockOnTargets();
+        }
     }
 
     private void HandleLockOnSwitch() {
         if (!LockOnFlag) return;
         if (!lockOn_right_Input && !lockOn_left_Input) return;
 
-        // playerCamera.HandleLockOn();
-        // playerCamera.SwitchLockOnTarget(lockOn_left_Input, lockOn_right_Input);
-        // lockOn_left_Input = false;
-        // lockOn_right_Input = false;
+        playerCamera.HandleLockOn();
+        playerCamera.SwitchLockOnTarget(lockOn_left_Input, lockOn_right_Input);
+        lockOn_left_Input = false;
+        lockOn_right_Input = false;
     }
 
     private void HandleTwoHandInput() {

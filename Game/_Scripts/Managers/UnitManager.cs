@@ -3,7 +3,7 @@ using Dzajna;
 using UnityEngine;
 
 public class UnitManager : StaticInstance<UnitManager> {
-    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private PlayerCamera playerCamera;
     private Dictionary<int, CharacterManager> spawnedEnemies = new Dictionary<int, CharacterManager>();
     private int enemyCount;
     private BaseUnit playerInstance;

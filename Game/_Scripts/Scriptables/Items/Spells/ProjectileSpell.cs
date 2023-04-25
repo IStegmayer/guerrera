@@ -14,37 +14,37 @@ public class ProjectileSpell : SpellItem {
     private Quaternion castRotation;
 
     public override void AttemptToCastSpell(
-        AnimatorManager _animatorManager,
-        PlayerStats _playerStats,
-        CameraManager _cameraManager,
-        PlayerWeaponSlotManager _playerWeaponSlotManager) {
-        base.AttemptToCastSpell(_animatorManager, _playerStats, _cameraManager, _playerWeaponSlotManager);
+        AnimatorManager animatorManager,
+        PlayerStats playerStats,
+        PlayerCamera playerCamera,
+        PlayerWeaponSlotManager playerWeaponSlotManager) {
+        base.AttemptToCastSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
         //TODO: add this camerahandler
-        castRotation = _cameraManager.GetCameraRotation();
-        GameObject _warmUpSFXInstance = Instantiate(spellWarmUpFX, _playerWeaponSlotManager.GetRightHandTransform());
-        _animatorManager.PlayTargetAnimation(spellAnimation, true);
+        castRotation = playerCamera.GetCameraRotation();
+        GameObject warmUpSFXInstance = Instantiate(spellWarmUpFX, playerWeaponSlotManager.GetRightHandTransform());
+        animatorManager.PlayTargetAnimation(spellAnimation, true);
     }
 
-    public override void SuccessfullyCastedSpell(AnimatorManager _animatorManager, PlayerStats _playerStats,
-        CameraManager _cameraManager, PlayerWeaponSlotManager _playerWeaponSlotManager) {
-        base.SuccessfullyCastedSpell(_animatorManager, _playerStats, _cameraManager, _playerWeaponSlotManager);
-        _animatorManager.Anim.SetBool(_animatorManager.IsFiringSpellHash, true);
-        GameObject _spellFXInstance = Instantiate(spellCastFX, _playerWeaponSlotManager.GetRightHandTransform().position,
+    public override void SuccessfullyCastedSpell(AnimatorManager animatorManager, PlayerStats playerStats,
+        PlayerCamera playerCamera, PlayerWeaponSlotManager playerWeaponSlotManager) {
+        base.SuccessfullyCastedSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
+        animatorManager.Anim.SetBool(animatorManager.IsFiringSpellHash, true);
+        GameObject spellFXInstance = Instantiate(spellCastFX, playerWeaponSlotManager.GetRightHandTransform().position,
             castRotation);
-        rigidbody = _spellFXInstance.GetComponent<Rigidbody>();
-        // spellDamageCollider - _spellFXInstance.GetComponent<SpellDamageCollider>();
+        rigidbody = spellFXInstance.GetComponent<Rigidbody>();
+        // spellDamageCollider - spellFXInstance.GetComponent<SpellDamageCollider>();
 
-        if (_cameraManager.CurrentLockOnTarget != null)
-            _spellFXInstance.transform.LookAt(_cameraManager.CurrentLockOnTarget.transform);
+        if (playerCamera.CurrentLockOnTarget != null)
+            spellFXInstance.transform.LookAt(playerCamera.CurrentLockOnTarget.transform);
         else
-            _spellFXInstance.transform.rotation = Quaternion.Euler(_cameraManager.GetCameraTransform().eulerAngles.x,
-                _playerStats.transform.eulerAngles.y, 0);
+            spellFXInstance.transform.rotation = Quaternion.Euler(playerCamera.GetCameraTransform().eulerAngles.x,
+                playerStats.transform.eulerAngles.y, 0);
 
-        rigidbody.AddForce(_spellFXInstance.transform.forward * ProjectileForwardVelocity);
-        rigidbody.AddForce(_spellFXInstance.transform.up * ProjectileUpwardVelocity);
+        rigidbody.AddForce(spellFXInstance.transform.forward * ProjectileForwardVelocity);
+        rigidbody.AddForce(spellFXInstance.transform.up * ProjectileUpwardVelocity);
         rigidbody.useGravity = UsesGravity;
         rigidbody.mass = ProjectileMass;
-        _spellFXInstance.transform.parent = null;
+        spellFXInstance.transform.parent = null;
     }
 }
 }

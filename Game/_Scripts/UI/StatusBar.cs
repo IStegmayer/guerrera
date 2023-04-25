@@ -9,7 +9,7 @@ public class StatusBar : MonoBehaviour
 {
     private Slider slider;
 
-    private void Start()
+    private void Awake()
     {
         slider = GetComponent<Slider>();
     }
