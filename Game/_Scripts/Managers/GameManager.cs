@@ -61,10 +61,9 @@ public class GameManager : StaticInstance<GameManager>
     }
 
     private void HandleSpawningHeroes() {
-        Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
-        //TODO: this is lazy af
-        CameraManager.Instance.playerTargetTransform = playerInstance.transform;
-        _uiManager._playerInventoryManager = playerInstance.GetComponent<PlayerInventoryManager>();
+        // Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
+        // PlayerCamera.Instance.SetTarget(playerInstance.GetComponent<PlayerManager>());
+        // _uiManager._playerInventoryManager = playerInstance.GetComponent<PlayerInventoryManager>();
         ChangeState(GameState.SpawningEnemies);
     }
 
@@ -76,11 +75,10 @@ public class GameManager : StaticInstance<GameManager>
     }
 
     private void HandleSpawningEnemies() {
-        
         UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Goblin);
-        UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
-        UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);;
-        UnitManager.Instance.SpawnEnemy(_enemySpawn4, EnemyType.BossGoblin);
+        // UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
+        // UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);;
+        // UnitManager.Instance.SpawnEnemy(_enemySpawn4, EnemyType.BossGoblin);
         
         ChangeState(GameState.HeroTurn);
     }

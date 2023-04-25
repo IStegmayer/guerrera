@@ -45,12 +45,12 @@ namespace Dzajna
 
         private void Awake() {
             cameraManager = FindObjectOfType<CameraManager>();
+            inputHandler = InputHandler.Instance;
             Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
         }
 
         private void Start() {
             Rigidbody = GetComponent<Rigidbody>();
-            inputHandler = GetComponent<InputHandler>();
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
             cameraTransform = Camera.main.transform;

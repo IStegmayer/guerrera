@@ -10,13 +10,11 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
     private Animator animator;
     private QuickSlotsUI quickSlotsUI;
     private PlayerStats playerStats;
-    private InputHandler inputHandler;
     private PlayerEffectsManager playerEffectsManager;
 
     private void Awake() {
         animator = GetComponent<Animator>();
         playerStats = GetComponentInParent<PlayerStats>();
-        inputHandler = GetComponentInParent<InputHandler>();
         playerManager = GetComponentInParent<PlayerManager>();
         playerEffectsManager = GetComponentInParent<PlayerEffectsManager>();
         //TODO: im still using this...
@@ -45,7 +43,7 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
             animator.CrossFade(_weaponToEquip.OH_LeftArmIdle, 0.2f);
         }
         else {
-            if (inputHandler.TwoHandFlag) {
+            if (InputHandler.Instance.TwoHandFlag) {
                 backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
                 animator.CrossFade(_weaponToEquip.TH_Idle, 0.2f);
                 leftHandSlot.UnloadWeaponAndDestroy();

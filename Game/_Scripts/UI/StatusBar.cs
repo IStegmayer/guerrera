@@ -7,7 +7,7 @@ namespace Dzajna
 {
 public class StatusBar : MonoBehaviour
 {
-    Slider slider;
+    private Slider slider;
 
     private void Start()
     {
@@ -15,26 +15,26 @@ public class StatusBar : MonoBehaviour
     }
 
 
-    public void SetMaxStat(float _maxStat)
+    public void SetMaxStat(float maxStat)
     {
-        slider.maxValue = _maxStat;
-        slider.value = _maxStat;
+        slider.maxValue = maxStat;
+        slider.value = maxStat;
     }
 
-    public void SetMaxStat(int _maxStat)
+    public void SetMaxStat(int maxStat)
     {
-        slider.maxValue = _maxStat;
-        slider.value = _maxStat;
+        slider.maxValue = maxStat;
+        slider.value = maxStat;
     }
 
-    public void SetCurrentStat(float _currentStat)
+    public void SetCurrentStat(float currentStat)
     {
-        slider.value = _currentStat;
+        slider.value = currentStat;
     }
 
-    public void SetCurrentStat(int _currentStat)
+    public void SetCurrentStat(int currentStat)
     {
-        slider.value = _currentStat;
+        slider.value = currentStat;
     }
 }
 }

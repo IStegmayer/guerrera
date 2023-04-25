@@ -225,7 +225,7 @@ namespace Game._Scripts
 
         private void FixedUpdate() {
             float delta = Time.fixedDeltaTime;
-            CameraManager.Instance.FollowTarget(delta);
+            CameraManager.Instance.FollowPlayer(delta);
             CameraManager.Instance.HandleCameraRotation(delta, _input.CameraMovement.x, _input.CameraMovement.y);
         }
 

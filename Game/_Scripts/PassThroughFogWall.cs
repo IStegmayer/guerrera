@@ -13,7 +13,7 @@ public class PassThroughFogWall : Interactable {
 
     public override void Interact(PlayerManager _playerManager) {
         base.Interact(_playerManager);
-        _playerManager.PassThroughFoggWallInteraction(transform);
+        _playerManager.PassThroughFogWallInteraction(transform);
     }
 }
 }

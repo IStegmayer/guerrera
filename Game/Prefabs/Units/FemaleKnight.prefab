@@ -1671,7 +1671,6 @@ GameObject:
   - component: {fileID: 9139210729027845513}
   - component: {fileID: -5025404506190486315}
   - component: {fileID: 5531949692600856823}
-  - component: {fileID: -433669610484281575}
   - component: {fileID: 3082654960006943387}
   - component: {fileID: 278320265215529766}
   - component: {fileID: -4984005286210543844}
@@ -1891,47 +1890,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-433669610484281575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6880589535415207573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cfe33ba44a291847bdb48acc317bfed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Horizontal: 0
-  Vertical: 0
-  MoveAmount: 0
-  CameraX: 0
-  CameraY: 0
-  RollInputTimer: 0
-  b_Input: 0
-  a_Input: 0
-  rb_Input: 0
-  rt_Input: 0
-  lt_Input: 0
-  lb_Input: 0
-  critical_Input: 0
-  jump_Input: 0
-  twoHand_Input: 0
-  inventory_Input: 0
-  lockOn_Input: 0
-  lockOn_left_Input: 0
-  lockOn_right_Input: 0
-  d_pad_up_Input: 0
-  d_pad_down_Input: 0
-  d_pad_left_Input: 0
-  d_pad_right_Input: 0
-  SprintFlag: 0
-  RollFlag: 0
-  ComboFlag: 0
-  InventoryFlag: 0
-  LockOnFlag: 0
-  TwoHandFlag: 0
 --- !u!114 &3082654960006943387
 MonoBehaviour:
   m_ObjectHideFlags: 0

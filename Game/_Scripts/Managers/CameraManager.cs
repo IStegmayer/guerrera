@@ -5,7 +5,6 @@ using UnityEngine.TextCore.Text;
 
 namespace Dzajna
 {
-    //TODO: prolly a static instance
     public class CameraManager : StaticInstance<CameraManager>
     {
         [Header("References")] private InputHandler inputHandler;
@@ -56,141 +55,149 @@ namespace Dzajna
             myTransform = transform;
             defaultZPosition = cameraTransform.localPosition.z;
             cameraTransformPosition = cameraTransform.position;
-            //TODO: better undestand this
-            ignoreLayers = ~(1 << 9 | 1 << 10);
-            environmentLayer = LayerMask.NameToLayer("Environment");
         }
 
         private void Start() {
+            inputHandler = InputHandler.Instance;
             playerManager = playerTargetTransform.GetComponent<PlayerManager>();
         }
-
-        public void FollowTarget(float _delta) {
-            Vector3 _targetPosition = Vector3.SmoothDamp(myTransform.position, playerTargetTransform.position,
-                ref cameraFollowVelocity, _delta / followSpeed);
-            myTransform.position = _targetPosition;
-
-            HandleCameraCollisions(_delta);
+        
+        private void FixedUpdate() {
+            HandleAllCameraActions();
         }
 
-        private void HandleCameraCollisions(float _delta) {
+        private void HandleAllCameraActions() {
+            if (playerManager == null) return;
+            float delta = Time.fixedDeltaTime;
+            FollowPlayer(delta);
+            HandleCameraRotation(delta, InputHandler.Instance.CameraX, InputHandler.Instance.CameraY);
+        }
+
+
+        public void FollowPlayer(float delta) {
+            Vector3 targetPos = Vector3.SmoothDamp(myTransform.position, playerTargetTransform.position,
+                ref cameraFollowVelocity, cameraDamp / delta);
+            myTransform.position = targetPos;
+
+            HandleCameraCollisions(delta);
+        }
+
+        private void HandleCameraCollisions(float delta) {
             targetPosition = defaultZPosition;
             RaycastHit hit;
-            Vector3 _direction = cameraTransform.position - cameraPivotTransform.position;
-            _direction.Normalize();
+            Vector3 direction = cameraTransform.position - cameraPivotTransform.position;
+            direction.Normalize();
 
-            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, _direction, out hit,
+            if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit,
                     Mathf.Abs(targetPosition), ignoreLayers)) {
-                float _distance = Vector3.Distance(cameraPivotTransform.position, hit.point);
-                targetPosition = -(_distance - cameraCollisionOffset);
+                float distance = Vector3.Distance(cameraPivotTransform.position, hit.point);
+                targetPosition = -(distance - cameraCollisionOffset);
             }
 
             if (Mathf.Abs(targetPosition) < minimumCollisionOffset) {
                 targetPosition = -minimumCollisionOffset;
             }
 
-            cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, _delta / 0.05f);
+            cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.05f);
             cameraTransformPosition.y = 0f;
             cameraTransform.localPosition = cameraTransformPosition;
         }
 
-        public void HandleCameraRotation(float _delta, float _cameraXInput, float _cameraYInput) {
-            SetCameraHeight(_delta);
-            if (inputHandler == null || (!inputHandler.LockOnFlag && CurrentLockOnTarget == null)) {
-                lookAngle += _cameraXInput * lookSpeed * _delta;
-                pivotAngle -= _cameraYInput * pivotSpeed * _delta;
+        public void HandleCameraRotation(float delta, float cameraXInput, float cameraYInput) {
+            SetCameraHeight(delta);
+            if (!inputHandler.LockOnFlag && CurrentLockOnTarget == null) {
+                lookAngle += cameraXInput * lookSpeed * delta;
+                pivotAngle -= cameraYInput * pivotSpeed * delta;
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
                 // set look/horizontal rotation
-                Vector3 _rotation = Vector3.zero;
-                _rotation.y = lookAngle;
-                Quaternion _targetRotation = Quaternion.Euler(_rotation);
+                Vector3 rotation = Vector3.zero;
+                rotation.y = lookAngle;
+                Quaternion targetRotation = Quaternion.Euler(rotation);
                 myTransform.rotation = Quaternion.Slerp
-                    (myTransform.rotation, _targetRotation, cameraDamp * _delta);
+                    (myTransform.rotation, targetRotation, cameraDamp * delta);
 
                 // set pivot/vertical rotation
-                _rotation = Vector3.zero;
-                _rotation.x = pivotAngle;
-                _targetRotation = Quaternion.Euler(_rotation);
+                rotation = Vector3.zero;
+                rotation.x = pivotAngle;
+                targetRotation = Quaternion.Euler(rotation);
                 cameraPivotTransform.localRotation = Quaternion.Slerp
-                    (cameraPivotTransform.localRotation, _targetRotation, cameraDamp * _delta);
+                    (cameraPivotTransform.localRotation, targetRotation, cameraDamp * delta);
             }
             else {
-                float _velocity = 0;
+                float velocity = 0;
 
-                Vector3 _dir = CurrentLockOnTarget.transform.position - transform.position;
-                _dir.Normalize();
-                _dir.y = 0;
+                Vector3 dir = CurrentLockOnTarget.transform.position - transform.position;
+                dir.Normalize();
+                dir.y = 0;
 
                 //TODO: Slerp both of these?
-                Quaternion _targetRotation = Quaternion.LookRotation(_dir);
-                myTransform.rotation = _targetRotation;
+                Quaternion targetRotation = Quaternion.LookRotation(dir);
+                myTransform.rotation = targetRotation;
 
-                _dir = CurrentLockOnTarget.transform.position - cameraPivotTransform.position;
-                _dir.Normalize();
+                dir = CurrentLockOnTarget.transform.position - cameraPivotTransform.position;
+                dir.Normalize();
 
-                _targetRotation = Quaternion.LookRotation(_dir);
-                Vector3 _eulerAngle = _targetRotation.eulerAngles;
-                _eulerAngle.y = 0;
-                cameraPivotTransform.localEulerAngles = _eulerAngle;
+                targetRotation = Quaternion.LookRotation(dir);
+                Vector3 eulerAngle = targetRotation.eulerAngles;
+                eulerAngle.y = 0;
+                cameraPivotTransform.localEulerAngles = eulerAngle;
             }
         }
 
         public void HandleLockOn() {
-            //TODO: HORRIBLE FIX
-            if (playerTargetTransform != null) inputHandler = playerTargetTransform.GetComponent<InputHandler>();
-            Vector3 _playerTargetPosition = playerTargetTransform.position;
-            float _shortestDistance = Mathf.Infinity;
-            float _shortestDistanceOfLeftTarget = -Mathf.Infinity;
-            float _shortestDistanceOfRightTarget = Mathf.Infinity;
+            Vector3 playerTargetPosition = playerTargetTransform.position;
+            float shortestDistance = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
+            float shortestDistanceOfRightTarget = Mathf.Infinity;
 
-            Collider[] _colliders = Physics.OverlapSphere(_playerTargetPosition, 26);
+            Collider[] colliders = Physics.OverlapSphere(playerTargetPosition, 26);
 
-            for (int _i = 0; _i < _colliders.Length; _i++) {
-                EnemyManager _char = _colliders[_i].GetComponent<EnemyManager>();
-                if (_char == null) continue;
+            for (int i = 0; i < colliders.Length; i++) {
+                EnemyManager character = colliders[i].GetComponent<EnemyManager>();
+                if (character == null) continue;
 
-                Vector3 _lockTargetDirection = _char.transform.position - _playerTargetPosition;
-                float _distanceFromTarget = Vector3.Distance(_playerTargetPosition, _char.transform.position);
-                float _viewableAngle = Vector3.Angle(_lockTargetDirection, cameraTransform.forward);
-                RaycastHit _hit;
+                Vector3 lockTargetDirection = character.transform.position - playerTargetPosition;
+                float distanceFromTarget = Vector3.Distance(playerTargetPosition, character.transform.position);
+                float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
+                RaycastHit hit;
 
-                if (_char.transform != playerTargetTransform.transform && _viewableAngle > -50 &&
-                    _viewableAngle < 50 && _distanceFromTarget <= maximumLockOnDistance) {
-                    if (Physics.Linecast(playerManager.LockOnTransform.position, _char.LockOnTransform.position,
-                            out _hit)) {
-                        Debug.DrawLine(playerManager.LockOnTransform.position, _char.LockOnTransform.position);
-                        if (_hit.transform.gameObject.layer != environmentLayer)
-                            availableTargets.Add(_char);
+                if (character.transform != playerTargetTransform.transform && viewableAngle > -50 &&
+                    viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
+                    if (Physics.Linecast(playerManager.LockOnTransform.position, character.LockOnTransform.position,
+                            out hit)) {
+                        Debug.DrawLine(playerManager.LockOnTransform.position, character.LockOnTransform.position);
+                        if (hit.transform.gameObject.layer != environmentLayer)
+                            availableTargets.Add(character);
                     }
                 }
             }
 
-            for (int _j = 0; _j < availableTargets.Count; _j++) {
-                Vector3 _targetPosition = availableTargets[_j].transform.position;
+            for (int j = 0; j < availableTargets.Count; j++) {
+                Vector3 targetPos = availableTargets[j].transform.position;
 
-                float _distanceFromTarget =
-                    Vector3.Distance(_playerTargetPosition, _targetPosition);
-                if (_distanceFromTarget < _shortestDistance) {
-                    _shortestDistance = _distanceFromTarget;
-                    nearestLockOnTarget = availableTargets[_j];
+                float distanceFromTarget =
+                    Vector3.Distance(playerTargetPosition, targetPos);
+                if (distanceFromTarget < shortestDistance) {
+                    shortestDistance = distanceFromTarget;
+                    nearestLockOnTarget = availableTargets[j];
                 }
 
                 if (!inputHandler.LockOnFlag) return;
 
-                Vector3 _relativeEnemyPosition = playerManager.transform.InverseTransformPoint(_targetPosition);
-                float _distanceFromLeftTarget = _relativeEnemyPosition.x;
-                float _distanceFromRightTarget = _relativeEnemyPosition.x;
+                Vector3 relativeEnemyPosition = playerManager.transform.InverseTransformPoint(targetPos);
+                float distanceFromLeftTarget = relativeEnemyPosition.x;
+                float distanceFromRightTarget = relativeEnemyPosition.x;
 
-                if (_relativeEnemyPosition.x <= 0.0f && _distanceFromLeftTarget > _shortestDistanceOfLeftTarget &&
-                    availableTargets[_j] != CurrentLockOnTarget) {
-                    _shortestDistanceOfLeftTarget = _distanceFromLeftTarget;
-                    leftLockOnTarget = availableTargets[_j];
+                if (relativeEnemyPosition.x <= 0.0f && distanceFromLeftTarget > shortestDistanceOfLeftTarget &&
+                    availableTargets[j] != CurrentLockOnTarget) {
+                    shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                    leftLockOnTarget = availableTargets[j];
                 }
-                else if (_relativeEnemyPosition.x > 0.0f && _distanceFromRightTarget < _shortestDistanceOfRightTarget &&
-                         availableTargets[_j] != CurrentLockOnTarget) {
-                    _shortestDistanceOfRightTarget = _distanceFromRightTarget;
-                    rightLockOnTarget = availableTargets[_j];
+                else if (relativeEnemyPosition.x > 0.0f && distanceFromRightTarget < shortestDistanceOfRightTarget &&
+                         availableTargets[j] != CurrentLockOnTarget) {
+                    shortestDistanceOfRightTarget = distanceFromRightTarget;
+                    rightLockOnTarget = availableTargets[j];
                 }
             }
         }
@@ -202,9 +209,9 @@ namespace Dzajna
             return true;
         }
 
-        public void SwitchLockOnTarget(bool _leftInput, bool _rightInput) {
-            if (_leftInput && leftLockOnTarget != null) CurrentLockOnTarget = leftLockOnTarget;
-            if (_rightInput && rightLockOnTarget != null) CurrentLockOnTarget = rightLockOnTarget;
+        public void SwitchLockOnTarget(bool leftInput, bool rightInput) {
+            if (leftInput && leftLockOnTarget != null) CurrentLockOnTarget = leftLockOnTarget;
+            if (rightInput && rightLockOnTarget != null) CurrentLockOnTarget = rightLockOnTarget;
         }
 
         public void ClearLockOnTargets() {
@@ -215,14 +222,14 @@ namespace Dzajna
             rightLockOnTarget = null;
         }
 
-        private void SetCameraHeight(float _delta) {
-            Vector3 _velocity = Vector3.zero;
-            float _newPivotY = CurrentLockOnTarget != null ? lockedPivotPosition : unlockedPivotPosition;
-            Vector3 _newPivotPosition = new Vector3(0, _newPivotY);
+        private void SetCameraHeight(float delta) {
+            Vector3 velocity = Vector3.zero;
+            float newPivotY = CurrentLockOnTarget != null ? lockedPivotPosition : unlockedPivotPosition;
+            Vector3 newPivotPosition = new Vector3(0, newPivotY);
 
             cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(
                 cameraPivotTransform.transform.localPosition,
-                _newPivotPosition, ref _velocity, (cameraDamp / 2) * _delta);
+                newPivotPosition, ref velocity, (cameraDamp / 2) * delta);
         }
 
         public Quaternion GetCameraRotation() => cameraPivotTransform.rotation;
