@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace Dzajna
 {
-    public class CharacterManager : MonoBehaviour
-    {
+    public class CharacterManager : MonoBehaviour {
+        public CharacterController CharacterController;
+        
         [Header("Lock On Transform")]
         public Transform LockOnTransform;
         
@@ -23,7 +24,6 @@ namespace Dzajna
         [Header("Player flags")] 
         public bool IsInteracting;
         public bool IsSprinting;
-        public bool IsInAir = false;
         public bool IsGrounded;
         public bool IsUsingRightHand;
         public bool IsUsingLeftHand;
@@ -37,5 +37,12 @@ namespace Dzajna
         // Damage will be inflicted during an animation event
         // Used in backstab or riposte animations
         public float PendingCriticalDamage;
+
+        protected virtual void Awake() {
+            CharacterController = GetComponent<CharacterController>();
+        }
+
+        protected virtual void Start() {
+        }
     }
 }

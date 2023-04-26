@@ -23,7 +23,6 @@ namespace Dzajna
             _interactableUI = FindObjectOfType<InteractableUI>();
             
             
-            _playerLocomotionManager.Rigidbody.velocity = Vector3.zero; // Stop movement
             _playerAnimatorManager.PlayTargetAnimation(Animator.StringToHash("PickUpItem"), true);
             _playerInventoryManager.WeaponsInventory.Add(Weapon);
             _interactableUI.ItemPickupText.text = Weapon.ItemName;

@@ -30,9 +30,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     public bool d_pad_right_Input { get; private set; }
 
     private float rollInputTimer;
-
-
-    public bool SprintFlag { get; private set; }
+    
     public bool RollFlag { get; private set; }
     public bool ComboFlag { get; private set; }
     public bool InventoryFlag { get; private set; }
@@ -111,7 +109,6 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     private void LateUpdate() {
         //reset flags
         RollFlag = false;
-        SprintFlag = false;
         rb_Input = false;
         rt_Input = false;
         lt_Input = false;
@@ -150,14 +147,14 @@ public class InputHandler : PersistentSingleton<InputHandler> {
 
             if (!hasStamina) {
                 b_Input = false;
-                SprintFlag = false;
+                playerManager.IsSprinting = false;
             }
             else if (MoveAmount > 0.5f) {
-                SprintFlag = true;
+                playerManager.IsSprinting = true;
             }
         }
         else {
-            SprintFlag = false;
+            playerManager.IsSprinting = false;
             if (rollInputTimer > 0 && rollInputTimer < 0.5f) {
                 RollFlag = true;
             }

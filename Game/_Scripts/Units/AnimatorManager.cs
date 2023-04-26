@@ -9,7 +9,7 @@ public class AnimatorManager : MonoBehaviour {
     public bool CanRotate;
     
     // properties hashes
-    public int IsInAirHash;
+    public int IsGroundedHash;
     public int IsUsingRightHandHash;
     public int IsUsingLeftHandHash;
     public int VerticalHash;
@@ -23,6 +23,7 @@ public class AnimatorManager : MonoBehaviour {
     public int IsPhaseShiftingHash;
     public int CanDoComboHash;
     public int IsInvulnerableHash;
+    public int InAirTimer;
 
     // states hashes
     public int RollHash;
@@ -79,7 +80,8 @@ public class AnimatorManager : MonoBehaviour {
         DeathHash = Animator.StringToHash("Death");
         JumpHash = Animator.StringToHash("Jump");
         FailedCastHash = Animator.StringToHash("FailedCast");
-        IsInAirHash = Animator.StringToHash("isInAir");
+        IsGroundedHash = Animator.StringToHash("isGrounded");
+        InAirTimer = Animator.StringToHash("inAirTimer");
         BackStabHash = Animator.StringToHash("BackStab");
         BackStabbedHash = Animator.StringToHash("BackStabbed");
         BlockHash = Animator.StringToHash("Block");
@@ -89,25 +91,37 @@ public class AnimatorManager : MonoBehaviour {
         PassThroughFogWallHash = Animator.StringToHash("PassThroughFogWall");
     }
 
-    public void PlayTargetAnimation(int _targetAnim, bool _isInteracting, bool _canRotate = false) {
-        Anim.applyRootMotion = _isInteracting;
-        Anim.SetBool(CanRotateHash, _canRotate);
-        Anim.SetBool(IsInteractingHash, _isInteracting);
-        Anim.CrossFade(_targetAnim, 0.2f);
+    public void PlayTargetAnimation(int targetAnim, bool isInteracting, bool canRotate = false) {
+        Anim.applyRootMotion = isInteracting;
+        Anim.SetBool(CanRotateHash, canRotate);
+        Anim.SetBool(IsInteractingHash, isInteracting);
+        Anim.CrossFade(targetAnim, 0.2f);
     }
 
-    public void PlayTargetAnimation(string _targetAnim, bool _isInteracting, bool _canRotate = false) {
-        Anim.applyRootMotion = _isInteracting;
-        Anim.SetBool(CanRotateHash, _canRotate);
-        Anim.SetBool(IsInteractingHash, _isInteracting);
-        Anim.CrossFade(_targetAnim, 0.2f);
+    public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false) {
+        Anim.applyRootMotion = isInteracting;
+        Anim.SetBool(CanRotateHash, canRotate);
+        Anim.SetBool(IsInteractingHash, isInteracting);
+        Anim.CrossFade(targetAnim, 0.2f);
     }
 
-    public void PlayTargetAnimationWithRootRotation(int _targetAnim, bool _isInteracting) {
-        Anim.applyRootMotion = _isInteracting;
+    public void PlayTargetAnimationWithRootRotation(int targetAnim, bool isInteracting) {
+        Anim.applyRootMotion = isInteracting;
         Anim.SetBool(IsRotatingWithRMHash, true);
-        Anim.SetBool(IsInteractingHash, _isInteracting);
-        Anim.CrossFade(_targetAnim, 0.2f);
+        Anim.SetBool(IsInteractingHash, isInteracting);
+        Anim.CrossFade(targetAnim, 0.2f);
+    }
+    
+    //reposition character model when using root motion
+    protected virtual void OnAnimatorMove() {
+        if (characterManager.IsInteracting == false) return;
+
+        Vector3 deltaPosition = Anim.deltaPosition;
+        characterManager.CharacterController.Move(deltaPosition);
+        characterManager.transform.rotation *= Anim.deltaRotation;
+        
+        // if (aiCharacter.isRotatingWithRootMotion)
+        // aiCharacter.transform.rotation *= Anim.deltaRotation;
     }
 
     //TODO: ALL EVENTS SHOULD BE HERE 

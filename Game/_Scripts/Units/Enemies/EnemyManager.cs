@@ -27,9 +27,8 @@ public class EnemyManager : CharacterManager {
     public float ComboChance = 50;
     public bool CanRotate;
 
-    [SerializeField] private CapsuleCollider characterCollider;
-    [SerializeField] private CapsuleCollider characterCollisionBlockerCollider;
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         enemyAnimatorM = GetComponent<EnemyAnimatorManager>();
         enemyStatsManager = GetComponent<EnemyStatsManager>();
         NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
@@ -37,13 +36,14 @@ public class EnemyManager : CharacterManager {
         BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
     }
     
-    private void Start() {
+    protected override void Start() {
+        base.Start();
         NavMeshAgent.enabled = false;
         Rigidbody.isKinematic = false;
-        Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
     }
 
     private void Update() {
+        
         HandleRecoveryTimer();
         IsPhaseShifting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsPhaseShiftingHash);
         IsInteracting = enemyAnimatorM.Anim.GetBool(enemyAnimatorM.IsInteractingHash);
@@ -60,6 +60,8 @@ public class EnemyManager : CharacterManager {
     private void LateUpdate() {
         NavMeshAgent.transform.localPosition = Vector3.zero;
         NavMeshAgent.transform.localRotation = Quaternion.identity;
+        IsInteracting = false;
+
     }
 
     private void HandleStateMachine() {

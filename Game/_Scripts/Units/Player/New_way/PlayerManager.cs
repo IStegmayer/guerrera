@@ -6,20 +6,20 @@ namespace Dzajna {
 public class PlayerManager : CharacterManager {
     private Animator anim;
     private PlayerAnimatorManager playerAnimatorManager;
-    private PlayerCamera playerCamera;
     private InputHandler inputHandler;
     private PlayerLocomotionManager playerLocomotionManager;
     private PlayerStats playerStats;
 
     private InteractableUI interactableUI;
 
-    private void Awake() {
-        playerCamera = PlayerCamera.Instance;
+    protected override void Awake() {
+        base.Awake();
         inputHandler = InputHandler.Instance;
         interactableUI = FindObjectOfType<InteractableUI>();
     }
 
-    private void Start() {
+    protected override void Start() {
+        base.Start();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         anim = GetComponent<Animator>();
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
@@ -31,7 +31,6 @@ public class PlayerManager : CharacterManager {
         float delta = Time.deltaTime;
         IsInteracting = anim.GetBool(playerAnimatorManager.IsInteractingHash);
         CanDoCombo = anim.GetBool(playerAnimatorManager.CanDoComboHash);
-        IsInAir = anim.GetBool(playerAnimatorManager.IsInAirHash);
         IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
         IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
         IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
@@ -42,23 +41,17 @@ public class PlayerManager : CharacterManager {
 
         inputHandler.TickInput(delta);
 
-        CheckForInteractableObject();
-        playerLocomotionManager.HandleMovement(delta);
+        playerLocomotionManager.HandleGroundMovement(delta);
         playerLocomotionManager.HandleRotation(delta);
         playerLocomotionManager.HandleRolling(delta);
-        // TODO: WTF CALLING with its own property? 
-        playerLocomotionManager.HandleFalling(delta, playerLocomotionManager.moveDirection);
         playerLocomotionManager.HandleJumping();
+        
+        CheckForInteractableObject();
 
         playerStats.RegenerateStamina();
     }
 
     private void FixedUpdate() {
-        if (playerCamera != null) playerCamera.HandleAllCameraActions();
-    }
-
-    private void LateUpdate() {
-        if (IsInAir) playerLocomotionManager.InAirTimer += Time.deltaTime;
     }
 
     //TODO: This needs to change anyway 
@@ -84,13 +77,11 @@ public class PlayerManager : CharacterManager {
     }
 
     public void OpenChestInteraction(Transform playerStandingPoint) {
-        playerLocomotionManager.Rigidbody.velocity = Vector3.zero;
         transform.position = playerStandingPoint.transform.position;
         playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.OpenChestHash, true);
     }
 
     public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
-        playerLocomotionManager.Rigidbody.velocity = Vector3.zero;
         Vector3 rotationDirection = fogWallEntrance.transform.forward;
         Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
         transform.rotation = turnRotation;

@@ -46,11 +46,11 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         playerTransform = playerManager.transform;
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         HandleAllCameraActions();
     }
 
-    public void HandleAllCameraActions() {
+    private void HandleAllCameraActions() {
         if (playerManager == null) return;
         HandleFollowTarget();
         HandleRotation();
@@ -59,12 +59,12 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
 
     private void HandleFollowTarget() {
         Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, playerManager.transform.position,
-            ref cameraVelocity, cameraSmoothSpeed * Time.fixedDeltaTime);
+            ref cameraVelocity, 0.1f * Time.deltaTime);
         transform.position = targetCameraPosition;
     }
 
     private void HandleRotation() {
-        float delta = Time.fixedDeltaTime;
+        float delta = Time.deltaTime;
         SetCameraHeight(delta);
         
         // IF LOCKED ON, FORCE ROTATION TOWARDS TARGET
@@ -99,7 +99,8 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
 
             //TODO: Slerp both of these?
             Quaternion targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = targetRotation;
+            transform.rotation = Quaternion.Slerp
+                (transform.rotation, targetRotation, cameraSmoothSpeed * delta);
 
             dir = targetPos - cameraPivotTransform.position;
             dir.Normalize();
@@ -218,7 +219,7 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         // Then we lerp to our new position
         cameraObjectPosition.z =
             Mathf.Lerp(cameraTransform.localPosition.z, targetCameraZPosition,
-                cameraSmoothSpeed * Time.fixedDeltaTime);
+                cameraSmoothSpeed * Time.deltaTime);
         cameraObjectPosition.y = 0f;
         cameraTransform.localPosition = cameraObjectPosition;
     }

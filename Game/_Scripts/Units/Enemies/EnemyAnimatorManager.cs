@@ -18,15 +18,11 @@ namespace Dzajna
             enemyStatsManager = GetComponent<EnemyStatsManager>();
         }
 
-        private void OnAnimatorMove() {
-            float delta = Time.deltaTime;
-            Vector3 _deltaPos = Anim.deltaPosition;
-            _deltaPos.y = 0;
-            Vector3 _velocity = _deltaPos / delta;
-            
-            rigidbody.drag = 0;
-            rigidbody.velocity = _velocity;
-
+        protected override void OnAnimatorMove() {
+            Vector3 deltaPosition = Anim.deltaPosition;
+            characterManager.CharacterController.Move(deltaPosition);
+            characterManager.transform.rotation *= Anim.deltaRotation;
+        
             if (enemyManager.IsRotatingWithRM) enemyManager.transform.rotation *= Anim.deltaRotation;
         }
         
