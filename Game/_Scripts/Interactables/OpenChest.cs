@@ -17,22 +17,22 @@ public class OpenChest : Interactable {
         openChest = GetComponent<OpenChest>();
     }
 
-    public override void Interact(PlayerManager _playerManager) {
-        base.Interact(_playerManager);
-        Vector3 _rotationDirection = transform.position - _playerManager.transform.position;
-        _rotationDirection.y = 0;
-        _rotationDirection.Normalize();
+    public override void Interact(PlayerManager playerManager) {
+        base.Interact(playerManager);
+        Vector3 rotationDirection = transform.position - playerManager.transform.position;
+        rotationDirection.y = 0;
+        rotationDirection.Normalize();
         
-        Quaternion _tr = Quaternion.LookRotation(_rotationDirection);
-        Quaternion _targetRotation = Quaternion.Slerp(_playerManager.transform.rotation, _tr, 300 * Time.deltaTime);
-        _playerManager.transform.rotation = _targetRotation;
+        Quaternion tr = Quaternion.LookRotation(rotationDirection);
+        Quaternion targetRotation = Quaternion.Slerp(playerManager.transform.rotation, tr, 300 * Time.deltaTime);
+        playerManager.transform.rotation = targetRotation;
         
-        _playerManager.OpenChestInteraction(playerStandingPosition);
+        playerManager.OpenChestInteraction(playerStandingPosition);
         animator.Play("OpenChest");
         StartCoroutine(SpawnItemInChest());
 
-        WeaponPickUp _weaponPickUp = itemSpawner.GetComponent<WeaponPickUp>();
-        _weaponPickUp.Weapon = itemInChest;
+        WeaponPickUp weaponPickUp = itemSpawner.GetComponent<WeaponPickUp>();
+        weaponPickUp.Weapon = itemInChest;
     }
     private IEnumerator SpawnItemInChest() {
         yield return new WaitForSeconds(1f);

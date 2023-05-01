@@ -44,6 +44,7 @@ public class EnemyStatsManager : CharacterStats {
         else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (currentHealth <= 0) {
+            enemyAnimatorManager.PlayTargetAnimation("Death", true);
             deathRoutine = StartCoroutine(DeathRoutine());
             IsDead = true;
         }
@@ -60,12 +61,14 @@ public class EnemyStatsManager : CharacterStats {
 
         if (enemyManager.IsPhaseShifting) return;
         
-        enemyAnimatorManager.PlayTargetAnimation(_dmgAnimation, true);
 
         if (currentHealth <= 0) {
             enemyAnimatorManager.PlayTargetAnimation("Death", true);
             deathRoutine = StartCoroutine(DeathRoutine());
             IsDead = true;
+        }
+        else {
+            enemyAnimatorManager.PlayTargetAnimation(_dmgAnimation, true);
         }
     }
 

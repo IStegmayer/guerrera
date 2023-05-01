@@ -67,6 +67,7 @@ public class EnemyManager : CharacterManager {
     private void HandleStateMachine() {
         // Actually handle this error
         if (CurrentState == null) return;
+        if (enemyStatsManager.IsDead) return;
 
         State _nextState = CurrentState.Tick(this, enemyStatsManager, enemyAnimatorM);
         if (_nextState != null) SwitchToNextState(_nextState);

@@ -12,7 +12,7 @@ namespace Dzajna
             Gizmos.DrawWireSphere(transform.position, radius);
         }
 
-        public virtual void Interact(PlayerManager _playerManager) {
+        public virtual void Interact(PlayerManager playerManager) {
             Debug.Log("Interacted with object");
         }
     }

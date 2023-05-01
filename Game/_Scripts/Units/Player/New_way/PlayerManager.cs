@@ -12,14 +12,18 @@ public class PlayerManager : CharacterManager {
 
     private InteractableUI interactableUI;
 
+    [Header("Interact settings")] 
+    [SerializeField] private float interactRange;
+    [SerializeField] private LayerMask interactableLayer;
+
     protected override void Awake() {
         base.Awake();
-        inputHandler = InputHandler.Instance;
         interactableUI = FindObjectOfType<InteractableUI>();
     }
 
     protected override void Start() {
         base.Start();
+        inputHandler = InputHandler.Instance;
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         anim = GetComponent<Animator>();
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
@@ -56,12 +60,12 @@ public class PlayerManager : CharacterManager {
 
     //TODO: This needs to change anyway 
     private void CheckForInteractableObject() {
-        RaycastHit hit;
         Interactable interactable;
+        RaycastHit hit;
 
-        //TODO: not perfect, probable an overlapsphere or just ontriggerEnter/Exit would be better
-        if (!Physics.SphereCast(transform.position, 1f, transform.forward, out hit, 1)) return;
-        if (!hit.transform.TryGetComponent(out interactable)) {
+        Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, interactRange, interactableLayer);
+        // TODO: inefficient
+        if (!hit.transform || !hit.transform.TryGetComponent(out interactable)) {
             if (interactableUI.InteractableUIGameObject != null)
                 interactableUI.InteractableUIGameObject.SetActive(false);
             return;

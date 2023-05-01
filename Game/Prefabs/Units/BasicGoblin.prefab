@@ -1274,7 +1274,7 @@ MonoBehaviour:
   focusPerLevel: 5
   TotalPoise: 0
   OffensivePoise: 0
-  ArmorPoise: 0
+  ArmorPoise: 100
   TotalPoiseResetTime: 5
   PoiseResetTimer: 0
   IsDead: 0
@@ -1305,7 +1305,6 @@ MonoBehaviour:
   IsInvulnerable: 0
   IsInteracting: 0
   IsSprinting: 0
-  IsInAir: 0
   IsGrounded: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
@@ -1328,8 +1327,6 @@ MonoBehaviour:
   AllowAIToPerformCombos: 1
   ComboChance: 50
   CanRotate: 0
-  characterCollider: {fileID: 0}
-  characterCollisionBlockerCollider: {fileID: 1636510941392958957}
 --- !u!114 &2059672717170127504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1345,7 +1342,7 @@ MonoBehaviour:
   characterManager: {fileID: -5052775884964827217}
   Anim: {fileID: 95285293887918914}
   CanRotate: 0
-  IsInAirHash: 0
+  IsGroundedHash: 0
   IsUsingRightHandHash: 0
   IsUsingLeftHandHash: 0
   VerticalHash: 0
@@ -1359,6 +1356,7 @@ MonoBehaviour:
   IsPhaseShiftingHash: 0
   CanDoComboHash: 0
   IsInvulnerableHash: 0
+  InAirTimer: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0

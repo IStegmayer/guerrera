@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1653264756216341625}
-  m_LocalRotation: {x: 0.52572197, y: -0.54883367, z: 0.24392235, w: -0.60241175}
+  m_LocalRotation: {x: 0.7764096, y: -0.19360752, z: 0.25061896, w: -0.5448802}
   m_LocalPosition: {x: 8.909787, y: 1.3022223, z: -5.198323}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -31,7 +31,7 @@ Transform:
   - {fileID: 4994219200247519055}
   m_Father: {fileID: 5487694846934644347}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 201.448, y: -80.401, z: 110.65}
+  m_LocalEulerAnglesHint: {x: 228.509, y: -64.94202, z: 60.001}
 --- !u!1 &4618066143272933839
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,4 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
+  EnabledOnStartup: 0
   CurrentWeaponDamage: 5
+  PoiseBreak: 10
+  OffensivePoiseBonus: 10
