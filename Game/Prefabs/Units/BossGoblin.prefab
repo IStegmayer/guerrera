@@ -115,7 +115,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3796299491173372558}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2968581467295114234
 MonoBehaviour:
@@ -131,53 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 6129188573474008463}
   pursueTargetState: {fileID: 2003677363462006637}
-  rotateTowardsTargetState: {fileID: 8807707614913559854}
   CurrentAttack: {fileID: 11400000, guid: 73ccd02aaaa86114dbf9a545d9e2aa9f, type: 2}
---- !u!1 &1084647676071905931
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 547407802565602365}
-  - component: {fileID: 8807707614913559854}
-  m_Layer: 0
-  m_Name: RotateTowardsTargetState
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &547407802565602365
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084647676071905931}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38275456, y: 1.2261255, z: 0.71444774}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3796299491173372558}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8807707614913559854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084647676071905931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2287bc07602e4cdab65f8e7decdd09f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 6129188573474008463}
 --- !u!1 &1922972739526872709
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 6129188573474008463}
-  rotateTowardsTargetState: {fileID: 8807707614913559854}
 --- !u!1 &2648253919923267384
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +305,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3796299491173372558}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8701909750144282537
 MonoBehaviour:
@@ -841,7 +794,6 @@ MonoBehaviour:
   IsInvulnerable: 0
   IsInteracting: 0
   IsSprinting: 0
-  IsInAir: 0
   IsGrounded: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
@@ -862,10 +814,15 @@ MonoBehaviour:
   MaxAttackRange: 1.5
   MaxAggroRadius: 5
   AllowAIToPerformCombos: 1
+  combatStyle: 0
   ComboChance: 50
   CanRotate: 0
-  characterCollider: {fileID: 0}
-  characterCollisionBlockerCollider: {fileID: 0}
+  allowAIToBlock: 0
+  blockLikelihood: 30
+  allowAIToDodge: 0
+  dodgeLikelihood: 30
+  allowAIToParry: 0
+  parryLikelihood: 30
 --- !u!114 &5482623063811260319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,7 +838,7 @@ MonoBehaviour:
   characterManager: {fileID: 7594110032504595104}
   Anim: {fileID: 5895731658588053069}
   CanRotate: 0
-  IsInAirHash: 0
+  IsGroundedHash: 0
   IsUsingRightHandHash: 0
   IsUsingLeftHandHash: 0
   VerticalHash: 0
@@ -895,11 +852,24 @@ MonoBehaviour:
   IsPhaseShiftingHash: 0
   CanDoComboHash: 0
   IsInvulnerableHash: 0
+  InAirTimer: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
   FallHash: 0
   EmptyHash: 0
+  LightAttack1Hash: 0
+  LightAttack2Hash: 0
+  HeavyAttack1Hash: 0
+  HeavyAttack2Hash: 0
+  TH_LightAttack1Hash: 0
+  TH_LightAttack2Hash: 0
+  TH_HeavyAttack1Hash: 0
+  TH_HeavyAttack2Hash: 0
+  WeaponArtHash: 0
+  LeftArmIdleHash: 0
+  RightArmIdleHash: 0
+  TH_IdleHash: 0
   DeathHash: 0
   JumpHash: 0
   FailedCastHash: 0
@@ -3754,7 +3724,6 @@ Transform:
   - {fileID: 4500184249579923768}
   - {fileID: 1432964197742276715}
   - {fileID: 2334894163147199377}
-  - {fileID: 547407802565602365}
   - {fileID: 4183004644596753278}
   - {fileID: 7140113668337901344}
   m_Father: {fileID: 5806094093626403377}

@@ -6,22 +6,22 @@ public class EnemyBossManager : MonoBehaviour {
     [SerializeField] private GameObject phaseTransitionFX;
     private BossHealthBar bossHealthBar;
     private BossCombatStanceState bossCombatStanceState;
-    private EnemyAnimatorManager enemyAnimatorManager;
-    private EnemyStatsManager enemyStatsManager;
+    private EnemyCharacterAnimatorManager enemyCharacterAnimatorManager;
+    private EnemyStatsManagerManager enemyStatsManagerManager;
     private EnemyManager enemyManager;
 
     private void Awake() {
         bossHealthBar = FindObjectOfType<BossHealthBar>(true);
-        enemyStatsManager = GetComponent<EnemyStatsManager>();
+        enemyStatsManagerManager = GetComponent<EnemyStatsManagerManager>();
         enemyManager = GetComponent<EnemyManager>();
-        enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+        enemyCharacterAnimatorManager = GetComponent<EnemyCharacterAnimatorManager>();
         bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
     }
 
     private void Start() {
         bossHealthBar.ToggleBossHealthBarActivation(true);
         bossHealthBar.SetBossName(bossName);
-        bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
+        bossHealthBar.SetBossMaxHealth(enemyStatsManagerManager.GetMaxHealth());
     }
 
     public void UpdateBossHealthBar(float _currentHealth, float _maxHealth) {
@@ -34,10 +34,10 @@ public class EnemyBossManager : MonoBehaviour {
 
     private void TransitionToSecondPhase() {
         enemyManager.IsPhaseShifting = true;
-        enemyAnimatorManager.Anim.SetBool(enemyAnimatorManager.IsPhaseShiftingHash, true);
-        enemyAnimatorManager.Anim.SetBool(enemyAnimatorManager.IsInvulnerableHash, true);
+        enemyCharacterAnimatorManager.Anim.SetBool(enemyCharacterAnimatorManager.IsPhaseShiftingHash, true);
+        enemyCharacterAnimatorManager.Anim.SetBool(enemyCharacterAnimatorManager.IsInvulnerableHash, true);
         // Play animation w/ an event that trigger particle/weapon fx
-        enemyAnimatorManager.PlayTargetAnimation(enemyAnimatorManager.PhaseTransitionHash, true);
+        enemyCharacterAnimatorManager.PlayTargetAnimation(enemyCharacterAnimatorManager.PhaseTransitionHash, true);
         // Switch attack actions
     }
 

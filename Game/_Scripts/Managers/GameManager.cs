@@ -17,7 +17,7 @@ public class GameManager : StaticInstance<GameManager>
 
     public GameState CurrentGameState { get; private set; }
 
-    // Kick the game off with the first state
+    // Kick the game off with the first state   
     void Start() => ChangeState(GameState.Starting);
     public void ChangeState(GameState newState) {
         OnBeforeStateChanged?.Invoke(newState);
@@ -63,7 +63,7 @@ public class GameManager : StaticInstance<GameManager>
     private void HandleSpawningHeroes() {
         // Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
         // PlayerCamera.Instance.SetTarget(playerInstance.GetComponent<PlayerManager>());
-        // _uiManager._playerInventoryManager = playerInstance.GetComponent<PlayerInventoryManager>();
+        // _uiManager.CharacterInventoryManager = playerInstance.GetComponent<CharacterInventoryManager>();
         ChangeState(GameState.SpawningEnemies);
     }
 
@@ -76,8 +76,8 @@ public class GameManager : StaticInstance<GameManager>
 
     private void HandleSpawningEnemies() {
         UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);;
+        UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
         // UnitManager.Instance.SpawnEnemy(_enemySpawn4, EnemyType.BossGoblin);
         
         ChangeState(GameState.HeroTurn);

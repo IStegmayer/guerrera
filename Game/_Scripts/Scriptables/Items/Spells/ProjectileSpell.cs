@@ -13,32 +13,30 @@ public class ProjectileSpell : SpellItem {
     private Rigidbody rigidbody;
     private Quaternion castRotation;
 
-    public override void AttemptToCastSpell(
-        AnimatorManager animatorManager,
-        PlayerStats playerStats,
-        PlayerCamera playerCamera,
-        PlayerWeaponSlotManager playerWeaponSlotManager) {
-        base.AttemptToCastSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
-        //TODO: add this camerahandler
-        castRotation = playerCamera.GetCameraRotation();
-        GameObject warmUpSFXInstance = Instantiate(spellWarmUpFX, playerWeaponSlotManager.GetRightHandTransform());
-        animatorManager.PlayTargetAnimation(spellAnimation, true);
+    public override void AttemptToCastSpell(CharacterManager character) {
+        base.AttemptToCastSpell(character);
+        castRotation = PlayerCamera.Instance.GetCameraRotation();
+        GameObject warmUpSFXInstance =
+            Instantiate(spellWarmUpFX, character.CharacterWeaponSlotManager.GetRightHandTransform());
+        character.CharacterAnimatorManager.PlayTargetAnimation(spellAnimation, true);
     }
 
-    public override void SuccessfullyCastedSpell(AnimatorManager animatorManager, PlayerStats playerStats,
-        PlayerCamera playerCamera, PlayerWeaponSlotManager playerWeaponSlotManager) {
-        base.SuccessfullyCastedSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
-        animatorManager.Anim.SetBool(animatorManager.IsFiringSpellHash, true);
-        GameObject spellFXInstance = Instantiate(spellCastFX, playerWeaponSlotManager.GetRightHandTransform().position,
+    public override void SuccessfullyCastedSpell(CharacterManager character) {
+        base.SuccessfullyCastedSpell(character);
+        CharacterAnimatorManager charAnim = character.CharacterAnimatorManager;
+        PlayerCamera camera = PlayerCamera.Instance;
+        GameObject spellFXInstance = Instantiate(spellCastFX,
+            character.CharacterWeaponSlotManager.GetRightHandTransform().position,
             castRotation);
         rigidbody = spellFXInstance.GetComponent<Rigidbody>();
+        charAnim.Anim.SetBool(charAnim.IsFiringSpellHash, true);
         // spellDamageCollider - spellFXInstance.GetComponent<SpellDamageCollider>();
 
-        if (playerCamera.CurrentLockOnTarget != null)
-            spellFXInstance.transform.LookAt(playerCamera.CurrentLockOnTarget.transform);
+        if (camera.CurrentLockOnTarget != null)
+            spellFXInstance.transform.LookAt(camera.CurrentLockOnTarget.transform);
         else
-            spellFXInstance.transform.rotation = Quaternion.Euler(playerCamera.GetCameraTransform().eulerAngles.x,
-                playerStats.transform.eulerAngles.y, 0);
+            spellFXInstance.transform.rotation = Quaternion.Euler(camera.GetCameraTransform().eulerAngles.x,
+                character.transform.eulerAngles.y, 0);
 
         rigidbody.AddForce(spellFXInstance.transform.forward * ProjectileForwardVelocity);
         rigidbody.AddForce(spellFXInstance.transform.up * ProjectileUpwardVelocity);

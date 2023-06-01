@@ -7,7 +7,7 @@ namespace Dzajna
 {
     public class UIManager : MonoBehaviour
     {
-        public PlayerInventoryManager _playerInventoryManager;
+        [SerializeField] private CharacterInventoryManager characterInventoryManager;
         
         [Header("UI Windows")]
         [SerializeField] private GameObject HUDWindow;
@@ -33,33 +33,33 @@ namespace Dzajna
 
         private void Start() {
             weaponInventorySlots = weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
-            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(_playerInventoryManager);
+            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(characterInventoryManager);
         }
 
         public void UpdateUI() {
             #region WeaponInventorySlots
 
-            int _inventoryCount = _playerInventoryManager.WeaponsInventory.Count;
-            for (int _i = 0; _i < weaponInventorySlots.Length; _i++) {
-                if (_i < _inventoryCount) {
-                    if (weaponInventorySlots.Length < _inventoryCount) {
+            int inventoryCount = characterInventoryManager.WeaponsInventory.Count;
+            for (int i = 0; i < weaponInventorySlots.Length; i++) {
+                if (i < inventoryCount) {
+                    if (weaponInventorySlots.Length < inventoryCount) {
                         Instantiate(weaponInventorySlotPrefab, weaponInventorySlotsContainer);
                         weaponInventorySlots =
                             weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
                     }
 
-                    weaponInventorySlots[_i].AddItem(_playerInventoryManager.WeaponsInventory[_i]);
+                    weaponInventorySlots[i].AddItem(characterInventoryManager.WeaponsInventory[i]);
                 }
                 else {
-                    weaponInventorySlots[_i].ClearInventorySlot();
+                    weaponInventorySlots[i].ClearInventorySlot();
                 }
             }
 
             #endregion
         }
 
-        public void ToggleSelectWindow(bool _active) => selectWindow.SetActive(_active);
-        public void ToggleHUDWindow(bool _active) => HUDWindow.SetActive(_active);
+        public void ToggleSelectWindow(bool active) => selectWindow.SetActive(active);
+        public void ToggleHUDWindow(bool active) => HUDWindow.SetActive(active);
         public void CloseAllInventoryWindows() {
             ResetAllSelectedSlots();
             weaponInventoryWindow.SetActive(false);

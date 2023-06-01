@@ -4,45 +4,56 @@ using static UnityEngine.InputSystem.InputAction;
 
 namespace Dzajna {
 public class InputHandler : PersistentSingleton<InputHandler> {
+    //TODO: This could be renamed and mapped to just the pressed buttons and a dictionary of 
+
+    // MOVEMENT
     public float Horizontal { get; private set; }
     public float Vertical { get; private set; }
     public float MoveAmount { get; private set; }
     public float CameraX { get; private set; }
+
     public float CameraY { get; private set; }
 
-    public bool b_Input { get; private set; }
-    public bool a_Input { get; private set; }
-    public bool rb_Input { get; private set; }
-    public bool rt_Input { get; private set; }
-    public bool lt_Input { get; private set; }
-    public bool lb_Input { get; private set; }
-    public bool critical_Input { get; private set; }
-    public bool jump_Input { get; private set; }
-    public bool twoHand_Input { get; private set; }
-    public bool inventory_Input { get; private set; }
-    public bool lockOn_Input { get; private set; }
-    public bool lockOn_left_Input { get; private set; }
-    public bool lockOn_right_Input { get; private set; }
+    // BUTTONS
+    public bool BInput { get; private set; }
+    public bool AInput { get; private set; }
+    public bool RBInput { get; private set; }
+    public bool RBHoldInput { get; private set; }
+    public bool LBInput { get; private set; }
+    public bool LBHoldInput { get; private set; }
+    public bool RTInput { get; private set; }
+    public bool RTHoldInput { get; private set; }
+    public bool LTInput { get; private set; }
+    public bool CriticalInput { get; private set; }
+    public bool JumpInput { get; private set; }
+    public bool TwoHandInput { get; private set; }
+    public bool InventoryInput { get; private set; }
+    public bool LockOnInput { get; private set; }
+    public bool LockOnLeftInput { get; private set; }
 
-    public bool d_pad_up_Input { get; private set; }
-    public bool d_pad_down_Input { get; private set; }
-    public bool d_pad_left_Input { get; private set; }
-    public bool d_pad_right_Input { get; private set; }
+    public bool LockOnRightInput { get; private set; }
 
-    private float rollInputTimer;
-    
+    // DPAD
+    public bool DPadUpInput { get; private set; }
+    public bool DPadDownInput { get; private set; }
+    public bool DPadLeftInput { get; private set; }
+
+    public bool DPadRightInput { get; private set; }
+
+    // FLAGS AND TIMERS
     public bool RollFlag { get; private set; }
     public bool ComboFlag { get; private set; }
     public bool InventoryFlag { get; private set; }
     public bool LockOnFlag { get; private set; }
     public bool TwoHandFlag { get; private set; }
+    private float rollInputTimer;
 
-    [SerializeField] private PlayerManager playerManager;
-    private PlayerAnimatorManager playerAnimatorManager;
+    [SerializeField] private PlayerManager player;
+    private PlayerCharacterAnimatorManager playerCharacterAnimatorManager;
     private PlayerInputActions inputActions;
     private PlayerCombatManager playerCombatManager;
-    private PlayerInventoryManager playerInventoryManager;
-    private PlayerStats playerStats;
+    private CharacterInventoryManager characterInventoryManager;
+    private PlayerStatsManager playerStatsManager;
     private PlayerEquipmentManager playerEquipmentManager;
     private PlayerCamera playerCamera;
     private UIManager uiManager;
@@ -51,20 +62,16 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     private Vector2 movementInput;
     private Vector2 cameraInput;
 
-    protected override void Awake() {
-        base.Awake();
-        playerCombatManager = playerManager.GetComponent<PlayerCombatManager>();
-        playerInventoryManager = playerManager.GetComponent<PlayerInventoryManager>();
-        playerAnimatorManager = playerManager.GetComponent<PlayerAnimatorManager>();
-        playerStats = playerManager.GetComponent<PlayerStats>();
-        playerWeaponSlotManager = playerManager.GetComponentInChildren<PlayerWeaponSlotManager>();
-        playerEquipmentManager = playerManager.GetComponentInChildren<PlayerEquipmentManager>();
-        // TODO: inefficient asf
-        uiManager = FindObjectOfType<UIManager>();
-    }
-
     protected void Start() {
         playerCamera = PlayerCamera.Instance;
+        playerCombatManager = player.GetComponent<PlayerCombatManager>();
+        characterInventoryManager = player.GetComponent<CharacterInventoryManager>();
+        playerCharacterAnimatorManager = player.GetComponent<PlayerCharacterAnimatorManager>();
+        playerStatsManager = player.GetComponent<PlayerStatsManager>();
+        playerWeaponSlotManager = player.GetComponentInChildren<PlayerWeaponSlotManager>();
+        playerEquipmentManager = player.GetComponentInChildren<PlayerEquipmentManager>();
+        // TODO: inefficient asf
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     public void OnEnable() {
@@ -75,26 +82,30 @@ public class InputHandler : PersistentSingleton<InputHandler> {
             inputActions.PlayerMovement.Movement.performed += input => movementInput = input.ReadValue<Vector2>();
             inputActions.PlayerMovement.Camera.performed += input => cameraInput = input.ReadValue<Vector2>();
 
-            // inputActions.PlayerActions.Jump.performed += HandleJumpInput;
-            // inputActions.PlayerActions.A.performed += HandleInteractInput;
-            inputActions.PlayerActions.RB.performed += _ => rb_Input = true;
-            inputActions.PlayerActions.RT.performed += _ => rt_Input = true;
-            inputActions.PlayerActions.LT.performed += _ => lt_Input = true;
-            inputActions.PlayerActions.LB.performed += _ => lb_Input = true;
-            inputActions.PlayerActions.LB.canceled += _ => lb_Input = false;
-            inputActions.PlayerActions.Critical.performed += _ => critical_Input = true;
-            inputActions.PlayerActions.Jump.performed += _ => jump_Input = true;
-            inputActions.PlayerActions.A.performed += _ => a_Input = true;
-            inputActions.PlayerActions.B.performed += _ => b_Input = true;
-            inputActions.PlayerActions.B.canceled += _ => b_Input = false;
-            inputActions.PlayerActions.LockOn.performed += _ => lockOn_Input = true;
-            inputActions.PlayerActions.LockOnTargetLeft.performed += _ => lockOn_left_Input = true;
-            inputActions.PlayerActions.LockOnTargetRight.performed += _ => lockOn_right_Input = true;
-            inputActions.PlayerActions.TwoHand.performed += _ => twoHand_Input = true;
+            inputActions.PlayerActions.HoldRB.performed += _ => RBHoldInput = true;
+            inputActions.PlayerActions.HoldRB.canceled += _ => RBHoldInput = false;
+            inputActions.PlayerActions.HoldLB.performed += _ => LBHoldInput = true;
+            inputActions.PlayerActions.HoldLB.canceled += _ => LBHoldInput = false;
+            inputActions.PlayerActions.HoldRT.performed += _ => RTHoldInput = true;
+            inputActions.PlayerActions.HoldRT.canceled += _ => RTHoldInput = false;
+
+            inputActions.PlayerActions.RB.performed += _ => RBInput = true;
+            inputActions.PlayerActions.RT.performed += _ => RTInput = true;
+            inputActions.PlayerActions.LT.performed += _ => LTInput = true;
+            inputActions.PlayerActions.LB.performed += _ => LBInput = true;
+            inputActions.PlayerActions.LB.canceled += _ => LBInput = false;
+            inputActions.PlayerActions.Jump.performed += _ => JumpInput = true;
+            inputActions.PlayerActions.A.performed += _ => AInput = true;
+            inputActions.PlayerActions.B.performed += _ => BInput = true;
+            inputActions.PlayerActions.B.canceled += _ => BInput = false;
+            inputActions.PlayerActions.LockOn.performed += _ => LockOnInput = true;
+            inputActions.PlayerActions.LockOnTargetLeft.performed += _ => LockOnLeftInput = true;
+            inputActions.PlayerActions.LockOnTargetRight.performed += _ => LockOnRightInput = true;
+            inputActions.PlayerActions.TwoHand.performed += _ => TwoHandInput = true;
 
             inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
-            inputActions.PlayerControls.DPadRight.performed += _ => d_pad_right_Input = true;
-            inputActions.PlayerControls.DPadLeft.performed += _ => d_pad_left_Input = true;
+            inputActions.PlayerControls.DPadRight.performed += _ => DPadRightInput = true;
+            inputActions.PlayerControls.DPadLeft.performed += _ => DPadLeftInput = true;
         }
 
         // enable our created inputActions 
@@ -109,27 +120,137 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     private void LateUpdate() {
         //reset flags
         RollFlag = false;
-        rb_Input = false;
-        rt_Input = false;
-        lt_Input = false;
-        a_Input = false;
-        jump_Input = false;
-        lockOn_Input = false;
-        d_pad_right_Input = false;
-        d_pad_left_Input = false;
-        d_pad_up_Input = false;
-        d_pad_down_Input = false;
+        RBInput = false;
+        RTInput = false;
+        LTInput = false;
+        AInput = false;
+        JumpInput = false;
+        LockOnInput = false;
+        DPadRightInput = false;
+        DPadLeftInput = false;
+        DPadUpInput = false;
+        DPadDownInput = false;
     }
 
     public void TickInput(float delta) {
+        if (player.IsDead) return;
+        
         HandleMoveInput();
         HandleRollInput(delta);
-        HandleCombatInput();
+
+        HandleHoldRBInput();
+        HandleHoldLBInput();
+        HandleHoldRTInput();
+
+        HandleTapLBInput();
+        HandleTapRBInput();
+        HandleTapRTInput();
+        HandleTapLTInput();
+
         HandleQuickSlotsInput();
+        // handled differently
+        // HandleInventoryInput();
+
         HandleLockOnInput();
         HandleLockOnSwitch();
         HandleTwoHandInput();
-        HandleCriticalInput();
+        // TODO: implement
+        // HandleUseConsumableInput();
+        // HandleQuedInput();
+    }
+
+    private void HandleTapLTInput() {
+        if (!LTInput) return;
+
+        LTInput = false;
+
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TapLTAction != null) {
+            //It will be the right handed weapon
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TapLTAction.PerformAction(player);
+        }
+        else if (characterInventoryManager.LeftWeapon.TapLTAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(false);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.LeftWeapon;
+            characterInventoryManager.LeftWeapon.TapLTAction.PerformAction(player);
+        }
+    }
+
+
+    private void HandleTapRTInput() {
+        if (!RTInput) return;
+        RTInput = false;
+
+        if (characterInventoryManager.RightWeapon.TapRTAction == null) return;
+
+        player.UpdateWhichHandCharacterIsUsing(true);
+        characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+        characterInventoryManager.RightWeapon.TapRTAction.PerformAction(player);
+    }
+
+    private void HandleTapRBInput() {
+        if (!RBInput) return;
+
+        RBInput = false;
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TH_TapRBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TH_TapRBAction.PerformAction(player);
+        }
+        else if (characterInventoryManager.RightWeapon.TapRBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TapRBAction.PerformAction(player);
+        }
+    }
+
+    private void HandleTapLBInput() {
+        if (!LBInput) return;
+        LBInput = false;
+
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TapLBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TapLBAction.PerformAction(player);
+        }
+        else if (characterInventoryManager.LeftWeapon.TapLBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(false);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.LeftWeapon;
+            characterInventoryManager.LeftWeapon.TapLBAction.PerformAction(player);
+        }
+    }
+
+    private void HandleHoldRTInput() {
+        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsChargingAttackHash, RTHoldInput);
+        if (!RTHoldInput) return;
+
+        player.UpdateWhichHandCharacterIsUsing(true);
+        characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TH_HoldRTAction != null)
+            characterInventoryManager.RightWeapon.TH_HoldRTAction.PerformAction(player);
+        else if (characterInventoryManager.RightWeapon.HoldRTAction != null)
+            characterInventoryManager.RightWeapon.HoldRTAction.PerformAction(player);
+    }
+
+    private void HandleHoldLBInput() {
+        if (!LBHoldInput) {
+            if (player.IsBlocking) player.IsBlocking = false;
+            return;
+        }
+
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TH_HoldRBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TH_HoldRBAction.PerformAction(player);
+        }
+        else if (characterInventoryManager.RightWeapon.HoldLBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.LeftWeapon;
+            characterInventoryManager.LeftWeapon.HoldLBAction.PerformAction(player);
+        }
+        
     }
 
     private void HandleMoveInput() {
@@ -140,86 +261,55 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         CameraY = cameraInput.y;
     }
 
-    private void HandleRollInput(float delta) {
-        if (b_Input) {
-            rollInputTimer += delta;
-            bool hasStamina = playerStats.CheckHasStamina();
+    private void HandleHoldRBInput() {
+        if (!RBInput) return;
 
+        if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TH_HoldRBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.TH_HoldRBAction.PerformAction(player);
+        }
+        else if (characterInventoryManager.RightWeapon.HoldRBAction != null) {
+            player.UpdateWhichHandCharacterIsUsing(true);
+            characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
+            characterInventoryManager.RightWeapon.HoldRBAction.PerformAction(player);
+        }
+    }
+
+    private void HandleRollInput(float delta) {
+        if (BInput) {
+            rollInputTimer += delta;
+            bool hasStamina = playerStatsManager.CheckHasStamina();
             if (!hasStamina) {
-                b_Input = false;
-                playerManager.IsSprinting = false;
+                BInput = false;
+                player.IsSprinting = false;
             }
-            else if (MoveAmount > 0.5f) {
-                playerManager.IsSprinting = true;
-            }
+            else if (MoveAmount > 0.5f) player.IsSprinting = true;
         }
         else {
-            playerManager.IsSprinting = false;
-            if (rollInputTimer > 0 && rollInputTimer < 0.5f) {
-                RollFlag = true;
-            }
+            player.IsSprinting = false;
+            if (rollInputTimer > 0 && rollInputTimer < 0.5f) RollFlag = true;
 
             rollInputTimer = 0;
         }
     }
 
-    private void HandleCombatInput() {
-        // TODO: does this really belong here? also check for isInteracting
-        // TODO: refactor this shit logic
-        if (rb_Input) playerCombatManager.HandleRBAction();
-
-        if (lb_Input) playerCombatManager.HandleLBAction();
-        else {
-            playerManager.IsBlocking = false;
-            //TODO: this should just be an animation event
-            playerEquipmentManager.CloseBlockingCollider();
-        }
-
-        if (rt_Input) {
-            if (playerManager.CanDoCombo) {
-                ComboFlag = true;
-                playerCombatManager.HandleWeaponCombo(playerInventoryManager.RightWeapon);
-                ComboFlag = false;
-            }
-            else if (!playerManager.IsInteracting && !playerManager.CanDoCombo) {
-                playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsUsingRightHandHash, true);
-                playerCombatManager.HandleHeavyAttack(playerInventoryManager.RightWeapon);
-            }
-        }
-
-        if (lt_Input) {
-            //TODO: this is some shit placeholder logic
-            if (TwoHandFlag) {
-                // If two handing handle ruightweapon art
-            }
-            else {
-                // handle weapon art if shield (parry)
-                playerCombatManager.HandleLTAction();
-            }
-            // else handle light attack if melee weapon
-        }
-    }
-
     private void HandleQuickSlotsInput() {
-        if (d_pad_right_Input) {
-            playerInventoryManager.ChangeRightWeapon();
-        }
-        else if (d_pad_left_Input) {
-            playerInventoryManager.ChangeLeftWeapon();
-        }
+        if (DPadRightInput) characterInventoryManager.ChangeRightWeapon();
+        else if (DPadLeftInput) characterInventoryManager.ChangeLeftWeapon();
     }
 
     private void HandleInteractInput(CallbackContext callbackContext) {
-        a_Input = callbackContext.action.WasPerformedThisFrame();
+        AInput = callbackContext.action.WasPerformedThisFrame();
     }
 
     private void HandleJumpInput(CallbackContext callbackContext) {
-        jump_Input = callbackContext.action.WasPerformedThisFrame();
+        JumpInput = callbackContext.action.WasPerformedThisFrame();
     }
 
     private void HandleInventoryInput(CallbackContext callbackContext) {
-        inventory_Input = callbackContext.action.WasPerformedThisFrame();
-        if (!inventory_Input) return;
+        InventoryInput = callbackContext.action.WasPerformedThisFrame();
+        if (!InventoryInput) return;
 
         InventoryFlag = !InventoryFlag;
         uiManager.ToggleSelectWindow(InventoryFlag);
@@ -229,15 +319,15 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     }
 
     private void HandleLockOnInput() {
-        if (!lockOn_Input) return;
+        if (!LockOnInput) return;
 
         if (!LockOnFlag) {
-            lockOn_Input = false;
+            LockOnInput = false;
             playerCamera.HandleLockOn();
             LockOnFlag = playerCamera.SetCurrentLockOnTarget();
         }
         else {
-            lockOn_Input = false;
+            LockOnInput = false;
             LockOnFlag = false;
             playerCamera.ClearLockOnTargets();
         }
@@ -245,32 +335,23 @@ public class InputHandler : PersistentSingleton<InputHandler> {
 
     private void HandleLockOnSwitch() {
         if (!LockOnFlag) return;
-        if (!lockOn_right_Input && !lockOn_left_Input) return;
+        if (!LockOnRightInput && !LockOnLeftInput) return;
 
         playerCamera.HandleLockOn();
-        playerCamera.SwitchLockOnTarget(lockOn_left_Input, lockOn_right_Input);
-        lockOn_left_Input = false;
-        lockOn_right_Input = false;
+        playerCamera.SwitchLockOnTarget(LockOnLeftInput, LockOnRightInput);
+        LockOnLeftInput = false;
+        LockOnRightInput = false;
     }
 
     private void HandleTwoHandInput() {
-        if (!twoHand_Input) return;
+        if (!TwoHandInput) return;
 
-        twoHand_Input = false;
+        TwoHandInput = false;
         TwoHandFlag = !TwoHandFlag;
-        if (TwoHandFlag) {
-            playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.RightWeapon, false);
-        }
+        if (TwoHandFlag) playerWeaponSlotManager.LoadWeaponOnSlot(characterInventoryManager.RightWeapon, false);
         else {
-            playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.RightWeapon, false);
-            playerWeaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.LeftWeapon, true);
-        }
-    }
-
-    private void HandleCriticalInput() {
-        if (critical_Input) {
-            critical_Input = false;
-            playerCombatManager.AttemptBackStabOrRiposte();
+            playerWeaponSlotManager.LoadWeaponOnSlot(characterInventoryManager.RightWeapon, false);
+            playerWeaponSlotManager.LoadWeaponOnSlot(characterInventoryManager.LeftWeapon, true);
         }
     }
 

@@ -5,10 +5,10 @@ using UnityEngine;
 namespace Dzajna {
 public class PlayerManager : CharacterManager {
     private Animator anim;
-    private PlayerAnimatorManager playerAnimatorManager;
+    private PlayerCharacterAnimatorManager playerCharacterAnimatorManager;
     private InputHandler inputHandler;
     private PlayerLocomotionManager playerLocomotionManager;
-    private PlayerStats playerStats;
+    private PlayerStatsManager playerStatsManager;
 
     private InteractableUI interactableUI;
 
@@ -24,24 +24,25 @@ public class PlayerManager : CharacterManager {
     protected override void Start() {
         base.Start();
         inputHandler = InputHandler.Instance;
-        playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+        playerCharacterAnimatorManager = GetComponent<PlayerCharacterAnimatorManager>();
         anim = GetComponent<Animator>();
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
-        playerStats = GetComponent<PlayerStats>();
+        playerStatsManager = GetComponent<PlayerStatsManager>();
         BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
     }
 
     private void Update() {
         float delta = Time.deltaTime;
-        IsInteracting = anim.GetBool(playerAnimatorManager.IsInteractingHash);
-        CanDoCombo = anim.GetBool(playerAnimatorManager.CanDoComboHash);
-        IsUsingLeftHand = anim.GetBool(playerAnimatorManager.IsUsingLeftHandHash);
-        IsUsingRightHand = anim.GetBool(playerAnimatorManager.IsUsingRightHandHash);
-        IsInvulnerable = anim.GetBool(playerAnimatorManager.IsInvulnerableHash);
-        IsFiringSpell = anim.GetBool(playerAnimatorManager.IsFiringSpellHash);
-        playerAnimatorManager.CanRotate = anim.GetBool(playerAnimatorManager.CanRotateHash);
-        playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsDeadHash, playerStats.IsDead);
-        playerAnimatorManager.Anim.SetBool(playerAnimatorManager.IsBlockingHash, IsBlocking);
+        IsInteracting = anim.GetBool(playerCharacterAnimatorManager.IsInteractingHash);
+        CanDoCombo = anim.GetBool(playerCharacterAnimatorManager.CanDoComboHash);
+        IsUsingLeftHand = anim.GetBool(playerCharacterAnimatorManager.IsUsingLeftHandHash);
+        IsUsingRightHand = anim.GetBool(playerCharacterAnimatorManager.IsUsingRightHandHash);
+        IsInvulnerable = anim.GetBool(playerCharacterAnimatorManager.IsInvulnerableHash);
+        IsFiringSpell = anim.GetBool(playerCharacterAnimatorManager.IsFiringSpellHash);
+        playerCharacterAnimatorManager.CanRotate = anim.GetBool(playerCharacterAnimatorManager.CanRotateHash);
+        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsDeadHash, IsDead);
+        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsBlockingHash, IsBlocking);
+        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsTwoHandingWeaponHash, IsTwoHandingWeapon);
 
         inputHandler.TickInput(delta);
 
@@ -52,7 +53,7 @@ public class PlayerManager : CharacterManager {
         
         CheckForInteractableObject();
 
-        playerStats.RegenerateStamina();
+        playerStatsManager.RegenerateStamina();
     }
 
     private void FixedUpdate() {
@@ -75,14 +76,14 @@ public class PlayerManager : CharacterManager {
         interactableUI.InteractableText.text = interactableText;
         interactableUI.InteractableUIGameObject.SetActive(true);
 
-        if (inputHandler.a_Input) {
+        if (inputHandler.AInput) {
             interactable.Interact(this);
         }
     }
 
     public void OpenChestInteraction(Transform playerStandingPoint) {
         transform.position = playerStandingPoint.transform.position;
-        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.OpenChestHash, true);
+        playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.OpenChestHash, true);
     }
 
     public void PassThroughFogWallInteraction(Transform fogWallEntrance) {
@@ -90,7 +91,7 @@ public class PlayerManager : CharacterManager {
         Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
         transform.rotation = turnRotation;
 
-        playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.PassThroughFogWallHash, true);
+        playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.PassThroughFogWallHash, true);
     }
 }
 }

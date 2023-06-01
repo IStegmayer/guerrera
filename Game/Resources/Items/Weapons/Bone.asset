@@ -17,28 +17,32 @@ MonoBehaviour:
   ModelPrefab: {fileID: 173553568906946661, guid: ffb5a01627219454a9ecd779b1d9b385,
     type: 3}
   IsUnarmed: 0
+  WeaponController: {fileID: 22100000, guid: ad4b8f29f8e36e74f9edb157eb36a5f0, type: 2}
+  WeaponType: 0
   BaseDamage: 10
   CriticalDamageMultiplier: 4
   PoiseBreak: 15
   OffensivePoiseBonus: 5
-  pshysicalDmgAbsorption: 0
-  OH_RightArmIdle: 
-  OH_LeftArmIdle: 
-  TH_Idle: TH_Idle
-  OH_Light_Attack_1: LightAttack1
-  OH_Light_Attack_2: LightAttack2
-  OH_Heavy_Attack_1: HeavyAttack1
-  OH_Heavy_Attack_2: HeavyAttack2
-  TH_Light_Attack_1: TH_LightAttack1
-  TH_Light_Attack_2: TH_LightAttack2
-  TH_Heavy_Attack_1: TH_HeavyAttack1
-  TH_Heavy_Attack_2: TH_HeavyAttack2
-  WeaponArt: 
+  PhysicalBlockingDamageAbsorption: 0
+  FireBlockingDamageAbsorption: 0
+  Stability: 67
   BaseStamina: 10
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
-  isMagicCaster: 0
-  isFaithCaster: 0
-  isPyroCaster: 0
-  isMeleeWeapon: 1
-  isShieldWeapon: 0
+  HoldRBAction: {fileID: 0}
+  TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  HoldLBAction: {fileID: 0}
+  TapRTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldRTAction: {fileID: 0}
+  TapLTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldLTAction: {fileID: 0}
+  TH_HoldRBAction: {fileID: 0}
+  TH_TapRBAction: {fileID: 0}
+  TH_TapLBAction: {fileID: 0}
+  TH_HoldLBAction: {fileID: 0}
+  TH_TapRTAction: {fileID: 0}
+  TH_HoldRTAction: {fileID: 0}
+  TH_TapLTAction: {fileID: 0}
+  TH_HoldLTAction: {fileID: 0}
+  WeaponWhooshes: []

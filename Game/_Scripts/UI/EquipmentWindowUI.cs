@@ -14,17 +14,17 @@ namespace Dzajna
 
         private EquipmentSlotUI[] equipmentSlotUis;
 
-        public void LoadWeaponsOnEquipmentScreen(PlayerInventoryManager _playerInventoryManager) {
+        public void LoadWeaponsOnEquipmentScreen(CharacterInventoryManager characterInventoryManager) {
             equipmentSlotUis = GetComponentsInChildren<EquipmentSlotUI>(true);
             for (int _i = 0; _i < equipmentSlotUis.Length; _i++) {
                 if (equipmentSlotUis[_i].RightHandSlot1)
-                    equipmentSlotUis[0].AddItem(_playerInventoryManager.WeaponsInRightHandSlots[0]);
+                    equipmentSlotUis[0].AddItem(characterInventoryManager.WeaponsInRightHandSlots[0]);
                 else if (equipmentSlotUis[_i].RightHandSlot2)
-                    equipmentSlotUis[1].AddItem(_playerInventoryManager.WeaponsInRightHandSlots[1]);
+                    equipmentSlotUis[1].AddItem(characterInventoryManager.WeaponsInRightHandSlots[1]);
                 else if (equipmentSlotUis[_i].LeftHandSlot1)
-                    equipmentSlotUis[2].AddItem(_playerInventoryManager.WeaponsInLeftHandSlots[0]);
+                    equipmentSlotUis[2].AddItem(characterInventoryManager.WeaponsInLeftHandSlots[0]);
                 else if (equipmentSlotUis[_i].LeftHandSlot2)
-                    equipmentSlotUis[3].AddItem(_playerInventoryManager.WeaponsInLeftHandSlots[1]);
+                    equipmentSlotUis[3].AddItem(characterInventoryManager.WeaponsInLeftHandSlots[1]);
             }
         }
 

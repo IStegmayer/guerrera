@@ -1826,11 +1826,27 @@ MonoBehaviour:
   CanDoComboHash: 0
   IsInvulnerableHash: 0
   InAirTimer: 0
+  IsChargingAttackHash: 0
+  IsTwoHandingWeaponHash: 0
   RollHash: 0
   BackstepHash: 0
   LandHash: 0
   FallHash: 0
   EmptyHash: 0
+  LightAttack1Hash: 0
+  LightAttack2Hash: 0
+  HeavyAttack1Hash: 0
+  HeavyAttack2Hash: 0
+  RunningAttackHash: 0
+  TH_LightAttack1Hash: 0
+  TH_LightAttack2Hash: 0
+  TH_HeavyAttack1Hash: 0
+  TH_HeavyAttack2Hash: 0
+  TH_RunningAttackHash: 0
+  WeaponArtHash: 0
+  LeftArmIdleHash: 0
+  RightArmIdleHash: 0
+  TH_IdleHash: 0
   DeathHash: 0
   JumpHash: 0
   FailedCastHash: 0
@@ -1872,7 +1888,7 @@ MonoBehaviour:
   groundCheckSphereRadius: 0.3
   InAirTimer: 0
   MyTransform: {fileID: 0}
-  playerAnimatorManager: {fileID: 0}
+  playerCharacterAnimatorManager: {fileID: 0}
   walkingSpeed: 1
   movementSpeed: 5
   sprintSpeed: 8
@@ -1892,6 +1908,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef99291c0774f948c171892764c0d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  CharacterAnimatorManager: {fileID: 0}
+  CharacterWeaponSlotManager: {fileID: 0}
+  CharacterStatsManager: {fileID: 0}
+  CharacterInventoryManager: {fileID: 0}
+  CharacterEffectsManager: {fileID: 0}
+  CharacterCombatManager: {fileID: 0}
   CharacterController: {fileID: 0}
   LockOnTransform: {fileID: 1011016027224932732}
   BackStabCollider: {fileID: 7790013139108328240}
@@ -1903,10 +1926,13 @@ MonoBehaviour:
   IsBlocking: 0
   IsInvulnerable: 0
   IsInteracting: 0
+  IsDead: 0
+  IsAttacking: 0
   IsSprinting: 0
   IsGrounded: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
+  IsTwoHandingWeapon: 0
   IsRotatingWithRM: 0
   IsFiringSpell: 0
   PendingCriticalDamage: 0
@@ -1941,6 +1967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6949f5e838b457eaf228d2825c9f4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentItemBeingUsed: {fileID: 0}
   CurrentSpell: {fileID: 11400000, guid: 895fd6860faf12344bf04c0ca2f9c3d9, type: 2}
   RightWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   LeftWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
@@ -1951,9 +1978,10 @@ MonoBehaviour:
   WeaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 17463002b3c9af844bd5d17e370c3248, type: 2}
   - {fileID: 11400000, guid: 057e5b1688eb595419ecc8759e184bd0, type: 2}
-  currentRightWeaponIndex: 0
-  currentLeftWeaponIndex: 0
-  WeaponsInventory: []
+  CurrentRightWeaponIndex: 0
+  CurrentLeftWeaponIndex: 0
+  WeaponsInventory:
+  - {fileID: 11400000, guid: 2d033f643a83f0f438e8723d00140712, type: 2}
 --- !u!114 &96056487394725359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1966,7 +1994,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a23dddb5c484424a03ade6818df48c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastAttackString: 
+  LastAttackHash: 0
+  CurrentAttackType: 0
   critRayCastStartPoint: {fileID: 6288102731211109841}
   backStabLayer:
     serializedVersion: 2
@@ -1998,7 +2027,9 @@ MonoBehaviour:
   ArmorPoise: 0
   TotalPoiseResetTime: 5
   PoiseResetTimer: 0
-  IsDead: 0
+  BlockingPhysicalDamageAbsorption: 0
+  BlockingFireDamageAbsorption: 0
+  BlockingStabilityRating: 0
   healthBar: {fileID: 0}
   staminaBar: {fileID: 0}
   FPBar: {fileID: 0}

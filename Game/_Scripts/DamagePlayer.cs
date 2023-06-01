@@ -10,9 +10,9 @@ namespace Dzajna
         [SerializeField] private int damage = 10;
 
         private void OnTriggerEnter(Collider _other) {
-            PlayerStats _playerStats = _other.GetComponent<PlayerStats>();
+            PlayerStatsManager playerStatsManager = _other.GetComponent<PlayerStatsManager>();
             
-            if (_playerStats != null) _playerStats.TakeDamage(damage);
+            if (playerStatsManager != null) playerStatsManager.TakeDamage(damage);
         }
     }
 }

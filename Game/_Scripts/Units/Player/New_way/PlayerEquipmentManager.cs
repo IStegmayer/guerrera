@@ -3,24 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: refactor this without using a collider
 namespace Dzajna {
 public class PlayerEquipmentManager : MonoBehaviour {
-    private PlayerInventoryManager playerInventoryManager;
-    private BlockingCollider blockingCollider;
+    private CharacterInventoryManager characterInventoryManager;
 
     private void Awake() {
-        blockingCollider = GetComponentInChildren<BlockingCollider>();
-        playerInventoryManager = GetComponent<PlayerInventoryManager>();
+        characterInventoryManager = GetComponent<CharacterInventoryManager>();
     }
-
-    public void OpenBlockingCollider() {
-        WeaponItem blockingWeapon = InputHandler.Instance.TwoHandFlag
-            ? playerInventoryManager.RightWeapon
-            : playerInventoryManager.LeftWeapon;
-        blockingCollider.SetColliderDamageAbosorption(blockingWeapon);
-        blockingCollider.EnableBlockingCollider();
-    }
-
-    public void CloseBlockingCollider() => blockingCollider.DisableBlockingCollider();
 }
 }

@@ -9,11 +9,11 @@ namespace Dzajna
         private InputHandler inputHandler;
         private PlayerManager player;
         private PlayerCamera playerCamera;
-        private PlayerStats playerStats;
+        private PlayerStatsManager playerStatsManager;
 
         // TODO: what?
         [HideInInspector] public Transform MyTransform;
-        [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
+        [HideInInspector] public PlayerCharacterAnimatorManager playerCharacterAnimatorManager;
 
         [Header("Movement Stats")] [SerializeField]
         private float walkingSpeed = 1;
@@ -34,8 +34,8 @@ namespace Dzajna
             playerCamera = PlayerCamera.Instance;
             inputHandler = InputHandler.Instance;
             player = GetComponent<PlayerManager>();
-            playerStats = GetComponent<PlayerStats>();
-            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerCharacterAnimatorManager = GetComponent<PlayerCharacterAnimatorManager>();
             cameraTransform = Camera.main.transform;
             MyTransform = transform;
         }
@@ -56,7 +56,7 @@ namespace Dzajna
 
             if (player.IsSprinting) {
                 moveSpeed = sprintSpeed;
-                playerStats.TakeStaminaDamage(sprintStaminaCost * delta);
+                playerStatsManager.TakeStaminaDamage(sprintStaminaCost * delta);
             }
             if (inputHandler.MoveAmount <= 0.5f) moveSpeed = walkingSpeed; 
 
@@ -68,14 +68,14 @@ namespace Dzajna
             characterController.Move( moveSpeed * moveDirection * delta);
             
             if (inputHandler.LockOnFlag)
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
+                playerCharacterAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
                     player.IsSprinting);
             else
-                playerAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, player.IsSprinting);
+                playerCharacterAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, player.IsSprinting);
         }
 
         public void HandleRotation(float delta) {
-            if (!playerAnimatorManager.CanRotate) return;
+            if (!playerCharacterAnimatorManager.CanRotate) return;
             
             if (inputHandler.LockOnFlag && !player.IsSprinting) {
                 Vector3 rotationDirection = moveDirection;
@@ -108,25 +108,25 @@ namespace Dzajna
         }
 
         public void HandleRolling(float delta) {
-            if (playerAnimatorManager.Anim.GetBool(playerAnimatorManager.IsInteractingHash)) return;
+            if (playerCharacterAnimatorManager.Anim.GetBool(playerCharacterAnimatorManager.IsInteractingHash)) return;
             if (!inputHandler.RollFlag) return;
-            if (!playerStats.CheckHasStamina()) return;
+            if (!playerStatsManager.CheckHasStamina()) return;
 
             if (inputHandler.MoveAmount > 0) {
-                playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.RollHash, true);
-                playerStats.TakeStaminaDamage(rollStaminaCost);
+                playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.RollHash, true);
+                playerStatsManager.TakeStaminaDamage(rollStaminaCost);
             }
             else {
-                playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.BackstepHash, true);
-                playerStats.TakeStaminaDamage(backstepStaminaCost);
+                playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.BackstepHash, true);
+                playerStatsManager.TakeStaminaDamage(backstepStaminaCost);
             }
         }
 
         public void HandleJumping() {
             if (player.IsInteracting) return;
-            if (!inputHandler.jump_Input) return;
+            if (!inputHandler.JumpInput) return;
             if (inputHandler.MoveAmount <= 0) return;
-            if (!playerStats.CheckHasStamina()) return;
+            if (!playerStatsManager.CheckHasStamina()) return;
 
             Vector3 moveDirection = cameraTransform.forward * inputHandler.Vertical;
             moveDirection += cameraTransform.right * inputHandler.Horizontal;
@@ -134,7 +134,7 @@ namespace Dzajna
             moveDirection.Normalize();
             MyTransform.rotation = Quaternion.LookRotation(moveDirection);
 
-            playerAnimatorManager.PlayTargetAnimation(playerAnimatorManager.JumpHash, true);
+            playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.JumpHash, true);
         }
 
         #endregion

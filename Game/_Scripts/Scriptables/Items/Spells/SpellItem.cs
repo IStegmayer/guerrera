@@ -17,16 +17,14 @@ public class SpellItem : Item {
     [Header("Spell Description")] [TextArea] [SerializeField]
     protected string spellDescription;
 
-    public virtual void AttemptToCastSpell(AnimatorManager animatorManager, PlayerStats playerStats,
-        PlayerCamera playerCamera,
-        PlayerWeaponSlotManager playerWeaponSlotManager) {
+    public virtual void AttemptToCastSpell(CharacterManager character) {
         Debug.Log("Attempting to cast spell");
     }
 
-    public virtual void SuccessfullyCastedSpell(AnimatorManager animatorManager, PlayerStats playerStats,
-        PlayerCamera playerCamera, PlayerWeaponSlotManager playerWeaponSlotManager) {
+    public virtual void SuccessfullyCastedSpell(CharacterManager character) {
         Debug.Log("Successfully casted a spell");
-        playerStats.TakeFPDamage(FPCost);
+        PlayerStatsManager playerStatsManager = character.CharacterStatsManager as PlayerStatsManager;
+        if (playerStatsManager != null) playerStatsManager.TakeFPDamage(FPCost);
     }
 }
 }

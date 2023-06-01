@@ -24,7 +24,7 @@ public class OpenDoor : Interactable {
         playerManager.transform.position = playerStandingPosition.position;
         playerManager.transform.rotation = playerStandingPosition.rotation;
         
-        AnimatorManager anim = playerManager.GetComponent<AnimatorManager>();
+        CharacterAnimatorManager anim = playerManager.GetComponent<CharacterAnimatorManager>();
         anim.PlayTargetAnimation("OpenDoubleDoor", true);
         // animate door
         StartCoroutine(OpenDoors());

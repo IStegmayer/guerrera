@@ -6,7 +6,7 @@ public class CharacterLocomotionManager : MonoBehaviour {
     public Vector3 moveDirection;
     protected CharacterController characterController;
     protected CharacterManager character;
-    protected AnimatorManager animatorManager;
+    protected CharacterAnimatorManager CharacterAnimatorManager;
     
     [Header("Gravity Settings")] 
     [SerializeField] private LayerMask groundLayer;
@@ -25,12 +25,12 @@ public class CharacterLocomotionManager : MonoBehaviour {
     protected virtual void Start() {
         characterController = GetComponent<CharacterController>();
         character = GetComponent<CharacterManager>();
-        animatorManager = character.GetComponent<AnimatorManager>();
+        CharacterAnimatorManager = character.GetComponent<CharacterAnimatorManager>();
     }
     
     protected virtual void Update() {
         character.IsGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
-        animatorManager.Anim.SetBool(animatorManager.IsGroundedHash, character.IsGrounded);
+        CharacterAnimatorManager.Anim.SetBool(CharacterAnimatorManager.IsGroundedHash, character.IsGrounded);
         HandleGroundCheck();
     }
 
@@ -50,7 +50,7 @@ public class CharacterLocomotionManager : MonoBehaviour {
             fallVelocity.y += gravityForce * Time.deltaTime;
         }
 
-        animatorManager.Anim.SetFloat(animatorManager.InAirTimer, InAirTimer);
+        CharacterAnimatorManager.Anim.SetFloat(CharacterAnimatorManager.InAirTimer, InAirTimer);
         character.CharacterController.Move(fallVelocity * Time.deltaTime);
     }
 

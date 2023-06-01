@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Game._Scripts;
 using UnityEngine;
 
-// Class made to check shield colliding
+// Class made to check Shield colliding
 public class Shield : MonoBehaviour
 {
     private PlayerStateMachine _player;

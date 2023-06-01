@@ -310,6 +310,33 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "HoldRB",
+                    "type": "PassThrough",
+                    "id": "8dff636b-611a-4d9e-b7ca-32fe59cb8504",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LB",
+                    "type": "Button",
+                    "id": "08a849c7-c9c7-445c-a600-db68dfadd20c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldLB",
+                    "type": "PassThrough",
+                    "id": "fc5c922d-e111-4047-bfca-07cddfd7ee7e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Critical",
                     "type": "Button",
                     "id": "e5c25eb4-c0b6-492d-8dce-3c949adfbf6e",
@@ -324,7 +351,16 @@
                     "id": "b21d99f7-307c-40a7-80d0-f61eeca9497a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldRT",
+                    "type": "PassThrough",
+                    "id": "fb1511cc-45cc-4d51-ba52-030c89b6a33b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -385,15 +421,6 @@
                     "name": "TwoHand",
                     "type": "Button",
                     "id": "cae286b4-baca-41c0-8dd1-43ba7440ded3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "LB",
-                    "type": "Button",
-                    "id": "08a849c7-c9c7-445c-a600-db68dfadd20c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -645,6 +672,72 @@
                 },
                 {
                     "name": "",
+                    "id": "d1026d16-ccf7-4d39-9b25-d9bb724fa174",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bd0fbe1-0dd8-46b1-8ebf-6e37e911e50c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f68055ca-28e5-4721-a894-58c79a802864",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldRT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39feb790-e1d7-4b68-9bcb-db934b7a6c63",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldRT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "017243bd-cf69-49f0-a29d-501a32e33dab",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldRB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd29a441-36d6-414f-9c19-3bf94767d945",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldRB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "0e9dc6f3-ceef-4d60-9029-1e1f4c3a458a",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -667,23 +760,23 @@
                 },
                 {
                     "name": "",
-                    "id": "d1026d16-ccf7-4d39-9b25-d9bb724fa174",
-                    "path": "<Keyboard>/z",
+                    "id": "759c8ece-8b79-496d-8988-03969f8832f8",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "X",
+                    "action": "HoldLB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "6bd0fbe1-0dd8-46b1-8ebf-6e37e911e50c",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "79ece1a8-7e1f-4e28-a550-6186dd4685da",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "X",
+                    "action": "HoldLB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

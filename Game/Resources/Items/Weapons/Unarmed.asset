@@ -17,28 +17,13 @@ MonoBehaviour:
   ModelPrefab: {fileID: 9125274802050466198, guid: ed886519db7cf1a49804f8230f3db4df,
     type: 3}
   IsUnarmed: 1
+  WeaponController: {fileID: 22100000, guid: ad4b8f29f8e36e74f9edb157eb36a5f0, type: 2}
+  WeaponType: 2
   BaseDamage: 5
   CriticalDamageMultiplier: 2
   PoiseBreak: 5
   OffensivePoiseBonus: 2
-  pshysicalDmgAbsorption: 0
-  OH_RightArmIdle: RightArmEmpty
-  OH_LeftArmIdle: LeftArmEmpty
-  TH_Idle: BothArmsEmpty
-  OH_Light_Attack_1: LightAttack1
-  OH_Light_Attack_2: LightAttack2
-  OH_Heavy_Attack_1: HeavyAttack1
-  OH_Heavy_Attack_2: HeavyAttack2
-  TH_Light_Attack_1: 
-  TH_Light_Attack_2: 
-  TH_Heavy_Attack_1: 
-  TH_Heavy_Attack_2: 
-  WeaponArt: 
+  physicalDmgAbsorption: 0
   BaseStamina: 5
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
-  isMagicCaster: 0
-  isFaithCaster: 0
-  isPyroCaster: 0
-  isMeleeWeapon: 1
-  isShieldWeapon: 0

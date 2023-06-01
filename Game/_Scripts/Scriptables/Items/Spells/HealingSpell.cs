@@ -5,19 +5,17 @@ namespace Dzajna {
 public class HealingSpell : SpellItem {
     public int HealAmount;
 
-    public override void AttemptToCastSpell(AnimatorManager animatorManager, PlayerStats playerStats,
-        PlayerCamera playerCamera, PlayerWeaponSlotManager playerWeaponSlotManager) {
-        base.AttemptToCastSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
-        // GameObject warmUpSpellFXInstance = Instantiate(spellWarmUpFX, animatorManager.transform);
-        animatorManager.PlayTargetAnimation(spellAnimation, true);
+    public override void AttemptToCastSpell(CharacterManager character) {
+        base.AttemptToCastSpell(character);
+        // GameObject warmUpSpellFXInstance = Instantiate(spellWarmUpFX, CharacterAnimatorManager.transform);
+        character.CharacterAnimatorManager.PlayTargetAnimation(spellAnimation, true);
     }
 
-    public override void SuccessfullyCastedSpell(AnimatorManager animatorManager, PlayerStats playerStats,
-        PlayerCamera playerCamera, PlayerWeaponSlotManager playerWeaponSlotManager) {
-        base.SuccessfullyCastedSpell(animatorManager, playerStats, playerCamera, playerWeaponSlotManager);
-        // GameObject spellFXInstance = Instantiate(spellCastFX, animatorManager.transform);
-        // animatorManager.PlayTargetAnimation(spellAnimation, true);
-        playerStats.TakeDamage(-HealAmount);
+    public override void SuccessfullyCastedSpell(CharacterManager character) {
+        base.SuccessfullyCastedSpell(character);
+        // GameObject spellFXInstance = Instantiate(spellCastFX, CharacterAnimatorManager.transform);
+        // CharacterAnimatorManager.PlayTargetAnimation(spellAnimation, true);
+        character.CharacterStatsManager.TakeDamage(-HealAmount);
     }
 }
 }
