@@ -72,10 +72,6 @@ public class EnemyStatsManagerManager : CharacterStatsManager {
         }
     }
 
-    public void BreakGuard() {
-        enemyCharacterAnimatorManager.PlayTargetAnimation(enemyCharacterAnimatorManager.ParriedHash, true);
-    }
-
     private IEnumerator DeathRoutine() {
         yield return new WaitForSeconds(1f);
         //TODO: This could be a bitch. 

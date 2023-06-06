@@ -5490,6 +5490,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1287063544}
     m_Modifications:
+    - target: {fileID: 96056487394725359, guid: e1f43a8f85d4bfe4d963acffdca06749,
+        type: 3}
+      propertyPath: riposteLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899108450045193141, guid: e1f43a8f85d4bfe4d963acffdca06749,
+        type: 3}
+      propertyPath: WeaponsInRightHandSlots.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4,
+        type: 2}
     - target: {fileID: 5353905217364029986, guid: e1f43a8f85d4bfe4d963acffdca06749,
         type: 3}
       propertyPath: FPBar
@@ -5565,8 +5576,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4058143339192305897, guid: e1f43a8f85d4bfe4d963acffdca06749, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1f43a8f85d4bfe4d963acffdca06749, type: 3}
 --- !u!1001 &309052010
 PrefabInstance:
@@ -38659,7 +38669,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7080192763101386209, guid: 12768be01871f664098ef6e5b3a6e8c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 12768be01871f664098ef6e5b3a6e8c4, type: 3}
 --- !u!1001 &4775131612214222518
 PrefabInstance:

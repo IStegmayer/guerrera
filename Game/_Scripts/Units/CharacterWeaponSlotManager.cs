@@ -64,6 +64,7 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
         GameObject weaponModel = leftHandSlot.CurrentWeaponModel;
 
         LeftDamageCollider = weaponModel.GetComponentInChildren<DamageCollider>();
+        LeftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         LeftDamageCollider.PhysicalDamage = weapon.BaseDamage;
         LeftDamageCollider.PoiseBreak = weapon.PoiseBreak;
         LeftDamageCollider.OffensivePoiseBonus = weapon.OffensivePoiseBonus;
@@ -77,6 +78,7 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
         GameObject weaponModel = rightHandSlot.CurrentWeaponModel;
 
         RightDamageCollider = weaponModel.GetComponentInChildren<DamageCollider>();
+        RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
         RightDamageCollider.PhysicalDamage = weapon.BaseDamage;
         RightDamageCollider.PoiseBreak = weapon.PoiseBreak;
         RightDamageCollider.OffensivePoiseBonus = weapon.OffensivePoiseBonus;

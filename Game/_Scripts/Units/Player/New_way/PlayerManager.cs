@@ -35,8 +35,6 @@ public class PlayerManager : CharacterManager {
         float delta = Time.deltaTime;
         IsInteracting = anim.GetBool(playerCharacterAnimatorManager.IsInteractingHash);
         CanDoCombo = anim.GetBool(playerCharacterAnimatorManager.CanDoComboHash);
-        IsUsingLeftHand = anim.GetBool(playerCharacterAnimatorManager.IsUsingLeftHandHash);
-        IsUsingRightHand = anim.GetBool(playerCharacterAnimatorManager.IsUsingRightHandHash);
         IsInvulnerable = anim.GetBool(playerCharacterAnimatorManager.IsInvulnerableHash);
         IsFiringSpell = anim.GetBool(playerCharacterAnimatorManager.IsFiringSpellHash);
         playerCharacterAnimatorManager.CanRotate = anim.GetBool(playerCharacterAnimatorManager.CanRotateHash);

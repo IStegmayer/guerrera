@@ -162,10 +162,16 @@ public class CharacterAnimatorManager : MonoBehaviour {
 
     //TODO: ALL EVENTS SHOULD BE HERE 
 
+    public static event Action ComboDisabled;
     public virtual void EnableRotation() => Anim.SetBool(CanRotateHash, true);
     public virtual void DisableRotation() => Anim.SetBool(CanRotateHash, false);
+    
     public virtual void EnableCombo() => Anim.SetBool(CanDoComboHash, true);
-    public virtual void DisableCombo() => Anim.SetBool(CanDoComboHash, false);
+    public virtual void DisableCombo() {
+        Anim.SetBool(CanDoComboHash, false);
+        ComboDisabled?.Invoke();
+    }
+    
     public virtual void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
     public virtual void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
 

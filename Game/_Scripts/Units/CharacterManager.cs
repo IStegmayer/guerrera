@@ -68,6 +68,10 @@ namespace Dzajna
         protected virtual void Start() {
         }
         
+        public void BreakGuard() {
+            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.ParriedHash, true);
+        }
+        
         public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {
             if (usingRightHand) {
                 IsUsingRightHand = true;

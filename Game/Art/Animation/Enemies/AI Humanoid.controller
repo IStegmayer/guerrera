@@ -345,48 +345,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &-6040473539234059895
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: canDoCombo
-  status: 0
---- !u!114 &-5458332604843073235
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: isRotatingWithRM
-  status: 0
---- !u!114 &-5270954815202940469
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: isUsingLeftHand
-  status: 0
 --- !u!1101 &-5064149075983454984
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -820,20 +778,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-2784776055096955234
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: isUsingRightHand
-  status: 0
 --- !u!1107 &-2738967481190492984
 AnimatorStateMachine:
   serializedVersion: 6
@@ -873,13 +817,6 @@ AnimatorState:
   - {fileID: 8886337085276917415}
   m_StateMachineBehaviours:
   - {fileID: -1796142015206881422}
-  - {fileID: -6040473539234059895}
-  - {fileID: -2784776055096955234}
-  - {fileID: -5270954815202940469}
-  - {fileID: -1506548531592847907}
-  - {fileID: 8207733304527104567}
-  - {fileID: -5458332604843073235}
-  - {fileID: 3067887939805142479}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1003,8 +940,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool: isInteracting
-  status: 0
+  isUsingRightHand: isUsingRightHand
+  isUsingRightHandStatus: 0
+  isUsingLeftHand: isUsingRightHand
+  isUsingLeftHandStatus: 0
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRM: isRotatingWithRM
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
+  isMirroredBool: isMirrored
+  isMirroredStatus: 0
 --- !u!1101 &-1565907240125672720
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1027,20 +978,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-1506548531592847907
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: isInvulnerable
-  status: 0
 --- !u!1101 &-1463938141171909193
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1330,91 +1267,91 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Horizontal
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: inAirTimer
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isInteracting
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: canRotate
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: canDoCombo
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isGrounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isUsingRightHand
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isUsingLeftHand
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isInvulnerable
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isBlocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isFiringSpell
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isRotatingWithRM
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isPhaseShifting
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -2065,20 +2002,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &3067887939805142479
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: isPhaseShifting
-  status: 0
 --- !u!1101 &3083901712358065593
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2869,20 +2792,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &8207733304527104567
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309cac095607e674a815958c7649239c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetBool: canRotate
-  status: 1
 --- !u!1102 &8226186002572598717
 AnimatorState:
   serializedVersion: 6

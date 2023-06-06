@@ -5,16 +5,14 @@ using System;
 /// Insanely basic audio system which supports 3D sound.
 /// Ensure you change the 'Sounds' audio Source to use 3D spatial blend if you intend to use 3D sounds.
 /// </summary>
-public class AudioSystem : StaticInstance<AudioSystem>
-{
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioSource _soundsSource;
+public class AudioSystem : StaticInstance<AudioSystem> {
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource soundsSource;
 
     public Sound[] sounds;
 
     void Start() {
-        foreach (Sound s in sounds)
-        {
+        foreach (Sound s in sounds) {
             s.Source = gameObject.AddComponent<AudioSource>();
             s.Source.clip = s.Clip;
             s.Source.volume = s.Volume;
@@ -27,43 +25,40 @@ public class AudioSystem : StaticInstance<AudioSystem>
         PlaySound("enemyDeath", goblin.transform.position);
     }
 
-    public void PlayMusic(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.Name == name);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + " not found!");
+    public void PlayMusic(string soundName) {
+        Sound s = Array.Find(sounds, sound => sound.Name == soundName);
+        if (s == null) {
+            Debug.LogWarning("Sound: " + soundName + " not found!");
             return;
         }
 
-        _musicSource.clip = s.Clip;
-        _musicSource.loop = s.Loop;
-        _musicSource.volume = s.Volume;
+        musicSource.clip = s.Clip;
+        musicSource.loop = s.Loop;
+        musicSource.volume = s.Volume;
 
-        _musicSource.Play();
+        musicSource.Play();
     }
 
-    public void PlaySound(string name, Vector3 pos, float vol = 1)
-    {
-        Sound s = Array.Find(sounds, sound => sound.Name == name);
-        if (s == null)
-        {
+    public void PlaySound(string soundName, Vector3 pos, float vol = 1) {
+        Sound s = Array.Find(sounds, sound => sound.Name == soundName);
+        if (s == null) {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
 
-        _soundsSource.transform.position = pos;
-        _soundsSource.clip = s.Source.clip;
-        _soundsSource.loop = s.Source.loop;
-        _soundsSource.volume = s.Source.volume;
+        soundsSource.transform.position = pos;
+        soundsSource.clip = s.Source.clip;
+        soundsSource.loop = s.Source.loop;
+        soundsSource.volume = s.Source.volume;
 
-        if (_soundsSource.loop)
-            _soundsSource.Play();
+        if (soundsSource.loop)
+            soundsSource.Play();
         else
-            _soundsSource.PlayOneShot(_soundsSource.clip, vol);
+            soundsSource.PlayOneShot(soundsSource.clip, vol);
     }
 
     #region Events
+
     private void OnEnable() {
         BasicGoblin.GoblinKilled += PlayGoblinKilled;
         //BasicGoblin.GoblinDamaged;
@@ -73,7 +68,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
     private void OnDisable() {
         BasicGoblin.GoblinKilled -= PlayGoblinKilled;
     }
+
     #endregion
-    
-    
 }

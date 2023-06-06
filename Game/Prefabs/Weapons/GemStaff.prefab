@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1831267560905716136}
   - component: {fileID: 765373202869094759}
   - component: {fileID: 7837603420419412591}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GemStaffModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,8 +112,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
-  enabledOnStartup: 0
-  CurrentWeaponDamage: 5
+  EnabledOnStartup: 0
+  PhysicalDamage: 25
+  FireDamage: 0
+  PoiseBreak: 10
+  OffensivePoiseBonus: 10
+  GuardBreakModifier: 1
 --- !u!1 &2222554663853303960
 GameObject:
   m_ObjectHideFlags: 0

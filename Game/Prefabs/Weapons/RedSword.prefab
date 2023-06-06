@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5898397403909420872}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 161295628149131714}
   - component: {fileID: 5020011313946495434}
   - component: {fileID: 730248760127958271}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,7 +4854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4688076078970323184}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RedSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4886,7 +4886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2159411360833532898}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TrailFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 8849578892947335320}
   - component: {fileID: 5532650133771036057}
   - component: {fileID: 162540775156105838}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RedSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5023,9 +5023,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   EnabledOnStartup: 0
-  CurrentWeaponDamage: 25
+  PhysicalDamage: 25
+  FireDamage: 0
   PoiseBreak: 10
   OffensivePoiseBonus: 10
+  GuardBreakModifier: 1
 --- !u!114 &162540775156105838
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -123,7 +123,7 @@ public class CombatStanceStateHumanoid : State {
         if (direction == Vector3.zero) direction = transform.forward;
         
         var targetRotation = Quaternion.LookRotation(direction);
-        enemy.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemy.RotationSpeed * Time.deltaTime);
+        enemy.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemy.RotationSpeed);
     }
 
     protected virtual void DecideCirclingAction(CharacterAnimatorManager aiAnim) {

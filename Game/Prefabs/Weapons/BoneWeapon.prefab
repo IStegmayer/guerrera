@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 6096681763111979839}
   - component: {fileID: 1133140999332769179}
   - component: {fileID: 461014389764973154}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BoneModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5023,9 +5023,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   EnabledOnStartup: 0
-  CurrentWeaponDamage: 25
+  PhysicalDamage: 25
+  FireDamage: 0
   PoiseBreak: 10
   OffensivePoiseBonus: 10
+  GuardBreakModifier: 1
 --- !u!114 &461014389764973154
 MonoBehaviour:
   m_ObjectHideFlags: 0

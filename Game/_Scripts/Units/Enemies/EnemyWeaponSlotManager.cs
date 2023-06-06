@@ -64,7 +64,7 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
 
     #region Handle Weapon's Damage Collider
 
-    private void LoadLeftWeaponDamageCollider() {
+    protected override void LoadLeftWeaponDamageCollider() {
         LeftDamageCollider =
             leftHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         LeftDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
@@ -72,7 +72,7 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
         characterEffectsManager.LeftWeaponFX = leftHandSlot.CurrentWeaponModel.GetComponentInChildren<WeaponFX>();
     }
 
-    private void LoadRightWeaponDamageCollider() {
+    protected override void LoadRightWeaponDamageCollider() {
         RightDamageCollider =
             rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
         RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();

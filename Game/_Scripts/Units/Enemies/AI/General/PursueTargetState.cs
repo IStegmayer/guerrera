@@ -39,7 +39,7 @@ public class PursueTargetState : State {
             Quaternion targetRotation = Quaternion.LookRotation(enemy.TargetsDirection);
             enemy.transform.rotation =
                 Quaternion.Slerp(transform.rotation, targetRotation,
-                    enemy.RotationSpeed / Time.fixedDeltaTime);
+                    enemy.RotationSpeed / Time.deltaTime);
         }
         else {
             Vector3 relativeDirection =
@@ -51,7 +51,7 @@ public class PursueTargetState : State {
             enemy.Rigidbody.velocity = targetVelocity;
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,
                 enemy.NavMeshAgent.transform.rotation,
-                enemy.RotationSpeed / Time.fixedDeltaTime);
+                enemy.RotationSpeed / Time.deltaTime);
         }
     }
 }

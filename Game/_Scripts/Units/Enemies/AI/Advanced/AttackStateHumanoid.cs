@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Dzajna {
 public class AttackStateHumanoid : State {
@@ -6,9 +8,12 @@ public class AttackStateHumanoid : State {
     [SerializeField] private PursueTargetStateHumanoid pursueTargetState;
     [SerializeField] private RotateTowardsTargetStateHumanoid rotateTowardsTargetState;
     public ItemBasedAttackAction CurrentAttack;
-
+    
     private bool willComboNextAttack;
     private bool hasPerformedAttack;
+
+    private void OnEnable() => CharacterAnimatorManager.ComboDisabled += ResetStateFlags;
+    private void OnDisable() => CharacterAnimatorManager.ComboDisabled -= ResetStateFlags;
 
     public override State Tick(EnemyManager enemy) {
         if (enemy.combatStyle == HumanAICombatStyle.Melee)
@@ -24,7 +29,7 @@ public class AttackStateHumanoid : State {
         if (enemy.DistanceFromTarget > enemy.MaxAggroRadius) return pursueTargetState;
 
         if (willComboNextAttack && enemy.CanDoCombo) AttackTargetWithCombo(enemy);
-        
+
         if (!hasPerformedAttack) {
             AttackTarget(enemy);
             RollForComboChance(enemy);

@@ -40,69 +40,54 @@ public class DamageCollider : MonoBehaviour {
     }
 
     public void EnableDamageCollider() => damageCollider.enabled = true;
-    public void DisableDamageCollider() => damageCollider.enabled = false;
 
-    private void OnTriggerEnter(Collider collider) {
-        //TODO: dont use a tag for this, maybe an interface?
+    public void DisableDamageCollider() {
+        damageCollider.enabled = false;
+        charactersDamagedDuringThisCalculation.Clear();
+    }
 
-        if (collider.gameObject.CompareTag("Player")) {
-            PlayerStatsManager playerStatsManager = collider.GetComponent<PlayerStatsManager>();
-            CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
-            CharacterAnimatorManager anim = characterManager.GetComponent<CharacterAnimatorManager>();
-            CharacterEffectsManager charEffectsManager = collider.GetComponent<CharacterEffectsManager>();
-            float dmgToBeDealt = PhysicalDamage;
 
-            if (enemyCharacterManager == null) throw new Exception("No enemy character manager found.");
-            if (playerStatsManager == null) throw new Exception("No player stats manager found.");
+    private void OnTriggerEnter(Collider collision) {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("DamageableCharacter")) {
+            shieldHasBeenHit = false;
+            hasBeenParried = false;
 
-            CheckForBlock(characterManager);
-            CheckForParry(enemyCharacterManager, anim);
+            CharacterManager enemyManager = collision.gameObject.GetComponentInParent<CharacterManager>();
+            if (enemyManager == null) throw new Exception("No enemy character manager found.");
+
+            // TODO: check for teamID to not hit
+            if (enemyManager == characterManager) return;
+            if (charactersDamagedDuringThisCalculation.Contains(enemyManager)) return;
+            charactersDamagedDuringThisCalculation.Add(enemyManager);
+            
+            CheckForBlock(enemyManager);
+            CheckForParry(enemyManager);
             if (shieldHasBeenHit || hasBeenParried) return;
 
-            string dmgAnim = enemyCharacterManager.IsBlocking ? "BlockDamage1" : "Damage1";
-            Vector3 contactPoint =
-                collider.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+            CharacterEffectsManager charEffectsManager = enemyManager.CharacterEffectsManager;
+            CharacterStatsManager charStats = enemyManager.CharacterStatsManager;
+            string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
+            Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
+
             charEffectsManager.PlayBloodSplatterFX(contactPoint);
-            playerStatsManager.ResetPoiseTimer();
-            playerStatsManager.DealPoiseDamage(PoiseBreak);
-            if (playerStatsManager.TotalPoise > PoiseBreak) {
-                playerStatsManager.TakeDamageWithoutAnimation(PhysicalDamage);
-            }
-            else playerStatsManager.TakeDamage(dmgToBeDealt, dmgAnim);
-        }
-
-        if (collider.gameObject.CompareTag("Enemy")) {
-            //TODO: add blocking
-            EnemyStatsManagerManager enemyStatsManagerManager = collider.GetComponent<EnemyStatsManagerManager>();
-            CharacterManager enemyCharacterManager = collider.GetComponent<CharacterManager>();
-            CharacterEffectsManager charEffectsManager = collider.GetComponent<CharacterEffectsManager>();
-            if (enemyCharacterManager != null && enemyCharacterManager.IsParrying) {
-                // CHECK IF YOU ARE PARRIABLE
-                CharacterAnimatorManager anim = characterManager.GetComponent<CharacterAnimatorManager>();
-                anim.PlayTargetAnimation(anim.ParriedHash, true);
-                return;
+            charStats.ResetPoiseTimer();
+            charStats.DealPoiseDamage(PoiseBreak);
+            if (charStats.TotalPoise > PoiseBreak) charStats.TakeDamage(PhysicalDamage, dmgAnim);
+            else {
+                charStats.TakeDamageWithoutAnimation(PhysicalDamage);
+                enemyManager.BreakGuard();
             }
 
-            if (enemyStatsManagerManager != null) {
-                Vector3 contactPoint =
-                    collider.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                charEffectsManager.PlayBloodSplatterFX(contactPoint);
-                enemyStatsManagerManager.ResetPoiseTimer();
-                enemyStatsManagerManager.DealPoiseDamage(PoiseBreak);
-                if (enemyStatsManagerManager.TotalPoise > PoiseBreak)
-                    enemyStatsManagerManager.TakeDamage(PhysicalDamage);
-                else {
-                    enemyStatsManagerManager.TakeDamageWithoutAnimation(PhysicalDamage);
-                    enemyStatsManagerManager.BreakGuard();
-                }
-            }
+            var aiCharacter = enemyManager as EnemyManager;
+            if (aiCharacter != null) aiCharacter.CurrentTarget = characterManager;
         }
     }
 
-    protected virtual void CheckForParry(CharacterManager enemyManager, CharacterAnimatorManager enemyAnim) {
+    protected virtual void CheckForParry(CharacterManager enemyManager) {
         if (!enemyManager.IsParrying) return;
 
-        enemyAnim.PlayTargetAnimation(enemyAnim.ParriedHash, true);
+        var charAnim = enemyManager.CharacterAnimatorManager;
+        charAnim.PlayTargetAnimation(charAnim.ParriedHash, true);
         hasBeenParried = true;
     }
 
@@ -114,11 +99,11 @@ public class DamageCollider : MonoBehaviour {
         var directionFromPlayerToEnemy = characterManager.transform.position - enemyManager.transform.position;
         var dotValueFromPlayerToEnemy = Vector3.Dot(directionFromPlayerToEnemy, enemyManager.transform.forward);
         if (dotValueFromPlayerToEnemy < 0.3f) return;
-        
+
         shieldHasBeenHit = true;
         var physicalDamageAfterBlock =
             PhysicalDamage - PhysicalDamage * enemyShield.BlockingPhysicalDamageAbsorption / 100;
-        
+
         enemyManager.CharacterCombatManager.AttemptBlock(this, PhysicalDamage, FireDamage, "Block_01");
         enemyShield.TakeDamage(physicalDamageAfterBlock);
     }
