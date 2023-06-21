@@ -12,7 +12,6 @@ public class WorldEventSystem : MonoBehaviour {
     [SerializeField] private List<FogWall> fogWalls;
     [SerializeField] private EnemyBossManager boss;
     
-
     public bool BossFightIsActive; // Is currently fighting boss
     public bool BossHasBeenAwakened; // Woke the boss/watched cutscene but died during fight
     public bool BossHasBeenDefeated; // Boss has been defeated
@@ -21,15 +20,15 @@ public class WorldEventSystem : MonoBehaviour {
         BossFightIsActive = true;
         BossHasBeenAwakened = true;
         bossHealthBar.ToggleBossHealthBarActivation(true);
-        foreach (var _fogWall in fogWalls)
-            _fogWall.ToggleFogWallActivation(true);
+        foreach (var fogWall in fogWalls)
+            fogWall.ToggleFogWallActivation(true);
     }
 
     public void BossDefeated() {
         BossHasBeenDefeated = true;
         BossFightIsActive = false;
-        foreach (var _fogWall in fogWalls)
-            _fogWall.ToggleFogWallActivation(false);
+        foreach (var fogWall in fogWalls)
+            fogWall.ToggleFogWallActivation(false);
     }
 }
 }

@@ -6,8 +6,7 @@ public class CriticalAttackAction : ItemAction {
     public override void PerformAction(CharacterManager character) {
         if (character.IsInteracting) return;
 
-        PlayerCombatManager combatManager = character.CharacterCombatManager as PlayerCombatManager;
-        combatManager.AttemptBackStabOrRiposte();
+        character.CharacterCombatManager.AttemptBackStabOrRiposte();
     }
 }
 }

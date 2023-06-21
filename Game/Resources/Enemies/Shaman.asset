@@ -16,5 +16,5 @@ MonoBehaviour:
     Health: 10
     BaseAttackPower: 10
     BaseSpeed: 1
-  Prefab: {fileID: 1042931328060984, guid: 7161ed0803b6af44eba14325b62837de, type: 3}
+  Prefab: {fileID: 1042931328060984, guid: c12492eab0f406d48a5dbcf27d4f4e24, type: 3}
   EnemyType: 1

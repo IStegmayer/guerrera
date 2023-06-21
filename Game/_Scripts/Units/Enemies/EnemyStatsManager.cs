@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Dzajna {
 // TODO: I'll get back to this when I do AI 
-public class EnemyStatsManagerManager : CharacterStatsManager {
+public class EnemyStatsManager : CharacterStatsManager {
     [SerializeField] private UIEnemyHealthBar healthBar;
     public int SoulsReward;
     public bool IsBoss;
@@ -19,7 +19,9 @@ public class EnemyStatsManagerManager : CharacterStatsManager {
         enemyManager = GetComponent<EnemyManager>();
         enemyCharacterAnimatorManager = GetComponent<EnemyCharacterAnimatorManager>();
         enemyBossManager = GetComponent<EnemyBossManager>();
-        maxHealth = SetMaxHealthFromHealthLevel(); 
+        maxHealth = SetMaxHealthFromHealthLevel();      
+        maxFP = SetMaxFPAmountFromFocusLevel();
+        currentFP = maxFP;
         currentHealth = maxHealth;
     }
 
@@ -32,19 +34,24 @@ public class EnemyStatsManagerManager : CharacterStatsManager {
         else if (!enemyManager.IsInteracting) TotalPoise = ArmorPoise;
     }
     
+    private int SetMaxFPAmountFromFocusLevel() {
+        return focusLevel * focusPerLevel;
+    }
+    
     private int SetMaxHealthFromHealthLevel() {
         return healthLevel * healthPerLevel;
     }
 
     public override void TakeDamageWithoutAnimation(float dmg) {
-        if (enemyManager.IsDead || enemyManager.IsInvulnerable) return;
+        if (enemyManager.IsDead) return;
+        if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted) return;
         
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
         else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (currentHealth <= 0) {
-            enemyCharacterAnimatorManager.PlayTargetAnimation("Death", true);
+            // enemyCharacterAnimatorManager.PlayTargetAnimation("Death", true);
             deathRoutine = StartCoroutine(DeathRoutine());
             enemyManager.IsDead = true;
         }

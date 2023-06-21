@@ -5513,6 +5513,11 @@ PrefabInstance:
       objectReference: {fileID: 1258391457}
     - target: {fileID: 5353905217364029986, guid: e1f43a8f85d4bfe4d963acffdca06749,
         type: 3}
+      propertyPath: ArmorPoise
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353905217364029986, guid: e1f43a8f85d4bfe4d963acffdca06749,
+        type: 3}
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 81752478}
@@ -7281,6 +7286,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9830f561f80768b4f92139c1c15bc835, type: 3}
+--- !u!82 &387489021 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8137980426947091659, guid: 8773f216203918740929dc3b7afb33c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8137980427053959913}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &393469803
 GameObject:
   m_ObjectHideFlags: 0
@@ -14350,6 +14361,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 412966, guid: f18318a9de51f9b4f993559b01c40e15,
     type: 3}
   m_PrefabInstance: {fileID: 2039424793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &784076632 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8137980427507220078, guid: 8773f216203918740929dc3b7afb33c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8137980427053959913}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &786090963
 GameObject:
@@ -30634,14 +30651,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679011490}
-  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -11.51, y: -0.12, z: 12.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1876911735}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1681818340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38554,6 +38571,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7080192763453198921, guid: 12768be01871f664098ef6e5b3a6e8c4,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 3959
+      objectReference: {fileID: 0}
     - target: {fileID: 7080192763453198922, guid: 12768be01871f664098ef6e5b3a6e8c4,
         type: 3}
       propertyPath: m_Pivot.x
@@ -38833,6 +38855,11 @@ PrefabInstance:
       propertyPath: cameraSmoothSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
+        type: 3}
+      propertyPath: collideWithLayers.m_Bits
+      value: 3703
+      objectReference: {fileID: 0}
     - target: {fileID: 6510627094216693361, guid: 863f83f990e757e4a9d9cc3ebea4b130,
         type: 3}
       propertyPath: m_RootOrder
@@ -39097,6 +39124,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio System
       objectReference: {fileID: 0}
+    - target: {fileID: 8137980427267689688, guid: 8773f216203918740929dc3b7afb33c5,
+        type: 3}
+      propertyPath: musicSource
+      value: 
+      objectReference: {fileID: 784076632}
+    - target: {fileID: 8137980427267689688, guid: 8773f216203918740929dc3b7afb33c5,
+        type: 3}
+      propertyPath: soundsSource
+      value: 
+      objectReference: {fileID: 387489021}
     - target: {fileID: 8137980427267689688, guid: 8773f216203918740929dc3b7afb33c5,
         type: 3}
       propertyPath: sounds.Array.size

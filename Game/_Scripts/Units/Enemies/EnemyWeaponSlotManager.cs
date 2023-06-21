@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Dzajna {
 public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
-    private EnemyStatsManagerManager enemyStatsManagerManager;
+    private EnemyStatsManager enemyStatsManager;
     private CharacterEffectsManager characterEffectsManager;
 
     protected override void Awake() {
         base.Awake();
-        enemyStatsManagerManager = GetComponentInParent<EnemyStatsManagerManager>();
+        enemyStatsManager = GetComponentInParent<EnemyStatsManager>();
         characterEffectsManager = GetComponentInParent<CharacterEffectsManager>();
         LoadWeaponHolderSlots();
     }
@@ -32,7 +32,7 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
     public override void LoadWeaponOnSlot(WeaponItem weapon, bool isLeft) {
         WeaponItem weaponToEquip = weapon != null ? weapon : unarmedWeapon;
 
-        if (isLeft) {
+        if (isLeft && leftHandSlot != null) {
             leftHandSlot.CurrentWeaponItem = weaponToEquip;
             leftHandSlot.LoadWeaponModel(weaponToEquip);
             LoadLeftWeaponDamageCollider();
@@ -90,11 +90,11 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
 
     //TODO: test if this actually works
     public void GrantWeaponAttackingPoiseBonus() {
-        enemyStatsManagerManager.TotalPoise += enemyStatsManagerManager.OffensivePoise;
+        enemyStatsManager.TotalPoise += enemyStatsManager.OffensivePoise;
     }
 
     public void RemoveWeaponAttackingPoiseBonus() {
-        enemyStatsManagerManager.TotalPoise -= enemyStatsManagerManager.OffensivePoise;
+        enemyStatsManager.TotalPoise -= enemyStatsManager.OffensivePoise;
     }
 
     #endregion

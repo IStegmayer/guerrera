@@ -132,10 +132,9 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
             if (character.transform != playerTransform.transform && viewableAngle > -50 &&
                 viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
                 if (Physics.Linecast(playerManager.LockOnTransform.position, character.LockOnTransform.position,
-                        out hit)) {
+                        out hit, collideWithLayers)) {
                     Debug.DrawLine(playerManager.LockOnTransform.position, character.LockOnTransform.position);
-                    if (hit.transform.gameObject.layer != collideWithLayers)
-                        availableTargets.Add(character);
+                    availableTargets.Add(character);
                 }
             }
         }
@@ -143,8 +142,7 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         for (int j = 0; j < availableTargets.Count; j++) {
             Vector3 targetPos = availableTargets[j].transform.position;
 
-            float distanceFromTarget =
-                Vector3.Distance(playerTargetPosition, targetPos);
+            float distanceFromTarget = Vector3.Distance(playerTargetPosition, targetPos);
             if (distanceFromTarget < shortestDistance) {
                 shortestDistance = distanceFromTarget;
                 nearestLockOnTarget = availableTargets[j];

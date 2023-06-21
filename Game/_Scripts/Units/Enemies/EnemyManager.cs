@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace Dzajna {
 public class EnemyManager : CharacterManager {
     private EnemyCharacterAnimatorManager enemyCharacterAnimatorM;
-    private EnemyStatsManagerManager enemyStatsManager;
+    private EnemyStatsManager enemyStatsManager;
 
     public NavMeshAgent NavMeshAgent;
     public Rigidbody Rigidbody;
@@ -46,10 +46,9 @@ public class EnemyManager : CharacterManager {
     protected override void Awake() {
         base.Awake();
         enemyCharacterAnimatorM = GetComponent<EnemyCharacterAnimatorManager>();
-        enemyStatsManager = GetComponent<EnemyStatsManagerManager>();
+        enemyStatsManager = GetComponent<EnemyStatsManager>();
         NavMeshAgent = GetComponentInChildren<NavMeshAgent>();
         Rigidbody = GetComponent<Rigidbody>();
-        BackStabCollider = GetComponentInChildren<CriticalDamageCollider>();
     }
 
     protected override void Start() {

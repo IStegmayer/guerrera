@@ -343,7 +343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9006283397920563364
 Transform:
   m_ObjectHideFlags: 0
@@ -427,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6093317369343499576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 1.066, z: 0.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2086,15 +2086,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a23dddb5c484424a03ade6818df48c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  critRayCastStartPoint: {fileID: 6288102731211109841}
+  backStabberStandPoint: {fileID: 3650913662137212403}
+  riposterStandPoint: {fileID: 3810711463802862197}
+  maxCritDistance: 1.5
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 1088
   LastAttackHash: 0
   CurrentAttackType: 0
-  critRayCastStartPoint: {fileID: 6288102731211109841}
-  backStabLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  riposteLayer:
-    serializedVersion: 2
-    m_Bits: 4096
 --- !u!114 &5353905217364029986
 MonoBehaviour:
   m_ObjectHideFlags: 0

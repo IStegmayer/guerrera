@@ -15,11 +15,6 @@ public class PlayerCombatManager : CharacterCombatManager {
     private InputHandler inputHandler;
     private PlayerCamera playerCamera;
 
-    private float maxCritDistance = 0.75f;
-    [SerializeField] private Transform critRayCastStartPoint;
-    [SerializeField] private LayerMask backStabLayer;
-    [SerializeField] private LayerMask riposteLayer;
-
     public void Awake() {
         playerCharacterAnimatorManager = GetComponent<PlayerCharacterAnimatorManager>();
         playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
@@ -89,78 +84,6 @@ public class PlayerCombatManager : CharacterCombatManager {
 
         // If we are two handing perform weapon art for right weapon
         // else perform art for left handed weapon
-    }
-
-    public void AttemptBackStabOrRiposte() {
-        if (!playerStatsManager.CheckHasStamina()) return;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit,
-                maxCritDistance, backStabLayer)) {
-            CharacterManager enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
-            DamageCollider rightWeapon = playerWeaponSlotManager.RightDamageCollider;
-
-            if (enemyCharacterManager == null) return;
-            // Pull us in position to backstab
-            playerManager.transform.position = enemyCharacterManager.BackStabCollider.GetAttackerStandPoint().position;
-            // rotate towards transform
-            Vector3 rotationDirection = playerManager.transform.root.eulerAngles;
-            rotationDirection = hit.transform.position - playerManager.transform.position;
-            rotationDirection.y = 0;
-            rotationDirection.Normalize();
-            Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation =
-                Quaternion.Slerp(playerManager.transform.rotation, tr, 500f * Time.deltaTime);
-            playerManager.transform.rotation = targetRotation;
-
-            // play animation
-            playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.BackStabHash, true);
-            // make enemy play animation
-            enemyCharacterManager.GetComponent<EnemyCharacterAnimatorManager>()
-                .PlayTargetAnimation(playerCharacterAnimatorManager.BackStabbedHash, true);
-
-            // deal dmg
-            // TODO: this is not taking into account the player stats
-            float critDamage = characterInventoryManager.RightWeapon.BaseDamage *
-                               characterInventoryManager.RightWeapon.CriticalDamageMultiplier;
-            enemyCharacterManager.PendingCriticalDamage = critDamage;
-        }
-        else if (Physics.Raycast(critRayCastStartPoint.position, transform.TransformDirection(Vector3.forward),
-                     out hit, maxCritDistance, riposteLayer)) {
-            //TODO: repeating code
-            CharacterManager enemyCharacterManager = hit.transform.GetComponent<CharacterManager>();
-            DamageCollider rightWeapon = playerWeaponSlotManager.RightDamageCollider;
-
-            if (enemyCharacterManager == null || !enemyCharacterManager.CanBeRiposted) return;
-
-            playerManager.transform.position = enemyCharacterManager.RiposteCollider.GetAttackerStandPoint().position;
-            // rotate towards transform
-            Vector3 rotationDirection = playerManager.transform.root.eulerAngles;
-            rotationDirection = hit.transform.position - playerManager.transform.position;
-            rotationDirection.y = 0;
-            rotationDirection.Normalize();
-            Quaternion tr = Quaternion.LookRotation(rotationDirection);
-            Quaternion targetRotation =
-                Quaternion.Slerp(playerManager.transform.rotation, tr, 500f * Time.deltaTime);
-            playerManager.transform.rotation = targetRotation;
-
-            // play animation
-            playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.RiposteHash, true);
-            // make enemy play animation
-            EnemyCharacterAnimatorManager anm = enemyCharacterManager.GetComponent<EnemyCharacterAnimatorManager>();
-            anm.PlayTargetAnimation(playerCharacterAnimatorManager.RipostedHash, true);
-
-            // deal dmg
-            // TODO: this is not taking into account the player stats
-            float critDamage = characterInventoryManager.RightWeapon.BaseDamage *
-                               characterInventoryManager.RightWeapon.CriticalDamageMultiplier;
-            enemyCharacterManager.PendingCriticalDamage = critDamage;
-        }
-    }
-
-    public void SuccessfullyCastSpell() {
-        characterInventoryManager.CurrentSpell.SuccessfullyCastedSpell(playerManager);
     }
 
     public void HandleWeaponCombo(WeaponItem weaponItem) {

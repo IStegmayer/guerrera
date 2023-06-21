@@ -10,7 +10,6 @@ namespace Dzajna {
 public class DamageCollider : MonoBehaviour {
     public CharacterManager characterManager;
     public bool EnabledOnStartup;
-
     protected Collider damageCollider;
 
     [Header("Damage")] //
@@ -30,7 +29,6 @@ public class DamageCollider : MonoBehaviour {
     protected string currentDamageAnimation;
     protected bool hasBeenParried;
     protected bool shieldHasBeenHit;
-
 
     private void Awake() {
         damageCollider = GetComponent<Collider>();
@@ -59,7 +57,7 @@ public class DamageCollider : MonoBehaviour {
             if (enemyManager == characterManager) return;
             if (charactersDamagedDuringThisCalculation.Contains(enemyManager)) return;
             charactersDamagedDuringThisCalculation.Add(enemyManager);
-            
+
             CheckForBlock(enemyManager);
             CheckForParry(enemyManager);
             if (shieldHasBeenHit || hasBeenParried) return;
@@ -79,14 +77,15 @@ public class DamageCollider : MonoBehaviour {
             }
 
             var aiCharacter = enemyManager as EnemyManager;
-            if (aiCharacter != null) aiCharacter.CurrentTarget = characterManager;
+            if (aiCharacter != null && characterManager.GetType() != typeof(EnemyManager))
+                aiCharacter.CurrentTarget = characterManager;
         }
     }
 
     protected virtual void CheckForParry(CharacterManager enemyManager) {
         if (!enemyManager.IsParrying) return;
 
-        var charAnim = enemyManager.CharacterAnimatorManager;
+        var charAnim = characterManager.CharacterAnimatorManager;
         charAnim.PlayTargetAnimation(charAnim.ParriedHash, true);
         hasBeenParried = true;
     }

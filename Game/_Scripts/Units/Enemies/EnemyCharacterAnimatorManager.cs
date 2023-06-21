@@ -6,7 +6,7 @@ namespace Dzajna
     public class EnemyCharacterAnimatorManager : CharacterAnimatorManager
     {
         private Rigidbody rigidbody;
-        private EnemyStatsManagerManager enemyStatsManagerManager;
+        private EnemyStatsManager enemyStatsManager;
         private EnemyManager enemyManager;
 
         
@@ -15,7 +15,7 @@ namespace Dzajna
             Anim = GetComponent<Animator>();
             rigidbody = GetComponentInChildren<Rigidbody>();
             enemyManager = GetComponent<EnemyManager>();
-            enemyStatsManagerManager = GetComponent<EnemyStatsManagerManager>();
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
         }
 
         protected override void OnAnimatorMove() {
@@ -30,11 +30,11 @@ namespace Dzajna
         public void AwardSoulsOnDeath() {
             PlayerStatsManager playerStatsManager = FindObjectOfType<PlayerStatsManager>();
             SoulCountUI _soulCount = FindObjectOfType<SoulCountUI>();
-            if (playerStatsManager != null) playerStatsManager.AddSouls(enemyStatsManagerManager.SoulsReward);
+            if (playerStatsManager != null) playerStatsManager.AddSouls(enemyStatsManager.SoulsReward);
             if (_soulCount != null) _soulCount.SetSoulCountText(playerStatsManager.SoulCount);
         }
         public override void TakeCriticalDamageAnimEvent() {
-            enemyStatsManagerManager.TakeDamageWithoutAnimation(enemyManager.PendingCriticalDamage);
+            enemyStatsManager.TakeDamageWithoutAnimation(enemyManager.PendingCriticalDamage);
             enemyManager.PendingCriticalDamage = 0;
         }
     }

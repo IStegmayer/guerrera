@@ -26,6 +26,6 @@ MonoBehaviour:
   spellDescription: Fireball!
   BaseDamage: 30
   ProjectileForwardVelocity: 1000
-  ProjectileUpwardVelocity: 300
+  ProjectileUpwardVelocity: 200
   ProjectileMass: 0.1
   UsesGravity: 1

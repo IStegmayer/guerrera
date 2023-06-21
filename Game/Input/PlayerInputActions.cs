@@ -328,7 +328,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""9a8cc622-7bdd-49e2-817e-d441261b548d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Tap(pressPoint=0.2)"",
                     ""initialStateCheck"": false
                 },
                 {

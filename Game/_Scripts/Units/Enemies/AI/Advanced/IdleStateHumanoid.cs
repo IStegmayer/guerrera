@@ -17,11 +17,17 @@ public class IdleStateHumanoid : State {
             CharacterManager targetCharacter = colliders[i].transform.GetComponent<CharacterManager>();
             if (targetCharacter == null) continue;
 
-            // if target is found, check that it's in front of the AI
-            if (enemy.ViewableAngle < enemy.MinDetectionAngle && enemy.ViewableAngle > enemy.MaxDetectionAngle) {
-                if (Physics.Linecast(enemy.LockOnTransform.position, targetCharacter.LockOnTransform.position,
-                        lineOfSightBlockingLayers)) return this;
+            var targetDirection = targetCharacter.transform.position - transform.position;
+            var viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
+            // if target is found, check that it's in front of the AI
+            if (viewableAngle < enemy.MinDetectionAngle && viewableAngle > enemy.MaxDetectionAngle) {
+                // if the AI's potential target has an obstruction in between itself and the AI, we do not add it as our current target
+                Debug.DrawLine(enemy.LockOnTransform.position, targetCharacter.LockOnTransform.position,
+                    Color.blue, 2f);
+                if (Physics.Linecast(enemy.LockOnTransform.position,
+                        targetCharacter.LockOnTransform.position, lineOfSightBlockingLayers))
+                    return this;
                 enemy.CurrentTarget = targetCharacter;
             }
         }
