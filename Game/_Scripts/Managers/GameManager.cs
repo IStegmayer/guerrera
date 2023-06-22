@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class GameManager : StaticInstance<GameManager>
 {
-    [SerializeField] private Transform _playerSpawn;
-    [SerializeField] private Transform _enemySpawn;
-    [SerializeField] private Transform _enemySpawn2;
-    [SerializeField] private Transform _enemySpawn3;
-    [SerializeField] private Transform _enemySpawn4;
-    [SerializeField] private Transform _mainCamera;
-    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private Transform playerSpawn;
+    [SerializeField] private Transform enemySpawn;
+    [SerializeField] private Transform enemySpawn2;
+    [SerializeField] private Transform enemySpawn3;
+    [SerializeField] private Transform enemySpawn4;
+    [SerializeField] private Transform enemySpawn5;
+    [SerializeField] private Transform mainCamera;
+    [SerializeField] private UIManager uiManager;
     public static event Action<GameState> OnBeforeStateChanged;
     public static event Action<GameState> OnAfterStateChanged;
 
@@ -61,9 +62,9 @@ public class GameManager : StaticInstance<GameManager>
     }
 
     private void HandleSpawningHeroes() {
-        // Transform playerInstance = UnitManager.Instance.SpawnPlayer(_playerSpawn);
+        // Transform playerInstance = UnitManager.Instance.SpawnPlayer(playerSpawn);
         // PlayerCamera.Instance.SetTarget(playerInstance.GetComponent<PlayerManager>());
-        // _uiManager.CharacterInventoryManager = playerInstance.GetComponent<CharacterInventoryManager>();
+        // uiManager.CharacterInventoryManager = playerInstance.GetComponent<CharacterInventoryManager>();
         ChangeState(GameState.SpawningEnemies);
     }
 
@@ -75,10 +76,11 @@ public class GameManager : StaticInstance<GameManager>
     }
 
     private void HandleSpawningEnemies() {
-        UnitManager.Instance.SpawnEnemy(_enemySpawn, EnemyType.Shaman);
-        UnitManager.Instance.SpawnEnemy(_enemySpawn2, EnemyType.Shaman);
-        UnitManager.Instance.SpawnEnemy(_enemySpawn3, EnemyType.Goblin);
-        // UnitManager.Instance.SpawnEnemy(_enemySpawn4, EnemyType.BossGoblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
+        UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
         
         ChangeState(GameState.HeroTurn);
     }

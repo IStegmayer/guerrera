@@ -43,9 +43,9 @@ namespace Dzajna
             }
         }
 
-        private void LoadRightWeapon(WeaponItem _weapon) {
-            RightWeapon = _weapon;
-            characterWeaponSlotManager.LoadWeaponOnSlot(_weapon, false);
+        private void LoadRightWeapon(WeaponItem weapon) {
+            RightWeapon = weapon;
+            characterWeaponSlotManager.LoadWeaponOnSlot(weapon, false);
         }
         
         public void ChangeLeftWeapon() {

@@ -23,7 +23,26 @@ MonoBehaviour:
   CriticalDamageMultiplier: 3
   PoiseBreak: 10
   OffensivePoiseBonus: 5
-  physicalDmgAbsorption: 0
+  PhysicalBlockingDamageAbsorption: 0
+  FireBlockingDamageAbsorption: 0
+  Stability: 67
   BaseStamina: 5
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
+  HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  HoldLBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TapRTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldRTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TapLTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldLTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TH_HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TH_TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TH_TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TH_HoldLBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TH_TapRTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  TH_HoldRTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TH_TapLTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  TH_HoldLTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  WeaponWhooshes: []

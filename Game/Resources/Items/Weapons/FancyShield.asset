@@ -23,7 +23,26 @@ MonoBehaviour:
   CriticalDamageMultiplier: 2
   PoiseBreak: 0
   OffensivePoiseBonus: 0
-  physicalDmgAbsorption: 0
+  PhysicalBlockingDamageAbsorption: 0
+  FireBlockingDamageAbsorption: 0
+  Stability: 67
   BaseStamina: 20
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
+  HoldRBAction: {fileID: 0}
+  TapRBAction: {fileID: 0}
+  TapLBAction: {fileID: 11400000, guid: 52b5d5b7311cf2e448fadcc1845a28cd, type: 2}
+  HoldLBAction: {fileID: 11400000, guid: 52b5d5b7311cf2e448fadcc1845a28cd, type: 2}
+  TapRTAction: {fileID: 0}
+  HoldRTAction: {fileID: 0}
+  TapLTAction: {fileID: 11400000, guid: 2e9d90396f9583543980c5beb2470cfd, type: 2}
+  HoldLTAction: {fileID: 0}
+  TH_HoldRBAction: {fileID: 0}
+  TH_TapRBAction: {fileID: 0}
+  TH_TapLBAction: {fileID: 0}
+  TH_HoldLBAction: {fileID: 0}
+  TH_TapRTAction: {fileID: 0}
+  TH_HoldRTAction: {fileID: 0}
+  TH_TapLTAction: {fileID: 0}
+  TH_HoldLTAction: {fileID: 0}
+  WeaponWhooshes: []

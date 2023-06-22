@@ -75,8 +75,8 @@ GameObject:
   - component: {fileID: 5347871352262674883}
   - component: {fileID: 9050176125146613350}
   - component: {fileID: 6520183622409204396}
-  - component: {fileID: 1378032726080690761}
   - component: {fileID: 2080901185607923432}
+  - component: {fileID: 7277684926097094346}
   m_Layer: 11
   m_Name: Short_Sword
   m_TagString: Untagged
@@ -149,19 +149,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1378032726080690761
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4718826854090969977}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.045600925, y: 0.822964, z: 0.24240145}
-  m_Center: {x: 0.00020455747, y: 0.4850616, z: 0.00015245141}
 --- !u!114 &2080901185607923432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +168,17 @@ MonoBehaviour:
   PoiseBreak: 10
   OffensivePoiseBonus: 10
   GuardBreakModifier: 1
+--- !u!136 &7277684926097094346
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718826854090969977}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.10846448
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0.000000043230518, y: 0.57, z: 0.000000009854863}
