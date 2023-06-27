@@ -54,7 +54,7 @@ public class DamageCollider : MonoBehaviour {
             if (enemyManager == null) throw new Exception("No enemy character manager found.");
 
             // TODO: check for teamID to not hit
-            if (enemyManager == characterManager) return;
+            if (enemyManager == characterManager || enemyManager.TeamID == characterManager.TeamID) return;
             if (charactersDamagedDuringThisCalculation.Contains(enemyManager)) return;
             charactersDamagedDuringThisCalculation.Add(enemyManager);
 

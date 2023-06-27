@@ -18,6 +18,7 @@ public class PlayerManager : CharacterManager {
 
     protected override void Awake() {
         base.Awake();
+        TeamID = 1;
         interactableUI = FindObjectOfType<InteractableUI>();
     }
 

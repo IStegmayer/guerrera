@@ -45,6 +45,7 @@ public class EnemyManager : CharacterManager {
 
     protected override void Awake() {
         base.Awake();
+        TeamID = 2;
         enemyCharacterAnimatorM = GetComponent<EnemyCharacterAnimatorManager>();
         enemyStatsManager = GetComponent<EnemyStatsManager>();
         NavMeshAgent = GetComponentInChildren<NavMeshAgent>();

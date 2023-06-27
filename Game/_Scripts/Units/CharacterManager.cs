@@ -48,6 +48,7 @@ namespace Dzajna
         public bool IsBeingRiposted { get; set; }
         public bool IsPerformingBackstab { get; set; }
         public bool IsPerformingRiposte { get; set; }
+        public short TeamID { get; set; }
 
         protected virtual void Awake() {
             CharacterController = GetComponent<CharacterController>();

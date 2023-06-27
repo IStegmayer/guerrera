@@ -3,7 +3,7 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace Dzajna {
-public class InputHandler : PersistentSingleton<InputHandler> {
+public class InputHandler : Singleton<InputHandler> {
     //TODO: This could be renamed and mapped to just the pressed buttons and a dictionary of 
 
     // MOVEMENT
