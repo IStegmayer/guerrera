@@ -9,7 +9,8 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
     private QuickSlotsUI quickSlotsUI;
     private PlayerStatsManager playerStatsManager;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         playerStatsManager = GetComponentInParent<PlayerStatsManager>();
         playerManager = GetComponentInParent<PlayerManager>();
         animManager = GetComponentInParent<PlayerCharacterAnimatorManager>();

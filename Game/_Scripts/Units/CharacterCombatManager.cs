@@ -57,7 +57,7 @@ public class CharacterCombatManager : MonoBehaviour {
                 return;
             }
 
-        if (dotValue >= -0.8f && dotValue <= -0.4f) AttemptBackStab(hit);
+        if (dotValue >= -1.2f && dotValue <= -0.2f) AttemptBackStab(hit);
     }
 
     private void AttemptBackStab(RaycastHit hit) {

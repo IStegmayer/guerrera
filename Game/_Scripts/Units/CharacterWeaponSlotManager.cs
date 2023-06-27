@@ -12,12 +12,7 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
 
     protected CharacterManager character;
 
-    protected virtual void Start() {
-        character = GetComponentInParent<CharacterManager>();
-        LoadWeaponHolderSlots();
-    }
-
-    protected virtual void Awake() { }
+    protected virtual void Awake() => character = GetComponent<CharacterManager>();
 
     public DamageCollider RightDamageCollider { get; protected set; }
     public DamageCollider LeftDamageCollider { get; protected set; }

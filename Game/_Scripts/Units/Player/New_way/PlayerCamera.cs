@@ -4,31 +4,36 @@ using UnityEngine;
 
 namespace Dzajna {
 public class PlayerCamera : PersistentSingleton<PlayerCamera> {
-    [Header("References")] 
-    [SerializeField] private Transform cameraTransform;
+    [Header("References")] [SerializeField]
+    private Transform cameraTransform;
+
     [SerializeField] private Transform cameraPivotTransform;
     [SerializeField] PlayerManager playerManager;
     private Transform playerTransform;
 
-    [Header("Camera Settings")] 
-    [SerializeField] private float minPivot = -30;
+    [Header("Camera Settings")] [SerializeField]
+    private float minPivot = -30;
+
     [SerializeField] private float maxPivot = 60;
     [SerializeField] private float leftAndRightRotationSpeed = 220;
     [SerializeField] private float upAndDownRotationSpeed = 220;
-    [SerializeField] private float cameraSmoothSpeed = 1; // Bigger number means more smoothing. Change depending on different movesets
-    [SerializeField] private float cameraCollisionRadius = 0.2f;
-    [SerializeField] private LayerMask collideWithLayers;
 
-    [Header("Camera Values")] 
-    [SerializeField] private float leftAndRightLookAngle;
+    [SerializeField]
+    private float cameraSmoothSpeed = 1; // Bigger number means more smoothing. Change depending on different movesets
+
+    [SerializeField] private float cameraCollisionRadius = 0.2f;
+    [SerializeField] private LayerMask collisionLayers;
+
+    [Header("Camera Values")] [SerializeField]
+    private float leftAndRightLookAngle;
+
     [SerializeField] private float upAndDownLookAngle;
     private float defaultCameraZPosition; // Values used for camera collisions
     private float targetCameraZPosition; // Values used for camera collisions
     private Vector3 cameraObjectPosition; // Used for camera collisions (moves the camera to this pos upon colliding)
     private Vector3 cameraVelocity;
-    
-    [Header("Lock on")] 
-    [SerializeField] private float maximumLockOnDistance = 30f;
+
+    [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
     [SerializeField] private float lockedPivotPosition = 2.25f;
     [SerializeField] private float unlockedPivotPosition = 1.65f;
     public CharacterManager CurrentLockOnTarget;
@@ -67,8 +72,21 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         float delta = Time.deltaTime;
         SetCameraHeight(delta);
         
-        // IF LOCKED ON, FORCE ROTATION TOWARDS TARGET
-        if (!InputHandler.Instance.LockOnFlag && CurrentLockOnTarget == null) {
+        if (CurrentLockOnTarget != null && CurrentLockOnTarget.IsDead) {
+            Vector3 dir = CurrentLockOnTarget.transform.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            leftAndRightLookAngle = targetRotation.eulerAngles.y;
+            
+            dir = CurrentLockOnTarget.transform.position - cameraPivotTransform.position;
+            targetRotation = Quaternion.LookRotation(dir);
+            // set look angles to the current death position
+            upAndDownLookAngle = targetRotation.eulerAngles.x;
+            
+            ClearLockOnTargets();
+            InputHandler.Instance.ResetLockOnFlag();
+        } 
+        
+        if (!InputHandler.Instance.LockOnFlag) {
             // Rotate based on horizontal/vertical movement of the joystick
             leftAndRightLookAngle += (InputHandler.Instance.CameraX * leftAndRightRotationSpeed) * delta;
             upAndDownLookAngle -= (InputHandler.Instance.CameraY * upAndDownRotationSpeed) * delta;
@@ -88,16 +106,15 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
             targetRotation = Quaternion.Euler(cameraRotation);
             cameraPivotTransform.localRotation = Quaternion.Slerp
                 (cameraPivotTransform.localRotation, targetRotation, cameraSmoothSpeed * delta);
-        }
-        else {
+        } 
+        else { // IF LOCKED ON, FORCE ROTATION TOWARDS TARGET
             float velocity = 0;
             Vector3 targetPos = CurrentLockOnTarget.transform.position;
 
             Vector3 dir = targetPos - transform.position;
             dir.y = 0;
             dir.Normalize();
-
-            //TODO: Slerp both of these?
+            
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Slerp
                 (transform.rotation, targetRotation, cameraSmoothSpeed * delta);
@@ -127,12 +144,11 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
             Vector3 lockTargetDirection = character.transform.position - playerTargetPosition;
             float distanceFromTarget = Vector3.Distance(playerTargetPosition, character.transform.position);
             float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
-            RaycastHit hit;
 
             if (character.transform != playerTransform.transform && viewableAngle > -50 &&
                 viewableAngle < 50 && distanceFromTarget <= maximumLockOnDistance) {
-                if (Physics.Linecast(playerManager.LockOnTransform.position, character.LockOnTransform.position,
-                        out hit, collideWithLayers)) {
+                if (!Physics.Linecast(playerManager.LockOnTransform.position, character.LockOnTransform.position,
+                        collisionLayers)) {
                     Debug.DrawLine(playerManager.LockOnTransform.position, character.LockOnTransform.position);
                     availableTargets.Add(character);
                 }
@@ -185,7 +201,8 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         CurrentLockOnTarget = null;
         leftLockOnTarget = null;
         rightLockOnTarget = null;
-    }    
+    }
+
     private void SetCameraHeight(float delta) {
         Vector3 velocity = Vector3.zero;
         float newPivotY = CurrentLockOnTarget != null ? lockedPivotPosition : unlockedPivotPosition;
@@ -204,7 +221,7 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
 
         // Check for collision with environment
         if (Physics.SphereCast(cameraPivotTransform.position, cameraCollisionRadius, rayDirection, out hit,
-                Mathf.Abs(targetCameraZPosition), collideWithLayers)) {
+                Mathf.Abs(targetCameraZPosition), collisionLayers)) {
             // Get distance from collision object
             float distanceFromHitObject = Vector3.Distance(cameraPivotTransform.position, hit.point);
             targetCameraZPosition = -(distanceFromHitObject - cameraCollisionRadius);
@@ -221,7 +238,7 @@ public class PlayerCamera : PersistentSingleton<PlayerCamera> {
         cameraObjectPosition.y = 0f;
         cameraTransform.localPosition = cameraObjectPosition;
     }
-    
+
     public Quaternion GetCameraRotation() => cameraPivotTransform.rotation;
     public Transform GetCameraTransform() => cameraPivotTransform;
 }

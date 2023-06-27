@@ -337,6 +337,8 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     
     public void SetComboFlag(bool val) => ComboFlag = val;
 
+    public void ResetLockOnFlag() => LockOnFlag = false;
+
     public void OnDisable() {
         // making sure to cleanup
         inputActions.Disable();

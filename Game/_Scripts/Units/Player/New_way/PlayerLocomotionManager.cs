@@ -22,6 +22,7 @@ namespace Dzajna
         [SerializeField] private float sprintSpeed = 8;
 
         [SerializeField] private float rotationSpeed = 10;
+        [SerializeField] private float attackingRotationSpeed = 1000;
 
         [Header("Stamina Costs")] 
         [SerializeField] private float rollStaminaCost;
@@ -77,13 +78,14 @@ namespace Dzajna
         public void HandleRotation(float delta) {
             if (!playerCharacterAnimatorManager.CanRotate) return;
             
+            float rs = player.IsInteracting ? attackingRotationSpeed : rotationSpeed;
             if (inputHandler.LockOnFlag && !player.IsSprinting) {
                 Vector3 rotationDirection = moveDirection;
                 rotationDirection = playerCamera.CurrentLockOnTarget.transform.position - transform.position;
                 rotationDirection.y = 0;
                 rotationDirection.Normalize();
                 Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rs * delta);
 
                 transform.rotation = targetRotation;
             }
@@ -97,8 +99,6 @@ namespace Dzajna
                 targetDir.y = 0;
 
                 if (targetDir == Vector3.zero) targetDir = MyTransform.forward;
-
-                float rs = rotationSpeed;
 
                 Quaternion transformRotation = Quaternion.LookRotation(targetDir);
                 Quaternion targetRotation = Quaternion.Slerp(MyTransform.rotation, transformRotation, rs * delta);

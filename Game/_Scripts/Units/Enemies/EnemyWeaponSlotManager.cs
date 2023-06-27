@@ -15,8 +15,7 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
         LoadWeaponHolderSlots();
     }
 
-    protected override void Start() {
-        base.Start();
+    protected void Start() {
         if (rightHandWeapon != null) LoadWeaponOnSlot(rightHandWeapon, false);
         if (leftHandWeapon != null) LoadWeaponOnSlot(leftHandWeapon, true);
     }
