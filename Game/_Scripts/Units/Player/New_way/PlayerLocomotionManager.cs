@@ -89,22 +89,24 @@ namespace Dzajna
 
                 transform.rotation = targetRotation;
             }
-            else {
-                Vector3 targetDir = Vector3.zero;
-                float moveOverride = inputHandler.MoveAmount;
+            else RotateBasedOnInput(rs, delta);
+        }
 
-                targetDir = cameraTransform.forward * inputHandler.Vertical;
-                targetDir += cameraTransform.right * inputHandler.Horizontal;
-                targetDir.Normalize();
-                targetDir.y = 0;
+        private void RotateBasedOnInput(float rs, float delta) {
+            Vector3 targetDir = Vector3.zero;
+            float moveOverride = inputHandler.MoveAmount;
 
-                if (targetDir == Vector3.zero) targetDir = MyTransform.forward;
+            targetDir = cameraTransform.forward * inputHandler.Vertical;
+            targetDir += cameraTransform.right * inputHandler.Horizontal;
+            targetDir.Normalize();
+            targetDir.y = 0;
 
-                Quaternion transformRotation = Quaternion.LookRotation(targetDir);
-                Quaternion targetRotation = Quaternion.Slerp(MyTransform.rotation, transformRotation, rs * delta);
+            if (targetDir == Vector3.zero) targetDir = MyTransform.forward;
 
-                MyTransform.rotation = targetRotation;
-            }
+            Quaternion transformRotation = Quaternion.LookRotation(targetDir);
+            Quaternion targetRotation = Quaternion.Slerp(MyTransform.rotation, transformRotation, rs * delta);
+
+            MyTransform.rotation = targetRotation;
         }
 
         public void HandleRolling(float delta) {
@@ -113,6 +115,7 @@ namespace Dzajna
             if (!playerStatsManager.CheckHasStamina()) return;
 
             if (inputHandler.MoveAmount > 0) {
+                RotateBasedOnInput(attackingRotationSpeed, delta);
                 playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.RollHash, true);
                 playerStatsManager.TakeStaminaDamage(rollStaminaCost);
             }

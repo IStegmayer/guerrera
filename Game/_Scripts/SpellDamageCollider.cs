@@ -8,7 +8,7 @@ public class SpellDamageCollider : DamageCollider {
     public GameObject MuzzleParticles;
 
     private bool hasCollided;
-    private CharacterStatsManager spellTarget;
+    private CharacterManager spellTarget;
     private Rigidbody rigidbody;
     private Vector3 impactNormal; //Used to rotate impact particles
 
@@ -29,8 +29,9 @@ public class SpellDamageCollider : DamageCollider {
     private void OnTriggerEnter(Collider other) {
         if (hasCollided) return;
 
-        spellTarget = other.transform.GetComponent<CharacterStatsManager>();
-        if (spellTarget != null) spellTarget.TakeDamage(PhysicalDamage); 
+        spellTarget = other.transform.GetComponent<CharacterManager>();
+        if (spellTarget.IsInvulnerable) return;
+        if (spellTarget != null) spellTarget.CharacterStatsManager.TakeDamage(PhysicalDamage);
         
         hasCollided = true;
         ImpactParticles = Instantiate(ImpactParticles, transform.position,

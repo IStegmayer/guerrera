@@ -52,6 +52,11 @@ public class DamageCollider : MonoBehaviour {
 
             CharacterManager enemyManager = collision.gameObject.GetComponentInParent<CharacterManager>();
             if (enemyManager == null) throw new Exception("No enemy character manager found.");
+            //TODO: change this sfx for something more suitable
+            if (enemyManager.IsInvulnerable) {
+                AudioSystem.Instance.PlaySound("playerBlock", enemyManager.transform.position);
+                return;
+            } 
 
             // TODO: check for teamID to not hit
             if (enemyManager == characterManager || enemyManager.TeamID == characterManager.TeamID) return;
@@ -66,7 +71,7 @@ public class DamageCollider : MonoBehaviour {
             CharacterStatsManager charStats = enemyManager.CharacterStatsManager;
             string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
             Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
-
+            
             charEffectsManager.PlayBloodSplatterFX(contactPoint);
             charStats.ResetPoiseTimer();
             charStats.DealPoiseDamage(PoiseBreak);

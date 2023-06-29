@@ -51,8 +51,9 @@ public class CharacterCombatManager : MonoBehaviour {
 
         Debug.Log("CURRENT DOT VALUE IS " + dotValue);
 
+        //TODO: make these distances variables
         if (enemyCharacter.CanBeRiposted)
-            if (dotValue <= 1.2f && dotValue >= 0.6f) {
+            if (dotValue <= 1.2f && dotValue >= 0.2f) {
                 AttemptRiposte(hit);
                 return;
             }
