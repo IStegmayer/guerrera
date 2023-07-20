@@ -10,7 +10,7 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private StaminaBar staminaBar;
-    [SerializeField] private StatusBar FPBar;
+    [SerializeField] private FPBar FPBar;
     private Coroutine deathRoutine;
 
     public int SoulCount = 0;
@@ -31,7 +31,7 @@ public class PlayerStatsManager : CharacterStatsManager {
         currentStamina = maxStamina;
 
         maxFP = SetMaxFPAmountFromFocusLevel();
-        FPBar.SetMaxStat(maxFP);
+        FPBar.SetMaxFP(maxFP);
         currentFP = maxFP;
     }
 
@@ -47,7 +47,7 @@ public class PlayerStatsManager : CharacterStatsManager {
     private int SetMaxStaminaFromStaminaLevel() {
         return staminaLevel * staminaPerLevel;
     }
-    private int SetMaxFPAmountFromFocusLevel() {
+    private float SetMaxFPAmountFromFocusLevel() {
         return focusLevel * focusPerLevel;
     }
 
@@ -57,27 +57,27 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     public override void TakeDamageWithoutAnimation(float dmg) {
         if (player.IsDead || player.IsInvulnerable) return;
+        
         currentHealth -= dmg;
+        healthBar.SetCurrentHealth(currentHealth);
             
         if (currentHealth <= 0) {
             deathRoutine = StartCoroutine(DeathRoutine());
             player.IsDead = true;
         }
+        
     }
 
     public override void TakeDamage(float dmg, string dmgAnimation = "Damage1") {
         if (player.IsDead || player.IsInvulnerable) return;
         
         currentHealth -= dmg;
+        healthBar.SetCurrentHealth(currentHealth);
         
         if (currentHealth <= 0) {
-            playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.DeathHash, true);   
             deathRoutine = StartCoroutine(DeathRoutine());
             player.IsDead = true;
-        }
-        
-        healthBar.SetCurrentHealth(currentHealth);
-        playerCharacterAnimatorManager.PlayTargetAnimation(dmgAnimation, true);
+        } else playerCharacterAnimatorManager.PlayTargetAnimation(dmgAnimation, true);
     }
     public override void TakeStaminaDamage(float dmg) {
         base.TakeStaminaDamage(dmg);
@@ -85,16 +85,17 @@ public class PlayerStatsManager : CharacterStatsManager {
     }
 
     private IEnumerator DeathRoutine() {
+        playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.DeathHash, true);   
         // start death animation
         yield return new WaitForSeconds(1f);
         GameManager.Instance.ChangeState(GameState.Lose);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         UnitManager.Instance.DespawnPlayer(transform.gameObject);
     }
 
     public void TakeFPDamage(float dmg) {
         currentFP -= dmg;
-        FPBar.SetCurrentStat(currentFP);
+        FPBar.SetCurrentFP(currentFP);
     }
 
     public void RegenerateStamina() {
@@ -103,7 +104,7 @@ public class PlayerStatsManager : CharacterStatsManager {
         if (player.IsInteracting || player.IsSprinting) staminaRegenTimer = 0;
         else {
             staminaRegenTimer += Time.deltaTime;
-            if (staminaRegenTimer > 1f) {
+            if (staminaRegenTimer > staminaResetTime) {
                 currentStamina += staminaRegenAmount * Time.deltaTime;
                 staminaBar.SetCurrentStamina(currentStamina);
             }

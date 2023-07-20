@@ -30,8 +30,11 @@ public class SpellDamageCollider : DamageCollider {
         if (hasCollided) return;
 
         spellTarget = other.transform.GetComponent<CharacterManager>();
-        if (spellTarget.IsInvulnerable) return;
-        if (spellTarget != null) spellTarget.CharacterStatsManager.TakeDamage(PhysicalDamage);
+        if (spellTarget != null) {
+            if (spellTarget.IsInvulnerable) return;
+            
+            spellTarget.CharacterStatsManager.TakeDamage(PhysicalDamage);
+        }
         
         hasCollided = true;
         ImpactParticles = Instantiate(ImpactParticles, transform.position,

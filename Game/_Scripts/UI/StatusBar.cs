@@ -21,20 +21,10 @@ public class StatusBar : MonoBehaviour
         slider.value = maxStat;
     }
 
-    public void SetMaxStat(int maxStat)
-    {
-        slider.maxValue = maxStat;
-        slider.value = maxStat;
-    }
-
     public void SetCurrentStat(float currentStat)
     {
         slider.value = currentStat;
     }
 
-    public void SetCurrentStat(int currentStat)
-    {
-        slider.value = currentStat;
-    }
 }
 }

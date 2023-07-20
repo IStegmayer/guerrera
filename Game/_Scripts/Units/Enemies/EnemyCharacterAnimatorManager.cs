@@ -20,6 +20,7 @@ namespace Dzajna
 
         protected override void OnAnimatorMove() {
             Vector3 deltaPosition = Anim.deltaPosition;
+            deltaPosition.y -= 9.8f * Time.deltaTime;
             characterManager.CharacterController.Move(deltaPosition);
             characterManager.transform.rotation *= Anim.deltaRotation;
         

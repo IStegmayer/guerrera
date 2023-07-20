@@ -14,13 +14,13 @@ namespace Dzajna
             slider = GetComponent<Slider>();
         }
 
-        public void SetMaxStamina(float _maxStamina) {
-            slider.maxValue = _maxStamina;
-            slider.value = _maxStamina;
+        public void SetMaxStamina(float maxStamina) {
+            slider.maxValue = maxStamina;
+            slider.value = maxStamina * 0.312f;
         }
 
-        public void SetCurrentStamina(float _currentStamina) {
-            slider.value = _currentStamina;
+        public void SetCurrentStamina(float currentStamina) {
+            slider.value = currentStamina * 0.312f;
         }
     }
 }

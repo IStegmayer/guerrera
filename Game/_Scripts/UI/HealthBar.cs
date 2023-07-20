@@ -14,13 +14,13 @@ namespace Dzajna
             slider = GetComponent<Slider>();
         }
 
-        public void SetMaxHealth(float _maxHealth) {
-            slider.maxValue = _maxHealth;
-            slider.value = _maxHealth;
+        public void SetMaxHealth(float maxHealth) {
+            slider.maxValue = maxHealth;
+            slider.value = maxHealth * 0.35f;
         }
 
-        public void SetCurrentHealth(float _currentHealth) {
-            slider.value = _currentHealth;
+        public void SetCurrentHealth(float currentHealth) {
+            slider.value = currentHealth * 0.35f;
         }
     }
 }

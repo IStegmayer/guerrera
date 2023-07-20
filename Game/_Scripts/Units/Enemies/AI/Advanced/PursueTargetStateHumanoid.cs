@@ -41,11 +41,11 @@ public class PursueTargetStateHumanoid : State {
         else {
             Vector3 relativeDirection =
                 transform.InverseTransformDirection(enemyManager.NavMeshAgent.desiredVelocity);
-            Vector3 targetVelocity = enemyManager.Rigidbody.velocity;
+            // Vector3 targetVelocity = enemyManager.Rigidbody.velocity;
 
             enemyManager.NavMeshAgent.enabled = true;
             enemyManager.NavMeshAgent.SetDestination(enemyManager.CurrentTarget.transform.position);
-            enemyManager.Rigidbody.velocity = targetVelocity;
+            // enemyManager.Rigidbody.velocity = targetVelocity;
             enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation,
                 enemyManager.NavMeshAgent.transform.rotation, enemyManager.RotationSpeed);
         }

@@ -8,6 +8,7 @@ public class CharacterStatsManager : MonoBehaviour {
     [SerializeField] protected int healthPerLevel = 5;
     [SerializeField] protected int staminaLevel = 10;
     [SerializeField] protected int staminaPerLevel = 5;
+    [SerializeField] protected float staminaResetTime = .05f;
     [SerializeField] protected float staminaRegenAmount = 2f;
     [SerializeField] protected int focusLevel = 10;
     [SerializeField] protected int focusPerLevel = 5;

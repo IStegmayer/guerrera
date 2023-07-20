@@ -30,6 +30,7 @@ public class DamageCollider : MonoBehaviour {
     protected bool hasBeenParried;
     protected bool shieldHasBeenHit;
 
+
     private void Awake() {
         damageCollider = GetComponent<Collider>();
         damageCollider.gameObject.SetActive(true);
@@ -56,7 +57,13 @@ public class DamageCollider : MonoBehaviour {
             if (enemyManager.IsInvulnerable) {
                 AudioSystem.Instance.PlaySound("playerBlock", enemyManager.transform.position);
                 return;
-            } 
+            }
+
+            if (enemyManager.IsBeingBackstabbed) {
+                enemyManager.CharacterEffectsManager.SetLastHitPosition(
+                        collision.ClosestPointOnBounds(transform.position));
+                return;
+            }
 
             // TODO: check for teamID to not hit
             if (enemyManager == characterManager || enemyManager.TeamID == characterManager.TeamID) return;
@@ -71,7 +78,7 @@ public class DamageCollider : MonoBehaviour {
             CharacterStatsManager charStats = enemyManager.CharacterStatsManager;
             string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
             Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
-            
+
             charEffectsManager.PlayBloodSplatterFX(contactPoint);
             charStats.ResetPoiseTimer();
             charStats.DealPoiseDamage(PoiseBreak);

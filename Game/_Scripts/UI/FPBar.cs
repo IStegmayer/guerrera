@@ -10,13 +10,13 @@ public class FPBar : MonoBehaviour {
         slider = GetComponent<Slider>();
     }
 
-    public void SetMaxFP(int _maxFP) {
-        slider.maxValue = _maxFP;
-        slider.value = _maxFP;
+    public void SetMaxFP(float maxFP) {
+        slider.maxValue = maxFP;
+        slider.value = maxFP * 0.652f;
     }
 
-    public void SetCurrentFP(float _currentFP) {
-        slider.value = _currentFP;
+    public void SetCurrentFP(float currentFP) {
+        slider.value = currentFP * 0.652f;
     }
 }
 }
