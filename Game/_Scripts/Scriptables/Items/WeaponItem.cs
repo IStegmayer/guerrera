@@ -53,6 +53,6 @@ public class WeaponItem : Item {
     public ItemAction TH_HoldLTAction;
     
     [Header("SOUND FX")] // 
-    public AudioClip[] WeaponWhooshes;
+    public Sound[] WeaponWhooshes;
 }
 }

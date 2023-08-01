@@ -11,7 +11,7 @@ namespace Dzajna
         public CharacterInventoryManager CharacterInventoryManager;
         public CharacterEffectsManager CharacterEffectsManager;
         public CharacterCombatManager CharacterCombatManager;
-        // public CharacterSoundFXManager characterSoundFXManager;
+        public CharacterSFXManager CharacterSfxManager;
         public CharacterController CharacterController;
         
         [Header("Lock On Transform")]
@@ -59,7 +59,7 @@ namespace Dzajna
             CharacterInventoryManager = GetComponent<CharacterInventoryManager>();
             CharacterEffectsManager = GetComponent<CharacterEffectsManager>();
             CharacterCombatManager = GetComponent<CharacterCombatManager>();
-            // characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
+            CharacterSfxManager = GetComponent<CharacterSFXManager>();
         }
 
         protected virtual void Start() {

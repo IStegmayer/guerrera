@@ -69,16 +69,14 @@ public class GameManager : StaticInstance<GameManager>
     }
 
     private void HandleWin() {
-        AudioSystem.Instance.PlaySound("gameWin", Vector3.zero);
     }
     private void HandleLose() {
-        AudioSystem.Instance.PlaySound("gameLose", Vector3.zero);
     }
 
     private void HandleSpawningEnemies() {
         UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.Goblin);
-        UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.Goblin);
-        UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.Goblin);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.Goblin);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.Goblin);
         UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
         UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
         

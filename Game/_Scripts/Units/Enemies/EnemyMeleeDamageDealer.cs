@@ -21,7 +21,6 @@ public class EnemyMeleeDamageDealer : MonoBehaviour
         if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         if (!other.gameObject.TryGetComponent(out BaseUnit player)) return;
         
-        AudioSystem.Instance.PlaySound("playerDamage", player.transform.position);
         player.TakeDamage(enemy.Stats.BaseAttackPower + weaponDmg);
         canDealDamage = false;
     }

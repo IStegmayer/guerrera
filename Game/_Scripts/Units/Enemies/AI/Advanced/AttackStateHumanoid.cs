@@ -45,7 +45,7 @@ public class AttackStateHumanoid : State {
     private State ProcessShamanCombatStyle(EnemyManager enemy) {
         RotateTowardsTargetWhilstAttacking(enemy);
 
-        if (enemy.IsInteracting) return this;
+        if (enemy.IsInteracting ||enemy.CurrentTarget == null) return this;
 
         if (enemy.IsFiringSpell) {
             ResetStateFlags();

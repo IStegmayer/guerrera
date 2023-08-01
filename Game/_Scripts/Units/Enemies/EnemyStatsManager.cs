@@ -10,16 +10,16 @@ public class EnemyStatsManager : CharacterStatsManager {
     public int SoulsReward;
     public bool IsBoss;
     private EnemyManager enemyManager;
-    private EnemyCharacterAnimatorManager enemyCharacterAnimatorManager;
+    private EnemyCharacterAnimatorManager enemyAnim;
     private EnemyBossManager enemyBossManager;
 
     private Coroutine deathRoutine;
 
     private void Awake() {
         enemyManager = GetComponent<EnemyManager>();
-        enemyCharacterAnimatorManager = GetComponent<EnemyCharacterAnimatorManager>();
+        enemyAnim = GetComponent<EnemyCharacterAnimatorManager>();
         enemyBossManager = GetComponent<EnemyBossManager>();
-        maxHealth = SetMaxHealthFromHealthLevel();      
+        maxHealth = SetMaxHealthFromHealthLevel();
         maxFP = SetMaxFPAmountFromFocusLevel();
         currentFP = maxFP;
         currentHealth = maxHealth;
@@ -33,11 +33,11 @@ public class EnemyStatsManager : CharacterStatsManager {
         if (PoiseResetTimer > 0) PoiseResetTimer = PoiseResetTimer - Time.deltaTime;
         else if (!enemyManager.IsInteracting) TotalPoise = ArmorPoise;
     }
-    
+
     private int SetMaxFPAmountFromFocusLevel() {
         return focusLevel * focusPerLevel;
     }
-    
+
     private int SetMaxHealthFromHealthLevel() {
         return healthLevel * healthPerLevel;
     }
@@ -45,13 +45,12 @@ public class EnemyStatsManager : CharacterStatsManager {
     public override void TakeDamageWithoutAnimation(float dmg) {
         if (enemyManager.IsDead) return;
         if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted) return;
-        
+
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
         else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (currentHealth <= 0) {
-            // enemyCharacterAnimatorManager.PlayTargetAnimation("Death", true);
             deathRoutine = StartCoroutine(DeathRoutine());
             enemyManager.IsDead = true;
         }
@@ -59,7 +58,7 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     public override void TakeDamage(float dmg, string dmgAnimation = "Damage1") {
         if (enemyManager.IsDead || enemyManager.IsInvulnerable) return;
-        
+
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) {
             enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
@@ -68,14 +67,14 @@ public class EnemyStatsManager : CharacterStatsManager {
 
         if (enemyManager.IsPhaseShifting) return;
         
-
         if (currentHealth <= 0) {
-            enemyCharacterAnimatorManager.PlayTargetAnimation("Death", true);
+            //TODO: holy shit
+            enemyAnim.PlayTargetAnimation(enemyAnim.DeathHash, true);
             deathRoutine = StartCoroutine(DeathRoutine());
             enemyManager.IsDead = true;
         }
         else {
-            enemyCharacterAnimatorManager.PlayTargetAnimation(dmgAnimation, true);
+            enemyAnim.PlayTargetAnimation(dmgAnimation, true);
         }
     }
 

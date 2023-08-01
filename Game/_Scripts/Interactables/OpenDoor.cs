@@ -10,12 +10,16 @@ public class OpenDoor : Interactable {
     [SerializeField] private Transform leftDoor;
     [SerializeField] private float animDuration;
     [SerializeField] private AnimationCurve animationCurve;
+    [SerializeField] private AudioClip openClip;
+    [SerializeField] private AudioClip endClip;
     private Quaternion initialRotation;
     private OpenDoor openDoor;
+    private AudioSource audioSource;
 
     private void Start() {
         initialRotation = rightDoor.rotation;
         openDoor = GetComponent<OpenDoor>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void Interact(PlayerManager playerManager) {
@@ -26,6 +30,8 @@ public class OpenDoor : Interactable {
         
         CharacterAnimatorManager anim = playerManager.GetComponent<CharacterAnimatorManager>();
         anim.PlayTargetAnimation("OpenDoubleDoor", true);
+        audioSource.clip = openClip;
+        audioSource.PlayDelayed(0.5f);
         // animate door
         StartCoroutine(OpenDoors());
     } 
@@ -38,14 +44,19 @@ public class OpenDoor : Interactable {
             timeElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(timeElapsed / animDuration);
             float curveValue = animationCurve.Evaluate(t);
+
+            audioSource.volume = curveValue;
             Quaternion targetRotation = initialRotation * Quaternion.Euler(0, -curveValue * 80.0f, 0);
             leftDoor.rotation = targetRotation;
             targetRotation = initialRotation * Quaternion.Euler(0, curveValue * 80.0f, 0);
             rightDoor.rotation = targetRotation;
             yield return null;
         }
-        
-        Destroy(openDoor);
+
+        audioSource.Stop();
+        audioSource.clip = endClip;
+        audioSource.Play();
+        Destroy(openDoor, 0.5f);
     }
 }
 }

@@ -60,7 +60,7 @@ public class DamageCollider : MonoBehaviour {
             }
 
             if (enemyManager.IsBeingBackstabbed) {
-                enemyManager.CharacterEffectsManager.SetLastHitPosition(
+                characterManager.CharacterEffectsManager.SetLastHitPosition(
                         collision.ClosestPointOnBounds(transform.position));
                 return;
             }
@@ -76,6 +76,7 @@ public class DamageCollider : MonoBehaviour {
 
             CharacterEffectsManager charEffectsManager = enemyManager.CharacterEffectsManager;
             CharacterStatsManager charStats = enemyManager.CharacterStatsManager;
+            //TODO: this is not necessary anymore
             string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
             Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
 
@@ -99,6 +100,7 @@ public class DamageCollider : MonoBehaviour {
 
         var charAnim = characterManager.CharacterAnimatorManager;
         charAnim.PlayTargetAnimation(charAnim.ParriedHash, true);
+        enemyManager.CharacterSfxManager.PlayParrySound();
         hasBeenParried = true;
     }
 
@@ -112,6 +114,7 @@ public class DamageCollider : MonoBehaviour {
         if (dotValueFromPlayerToEnemy < 0.3f) return;
 
         shieldHasBeenHit = true;
+        enemyManager.CharacterSfxManager.PlayBlockSound();
         var physicalDamageAfterBlock =
             PhysicalDamage - PhysicalDamage * enemyShield.BlockingPhysicalDamageAbsorption / 100;
 

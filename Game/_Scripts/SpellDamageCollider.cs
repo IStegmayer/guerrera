@@ -4,26 +4,25 @@ using UnityEngine;
 namespace Dzajna {
 public class SpellDamageCollider : DamageCollider {
     public GameObject ImpactParticles;
-    public GameObject ProjectileParticles;
     public GameObject MuzzleParticles;
+    public Sound explosionSound;
 
     private bool hasCollided;
     private CharacterManager spellTarget;
-    private Rigidbody rigidbody;
+    private AudioSource audioSource;
+    private ParticleSystem particleSystem;
     private Vector3 impactNormal; //Used to rotate impact particles
 
     private void Start() {
-        ProjectileParticles = Instantiate(ProjectileParticles, transform.position, transform.rotation);
-        ProjectileParticles.transform.parent = transform;
 
         if (MuzzleParticles) {
             Instantiate(MuzzleParticles, transform.position, transform.rotation);
-            // Destroy(MuzzleParticles, 2f);
         }
     }
 
     private void Awake() {
-        rigidbody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+        particleSystem = GetComponent<ParticleSystem>();
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -37,12 +36,12 @@ public class SpellDamageCollider : DamageCollider {
         }
         
         hasCollided = true;
+        audioSource.PlayOneShot(explosionSound.Clip, explosionSound.Volume);
         ImpactParticles = Instantiate(ImpactParticles, transform.position,
             Quaternion.FromToRotation(Vector3.up, impactNormal));
         
-        Destroy(ProjectileParticles);
-        Destroy(ImpactParticles, 1f);
-        Destroy(gameObject, 1f);
+        particleSystem.Stop();
+        Destroy(gameObject,1f);
     }
 }
 }

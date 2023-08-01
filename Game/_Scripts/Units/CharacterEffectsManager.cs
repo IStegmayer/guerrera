@@ -10,6 +10,7 @@ public class CharacterEffectsManager : MonoBehaviour {
     public WeaponFX RightWeaponFX { get; set; }
     public WeaponFX LeftWeaponFX { get; set; }
 
+
     public virtual void PlayRightWeaponFX() {
         if (RightWeaponFX != null) RightWeaponFX.PlayWeaponFX();
     }
@@ -34,5 +35,6 @@ public class CharacterEffectsManager : MonoBehaviour {
     }
 
     public virtual void SetLastHitPosition(Vector3 pos) => lastHitPosition = pos;
+    
 }
 }

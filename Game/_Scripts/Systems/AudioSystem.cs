@@ -6,6 +6,8 @@ using System;
 /// Ensure you change the 'Sounds' audio Source to use 3D spatial blend if you intend to use 3D sounds.
 /// </summary>
 public class AudioSystem : StaticInstance<AudioSystem> {
+    [SerializeField][Range(0f, 1f)] private float musicVolume;
+    [SerializeField][Range(0f, 1f)] private float soundsVolume;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundsSource;
 
@@ -21,10 +23,6 @@ public class AudioSystem : StaticInstance<AudioSystem> {
         }
     }
 
-    private void PlayGoblinKilled(BasicGoblin goblin) {
-        PlaySound("enemyDeath", goblin.transform.position);
-    }
-
     public void PlayMusic(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.Name == soundName);
         if (s == null) {
@@ -32,17 +30,17 @@ public class AudioSystem : StaticInstance<AudioSystem> {
             return;
         }
 
-        musicSource.clip = s.Clip;
-        musicSource.loop = s.Loop;
-        musicSource.volume = s.Volume;
+        musicSource.clip = s.Source.clip;
+        musicSource.loop = s.Source.loop;
+        musicSource.volume = s.Source.volume;
 
         musicSource.Play();
     }
 
-    public void PlaySound(string soundName, Vector3 pos, float vol = 1) {
+    public void PlaySound(string soundName, Vector3 pos) {
         Sound s = Array.Find(sounds, sound => sound.Name == soundName);
         if (s == null) {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + soundName + " not found!");
             return;
         }
 
@@ -54,20 +52,6 @@ public class AudioSystem : StaticInstance<AudioSystem> {
         if (soundsSource.loop)
             soundsSource.Play();
         else
-            soundsSource.PlayOneShot(soundsSource.clip, vol);
+            soundsSource.PlayOneShot(soundsSource.clip, soundsSource.volume);
     }
-
-    #region Events
-
-    private void OnEnable() {
-        BasicGoblin.GoblinKilled += PlayGoblinKilled;
-        //BasicGoblin.GoblinDamaged;
-        //BasicGoblin.GoblinSpawned;
-    }
-
-    private void OnDisable() {
-        BasicGoblin.GoblinKilled -= PlayGoblinKilled;
-    }
-
-    #endregion
 }
