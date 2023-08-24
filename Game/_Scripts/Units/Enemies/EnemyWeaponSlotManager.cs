@@ -16,8 +16,8 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
     }
 
     protected void Start() {
-        if (rightHandWeapon != null) LoadWeaponOnSlot(rightHandWeapon, false);
-        if (leftHandWeapon != null) LoadWeaponOnSlot(leftHandWeapon, true);
+        LoadWeaponOnSlot(rightHandWeapon, false);
+        LoadWeaponOnSlot(leftHandWeapon, true);
     }
 
     private void LoadWeaponHolderSlots() {
@@ -72,11 +72,17 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
     }
 
     protected override void LoadRightWeaponDamageCollider() {
-        RightDamageCollider =
-            rightHandSlot.CurrentWeaponModel.GetComponentInChildren<DamageCollider>();
+        WeaponItem weapon = rightHandSlot.CurrentWeaponItem;
+        GameObject weaponModel = rightHandSlot.CurrentWeaponModel;
+
+        RightDamageCollider = weaponModel.GetComponentInChildren<DamageCollider>();
         RightDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
-            
-        characterEffectsManager.RightWeaponFX = rightHandSlot.CurrentWeaponModel.GetComponentInChildren<WeaponFX>();
+        RightDamageCollider.PhysicalDamage = weapon.BaseDamage;
+        RightDamageCollider.PoiseBreak = weapon.PoiseBreak;
+        RightDamageCollider.OffensivePoiseBonus = weapon.OffensivePoiseBonus;
+
+        WeaponFX weaponFX = weaponModel.GetComponentInChildren<WeaponFX>();
+        if (weaponFX != null) character.CharacterEffectsManager.RightWeaponFX = weaponFX;
     }
 
     public void OpenDamageCollider() {

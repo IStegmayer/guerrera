@@ -8,6 +8,7 @@ public class CharacterSFXManager : MonoBehaviour {
     [SerializeField] private Sound[] characterSounds;
     [SerializeField] private Sound[] damageSounds;
     [SerializeField] private Sound deathSound;
+    [SerializeField] private Sound staggerSound;
     private Sound[] weaponWhooshes;
     private AudioSource audioSource;
     private CharacterManager character;
@@ -28,6 +29,7 @@ public class CharacterSFXManager : MonoBehaviour {
     // Animation events
     public void PlayWeaponSound() => PlaySound(PickRandomSound(weaponWhooshes, ref lastSwooshSFXIndex));
     public void PlayDamageSound() => PlaySound(PickRandomSound(damageSounds, ref lastDamageSFXIndex));
+    public void PlayStaggerSound() => PlaySound(staggerSound);
     public void PlayDeathSound() => PlaySound(deathSound);
     public void PlayFootstepSound() {
         if (!character.IsInteracting) PlaySound(FindSoundByName("footstep"));

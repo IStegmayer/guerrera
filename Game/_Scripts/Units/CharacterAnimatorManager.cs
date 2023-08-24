@@ -60,6 +60,7 @@ public class CharacterAnimatorManager : MonoBehaviour {
     public int GuardBreakHash { get; private set; }
     public int BlockDamage1Hash { get; private set; }
     public int Damage1Hash { get; private set; }
+    public int StaggerFrontHash { get; private set; }
     public int TurnAroundHash { get; private set; }
     public int TurnRightHash { get; private set; }
     public int TurnLeftHash { get; private set; }
@@ -93,6 +94,7 @@ public class CharacterAnimatorManager : MonoBehaviour {
         FallHash = Animator.StringToHash("Fall");
         EmptyHash = Animator.StringToHash("Empty");
         Damage1Hash = Animator.StringToHash("Damage1");
+        StaggerFrontHash = Animator.StringToHash("StaggerFront");
         BlockDamage1Hash = Animator.StringToHash("BlockDamage1");
         DeathHash = Animator.StringToHash("Death");
         JumpHash = Animator.StringToHash("Jump");
@@ -175,12 +177,22 @@ public class CharacterAnimatorManager : MonoBehaviour {
 
     public virtual void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
     public virtual void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
-
-    //TODO: does this actually work?
+    
     public virtual void EnableIsParrying() => characterManager.IsParrying = true;
     public virtual void DisableIsParrying() => characterManager.IsParrying = false;
-    public virtual void EnableCanBeRiposted() => characterManager.CanBeRiposted = true;
-    public virtual void DisableCanBeRiposted() => characterManager.CanBeRiposted = false;
+    //TODO: change the animator value 
+    public virtual void EnableCanBeRiposted() {
+        CharacterAnimatorManager charAnim = characterManager.CharacterAnimatorManager;
+        charAnim.Anim.SetBool("isParried", true);
+        characterManager.CanBeRiposted = true;
+    }
+
+    public virtual void DisableCanBeRiposted() {
+        CharacterAnimatorManager charAnim = characterManager.CharacterAnimatorManager;
+        charAnim.Anim.SetBool("isParried", false);
+        characterManager.CanBeRiposted = false;
+    }
+
     public virtual void TakeCriticalDamageAnimEvent() { }
 }
 }

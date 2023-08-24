@@ -30,7 +30,7 @@ public class ProjectileSpell : SpellItem {
         PlayerCamera camera = PlayerCamera.Instance;
         GameObject spellFXInstance = Instantiate(spellCastFX,
             character.CharacterWeaponSlotManager.GetRightHandTransform().position,
-            castRotation);
+            castRotation, character.transform);
         rigidbody = spellFXInstance.GetComponent<Rigidbody>();
         charAnim.Anim.SetBool(charAnim.IsFiringSpellHash, true);
         // spellDamageCollider - spellFXInstance.GetComponent<SpellDamageCollider>();
@@ -44,7 +44,7 @@ public class ProjectileSpell : SpellItem {
                     character.transform.eulerAngles.y, 0);
         }
         else if (enemy.CurrentTarget != null)
-            spellFXInstance.transform.LookAt(enemy.CurrentTarget.transform.position);
+            spellFXInstance.transform.LookAt(enemy.CurrentTarget.transform.position + new Vector3(0, 0.75f, 0));
 
         rigidbody.AddForce(spellFXInstance.transform.forward * ProjectileForwardVelocity);
         rigidbody.AddForce(spellFXInstance.transform.up * ProjectileUpwardVelocity);

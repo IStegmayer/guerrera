@@ -14,10 +14,10 @@ namespace Dzajna
         public CharacterSFXManager CharacterSfxManager;
         public CharacterController CharacterController;
         
-        [Header("Lock On Transform")]
+        [Header("Lock On Transform")] //
         public Transform LockOnTransform;
 
-        [Header("Combat Flags")] 
+        [Header("Combat Flags")] // 
         public bool CanBeRiposted;
         public bool CanBeParried;
         public bool CanDoCombo;
@@ -25,7 +25,7 @@ namespace Dzajna
         public bool IsBlocking;
         public bool IsInvulnerable;
         
-        [Header("Player flags")] 
+        [Header("Player flags")] //
         public bool IsInteracting;
         public bool IsDead;
         public bool IsAttacking;
@@ -35,10 +35,10 @@ namespace Dzajna
         public bool IsUsingLeftHand;
         public bool IsTwoHandingWeapon;
 
-        [Header("Movement Flags")] 
+        [Header("Movement Flags")] //
         public bool IsRotatingWithRM;
         
-        [Header("Spell Flags")]
+        [Header("Spell Flags")] //
         public bool IsFiringSpell;
 
         // Damage will be inflicted during an animation event
@@ -66,7 +66,13 @@ namespace Dzajna
         }
         
         public void BreakGuard() {
-            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.ParriedHash, true);
+            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
+        }
+
+        public void Stagger() {
+            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
+            CharacterStatsManager.ResetPoiseTimer();
+            CharacterStatsManager.ResetPoise();
         }
         
         public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {
@@ -78,6 +84,20 @@ namespace Dzajna
                 IsUsingLeftHand = true;
                 IsUsingRightHand = false;
             }
+        }
+    
+        // TODO: Animation event 
+        public virtual void StaggerReset() {
+            // disable rotation
+            CharacterAnimatorManager.DisableRotation();
+            // close dmg collider
+            CharacterWeaponSlotManager.CloseDamageCollider();
+            // remove attacking poise bonus
+            CharacterWeaponSlotManager.RemoveWeaponAttackingPoiseBonus();
+            // disable combo 
+            CharacterAnimatorManager.DisableCombo();
+            // stop right weapon fx
+            CharacterEffectsManager.StopRightWeaponFX();
         }
     }
 }

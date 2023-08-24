@@ -79512,6 +79512,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.76666665
+    functionName: PlayCriticalBloodSplatterFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.7666667
     functionName: PlayCriticalSound
     data: 
@@ -79520,6 +79527,13 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.8
+    functionName: PlayCriticalBloodSplatterFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.8333333
     functionName: PlayCriticalBloodSplatterFX
     data: 
     objectReferenceParameter: {fileID: 0}

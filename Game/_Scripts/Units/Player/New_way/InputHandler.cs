@@ -226,7 +226,7 @@ public class InputHandler : Singleton<InputHandler> {
             characterInventoryManager.RightWeapon.TH_HoldRBAction.PerformAction(player);
         }
         else if (characterInventoryManager.RightWeapon.HoldLBAction != null) {
-            player.UpdateWhichHandCharacterIsUsing(true);
+            player.UpdateWhichHandCharacterIsUsing(false);
             characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.LeftWeapon;
             characterInventoryManager.LeftWeapon.HoldLBAction.PerformAction(player);
         }

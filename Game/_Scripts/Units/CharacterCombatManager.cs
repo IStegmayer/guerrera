@@ -95,6 +95,7 @@ public class CharacterCombatManager : MonoBehaviour {
         charAnim.EnableIsInvulnerable();
         // charAnim.EraseHandIKForWeapon();
         character.IsPerformingRiposte = true;
+        enemyCharacter.IsBeingRiposted = true;
 
         charAnim.PlayTargetAnimation(charAnim.RiposteHash, true);
 
@@ -104,16 +105,14 @@ public class CharacterCombatManager : MonoBehaviour {
     }
 
     private void GetBackStabbed(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
-        //PLAY SOUND FX
         character.IsBeingBackstabbed = true;
 
         StartCoroutine(ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, true));
 
-        charAnim.PlayTargetAnimation(charAnim.BackStabbedHash, true);
+        charAnim.PlayTargetAnimation(charAnim.BackStabbedHash, true, true);
     }
 
     private void GetRiposted(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
-        //PLAY SOUND FX
         character.IsBeingRiposted = true;
 
         StartCoroutine(ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, false));
@@ -133,16 +132,32 @@ public class CharacterCombatManager : MonoBehaviour {
             spotTransform = riposterStandPoint;
             fwVector3 = -characterPerformingBackStab.transform.forward;
         }
-
-        for (var timer = 0.05f; timer < 0.5f; timer = timer + 0.05f) {
-            var backstabRotation = Quaternion.LookRotation(fwVector3);
-            transform.rotation = Quaternion.Slerp(transform.rotation, backstabRotation, 1);
-            transform.parent = spotTransform;
-            transform.localPosition = spotTransform.localPosition;
-            transform.parent = null;
-            Debug.Log("Running corountine");
-            yield return new WaitForSeconds(0.05f);
-        }
+        
+        var tr = Quaternion.LookRotation(fwVector3);
+        transform.rotation = tr;
+        transform.parent = spotTransform;
+        transform.localPosition = spotTransform.localPosition;
+        transform.parent = null;
+        yield return null;
+        
+        // if (isBackstab) {
+        //     spotTransform = backStabberStandPoint;
+        //     fwVector3 = characterPerformingBackStab.transform.forward;
+        // }
+        // else {
+        //     spotTransform = riposterStandPoint;
+        //     fwVector3 = -characterPerformingBackStab.transform.forward;
+        // }
+        //
+        // for (var timer = 0.05f; timer < 0.5f; timer = timer + 0.05f) {
+        //     var backstabRotation = Quaternion.LookRotation(fwVector3);
+        //     transform.rotation = Quaternion.Slerp(transform.rotation, backstabRotation, 1);
+        //     transform.parent = spotTransform;
+        //     transform.localPosition = spotTransform.localPosition;
+        //     transform.parent = null;
+        //     Debug.Log("Running corountine");
+        //     yield return new WaitForSeconds(0.05f);
+        // }
     }
 
 
@@ -160,7 +175,7 @@ public class CharacterCombatManager : MonoBehaviour {
 
         if (character.CharacterStatsManager.CheckHasStamina()) {
             character.IsBlocking = false;
-            character.CharacterAnimatorManager.PlayTargetAnimation("Guard_Break_01", true);
+            character.CharacterAnimatorManager.PlayTargetAnimation(character.CharacterAnimatorManager.ParriedHash, true);
         }
         else {
             character.CharacterAnimatorManager.PlayTargetAnimation(character.CharacterAnimatorManager.BlockHash, true);

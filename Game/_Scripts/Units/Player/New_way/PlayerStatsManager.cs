@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Dzajna {
 public class PlayerStatsManager : CharacterStatsManager {
     private PlayerManager player;
-    private PlayerCharacterAnimatorManager playerCharacterAnimatorManager;
+    private PlayerCharacterAnimatorManager playerAnimManager;
 
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private StaminaBar staminaBar;
@@ -17,7 +17,7 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     private void Awake() {
         player = GetComponent<PlayerManager>();
-        playerCharacterAnimatorManager = GetComponent<PlayerCharacterAnimatorManager>();
+        playerAnimManager = GetComponent<PlayerCharacterAnimatorManager>();
     }
 
     private void Start() {
@@ -47,6 +47,7 @@ public class PlayerStatsManager : CharacterStatsManager {
     private int SetMaxStaminaFromStaminaLevel() {
         return staminaLevel * staminaPerLevel;
     }
+
     private float SetMaxFPAmountFromFocusLevel() {
         return focusLevel * focusPerLevel;
     }
@@ -57,35 +58,39 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     public override void TakeDamageWithoutAnimation(float dmg) {
         if (player.IsDead || player.IsInvulnerable) return;
-        
+
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
-            
+
         if (currentHealth <= 0) {
             deathRoutine = StartCoroutine(DeathRoutine());
             player.IsDead = true;
         }
-        
     }
 
     public override void TakeDamage(float dmg, string dmgAnimation = "Damage1") {
         if (player.IsDead || player.IsInvulnerable) return;
-        
+
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
-        
+
         if (currentHealth <= 0) {
             deathRoutine = StartCoroutine(DeathRoutine());
             player.IsDead = true;
-        } else playerCharacterAnimatorManager.PlayTargetAnimation(dmgAnimation, true);
+        }
+        else {
+            if (player.CharacterStatsManager.TotalPoise > 0) playerAnimManager.PlayTargetAnimation(dmgAnimation, false);
+            else player.Stagger();
+        }
     }
+
     public override void TakeStaminaDamage(float dmg) {
         base.TakeStaminaDamage(dmg);
         staminaBar.SetCurrentStamina(currentStamina);
     }
 
     private IEnumerator DeathRoutine() {
-        playerCharacterAnimatorManager.PlayTargetAnimation(playerCharacterAnimatorManager.DeathHash, true);   
+        playerAnimManager.PlayTargetAnimation(playerAnimManager.DeathHash, true);
         // start death animation
         yield return new WaitForSeconds(1f);
         GameManager.Instance.ChangeState(GameState.Lose);

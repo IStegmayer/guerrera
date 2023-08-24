@@ -19,16 +19,16 @@ MonoBehaviour:
   IsUnarmed: 0
   WeaponController: {fileID: 22100000, guid: ad4b8f29f8e36e74f9edb157eb36a5f0, type: 2}
   WeaponType: 0
-  BaseDamage: 10
+  BaseDamage: 30
   CriticalDamageMultiplier: 4
-  PoiseBreak: 15
-  OffensivePoiseBonus: 5
+  PoiseBreak: 25
+  OffensivePoiseBonus: 0
   PhysicalBlockingDamageAbsorption: 0
   FireBlockingDamageAbsorption: 0
   Stability: 67
   BaseStamina: 10
   LightAttackMultiplier: 1
-  HeavyAttackMultiplier: 2
+  HeavyAttackMultiplier: 3
   HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
   TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
   TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}

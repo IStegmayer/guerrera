@@ -22,6 +22,7 @@ public class EnemyManager : CharacterManager {
     public float MaxDetectionAngle = -50;
     public float StoppingDistance = 1.2f;
     public float RotationSpeed = 10f;
+    public float AttackingRotationSpeed = 50f;
     public float MaxAttackRange = 3f;
     public float MaxAggroRadius = 3f;
     public float CurrentRecoveryTime;

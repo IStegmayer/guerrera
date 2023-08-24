@@ -71,21 +71,21 @@ public class PlayerCamera : Singleton<PlayerCamera> {
     private void HandleRotation() {
         float delta = Time.deltaTime;
         SetCameraHeight(delta);
-        
+
         if (CurrentLockOnTarget != null && CurrentLockOnTarget.IsDead) {
             Vector3 dir = CurrentLockOnTarget.transform.position - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             leftAndRightLookAngle = targetRotation.eulerAngles.y;
-            
+
             dir = CurrentLockOnTarget.transform.position - cameraPivotTransform.position;
             targetRotation = Quaternion.LookRotation(dir);
             // set look angles to the current death position
             upAndDownLookAngle = targetRotation.eulerAngles.x;
-            
+
             ClearLockOnTargets();
             InputHandler.Instance.ResetLockOnFlag();
-        } 
-        
+        }
+
         if (!InputHandler.Instance.LockOnFlag) {
             // Rotate based on horizontal/vertical movement of the joystick
             leftAndRightLookAngle += (InputHandler.Instance.CameraX * leftAndRightRotationSpeed) * delta;
@@ -106,7 +106,7 @@ public class PlayerCamera : Singleton<PlayerCamera> {
             targetRotation = Quaternion.Euler(cameraRotation);
             cameraPivotTransform.localRotation = Quaternion.Slerp
                 (cameraPivotTransform.localRotation, targetRotation, cameraSmoothSpeed * delta);
-        } 
+        }
         else { // IF LOCKED ON, FORCE ROTATION TOWARDS TARGET
             float velocity = 0;
             Vector3 targetPos = CurrentLockOnTarget.transform.position;
@@ -114,7 +114,7 @@ public class PlayerCamera : Singleton<PlayerCamera> {
             Vector3 dir = targetPos - transform.position;
             dir.y = 0;
             dir.Normalize();
-            
+
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Slerp
                 (transform.rotation, targetRotation, cameraSmoothSpeed * delta);

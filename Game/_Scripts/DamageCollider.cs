@@ -10,15 +10,15 @@ namespace Dzajna {
 public class DamageCollider : MonoBehaviour {
     public CharacterManager characterManager;
     public bool EnabledOnStartup;
-    protected Collider damageCollider;
+    private Collider damageCollider;
 
     [Header("Damage")] //
-    public float PhysicalDamage = 25;
+    public float PhysicalDamage;
 
     public float FireDamage;
 
     [Header("Poise")] //
-    public float PoiseBreak = 10;
+    public float PoiseBreak;
 
     public float OffensivePoiseBonus = 10;
 
@@ -53,15 +53,11 @@ public class DamageCollider : MonoBehaviour {
 
             CharacterManager enemyManager = collision.gameObject.GetComponentInParent<CharacterManager>();
             if (enemyManager == null) throw new Exception("No enemy character manager found.");
-            //TODO: change this sfx for something more suitable
-            if (enemyManager.IsInvulnerable) {
-                AudioSystem.Instance.PlaySound("playerBlock", enemyManager.transform.position);
-                return;
-            }
 
-            if (enemyManager.IsBeingBackstabbed) {
+            if (enemyManager.IsBeingBackstabbed || enemyManager.IsBeingRiposted) {
                 characterManager.CharacterEffectsManager.SetLastHitPosition(
-                        collision.ClosestPointOnBounds(transform.position));
+                    collision.ClosestPointOnBounds(transform.position));
+                EnsureAggroTarget(enemyManager);
                 return;
             }
 
@@ -74,25 +70,31 @@ public class DamageCollider : MonoBehaviour {
             CheckForParry(enemyManager);
             if (shieldHasBeenHit || hasBeenParried) return;
 
-            CharacterEffectsManager charEffectsManager = enemyManager.CharacterEffectsManager;
-            CharacterStatsManager charStats = enemyManager.CharacterStatsManager;
+            CharacterEffectsManager enemyEffectsManager = enemyManager.CharacterEffectsManager;
+            CharacterStatsManager enemyStats = enemyManager.CharacterStatsManager;
             //TODO: this is not necessary anymore
             string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
             Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
+            
+            // TODO: this should draw the modifier from the scriptableObject
+            float attackTypeMultiplier;
+            if (characterManager.CharacterCombatManager.CurrentAttackType == AttackType.Heavy)
+                attackTypeMultiplier = 2f;
+            else attackTypeMultiplier = 1f;
 
-            charEffectsManager.PlayBloodSplatterFX(contactPoint);
-            charStats.ResetPoiseTimer();
-            charStats.DealPoiseDamage(PoiseBreak);
-            if (charStats.TotalPoise > PoiseBreak) charStats.TakeDamage(PhysicalDamage, dmgAnim);
-            else {
-                charStats.TakeDamageWithoutAnimation(PhysicalDamage);
-                enemyManager.BreakGuard();
-            }
+            enemyStats.DealPoiseDamage(PoiseBreak * attackTypeMultiplier);
+            enemyStats.TakeDamage(PhysicalDamage * attackTypeMultiplier, dmgAnim);
+            enemyStats.ResetPoiseTimer();
+            enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
 
-            var aiCharacter = enemyManager as EnemyManager;
-            if (aiCharacter != null && characterManager.GetType() != typeof(EnemyManager))
-                aiCharacter.CurrentTarget = characterManager;
+            EnsureAggroTarget(enemyManager);
         }
+    }
+
+    private void EnsureAggroTarget(CharacterManager enemyManager) {
+        var aiCharacter = enemyManager as EnemyManager;
+        if (aiCharacter != null && characterManager.GetType() != typeof(EnemyManager))
+            aiCharacter.CurrentTarget = characterManager;
     }
 
     protected virtual void CheckForParry(CharacterManager enemyManager) {
@@ -119,7 +121,7 @@ public class DamageCollider : MonoBehaviour {
             PhysicalDamage - PhysicalDamage * enemyShield.BlockingPhysicalDamageAbsorption / 100;
 
         enemyManager.CharacterCombatManager.AttemptBlock(this, PhysicalDamage, FireDamage, "Block_01");
-        enemyShield.TakeDamage(physicalDamageAfterBlock);
+        enemyShield.TakeDamageWithoutAnimation(physicalDamageAfterBlock);
     }
 }
 }

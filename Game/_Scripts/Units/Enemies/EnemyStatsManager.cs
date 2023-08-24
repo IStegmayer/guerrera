@@ -10,14 +10,13 @@ public class EnemyStatsManager : CharacterStatsManager {
     public int SoulsReward;
     public bool IsBoss;
     private EnemyManager enemyManager;
-    private EnemyCharacterAnimatorManager enemyAnim;
+    private CharacterAnimatorManager enemyAnim;
     private EnemyBossManager enemyBossManager;
 
     private Coroutine deathRoutine;
 
     private void Awake() {
         enemyManager = GetComponent<EnemyManager>();
-        enemyAnim = GetComponent<EnemyCharacterAnimatorManager>();
         enemyBossManager = GetComponent<EnemyBossManager>();
         maxHealth = SetMaxHealthFromHealthLevel();
         maxFP = SetMaxFPAmountFromFocusLevel();
@@ -27,6 +26,7 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     private void Start() {
         if (!IsBoss) healthBar.SetMaxHealth(maxHealth);
+        enemyAnim = enemyManager.CharacterAnimatorManager;
     }
 
     protected override void HandlePoiseResetTimer() {
@@ -44,7 +44,7 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     public override void TakeDamageWithoutAnimation(float dmg) {
         if (enemyManager.IsDead) return;
-        if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted) return;
+        if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted && !enemyManager.IsBeingBackstabbed) return;
 
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
@@ -74,7 +74,8 @@ public class EnemyStatsManager : CharacterStatsManager {
             enemyManager.IsDead = true;
         }
         else {
-            enemyAnim.PlayTargetAnimation(dmgAnimation, true);
+            if (enemyManager.CharacterStatsManager.TotalPoise > 0) enemyAnim.PlayTargetAnimation(dmgAnimation, false);
+            else enemyManager.Stagger();
         }
     }
 

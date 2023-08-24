@@ -99,7 +99,7 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
 
     public virtual void RemoveWeaponAttackingPoiseBonus() {
         WeaponItem weapon = character.CharacterInventoryManager.CurrentItemBeingUsed as WeaponItem;
-        character.CharacterStatsManager.TotalPoise -= weapon.OffensivePoiseBonus;
+        if (weapon != null) character.CharacterStatsManager.TotalPoise -= weapon.OffensivePoiseBonus;
     }
 
     public Transform GetRightHandTransform() => rightHandSlot.transform;

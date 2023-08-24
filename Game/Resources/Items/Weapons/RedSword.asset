@@ -21,12 +21,12 @@ MonoBehaviour:
   WeaponType: 0
   BaseDamage: 30
   CriticalDamageMultiplier: 4
-  PoiseBreak: 1
-  OffensivePoiseBonus: 10
+  PoiseBreak: 30
+  OffensivePoiseBonus: 20
   PhysicalBlockingDamageAbsorption: 0
   FireBlockingDamageAbsorption: 0
-  Stability: 67
-  BaseStamina: 5
+  Stability: 200
+  BaseStamina: 30
   LightAttackMultiplier: 1
   HeavyAttackMultiplier: 2
   HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}

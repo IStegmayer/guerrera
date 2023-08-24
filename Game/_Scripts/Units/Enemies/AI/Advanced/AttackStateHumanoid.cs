@@ -1,16 +1,24 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
 
 namespace Dzajna {
 public class AttackStateHumanoid : State {
+    [SerializeField] private IdleStateHumanoid idleState;
     [SerializeField] private CombatStanceStateHumanoid combatStanceState;
     [SerializeField] private PursueTargetStateHumanoid pursueTargetState;
     [SerializeField] private RotateTowardsTargetStateHumanoid rotateTowardsTargetState;
     public ItemBasedAttackAction CurrentAttack;
-    
+
     private bool willComboNextAttack;
     private bool hasPerformedAttack;
+    private bool triedToCombo;
+    private float parriedTimer = 0f;
+
+    private void Start() {
+        parriedTimer = GetComponentInParent<EnemyStatsManager>().CriticalWindow;
+    }
 
     private void OnEnable() => CharacterAnimatorManager.ComboDisabled += ResetStateFlags;
     private void OnDisable() => CharacterAnimatorManager.ComboDisabled -= ResetStateFlags;
@@ -24,6 +32,18 @@ public class AttackStateHumanoid : State {
     }
 
     private State ProcessSwordAndShieldCombatStyle(EnemyManager enemy) {
+        if (enemy.CanBeRiposted) {
+            if (parriedTimer > 0f) {
+                parriedTimer -= Time.deltaTime;
+                return this;
+            }
+
+            parriedTimer = enemy.CharacterStatsManager.CriticalWindow;
+            enemy.CharacterAnimatorManager.DisableCanBeRiposted();
+            ResetStateFlags();
+            return idleState;
+        }
+
         RotateTowardsTargetWhilstAttacking(enemy);
 
         if (enemy.DistanceFromTarget > enemy.MaxAggroRadius) return pursueTargetState;
@@ -35,17 +55,21 @@ public class AttackStateHumanoid : State {
             RollForComboChance(enemy);
         }
 
-        if (willComboNextAttack && hasPerformedAttack) return this; //GOES BACK UP TO PREFORM THE COMBO
-        
+        if (willComboNextAttack && hasPerformedAttack) {
+            if (triedToCombo) ResetStateFlags();
+            else triedToCombo = true;
+            return this; //GOES BACK UP TO PREFORM THE COMBO
+        }
+
         ResetStateFlags();
-        
+
         return rotateTowardsTargetState;
     }
 
     private State ProcessShamanCombatStyle(EnemyManager enemy) {
         RotateTowardsTargetWhilstAttacking(enemy);
 
-        if (enemy.IsInteracting ||enemy.CurrentTarget == null) return this;
+        if (enemy.IsInteracting || enemy.CurrentTarget == null) return this;
 
         if (enemy.IsFiringSpell) {
             ResetStateFlags();
@@ -100,22 +124,23 @@ public class AttackStateHumanoid : State {
 
     private void RotateTowardsTargetWhilstAttacking(EnemyManager enemy) {
         //Rotate manually
-        if (enemy.CanRotate && enemy.IsInteracting) {
-            var direction = enemy.TargetsDirection;
-            direction.y = 0;
-            direction.Normalize();
+        if (!enemy.CanRotate || !enemy.IsInteracting) return;
 
-            if (direction == Vector3.zero) direction = transform.forward;
+        var direction = enemy.TargetsDirection;
+        direction.y = 0;
+        direction.Normalize();
 
-            var targetRotation = Quaternion.LookRotation(direction);
-            enemy.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                enemy.RotationSpeed / Time.deltaTime);
-        }
+        if (direction == Vector3.zero) direction = transform.forward;
+
+        var targetRotation = Quaternion.LookRotation(direction);
+        enemy.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
+            enemy.AttackingRotationSpeed * Time.deltaTime);
     }
 
     private void ResetStateFlags() {
         willComboNextAttack = false;
         hasPerformedAttack = false;
+        triedToCombo = false;
     }
 }
 }

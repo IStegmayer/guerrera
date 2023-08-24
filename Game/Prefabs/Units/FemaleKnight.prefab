@@ -1831,7 +1831,7 @@ Transform:
   - {fileID: 5351911129682374362}
   - {fileID: 3749717487305601089}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6023217789923196130
 MonoBehaviour:
@@ -2045,9 +2045,9 @@ MonoBehaviour:
   sprintSpeed: 8
   rotationSpeed: 10
   attackingRotationSpeed: 25
-  rollStaminaCost: 4
-  backstepStaminaCost: 4
-  sprintStaminaCost: 2
+  rollStaminaCost: 12
+  backstepStaminaCost: 12
+  sprintStaminaCost: 5
 --- !u!114 &-4984005286210543844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2120,7 +2120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentItemBeingUsed: {fileID: 0}
   CurrentSpell: {fileID: 11400000, guid: 895fd6860faf12344bf04c0ca2f9c3d9, type: 2}
-  RightWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
+  RightWeapon: {fileID: 11400000, guid: 78a232cc616a1054e9b3a70fa7a571c4, type: 2}
   LeftWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   UnarmedWeapon: {fileID: 11400000, guid: e6444c0f3ed43e648a4c69933ae24fcf, type: 2}
   WeaponsInRightHandSlots:
@@ -2164,19 +2164,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7edd26326fd8a24e9cf633810c03187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 15
+  healthLevel: 10
   healthPerLevel: 10
   staminaLevel: 10
-  staminaPerLevel: 5
-  staminaResetTime: 0.3
-  staminaRegenAmount: 25
+  staminaPerLevel: 10
+  staminaResetTime: 0.25
+  staminaRegenAmount: 40
   focusLevel: 10
   focusPerLevel: 5
   TotalPoise: 0
   OffensivePoise: 0
-  ArmorPoise: 50
-  TotalPoiseResetTime: 5
+  ArmorPoise: 51
+  TotalPoiseResetTime: 30
   PoiseResetTimer: 0
+  CriticalWindow: 0
   BlockingPhysicalDamageAbsorption: 0
   BlockingFireDamageAbsorption: 0
   BlockingStabilityRating: 0
@@ -2300,12 +2301,24 @@ MonoBehaviour:
     Source: {fileID: 0}
     Volume: 0.3
     Pitch: 1
+  - Name: parry
+    Loop: 0
+    Clip: {fileID: 8300000, guid: e1752f51d0c93564e93257327b59949f, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.501
+    Pitch: 1
+  - Name: block
+    Loop: 0
+    Clip: {fileID: 8300000, guid: 9573cc601fa144d4fb9abd343386f2e8, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.286
+    Pitch: 1
   damageSounds:
   - Name: 1
     Loop: 0
     Clip: {fileID: 8300000, guid: 715de20606bb04d46b8ec51d5345a9e6, type: 3}
     Source: {fileID: 0}
-    Volume: 0.2
+    Volume: 0.4
     Pitch: 1
   - Name: 2
     Loop: 0
@@ -2319,6 +2332,13 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 55ba7c1eb76d62f47b65ad4122f9e558, type: 3}
     Source: {fileID: 0}
     Volume: 0.764
+    Pitch: 1
+  staggerSound:
+    Name: 
+    Loop: 0
+    Clip: {fileID: 8300000, guid: b375ffd5a29f802458e49848304a0b88, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.4
     Pitch: 1
 --- !u!82 &713665993309731534
 AudioSource:

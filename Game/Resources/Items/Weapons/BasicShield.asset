@@ -23,7 +23,7 @@ MonoBehaviour:
   CriticalDamageMultiplier: 2
   PoiseBreak: 0
   OffensivePoiseBonus: 0
-  PhysicalBlockingDamageAbsorption: 0
+  PhysicalBlockingDamageAbsorption: 80
   FireBlockingDamageAbsorption: 0
   Stability: 67
   BaseStamina: 20

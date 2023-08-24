@@ -15,13 +15,18 @@ public class CharacterStatsManager : MonoBehaviour {
 
     [Header("Poise")] //
     public float TotalPoise;
+
     public float OffensivePoise;
     public float ArmorPoise;
     public float TotalPoiseResetTime = 5;
     public float PoiseResetTimer = 0;
-    
+
+    [Header("Crits")] //
+    public float CriticalWindow;
+
     [Header("Blocking Absorptions")] //
     public float BlockingPhysicalDamageAbsorption;
+
     public float BlockingFireDamageAbsorption;
     public float BlockingStabilityRating;
 
@@ -43,7 +48,7 @@ public class CharacterStatsManager : MonoBehaviour {
     private void Start() {
         TotalPoise = ArmorPoise;
     }
-    
+
     public virtual void TakeStaminaDamage(float dmg) {
         currentStamina -= dmg;
     }
@@ -52,6 +57,7 @@ public class CharacterStatsManager : MonoBehaviour {
     public bool CheckHasStamina() => currentStamina >= 0;
     public bool CheckHasEnoughFP(float cost) => currentFP >= cost;
     public void ResetPoiseTimer() => PoiseResetTimer = TotalPoiseResetTime;
+    public void ResetPoise() => TotalPoise = ArmorPoise;
     public void DealPoiseDamage(float dmg) => TotalPoise = TotalPoise - dmg;
 }
 }
