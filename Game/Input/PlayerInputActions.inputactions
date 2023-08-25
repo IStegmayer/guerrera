@@ -163,6 +163,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RESETSCENE",
+                    "type": "Button",
+                    "id": "68576c69-1241-48f7-ab8f-e2107dd539dd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -275,6 +284,17 @@
                     "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7f19237-9f3f-4fec-8c62-f48d56030839",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RESETSCENE",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -333,7 +353,7 @@
                     "id": "fc5c922d-e111-4047-bfca-07cddfd7ee7e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "Hold(duration=0.01)",
                     "initialStateCheck": false
                 },
                 {

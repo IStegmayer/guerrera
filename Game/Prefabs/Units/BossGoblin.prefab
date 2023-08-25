@@ -418,9 +418,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2878914713702527217}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.92183995, y: 1, z: 0.10123521}
   m_Center: {x: 0.012598887, y: 0, z: 0.10277036}
 --- !u!114 &8674679566563549314
@@ -640,9 +648,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5622724971326289357}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.92183995, y: 1, z: 0.10123521}
   m_Center: {x: 0.012598887, y: 0, z: 0.10277036}
 --- !u!114 &3995882221535008981
@@ -708,7 +724,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5895731658588053069
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -725,7 +741,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!54 &5801583878158432039
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -733,10 +750,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5802399943424450345}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -758,6 +786,7 @@ MonoBehaviour:
   healthPerLevel: 10
   staminaLevel: 10
   staminaPerLevel: 5
+  staminaResetTime: 0.05
   staminaRegenAmount: 2
   focusLevel: 10
   focusPerLevel: 5
@@ -766,7 +795,10 @@ MonoBehaviour:
   ArmorPoise: 50
   TotalPoiseResetTime: 5
   PoiseResetTimer: 0
-  IsDead: 0
+  CriticalWindow: 0
+  BlockingPhysicalDamageAbsorption: 0
+  BlockingFireDamageAbsorption: 0
+  BlockingStabilityRating: 0
   healthBar: {fileID: 0}
   SoulsReward: 50
   IsBoss: 1
@@ -782,10 +814,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c6b606b2b14aca99754b6d49935077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  CharacterAnimatorManager: {fileID: 0}
+  CharacterWeaponSlotManager: {fileID: 0}
+  CharacterStatsManager: {fileID: 0}
+  CharacterInventoryManager: {fileID: 0}
+  CharacterEffectsManager: {fileID: 0}
+  CharacterCombatManager: {fileID: 0}
+  CharacterSfxManager: {fileID: 0}
   CharacterController: {fileID: 0}
   LockOnTransform: {fileID: 8420706151007917801}
-  BackStabCollider: {fileID: 3995882221535008981}
-  RiposteCollider: {fileID: 8674679566563549314}
   CanBeRiposted: 0
   CanBeParried: 0
   CanDoCombo: 0
@@ -793,10 +831,13 @@ MonoBehaviour:
   IsBlocking: 0
   IsInvulnerable: 0
   IsInteracting: 0
+  IsDead: 0
+  IsAttacking: 0
   IsSprinting: 0
   IsGrounded: 0
   IsUsingRightHand: 0
   IsUsingLeftHand: 0
+  IsTwoHandingWeapon: 0
   IsRotatingWithRM: 0
   IsFiringSpell: 0
   PendingCriticalDamage: 0
@@ -806,13 +847,15 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   IsPerformingAction: 0
   IsPhaseShifting: 0
+  AggroRange: 10
   MinDetectionAngle: 50
   MaxDetectionAngle: -50
-  CurrentRecoveryTime: 2
-  AggroRange: 10
+  StoppingDistance: 1.2
   RotationSpeed: 15
+  AttackingRotationSpeed: 5
   MaxAttackRange: 1.5
   MaxAggroRadius: 5
+  CurrentRecoveryTime: 2
   AllowAIToPerformCombos: 1
   combatStyle: 0
   ComboChance: 50
@@ -823,6 +866,9 @@ MonoBehaviour:
   dodgeLikelihood: 30
   allowAIToParry: 0
   parryLikelihood: 30
+  DistanceFromTarget: 0
+  TargetsDirection: {x: 0, y: 0, z: 0}
+  ViewableAngle: 0
 --- !u!114 &5482623063811260319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,56 +884,6 @@ MonoBehaviour:
   characterManager: {fileID: 7594110032504595104}
   Anim: {fileID: 5895731658588053069}
   CanRotate: 0
-  IsGroundedHash: 0
-  IsUsingRightHandHash: 0
-  IsUsingLeftHandHash: 0
-  VerticalHash: 0
-  HorizontalHash: 0
-  IsInteractingHash: 0
-  IsDeadHash: 0
-  IsBlockingHash: 0
-  CanRotateHash: 0
-  IsFiringSpellHash: 0
-  IsRotatingWithRMHash: 0
-  IsPhaseShiftingHash: 0
-  CanDoComboHash: 0
-  IsInvulnerableHash: 0
-  InAirTimer: 0
-  RollHash: 0
-  BackstepHash: 0
-  LandHash: 0
-  FallHash: 0
-  EmptyHash: 0
-  LightAttack1Hash: 0
-  LightAttack2Hash: 0
-  HeavyAttack1Hash: 0
-  HeavyAttack2Hash: 0
-  TH_LightAttack1Hash: 0
-  TH_LightAttack2Hash: 0
-  TH_HeavyAttack1Hash: 0
-  TH_HeavyAttack2Hash: 0
-  WeaponArtHash: 0
-  LeftArmIdleHash: 0
-  RightArmIdleHash: 0
-  TH_IdleHash: 0
-  DeathHash: 0
-  JumpHash: 0
-  FailedCastHash: 0
-  BackStabHash: 0
-  RiposteHash: 0
-  RipostedHash: 0
-  BackStabbedHash: 0
-  OpenChestHash: 0
-  PassThroughFogWallHash: 0
-  BlockHash: 0
-  BlockDamage1Hash: 0
-  Damage1Hash: 0
-  TurnAroundHash: 0
-  TurnRightHash: 0
-  TurnLeftHash: 0
-  PhaseTransitionHash: 0
-  ParriedHash: 0
-  ParryHash: 0
 --- !u!114 &6526004045350254382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,8 +927,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloodSplatterFX: {fileID: 1026642433091512, guid: ed67c2cb8e3a7fb418c6fbb1b001dce2,
     type: 3}
-  RightWeaponFX: {fileID: 0}
-  LeftWeaponFX: {fileID: 0}
 --- !u!143 &282394079468891409
 CharacterController:
   m_ObjectHideFlags: 0
@@ -941,11 +935,19 @@ CharacterController:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5802399943424450345}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Height: 1.9
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.05

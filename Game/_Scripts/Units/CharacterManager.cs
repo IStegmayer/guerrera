@@ -69,8 +69,8 @@ namespace Dzajna
             CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
         }
 
-        public void Stagger() {
-            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
+        public void Stagger(int staggerAnimation) {
+            CharacterAnimatorManager.PlayTargetAnimation(staggerAnimation, true);
             CharacterStatsManager.ResetPoiseTimer();
             CharacterStatsManager.ResetPoise();
         }

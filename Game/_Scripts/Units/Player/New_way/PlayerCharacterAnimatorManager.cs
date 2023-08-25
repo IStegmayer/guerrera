@@ -35,9 +35,9 @@ public class PlayerCharacterAnimatorManager : CharacterAnimatorManager {
 
         float horizontal = 0;
 
-        if (horizontalMovement > 0 && horizontalMovement < 0.55f) horizontal = 0.5f;
+        if (horizontalMovement > 0.15f && horizontalMovement < 0.55f) horizontal = 0.5f;
         else if (horizontalMovement > 0.55f) horizontal = 1f;
-        else if (horizontalMovement < 0 && horizontalMovement > -0.55f) horizontal = -0.5f;
+        else if (horizontalMovement < -0.15f && horizontalMovement > -0.55f) horizontal = -0.5f;
         else if (horizontalMovement < -0.55f) horizontal = -1f;
         else horizontal = 0f;
 

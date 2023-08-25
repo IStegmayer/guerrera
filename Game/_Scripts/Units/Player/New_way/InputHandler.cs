@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace Dzajna {
@@ -103,6 +104,9 @@ public class InputHandler : Singleton<InputHandler> {
             inputActions.PlayerActions.LockOnTargetRight.performed += _ => LockOnRightInput = true;
             inputActions.PlayerActions.TwoHand.performed += _ => TwoHandInput = true;
 
+            inputActions.PlayerControls.RESETSCENE.performed +=
+                _ => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            
             inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
             inputActions.PlayerControls.DPadRight.performed += _ => DPadRightInput = true;
             inputActions.PlayerControls.DPadLeft.performed += _ => DPadLeftInput = true;
@@ -133,7 +137,7 @@ public class InputHandler : Singleton<InputHandler> {
 
         HandleLockOnInput();
         HandleLockOnSwitch();
-        HandleTwoHandInput();
+        // HandleTwoHandInput();
         // TODO: implement
         // HandleUseConsumableInput();
         // HandleQuedInput();
@@ -284,7 +288,7 @@ public class InputHandler : Singleton<InputHandler> {
     }
 
     private void HandleJumpInput(CallbackContext callbackContext) {
-        JumpInput = callbackContext.action.WasPerformedThisFrame();
+        // JumpInput = callbackContext.action.WasPerformedThisFrame();
     }
 
     private void HandleInventoryInput(CallbackContext callbackContext) {

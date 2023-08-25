@@ -56,8 +56,9 @@ public class EnemyStatsManager : CharacterStatsManager {
         }
     }
 
-    public override void TakeDamage(float dmg, string dmgAnimation = "Damage1") {
-        if (enemyManager.IsDead || enemyManager.IsInvulnerable) return;
+    public override void TakeDamage(float dmg, int dmgAnimation = -1) {
+        if (enemyManager.IsDead || enemyManager.IsInvulnerable) return; 
+        if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
 
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) {
@@ -75,7 +76,7 @@ public class EnemyStatsManager : CharacterStatsManager {
         }
         else {
             if (enemyManager.CharacterStatsManager.TotalPoise > 0) enemyAnim.PlayTargetAnimation(dmgAnimation, false);
-            else enemyManager.Stagger();
+            else enemyManager.Stagger(dmgAnimation);
         }
     }
 

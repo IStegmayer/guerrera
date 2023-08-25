@@ -47,8 +47,8 @@ public class PlayerManager : CharacterManager {
         playerLocomotionManager.HandleGroundMovement(delta);
         playerLocomotionManager.HandleRotation(delta);
         playerLocomotionManager.HandleRolling(delta);
-        playerLocomotionManager.HandleJumping();
-        
+        // playerLocomotionManager.HandleJumping();
+
         CheckForInteractableObject();
 
         playerStatsManager.RegenerateStamina();

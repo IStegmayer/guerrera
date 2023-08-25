@@ -185,6 +185,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RESETSCENE"",
+                    ""type"": ""Button"",
+                    ""id"": ""68576c69-1241-48f7-ab8f-e2107dd539dd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -297,6 +306,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7f19237-9f3f-4fec-8c62-f48d56030839"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RESETSCENE"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -355,7 +375,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""fc5c922d-e111-4047-bfca-07cddfd7ee7e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Hold(duration=0.01)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -818,6 +838,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerControls_DPadLeft = m_PlayerControls.FindAction("D-Pad Left", throwIfNotFound: true);
         m_PlayerControls_DPadRight = m_PlayerControls.FindAction("D-Pad Right", throwIfNotFound: true);
         m_PlayerControls_Inventory = m_PlayerControls.FindAction("Inventory", throwIfNotFound: true);
+        m_PlayerControls_RESETSCENE = m_PlayerControls.FindAction("RESETSCENE", throwIfNotFound: true);
         // Player Actions
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_B = m_PlayerActions.FindAction("B", throwIfNotFound: true);
@@ -956,6 +977,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_DPadLeft;
     private readonly InputAction m_PlayerControls_DPadRight;
     private readonly InputAction m_PlayerControls_Inventory;
+    private readonly InputAction m_PlayerControls_RESETSCENE;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -965,6 +987,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @DPadLeft => m_Wrapper.m_PlayerControls_DPadLeft;
         public InputAction @DPadRight => m_Wrapper.m_PlayerControls_DPadRight;
         public InputAction @Inventory => m_Wrapper.m_PlayerControls_Inventory;
+        public InputAction @RESETSCENE => m_Wrapper.m_PlayerControls_RESETSCENE;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -989,6 +1012,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @RESETSCENE.started += instance.OnRESETSCENE;
+            @RESETSCENE.performed += instance.OnRESETSCENE;
+            @RESETSCENE.canceled += instance.OnRESETSCENE;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -1008,6 +1034,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @RESETSCENE.started -= instance.OnRESETSCENE;
+            @RESETSCENE.performed -= instance.OnRESETSCENE;
+            @RESETSCENE.canceled -= instance.OnRESETSCENE;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -1203,6 +1232,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnDPadLeft(InputAction.CallbackContext context);
         void OnDPadRight(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnRESETSCENE(InputAction.CallbackContext context);
     }
     public interface IPlayerActionsActions
     {

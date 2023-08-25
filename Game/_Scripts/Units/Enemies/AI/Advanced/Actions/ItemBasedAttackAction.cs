@@ -59,7 +59,7 @@ public class ItemBasedAttackAction : ScriptableObject {
         throw new System.NotImplementedException();
     }
     private void PerformMagicAction(EnemyManager enemy) {
-        enemy.CharacterInventoryManager.RightWeapon.TH_TapRBAction.PerformAction(enemy);
+        enemy.CharacterInventoryManager.RightWeapon.TapRBAction.PerformAction(enemy);
     }
 }
 }

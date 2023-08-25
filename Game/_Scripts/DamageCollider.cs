@@ -26,7 +26,7 @@ public class DamageCollider : MonoBehaviour {
     public float GuardBreakModifier = 1;
 
     private readonly List<CharacterManager> charactersDamagedDuringThisCalculation = new List<CharacterManager>();
-    protected string currentDamageAnimation;
+    protected int currentDamageAnimation;
     protected bool hasBeenParried;
     protected bool shieldHasBeenHit;
 
@@ -73,17 +73,20 @@ public class DamageCollider : MonoBehaviour {
             CharacterEffectsManager enemyEffectsManager = enemyManager.CharacterEffectsManager;
             CharacterStatsManager enemyStats = enemyManager.CharacterStatsManager;
             //TODO: this is not necessary anymore
-            string dmgAnim = enemyManager.IsBlocking ? "BlockDamage1" : "Damage1";
             Vector3 contactPoint = collision.ClosestPointOnBounds(transform.position);
-            
+
             // TODO: this should draw the modifier from the scriptableObject
             float attackTypeMultiplier;
             if (characterManager.CharacterCombatManager.CurrentAttackType == AttackType.Heavy)
                 attackTypeMultiplier = 2f;
             else attackTypeMultiplier = 1f;
+            
+            float directionHitFrom = Vector3.SignedAngle(characterManager.transform.forward,
+                enemyManager.transform.forward, Vector3.up);
+            ChooseWhichDirectionDamageCameFrom(directionHitFrom, enemyManager);
 
             enemyStats.DealPoiseDamage(PoiseBreak * attackTypeMultiplier);
-            enemyStats.TakeDamage(PhysicalDamage * attackTypeMultiplier, dmgAnim);
+            enemyStats.TakeDamage(PhysicalDamage * attackTypeMultiplier, currentDamageAnimation);
             enemyStats.ResetPoiseTimer();
             enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
 
@@ -122,6 +125,19 @@ public class DamageCollider : MonoBehaviour {
 
         enemyManager.CharacterCombatManager.AttemptBlock(this, PhysicalDamage, FireDamage, "Block_01");
         enemyShield.TakeDamageWithoutAnimation(physicalDamageAfterBlock);
+    }
+
+    protected virtual void ChooseWhichDirectionDamageCameFrom(float direction, CharacterManager enemyManager) {
+        if (direction >= 145 && direction <= 180)
+            currentDamageAnimation = enemyManager.CharacterAnimatorManager.StaggerFrontHash;
+        else if (direction <= -145 && direction >= -180)
+            currentDamageAnimation = enemyManager.CharacterAnimatorManager.StaggerFrontHash;
+        else if (direction >= -45 && direction <= 45)
+            currentDamageAnimation = enemyManager.CharacterAnimatorManager.StaggerBackHash;
+        else if (direction >= -144 && direction <= -45)
+            currentDamageAnimation = enemyManager.CharacterAnimatorManager.StaggerLeftHash;
+        else if (direction >= 45 && direction <= 144)
+            currentDamageAnimation = enemyManager.CharacterAnimatorManager.StaggerRightHash;
     }
 }
 }

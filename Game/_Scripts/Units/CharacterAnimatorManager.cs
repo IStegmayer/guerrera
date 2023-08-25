@@ -61,6 +61,9 @@ public class CharacterAnimatorManager : MonoBehaviour {
     public int BlockDamage1Hash { get; private set; }
     public int Damage1Hash { get; private set; }
     public int StaggerFrontHash { get; private set; }
+    public int StaggerBackHash { get; private set; }
+    public int StaggerLeftHash { get; private set; }
+    public int StaggerRightHash { get; private set; }
     public int TurnAroundHash { get; private set; }
     public int TurnRightHash { get; private set; }
     public int TurnLeftHash { get; private set; }
@@ -95,6 +98,9 @@ public class CharacterAnimatorManager : MonoBehaviour {
         EmptyHash = Animator.StringToHash("Empty");
         Damage1Hash = Animator.StringToHash("Damage1");
         StaggerFrontHash = Animator.StringToHash("StaggerFront");
+        StaggerBackHash = Animator.StringToHash("StaggerBack");
+        StaggerLeftHash = Animator.StringToHash("StaggerLeft");
+        StaggerRightHash = Animator.StringToHash("StaggerRight");
         BlockDamage1Hash = Animator.StringToHash("BlockDamage1");
         DeathHash = Animator.StringToHash("Death");
         JumpHash = Animator.StringToHash("Jump");
@@ -157,9 +163,6 @@ public class CharacterAnimatorManager : MonoBehaviour {
         Vector3 deltaPosition = Anim.deltaPosition;
         characterManager.CharacterController.Move(deltaPosition);
         characterManager.transform.rotation *= Anim.deltaRotation;
-
-        // if (aiCharacter.isRotatingWithRootMotion)
-        // aiCharacter.transform.rotation *= Anim.deltaRotation;
     }
 
     //TODO: ALL EVENTS SHOULD BE HERE 
@@ -177,9 +180,11 @@ public class CharacterAnimatorManager : MonoBehaviour {
 
     public virtual void EnableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, true);
     public virtual void DisableIsInvulnerable() => Anim.SetBool(IsInvulnerableHash, false);
-    
+
     public virtual void EnableIsParrying() => characterManager.IsParrying = true;
+
     public virtual void DisableIsParrying() => characterManager.IsParrying = false;
+
     //TODO: change the animator value 
     public virtual void EnableCanBeRiposted() {
         CharacterAnimatorManager charAnim = characterManager.CharacterAnimatorManager;

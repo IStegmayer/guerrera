@@ -68,9 +68,10 @@ public class PlayerStatsManager : CharacterStatsManager {
         }
     }
 
-    public override void TakeDamage(float dmg, string dmgAnimation = "Damage1") {
+    public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (player.IsDead || player.IsInvulnerable) return;
-
+        if (dmgAnimation < 0) dmgAnimation = playerAnimManager.Damage1Hash;
+        
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
 
@@ -80,7 +81,7 @@ public class PlayerStatsManager : CharacterStatsManager {
         }
         else {
             if (player.CharacterStatsManager.TotalPoise > 0) playerAnimManager.PlayTargetAnimation(dmgAnimation, false);
-            else player.Stagger();
+            else player.Stagger(dmgAnimation);
         }
     }
 

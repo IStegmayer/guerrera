@@ -38,7 +38,7 @@ public class CharacterStatsManager : MonoBehaviour {
     protected float currentFP;
     protected float staminaRegenTimer;
 
-    public virtual void TakeDamage(float dmg, string dmgAnimation = "Damage1") { }
+    public virtual void TakeDamage(float dmg, int dmgAnimation = -1) { }
     public virtual void TakeDamageWithoutAnimation(float dmg) { }
 
     protected void Update() {

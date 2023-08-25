@@ -108,6 +108,41 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.b
+      value: 0.5566038
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.g
+      value: 0.5566038
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.r
+      value: 0.5566038
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key1.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020011313946495434, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5562503580730339140, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_Name
