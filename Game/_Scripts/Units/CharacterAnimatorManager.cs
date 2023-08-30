@@ -37,6 +37,7 @@ public class CharacterAnimatorManager : MonoBehaviour {
     public int LightAttack2Hash { get; private set; }
     public int HeavyAttack1Hash { get; private set; }
     public int HeavyAttack2Hash { get; private set; }
+    public int JumpAttackHash { get; private set; }
     public int RunningAttackHash { get; private set; }
     public int TH_LightAttack1Hash { get; private set; }
     public int TH_LightAttack2Hash { get; private set; }
@@ -119,6 +120,7 @@ public class CharacterAnimatorManager : MonoBehaviour {
         LightAttack2Hash = Animator.StringToHash("LightAttack2");
         HeavyAttack1Hash = Animator.StringToHash("HeavyAttack1");
         HeavyAttack2Hash = Animator.StringToHash("HeavyAttack2");
+        JumpAttackHash = Animator.StringToHash("JumpAttack");
         TH_LightAttack1Hash = Animator.StringToHash("TH_LightAttack1");
         TH_LightAttack2Hash = Animator.StringToHash("TH_LightAttack2");
         TH_HeavyAttack1Hash = Animator.StringToHash("TH_HeavyAttack1");

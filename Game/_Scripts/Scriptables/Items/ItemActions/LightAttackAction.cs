@@ -8,7 +8,7 @@ public class LightAttackAction : ItemAction {
 
         character.IsAttacking = true;
         // character.characterAnimatorManager.EraseHandIKForWeapon();
-        character.CharacterEffectsManager.PlayRightWeaponFX();
+        // character.CharacterEffectsManager.PlayRightWeaponFX();
 
         // Check for running attack
         if (character.IsSprinting) {

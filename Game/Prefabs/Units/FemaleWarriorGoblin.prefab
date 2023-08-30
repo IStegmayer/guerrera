@@ -1136,7 +1136,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 3659567038931369535}
   m_Father: {fileID: 4571890692663102}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1285,7 +1286,6 @@ Transform:
   - {fileID: 4288077449336196}
   - {fileID: 4592621516249158}
   - {fileID: 8661017647274602262}
-  - {fileID: 3659567038931369535}
   - {fileID: 7218275740172345217}
   - {fileID: 4619811143600308695}
   - {fileID: 3176372145095348672}
@@ -3631,7 +3631,7 @@ RectTransform:
   m_Children:
   - {fileID: 5216681180319749242}
   - {fileID: 2057174308312840303}
-  m_Father: {fileID: 4571890692663102}
+  m_Father: {fileID: 4288077449336196}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4170,7 +4170,6 @@ MonoBehaviour:
   attackState: {fileID: 3463382355125308530}
   pursueTargetState: {fileID: 8308649898080295863}
   EnemyAttacks:
-  - {fileID: 11400000, guid: c112c05104c020e448cd0f5791bdd6fe, type: 2}
   - {fileID: 11400000, guid: baf95dc3ed9eaee4bbf8e034609b1527, type: 2}
 --- !u!1 &5870934184127408232
 GameObject:

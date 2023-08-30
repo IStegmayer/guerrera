@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 namespace Dzajna {
 public class CombatStanceStateHumanoid : State {
@@ -77,17 +78,13 @@ public class CombatStanceStateHumanoid : State {
 
     protected virtual void GetNewAttack(EnemyManager enemy) {
         int maxScore = 0;
-        ItemBasedAttackAction[] attacks = GetEligibleAttacks();
+        ItemBasedAttackAction[] attacks = GetEligibleAttacks(enemy);
 
         for (int i = 0; i < attacks.Length; i++) {
             ItemBasedAttackAction enemyAttackAction = attacks[i];
-
-            if (enemy.DistanceFromTarget <= enemyAttackAction.MaxDistanceNeededToAttack &&
-                enemy.DistanceFromTarget >= enemyAttackAction.MinDistanceNeededToAttack) {
-                if (enemy.ViewableAngle <= enemyAttackAction.MaxAttackAngle &&
-                    enemy.ViewableAngle >= enemyAttackAction.MinAttackAngle) {
-                    maxScore += enemyAttackAction.AttackScore;
-                }
+            if (enemy.ViewableAngle <= enemyAttackAction.MaxAttackAngle &&
+                enemy.ViewableAngle >= enemyAttackAction.MinAttackAngle) {
+                maxScore += enemyAttackAction.AttackScore;
             }
         }
 
@@ -101,7 +98,7 @@ public class CombatStanceStateHumanoid : State {
                 enemy.DistanceFromTarget >= enemyAttackAction.MinDistanceNeededToAttack) {
                 if (enemy.ViewableAngle <= enemyAttackAction.MaxAttackAngle &&
                     enemy.ViewableAngle >= enemyAttackAction.MinAttackAngle) {
-                    if (attackState.CurrentAttack != null) return;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                    if (attackState.CurrentAttack != null) return;
 
                     temporaryScore += enemyAttackAction.AttackScore;
                     if (temporaryScore > randomValue) attackState.CurrentAttack = enemyAttackAction;
@@ -139,7 +136,7 @@ public class CombatStanceStateHumanoid : State {
 
         enemy.animator.SetFloat(enemy.CharacterAnimatorManager.VerticalHash, 0, 0.2f, Time.deltaTime);
         enemy.animator.SetFloat(enemy.CharacterAnimatorManager.HorizontalHash, 0, 0.2f, Time.deltaTime);
-        
+
         return this;
     }
 
@@ -147,9 +144,9 @@ public class CombatStanceStateHumanoid : State {
         var direction = enemy.TargetsDirection;
         direction.y = 0;
         direction.Normalize();
-        
+
         if (direction == Vector3.zero) direction = transform.forward;
-        
+
         var targetRotation = Quaternion.LookRotation(direction);
         enemy.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemy.RotationSpeed);
     }
@@ -197,8 +194,10 @@ public class CombatStanceStateHumanoid : State {
         willParry = false;
     }
 
-    protected virtual ItemBasedAttackAction[] GetEligibleAttacks() {
-        return EnemyAttacks;
+    protected virtual ItemBasedAttackAction[] GetEligibleAttacks(EnemyManager enemy) {
+        return EnemyAttacks.Where(a =>
+            a.MinDistanceNeededToAttack < enemy.DistanceFromTarget &&
+            a.MaxDistanceNeededToAttack > enemy.DistanceFromTarget).ToArray();
     }
 }
 }

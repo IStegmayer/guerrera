@@ -2164,12 +2164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7edd26326fd8a24e9cf633810c03187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 30
   healthPerLevel: 10
   staminaLevel: 10
   staminaPerLevel: 10
   staminaResetTime: 0.25
-  staminaRegenAmount: 40
+  staminaRegenAmount: 100
   focusLevel: 10
   focusPerLevel: 5
   TotalPoise: 0

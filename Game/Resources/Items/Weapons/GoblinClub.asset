@@ -17,7 +17,7 @@ MonoBehaviour:
   ModelPrefab: {fileID: 1185053141371617497, guid: d84108b21f7ab7241a9c972592c02b2f,
     type: 3}
   IsUnarmed: 0
-  WeaponController: {fileID: 22100000, guid: ad4b8f29f8e36e74f9edb157eb36a5f0, type: 2}
+  WeaponController: {fileID: 22100000, guid: 5f6e89b7675c0094da742a94b2e054a6, type: 2}
   WeaponType: 0
   BaseDamage: 30
   CriticalDamageMultiplier: 4
@@ -28,7 +28,7 @@ MonoBehaviour:
   Stability: 67
   BaseStamina: 10
   LightAttackMultiplier: 1
-  HeavyAttackMultiplier: 3
+  HeavyAttackMultiplier: 1
   HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
   TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
   TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}

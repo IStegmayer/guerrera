@@ -8,13 +8,13 @@ public class HeavyAttackAction : ItemAction {
 
         character.IsAttacking = true;
         // character.characterAnimatorManager.EraseHandIKForWeapon();
-        character.CharacterEffectsManager.PlayRightWeaponFX();
+        // character.CharacterEffectsManager.PlayRightWeaponFX();
 
-        // // Check for jumping attack
-        // if (!character.IsGrounded) {
-        //     HandleJumpingAttack(character);
-        //     return;
-        // }
+        // Check for running attack
+        if (character.IsSprinting) {
+            HandleRunningAttack(character);
+            return;
+        }
 
         //Check for combo or first attack. If we're interacting, return
         if (character.CanDoCombo) HandleHeavyWeaponCombo(character);
@@ -23,6 +23,28 @@ public class HeavyAttackAction : ItemAction {
 
         // update currentAttackType
         character.CharacterCombatManager.CurrentAttackType = AttackType.Heavy;
+    }
+    
+    //TODO: clean these up, too many unnecessary if elses
+    private void HandleRunningAttack(CharacterManager character) {
+        CharacterAnimatorManager charAnim = character.CharacterAnimatorManager;
+        CharacterCombatManager combatManager = character.CharacterCombatManager;
+
+        if (character.IsUsingLeftHand) {
+            charAnim.PlayTargetAnimation(charAnim.JumpAttackHash, true, false, true);
+            combatManager.LastAttackHash = charAnim.JumpAttackHash;
+        }
+        else if (character.IsUsingRightHand) {
+            if (character.IsTwoHandingWeapon) {
+                //TODO: this should be a TH anim
+                charAnim.PlayTargetAnimation(charAnim.JumpAttackHash, true);
+                combatManager.LastAttackHash = charAnim.JumpAttackHash;
+            }
+            else {
+                charAnim.PlayTargetAnimation(charAnim.JumpAttackHash, true);
+                combatManager.LastAttackHash = charAnim.JumpAttackHash;
+            }
+        }
     }
 
     private void HandleHeavyAttack(CharacterManager character) {

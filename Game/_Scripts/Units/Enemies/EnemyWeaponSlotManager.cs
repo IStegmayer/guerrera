@@ -5,19 +5,18 @@ using UnityEngine;
 
 namespace Dzajna {
 public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
-    private EnemyStatsManager enemyStatsManager;
+    private EnemyManager enemyManager;
+    private CharacterAnimatorManager enemyAnim;
+    private CharacterStatsManager enemyStatsManager;
     private CharacterEffectsManager characterEffectsManager;
 
     protected override void Awake() {
         base.Awake();
-        enemyStatsManager = GetComponentInParent<EnemyStatsManager>();
-        characterEffectsManager = GetComponentInParent<CharacterEffectsManager>();
+        enemyManager = GetComponentInParent<EnemyManager>();
+        enemyAnim = enemyManager.CharacterAnimatorManager;
+        enemyStatsManager = enemyManager.CharacterStatsManager;
+        characterEffectsManager = enemyManager.CharacterEffectsManager;
         LoadWeaponHolderSlots();
-    }
-
-    protected void Start() {
-        LoadWeaponOnSlot(rightHandWeapon, false);
-        LoadWeaponOnSlot(leftHandWeapon, true);
     }
 
     private void LoadWeaponHolderSlots() {
@@ -30,6 +29,7 @@ public class EnemyWeaponSlotManager : CharacterWeaponSlotManager {
 
     public override void LoadWeaponOnSlot(WeaponItem weapon, bool isLeft) {
         WeaponItem weaponToEquip = weapon != null ? weapon : unarmedWeapon;
+        enemyAnim.Anim.runtimeAnimatorController = weaponToEquip.WeaponController;
 
         if (isLeft && leftHandSlot != null) {
             leftHandSlot.CurrentWeaponItem = weaponToEquip;
