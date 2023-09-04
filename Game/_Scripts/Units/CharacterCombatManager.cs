@@ -53,12 +53,12 @@ public class CharacterCombatManager : MonoBehaviour {
 
         //TODO: make these distances variables
         if (enemyCharacter.CanBeRiposted)
-            if (dotValue <= 1.2f && dotValue >= 0.2f) {
+            if (dotValue <= 1.5f && dotValue >= 0.2f) {
                 AttemptRiposte(hit);
                 return;
             }
 
-        if (dotValue >= -1.2f && dotValue <= -0.2f) AttemptBackStab(hit);
+        if (dotValue >= -1.5f && dotValue <= -0.2f) AttemptBackStab(hit);
     }
 
     private void AttemptBackStab(RaycastHit hit) {
@@ -107,57 +107,28 @@ public class CharacterCombatManager : MonoBehaviour {
     private void GetBackStabbed(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
         character.IsBeingBackstabbed = true;
 
-        StartCoroutine(ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, true));
-
+        ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, true);
         charAnim.PlayTargetAnimation(charAnim.BackStabbedHash, true, true);
     }
 
     private void GetRiposted(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
         character.IsBeingRiposted = true;
 
-        StartCoroutine(ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, false));
-
+        ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, false);
         charAnim.PlayTargetAnimation(charAnim.RipostedHash, true);
     }
 
-    private IEnumerator ForceMoveCharacterToCriticalPosition(CharacterManager characterPerformingBackStab,
+    private void ForceMoveCharacterToCriticalPosition(CharacterManager characterPerformingCrit,
         bool isBackstab) {
-        Transform spotTransform;
-        Vector3 fwVector3;
-        if (isBackstab) {
-            spotTransform = backStabberStandPoint;
-            fwVector3 = characterPerformingBackStab.transform.forward;
-        }
-        else {
-            spotTransform = riposterStandPoint;
-            fwVector3 = -characterPerformingBackStab.transform.forward;
-        }
+        characterPerformingCrit.CharacterController.enabled = false;
         
-        var tr = Quaternion.LookRotation(fwVector3);
-        transform.rotation = tr;
-        transform.parent = spotTransform;
-        transform.localPosition = spotTransform.localPosition;
-        transform.parent = null;
-        yield return null;
+        Transform critPerformerTransform = characterPerformingCrit.transform;
+        Transform spotTransform = isBackstab ? backStabberStandPoint : riposterStandPoint;
+        critPerformerTransform.position = spotTransform.position;
+
+        critPerformerTransform.LookAt(transform);
         
-        // if (isBackstab) {
-        //     spotTransform = backStabberStandPoint;
-        //     fwVector3 = characterPerformingBackStab.transform.forward;
-        // }
-        // else {
-        //     spotTransform = riposterStandPoint;
-        //     fwVector3 = -characterPerformingBackStab.transform.forward;
-        // }
-        //
-        // for (var timer = 0.05f; timer < 0.5f; timer = timer + 0.05f) {
-        //     var backstabRotation = Quaternion.LookRotation(fwVector3);
-        //     transform.rotation = Quaternion.Slerp(transform.rotation, backstabRotation, 1);
-        //     transform.parent = spotTransform;
-        //     transform.localPosition = spotTransform.localPosition;
-        //     transform.parent = null;
-        //     Debug.Log("Running corountine");
-        //     yield return new WaitForSeconds(0.05f);
-        // }
+        characterPerformingCrit.CharacterController.enabled = true;
     }
 
 
@@ -175,13 +146,14 @@ public class CharacterCombatManager : MonoBehaviour {
 
         if (character.CharacterStatsManager.CheckHasStamina()) {
             character.IsBlocking = false;
-            character.CharacterAnimatorManager.PlayTargetAnimation(character.CharacterAnimatorManager.ParriedHash, true);
+            character.CharacterAnimatorManager.PlayTargetAnimation(character.CharacterAnimatorManager.ParriedHash,
+                true);
         }
         else {
             character.CharacterAnimatorManager.PlayTargetAnimation(character.CharacterAnimatorManager.BlockHash, true);
         }
     }
-    
+
     public void SuccessfullyCastSpell() {
         character.CharacterInventoryManager.CurrentSpell.SuccessfullyCastedSpell(character);
     }

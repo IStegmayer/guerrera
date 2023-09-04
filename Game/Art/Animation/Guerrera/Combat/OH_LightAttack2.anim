@@ -47470,7 +47470,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: GrantWeaponAttackingPoiseBonus
+    functionName: GrantHyperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -47547,7 +47547,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.5333333
-    functionName: StopRightWeaponFX
+    functionName: RemoveHyperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

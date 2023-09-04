@@ -61445,7 +61445,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.56666666
-    functionName: GrantWeaponAttackingPoiseBonus
+    functionName: GrantHyperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -61508,7 +61508,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.8666667
-    functionName: RemoveWeaponAttackingPoiseBonus
+    functionName: RemoveHyperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

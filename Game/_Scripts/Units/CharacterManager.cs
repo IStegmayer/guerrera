@@ -1,103 +1,110 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Dzajna
-{
-    public class CharacterManager : MonoBehaviour {
-        public Animator animator;
-        public CharacterAnimatorManager CharacterAnimatorManager;
-        public CharacterWeaponSlotManager CharacterWeaponSlotManager;
-        public CharacterStatsManager CharacterStatsManager;
-        public CharacterInventoryManager CharacterInventoryManager;
-        public CharacterEffectsManager CharacterEffectsManager;
-        public CharacterCombatManager CharacterCombatManager;
-        public CharacterSFXManager CharacterSfxManager;
-        public CharacterController CharacterController;
-        
-        [Header("Lock On Transform")] //
-        public Transform LockOnTransform;
+namespace Dzajna {
+public class CharacterManager : MonoBehaviour {
+    public Animator animator;
+    public CharacterAnimatorManager CharacterAnimatorManager;
+    public CharacterWeaponSlotManager CharacterWeaponSlotManager;
+    public CharacterStatsManager CharacterStatsManager;
+    public CharacterInventoryManager CharacterInventoryManager;
+    public CharacterEffectsManager CharacterEffectsManager;
+    public CharacterCombatManager CharacterCombatManager;
+    public CharacterSFXManager CharacterSfxManager;
+    public CharacterController CharacterController;
 
-        [Header("Combat Flags")] // 
-        public bool CanBeRiposted;
-        public bool CanBeParried;
-        public bool CanDoCombo;
-        public bool IsParrying;
-        public bool IsBlocking;
-        public bool IsInvulnerable;
-        
-        [Header("Player flags")] //
-        public bool IsInteracting;
-        public bool IsDead;
-        public bool IsAttacking;
-        public bool IsSprinting;
-        public bool IsGrounded = true;
-        public bool IsUsingRightHand;
-        public bool IsUsingLeftHand;
-        public bool IsTwoHandingWeapon;
+    [Header("Lock On Transform")] //
+    public Transform LockOnTransform;
 
-        [Header("Movement Flags")] //
-        public bool IsRotatingWithRM;
-        
-        [Header("Spell Flags")] //
-        public bool IsFiringSpell;
+    [Header("Combat Flags")] // 
+    public bool CanBeRiposted;
 
-        // Damage will be inflicted during an animation event
-        // Used in backstab or riposte animations
-        public float PendingCriticalDamage;
-        public bool IsBeingBackstabbed { get; set; }
-        public bool IsBeingRiposted { get; set; }
-        public bool IsPerformingBackstab { get; set; }
-        public bool IsPerformingRiposte { get; set; }
-        public short TeamID { get; set; }
+    public bool CanBeParried;
+    public bool CanDoCombo;
+    public bool IsParrying;
+    public bool IsBlocking;
+    public bool IsInvulnerable;
 
-        protected virtual void Awake() {
-            CharacterController = GetComponent<CharacterController>();
-            animator = GetComponent<Animator>();
-            CharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
-            CharacterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
-            CharacterStatsManager = GetComponent<CharacterStatsManager>();
-            CharacterInventoryManager = GetComponent<CharacterInventoryManager>();
-            CharacterEffectsManager = GetComponent<CharacterEffectsManager>();
-            CharacterCombatManager = GetComponent<CharacterCombatManager>();
-            CharacterSfxManager = GetComponent<CharacterSFXManager>();
-        }
+    [Header("Player flags")] //
+    public bool IsInteracting;
 
-        protected virtual void Start() {
-        }
-        
-        public void BreakGuard() {
-            CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
-        }
+    public bool IsDead;
+    public bool IsAttacking;
+    public bool IsSprinting;
+    public bool IsGrounded = true;
+    public bool IsUsingRightHand;
+    public bool IsUsingLeftHand;
+    public bool IsTwoHandingWeapon;
 
-        public void Stagger(int staggerAnimation) {
+    [Header("Movement Flags")] //
+    public bool IsRotatingWithRM;
+
+    [Header("Spell Flags")] //
+    public bool IsFiringSpell;
+
+    // Damage will be inflicted during an animation event
+    // Used in backstab or riposte animations
+    public float PendingCriticalDamage;
+    public bool IsBeingBackstabbed { get; set; }
+    public bool IsBeingRiposted { get; set; }
+    public bool IsPerformingBackstab { get; set; }
+    public bool IsPerformingRiposte { get; set; }
+    public short TeamID { get; set; }
+
+    protected int overrideLayerIndex;
+
+    protected virtual void Awake() {
+        CharacterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
+        CharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        CharacterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
+        CharacterStatsManager = GetComponent<CharacterStatsManager>();
+        CharacterInventoryManager = GetComponent<CharacterInventoryManager>();
+        CharacterEffectsManager = GetComponent<CharacterEffectsManager>();
+        CharacterCombatManager = GetComponent<CharacterCombatManager>();
+        CharacterSfxManager = GetComponent<CharacterSFXManager>();
+    }
+
+    protected virtual void Start() {
+        overrideLayerIndex = animator.GetLayerIndex("Override");
+    }
+
+    public void BreakGuard() {
+        CharacterAnimatorManager.PlayTargetAnimation(CharacterAnimatorManager.StaggerFrontHash, true);
+    }
+
+    public void Stagger(int staggerAnimation) {
+        if (animator.GetCurrentAnimatorStateInfo(overrideLayerIndex).shortNameHash == staggerAnimation)
+            animator.Play(staggerAnimation, overrideLayerIndex, 0f);
+        else
             CharacterAnimatorManager.PlayTargetAnimation(staggerAnimation, true);
-            CharacterStatsManager.ResetPoiseTimer();
-            CharacterStatsManager.ResetPoise();
+
+        CharacterStatsManager.ResetPoiseTimer();
+        CharacterStatsManager.ResetPoise();
+    }
+
+    public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {
+        if (usingRightHand) {
+            IsUsingRightHand = true;
+            IsUsingLeftHand = false;
         }
-        
-        public virtual void UpdateWhichHandCharacterIsUsing(bool usingRightHand) {
-            if (usingRightHand) {
-                IsUsingRightHand = true;
-                IsUsingLeftHand = false;
-            }
-            else {
-                IsUsingLeftHand = true;
-                IsUsingRightHand = false;
-            }
-        }
-    
-        // TODO: Animation event 
-        public virtual void StaggerReset() {
-            // disable rotation
-            CharacterAnimatorManager.DisableRotation();
-            // close dmg collider
-            CharacterWeaponSlotManager.CloseDamageCollider();
-            // remove attacking poise bonus
-            CharacterWeaponSlotManager.RemoveWeaponAttackingPoiseBonus();
-            // disable combo 
-            CharacterAnimatorManager.DisableCombo();
-            // stop right weapon fx
-            CharacterEffectsManager.StopRightWeaponFX();
+        else {
+            IsUsingLeftHand = true;
+            IsUsingRightHand = false;
         }
     }
+
+    public virtual void StaggerReset() {
+        // disable rotation
+        CharacterAnimatorManager.DisableRotation();
+        // close dmg collider
+        CharacterWeaponSlotManager.CloseDamageCollider();
+        // remove attacking poise bonus
+        CharacterWeaponSlotManager.RemoveHyperArmor();
+        // disable combo 
+        CharacterAnimatorManager.DisableCombo();
+        // stop right weapon fx
+        CharacterEffectsManager.StopRightWeaponFX();
+    }
+}
 }

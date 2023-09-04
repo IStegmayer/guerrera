@@ -24,9 +24,11 @@ public class OpenDoor : Interactable {
 
     public override void Interact(PlayerManager playerManager) {
         base.Interact(playerManager);
-        
+
+        playerManager.CharacterController.enabled = false;
         playerManager.transform.position = playerStandingPosition.position;
         playerManager.transform.rotation = playerStandingPosition.rotation;
+        playerManager.CharacterController.enabled = true;
         
         CharacterAnimatorManager anim = playerManager.GetComponent<CharacterAnimatorManager>();
         anim.PlayTargetAnimation("OpenDoubleDoor", true);

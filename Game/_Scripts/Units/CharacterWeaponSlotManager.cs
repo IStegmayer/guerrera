@@ -11,6 +11,7 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
     protected WeaponHolderSlot backSlot;
 
     protected CharacterManager character;
+    protected bool isHyperArmored;
 
     protected virtual void Awake() => character = GetComponent<CharacterManager>();
 
@@ -92,14 +93,21 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
         if (RightDamageCollider != null) RightDamageCollider.DisableDamageCollider();
     }
 
-    public virtual void GrantWeaponAttackingPoiseBonus() {
+    public virtual void GrantHyperArmor() {
+        if (isHyperArmored) return;
+        
         WeaponItem weapon = character.CharacterInventoryManager.CurrentItemBeingUsed as WeaponItem;
-        character.CharacterStatsManager.TotalPoise += weapon.OffensivePoiseBonus;
+        // TODO: this is not good
+        if (weapon != null) character.CharacterStatsManager.TotalPoise += weapon.OffensivePoiseBonus;
+        isHyperArmored = true;
     }
 
-    public virtual void RemoveWeaponAttackingPoiseBonus() {
+    public virtual void RemoveHyperArmor() {
+        if (!isHyperArmored) return;
+        
         WeaponItem weapon = character.CharacterInventoryManager.CurrentItemBeingUsed as WeaponItem;
         if (weapon != null) character.CharacterStatsManager.TotalPoise -= weapon.OffensivePoiseBonus;
+        isHyperArmored = false;
     }
 
     public Transform GetRightHandTransform() => rightHandSlot.transform;
