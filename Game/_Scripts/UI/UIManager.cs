@@ -11,9 +11,11 @@ namespace Dzajna
         
         [Header("UI Windows")]
         [SerializeField] private GameObject HUDWindow;
+        [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject selectWindow;
         [SerializeField] private GameObject weaponInventoryWindow;
         [SerializeField] private GameObject equipmentWindow;
+        [SerializeField] private GameObject statsGraph;
 
         [Header("Equipment Window Slot Selected")]
         public bool RightHandSlot1Selected;
@@ -32,8 +34,16 @@ namespace Dzajna
         }
 
         private void Start() {
-            weaponInventorySlots = weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
-            equipmentWindowUI.LoadWeaponsOnEquipmentScreen(characterInventoryManager);
+            // weaponInventorySlots = weaponInventorySlotsContainer.GetComponentsInChildren<WeaponInventorySlot>(true);
+            // equipmentWindowUI.LoadWeaponsOnEquipmentScreen(characterInventoryManager);
+        }
+
+        private void OnEnable() {
+            PlayerStatsManager.OnPlayerKilled += ShowYouDied;
+        }
+
+        private void OnDisable() {
+            PlayerStatsManager.OnPlayerKilled -= ShowYouDied;
         }
 
         public void UpdateUI() {
@@ -60,12 +70,14 @@ namespace Dzajna
 
         public void ToggleSelectWindow(bool active) => selectWindow.SetActive(active);
         public void ToggleHUDWindow(bool active) => HUDWindow.SetActive(active);
+        public void ToggleStatsGraph() => statsGraph.SetActive(!statsGraph.activeInHierarchy);
+        public void ShowYouDied() => gameOverPanel.SetActive(true);
         public void CloseAllInventoryWindows() {
             ResetAllSelectedSlots();
             weaponInventoryWindow.SetActive(false);
             equipmentWindow.SetActive(false);
         }
-        
+
         public void ResetAllSelectedSlots() {
             RightHandSlot1Selected = false;
             RightHandSlot2Selected = false;

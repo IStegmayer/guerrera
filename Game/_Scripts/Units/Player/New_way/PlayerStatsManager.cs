@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Dzajna {
 public class PlayerStatsManager : CharacterStatsManager {
@@ -13,8 +14,9 @@ public class PlayerStatsManager : CharacterStatsManager {
     [SerializeField] private FPBar FPBar;
     private Coroutine deathRoutine;
 
-    public int SoulCount = 0;
-
+    public int SoulCount;
+    public static event Action OnPlayerKilled;
+    
     private void Awake() {
         player = GetComponent<PlayerManager>();
         playerAnimManager = GetComponent<PlayerCharacterAnimatorManager>();
@@ -71,7 +73,7 @@ public class PlayerStatsManager : CharacterStatsManager {
     public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (player.IsDead || player.IsInvulnerable) return;
         if (dmgAnimation < 0) dmgAnimation = playerAnimManager.Damage1Hash;
-        
+
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
 
@@ -80,8 +82,8 @@ public class PlayerStatsManager : CharacterStatsManager {
             player.IsDead = true;
         }
         else {
-            if (player.CharacterStatsManager.TotalPoise > 0) playerAnimManager.PlayTargetAnimation(dmgAnimation, false);
-            else player.Stagger(dmgAnimation);
+            if (player.CharacterStatsManager.TotalPoise <= 0) player.Stagger(dmgAnimation);
+            if (!player.IsInteracting) playerAnimManager.PlayTargetAnimation(dmgAnimation, false);
         }
     }
 
@@ -95,8 +97,10 @@ public class PlayerStatsManager : CharacterStatsManager {
         // start death animation
         yield return new WaitForSeconds(1f);
         GameManager.Instance.ChangeState(GameState.Lose);
-        yield return new WaitForSeconds(3f);
+        OnPlayerKilled?.Invoke();
+        yield return new WaitForSeconds(5f);
         UnitManager.Instance.DespawnPlayer(transform.gameObject);
+        CanvasManager.Instance.LoadGameScene("GameScene");
     }
 
     public void TakeFPDamage(float dmg) {

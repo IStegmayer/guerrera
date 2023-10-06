@@ -153,7 +153,7 @@ public class CharacterAnimatorManager : MonoBehaviour {
         Anim.CrossFade(targetAnim, 0.2f);
     }
 
-    public void PlayTargetAnimationWithRootRotation(int targetAnim, bool isInteracting) {
+    public void PlayTargetAnimationWithRootRotation(int targetAnim, bool isInteracting, bool mirrorAnim = false) {
         Anim.applyRootMotion = isInteracting;
         Anim.SetBool(IsRotatingWithRMHash, true);
         Anim.SetBool(IsInteractingHash, isInteracting);

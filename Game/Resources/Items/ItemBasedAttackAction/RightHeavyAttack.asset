@@ -18,7 +18,7 @@ MonoBehaviour:
   isRightHandedAction: 1
   isLeftHandedAction: 0
   AttackScore: 10
-  RecoveryTime: 3
+  RecoveryTime: 5
   MaxAttackAngle: 35
   MinAttackAngle: -35
   MinDistanceNeededToAttack: 3

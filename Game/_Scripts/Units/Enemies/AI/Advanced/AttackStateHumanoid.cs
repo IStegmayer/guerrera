@@ -32,6 +32,7 @@ public class AttackStateHumanoid : State {
     }
 
     private State ProcessSwordAndShieldCombatStyle(EnemyManager enemy) {
+        // If last attack was riposted, we run its timer and handle it
         if (enemy.CanBeRiposted) {
             if (parriedTimer > 0f) {
                 parriedTimer -= Time.deltaTime;
@@ -42,6 +43,12 @@ public class AttackStateHumanoid : State {
             enemy.CharacterAnimatorManager.DisableCanBeRiposted();
             ResetStateFlags();
             return idleState;
+        }
+        
+        // If we're not attacking and attack is on CD, we recover time 
+        if (!enemy.IsInteracting && enemy.CurrentRecoveryTime > 0) {
+            ResetStateFlags();
+            return combatStanceState;
         }
 
         RotateTowardsTargetWhilstAttacking(enemy);
@@ -69,9 +76,9 @@ public class AttackStateHumanoid : State {
     private State ProcessShamanCombatStyle(EnemyManager enemy) {
         RotateTowardsTargetWhilstAttacking(enemy);
 
-        if (enemy.IsInteracting || enemy.CurrentTarget == null || enemy.CurrentRecoveryTime > 0) return this;
-
-        if (enemy.IsFiringSpell) {
+        if (enemy.IsInteracting || enemy.CurrentTarget == null) return this;
+        
+        if (enemy.IsFiringSpell || enemy.CurrentRecoveryTime > 0) {
             ResetStateFlags();
             return combatStanceState;
         }

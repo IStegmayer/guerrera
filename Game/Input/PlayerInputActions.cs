@@ -32,7 +32,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""13c00543-36ae-4f95-91de-69d8dfaa579a"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -52,7 +52,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""94ca21b7-3774-41e1-8ca7-184d08f88026"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": ""NormalizeVector2,StickDeadzone"",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
@@ -185,15 +185,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RESETSCENE"",
-                    ""type"": ""Button"",
-                    ""id"": ""68576c69-1241-48f7-ab8f-e2107dd539dd"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -304,17 +295,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f7f19237-9f3f-4fec-8c62-f48d56030839"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RESETSCENE"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -823,6 +803,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Game Actions"",
+            ""id"": ""d6f07b5b-6b6f-4735-bee3-487cdece106c"",
+            ""actions"": [
+                {
+                    ""name"": ""ShowStats"",
+                    ""type"": ""Button"",
+                    ""id"": ""b172853f-08c9-453d-85ce-f80063da84dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b753b697-357e-4ae9-b9e4-df2a19311083"",
+                    ""path"": ""<Keyboard>/f9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowStats"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -838,7 +846,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerControls_DPadLeft = m_PlayerControls.FindAction("D-Pad Left", throwIfNotFound: true);
         m_PlayerControls_DPadRight = m_PlayerControls.FindAction("D-Pad Right", throwIfNotFound: true);
         m_PlayerControls_Inventory = m_PlayerControls.FindAction("Inventory", throwIfNotFound: true);
-        m_PlayerControls_RESETSCENE = m_PlayerControls.FindAction("RESETSCENE", throwIfNotFound: true);
         // Player Actions
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_B = m_PlayerActions.FindAction("B", throwIfNotFound: true);
@@ -857,6 +864,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerActions_LockOnTargetLeft = m_PlayerActions.FindAction("LockOnTargetLeft", throwIfNotFound: true);
         m_PlayerActions_LockOnTargetRight = m_PlayerActions.FindAction("LockOnTargetRight", throwIfNotFound: true);
         m_PlayerActions_TwoHand = m_PlayerActions.FindAction("TwoHand", throwIfNotFound: true);
+        // Game Actions
+        m_GameActions = asset.FindActionMap("Game Actions", throwIfNotFound: true);
+        m_GameActions_ShowStats = m_GameActions.FindAction("ShowStats", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -977,7 +987,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_DPadLeft;
     private readonly InputAction m_PlayerControls_DPadRight;
     private readonly InputAction m_PlayerControls_Inventory;
-    private readonly InputAction m_PlayerControls_RESETSCENE;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -987,7 +996,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @DPadLeft => m_Wrapper.m_PlayerControls_DPadLeft;
         public InputAction @DPadRight => m_Wrapper.m_PlayerControls_DPadRight;
         public InputAction @Inventory => m_Wrapper.m_PlayerControls_Inventory;
-        public InputAction @RESETSCENE => m_Wrapper.m_PlayerControls_RESETSCENE;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1012,9 +1020,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
-            @RESETSCENE.started += instance.OnRESETSCENE;
-            @RESETSCENE.performed += instance.OnRESETSCENE;
-            @RESETSCENE.canceled += instance.OnRESETSCENE;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -1034,9 +1039,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
-            @RESETSCENE.started -= instance.OnRESETSCENE;
-            @RESETSCENE.performed -= instance.OnRESETSCENE;
-            @RESETSCENE.canceled -= instance.OnRESETSCENE;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -1220,6 +1222,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActionsActions @PlayerActions => new PlayerActionsActions(this);
+
+    // Game Actions
+    private readonly InputActionMap m_GameActions;
+    private List<IGameActionsActions> m_GameActionsActionsCallbackInterfaces = new List<IGameActionsActions>();
+    private readonly InputAction m_GameActions_ShowStats;
+    public struct GameActionsActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public GameActionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShowStats => m_Wrapper.m_GameActions_ShowStats;
+        public InputActionMap Get() { return m_Wrapper.m_GameActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IGameActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GameActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameActionsActionsCallbackInterfaces.Add(instance);
+            @ShowStats.started += instance.OnShowStats;
+            @ShowStats.performed += instance.OnShowStats;
+            @ShowStats.canceled += instance.OnShowStats;
+        }
+
+        private void UnregisterCallbacks(IGameActionsActions instance)
+        {
+            @ShowStats.started -= instance.OnShowStats;
+            @ShowStats.performed -= instance.OnShowStats;
+            @ShowStats.canceled -= instance.OnShowStats;
+        }
+
+        public void RemoveCallbacks(IGameActionsActions instance)
+        {
+            if (m_Wrapper.m_GameActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGameActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GameActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GameActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GameActionsActions @GameActions => new GameActionsActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -1232,7 +1280,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnDPadLeft(InputAction.CallbackContext context);
         void OnDPadRight(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
-        void OnRESETSCENE(InputAction.CallbackContext context);
     }
     public interface IPlayerActionsActions
     {
@@ -1252,5 +1299,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnLockOnTargetLeft(InputAction.CallbackContext context);
         void OnLockOnTargetRight(InputAction.CallbackContext context);
         void OnTwoHand(InputAction.CallbackContext context);
+    }
+    public interface IGameActionsActions
+    {
+        void OnShowStats(InputAction.CallbackContext context);
     }
 }

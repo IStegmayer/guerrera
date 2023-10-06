@@ -29,13 +29,16 @@ public class UIEnemyHealthBar : MonoBehaviour {
 
     private void Update() {
         if (slider == null) return;
-        poiseText.text = statsManager.TotalPoise + "/" + statsManager.ArmorPoise;
+        transform.rotation = PlayerCamera.Instance.GetCameraRotation();
+        // poiseText.text = statsManager.TotalPoise + "/" + statsManager.ArmorPoise;
+        // TODO: this will tank performance for no reason
+        // poiseText.text = GetComponentInParent<EnemyManager>().CurrentState.name;
         
-        // if (timeUntilBarIsHidden <= 0) {
-        //     timeUntilBarIsHidden = 0;
-        //     slider.gameObject.SetActive(false);
-        // }
-        // else timeUntilBarIsHidden = timeUntilBarIsHidden - Time.deltaTime;
+        if (timeUntilBarIsHidden <= 0) {
+            timeUntilBarIsHidden = 0;
+            slider.gameObject.SetActive(false);
+        }
+        else timeUntilBarIsHidden = timeUntilBarIsHidden - Time.deltaTime;
         
         if (slider.value <= 0) Destroy(slider.gameObject);
     }

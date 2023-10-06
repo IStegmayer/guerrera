@@ -52,7 +52,6 @@ public class GameManager : StaticInstance<GameManager>
         // Debug.Log($"New state: {newState}");
     }
 
-
     private void HandleStarting() {
         // Do some start setup, could be environment, cinematics etc
 
@@ -68,13 +67,11 @@ public class GameManager : StaticInstance<GameManager>
         ChangeState(GameState.SpawningEnemies);
     }
 
-    private void HandleWin() {
-    }
-    private void HandleLose() {
-    }
+    private void HandleWin() { }
+    private void HandleLose() { }
 
     private void HandleSpawningEnemies() {
-        UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.Goblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.FemaleWarriorGoblin);
         UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.FemaleWarriorGoblin);
         UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.FemaleWarriorGoblin);
         UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);

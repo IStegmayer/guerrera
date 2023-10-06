@@ -59,20 +59,22 @@ public class PlayerLocomotionManager : CharacterLocomotionManager {
             playerStatsManager.TakeStaminaDamage(sprintStaminaCost * delta);
         }
 
-        if (inputHandler.MoveAmount <= 0.5f) moveSpeed = walkingSpeed;
+        if (Math.Abs(inputHandler.Horizontal) <= 0.51f && Math.Abs(inputHandler.Vertical) <= 0.51f) moveSpeed = walkingSpeed;
 
         moveDirection = playerCamera.transform.forward * inputHandler.Vertical;
         moveDirection += playerCamera.transform.right * inputHandler.Horizontal;
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        characterController.Move(moveSpeed * moveDirection * delta);
-
-        if (inputHandler.LockOnFlag)
-            playerCharacterAnimatorManager.UpdateAnimatorValues(inputHandler.Vertical, inputHandler.Horizontal,
+        Vector2 normalized = new Vector2(inputHandler.Horizontal, inputHandler.Vertical).normalized;
+        if (inputHandler.LockOnFlag) {
+            playerCharacterAnimatorManager.UpdateAnimatorValues(normalized.y, normalized.x,
                 player.IsSprinting);
+        }
         else
             playerCharacterAnimatorManager.UpdateAnimatorValues(inputHandler.MoveAmount, 0, player.IsSprinting);
+        
+        characterController.Move(moveSpeed * moveDirection * delta);
     }
 
     public void HandleRotation(float delta) {
@@ -80,6 +82,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager {
         float rs = player.IsInteracting ? attackingRotationSpeed : rotationSpeed;
 
         if (inputHandler.LockOnFlag && !player.IsSprinting) {
+            //TODO: could just use player.TargetsDistance
             Vector3 rotationDirection = moveDirection;
             rotationDirection = playerCamera.CurrentLockOnTarget.transform.position - transform.position;
             rotationDirection.y = 0;

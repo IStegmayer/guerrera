@@ -7,29 +7,31 @@ public class CharacterLocomotionManager : MonoBehaviour {
     protected CharacterController characterController;
     protected CharacterManager character;
     protected CharacterAnimatorManager CharacterAnimatorManager;
-    
-    [Header("Gravity Settings")] 
-    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Gravity Settings")] [SerializeField]
+    private LayerMask groundLayer;
+
     [SerializeField] protected Vector3 fallVelocity;
     [SerializeField] protected float fallStartYVelocity = -7f;
     [SerializeField] protected float groundedYVelocity = -20f;
     [SerializeField] protected float gravityForce = -9.8f;
-    [SerializeField] protected float groundCheckSphereRadius = 0.2f;
+    protected float groundCheckSphereRadius;
+    protected Vector3 groundCheckStartingPosition;
     protected bool fallingVelocitySet = false;
-    
+
     public float InAirTimer;
-
-    protected virtual void Awake() {
-    }
-
+    
     protected virtual void Start() {
-        characterController = GetComponent<CharacterController>();
         character = GetComponent<CharacterManager>();
         CharacterAnimatorManager = character.GetComponent<CharacterAnimatorManager>();
+        characterController = GetComponent<CharacterController>();
+        groundCheckSphereRadius = characterController.radius;
     }
-    
+
     protected virtual void Update() {
-        character.IsGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
+        groundCheckStartingPosition = transform.position;
+        groundCheckStartingPosition.y += groundCheckSphereRadius - 0.05f;
+        character.IsGrounded = Physics.CheckSphere(groundCheckStartingPosition, groundCheckSphereRadius, groundLayer);
         CharacterAnimatorManager.Anim.SetBool(CharacterAnimatorManager.IsGroundedHash, character.IsGrounded);
         HandleGroundCheck();
     }
@@ -55,7 +57,7 @@ public class CharacterLocomotionManager : MonoBehaviour {
     }
 
     private void OnDrawGizmosSelected() {
-        Gizmos.DrawSphere(transform.position, groundCheckSphereRadius);
+        Gizmos.DrawSphere(groundCheckStartingPosition, groundCheckSphereRadius);
     }
 }
 }

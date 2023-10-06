@@ -4,13 +4,17 @@ using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace Dzajna {
-public class InputHandler : Singleton<InputHandler> {
+public class InputHandler : PersistentSingleton<InputHandler> {
     //TODO: This could be renamed and mapped to just the pressed buttons and a dictionary of 
 
     // MOVEMENT
-    public float Horizontal { get; private set; }
-    public float Vertical { get; private set; }
-    public float MoveAmount { get; private set; }
+    public float Horizontal;
+    // { get; private set; }
+    public float Vertical;
+    // { get; private set; }
+
+    public float MoveAmount;
+    //{ get; private set; }
     public float CameraX { get; private set; }
 
     public float CameraY { get; private set; }
@@ -58,19 +62,15 @@ public class InputHandler : Singleton<InputHandler> {
     private PlayerEquipmentManager playerEquipmentManager;
     private PlayerCamera playerCamera;
     private UIManager uiManager;
+    private CanvasManager canvasManager;
     private PlayerWeaponSlotManager playerWeaponSlotManager;
 
-    private Vector2 movementInput;
+    public Vector2 movementInput;
     private Vector2 cameraInput;
 
     protected void Start() {
         playerCamera = PlayerCamera.Instance;
-        playerCombatManager = player.GetComponent<PlayerCombatManager>();
-        characterInventoryManager = player.GetComponent<CharacterInventoryManager>();
-        playerCharacterAnimatorManager = player.GetComponent<PlayerCharacterAnimatorManager>();
-        playerStatsManager = player.GetComponent<PlayerStatsManager>();
-        playerWeaponSlotManager = player.GetComponentInChildren<PlayerWeaponSlotManager>();
-        playerEquipmentManager = player.GetComponentInChildren<PlayerEquipmentManager>();
+        canvasManager = CanvasManager.Instance;
         // TODO: inefficient asf
         uiManager = FindObjectOfType<UIManager>();
     }
@@ -104,16 +104,17 @@ public class InputHandler : Singleton<InputHandler> {
             inputActions.PlayerActions.LockOnTargetRight.performed += _ => LockOnRightInput = true;
             inputActions.PlayerActions.TwoHand.performed += _ => TwoHandInput = true;
 
-            inputActions.PlayerControls.RESETSCENE.performed +=
-                _ => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            inputActions.GameActions.ShowStats.performed += _ => uiManager.ToggleStatsGraph();
+                //SceneManager.LoadGameScene(SceneManager.GetActiveScene().name);
             
             inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
             inputActions.PlayerControls.DPadRight.performed += _ => DPadRightInput = true;
             inputActions.PlayerControls.DPadLeft.performed += _ => DPadLeftInput = true;
+            
+            // enable our created inputActions 
+            inputActions.Enable();
         }
 
-        // enable our created inputActions 
-        inputActions.Enable();
     }
 
     public void TickInput(float delta) {
@@ -206,8 +207,8 @@ public class InputHandler : Singleton<InputHandler> {
     }
 
     private void HandleHoldRTInput() {
-        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsChargingAttackHash, RTHoldInput);
         if (!RTHoldInput) return;
+        playerCharacterAnimatorManager.Anim.SetBool(playerCharacterAnimatorManager.IsChargingAttackHash, RTHoldInput);
 
         player.UpdateWhichHandCharacterIsUsing(true);
         characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
@@ -288,18 +289,19 @@ public class InputHandler : Singleton<InputHandler> {
     }
 
     private void HandleJumpInput(CallbackContext callbackContext) {
-        // JumpInput = callbackContext.action.WasPerformedThisFrame();
+        JumpInput = callbackContext.action.WasPerformedThisFrame();
     }
 
     private void HandleInventoryInput(CallbackContext callbackContext) {
         InventoryInput = callbackContext.action.WasPerformedThisFrame();
         if (!InventoryInput) return;
 
-        InventoryFlag = !InventoryFlag;
-        uiManager.ToggleSelectWindow(InventoryFlag);
-        if (InventoryFlag) uiManager.UpdateUI();
-        else uiManager.CloseAllInventoryWindows();
-        uiManager.ToggleHUDWindow(!InventoryFlag);
+        canvasManager.ActivateCanvas(canvasManager.GetInGameOptionCanvas());
+        // InventoryFlag = !InventoryFlag;
+        // uiManager.ToggleSelectWindow(InventoryFlag);
+        // if (InventoryFlag) uiManager.UpdateUI();
+        // else uiManager.CloseAllInventoryWindows();
+        // uiManager.ToggleHUDWindow(!InventoryFlag);
     }
 
     private void HandleLockOnInput() {
@@ -343,9 +345,20 @@ public class InputHandler : Singleton<InputHandler> {
 
     public void ResetLockOnFlag() => LockOnFlag = false;
 
-    public void OnDisable() {
-        // making sure to cleanup
-        inputActions.Disable();
+    // public void OnDisable() {
+    //     // making sure to cleanup
+    //     inputActions?.Disable();
+    // }
+
+    public void SetupPlayerVariables(PlayerManager newPlayer) {
+        player = newPlayer;
+        playerCamera = PlayerCamera.Instance;
+        playerCombatManager = player.GetComponent<PlayerCombatManager>();
+        characterInventoryManager = player.GetComponent<CharacterInventoryManager>();
+        playerCharacterAnimatorManager = player.GetComponent<PlayerCharacterAnimatorManager>();
+        playerStatsManager = player.GetComponent<PlayerStatsManager>();
+        playerWeaponSlotManager = player.GetComponentInChildren<PlayerWeaponSlotManager>();
+        playerEquipmentManager = player.GetComponentInChildren<PlayerEquipmentManager>();
     }
 
     private void LateUpdate() {

@@ -5,6 +5,7 @@ namespace Dzajna {
 public class CombatStanceStateHumanoid : State {
     [SerializeField] private AttackStateHumanoid attackState;
     [SerializeField] private PursueTargetStateHumanoid pursueTargetState;
+    [SerializeField] private RotateTowardsTargetStateHumanoid rotateTowardsTargetState;
     public ItemBasedAttackAction[] EnemyAttacks;
 
     [Header("State Flags")] protected bool willBlock;
@@ -133,6 +134,7 @@ public class CombatStanceStateHumanoid : State {
             ResetStateFlags();
             return attackState;
         }
+        return rotateTowardsTargetState;
 
         enemy.animator.SetFloat(enemy.CharacterAnimatorManager.VerticalHash, 0, 0.2f, Time.deltaTime);
         enemy.animator.SetFloat(enemy.CharacterAnimatorManager.HorizontalHash, 0, 0.2f, Time.deltaTime);

@@ -5,11 +5,12 @@ using System;
 /// Insanely basic audio system which supports 3D sound.
 /// Ensure you change the 'Sounds' audio Source to use 3D spatial blend if you intend to use 3D sounds.
 /// </summary>
-public class AudioSystem : StaticInstance<AudioSystem> {
+public class AudioSystem : PersistentSingleton<AudioSystem> {
     [SerializeField][Range(0f, 1f)] private float musicVolume;
     [SerializeField][Range(0f, 1f)] private float soundsVolume;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundsSource;
+    public float MasterVolume = 1f;
 
     public Sound[] sounds;
 
@@ -21,6 +22,8 @@ public class AudioSystem : StaticInstance<AudioSystem> {
             s.Source.pitch = s.Pitch;
             s.Source.loop = s.Loop;
         }
+        
+        PlayMusic("swanLake");
     }
 
     public void PlayMusic(string soundName) {
@@ -32,26 +35,31 @@ public class AudioSystem : StaticInstance<AudioSystem> {
 
         musicSource.clip = s.Source.clip;
         musicSource.loop = s.Source.loop;
-        musicSource.volume = s.Source.volume;
+        musicSource.volume = s.Source.volume * MasterVolume;
 
         musicSource.Play();
     }
 
-    public void PlaySound(string soundName, Vector3 pos) {
+    public void PlaySound(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.Name == soundName);
         if (s == null) {
             Debug.LogWarning("Sound: " + soundName + " not found!");
             return;
         }
 
-        soundsSource.transform.position = pos;
         soundsSource.clip = s.Source.clip;
         soundsSource.loop = s.Source.loop;
-        soundsSource.volume = s.Source.volume;
+        soundsSource.volume = s.Source.volume * MasterVolume;
 
         if (soundsSource.loop)
             soundsSource.Play();
         else
             soundsSource.PlayOneShot(soundsSource.clip, soundsSource.volume);
+    }
+
+    public void SetMasterVolume(float volume) {
+        MasterVolume = volume/100f;
+        soundsSource.volume = MasterVolume;
+        musicSource.volume = MasterVolume;
     }
 }

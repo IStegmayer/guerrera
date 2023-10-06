@@ -1339,7 +1339,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &6955296484019310890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f051afeab31b4392aec6352ec20cf69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 25
+  healthLevel: 15
   healthPerLevel: 10
   staminaLevel: 999
   staminaPerLevel: 5
@@ -1423,8 +1423,8 @@ MonoBehaviour:
   StoppingDistance: 5
   RotationSpeed: 15
   AttackingRotationSpeed: 17
-  MaxAttackRange: 1.5
-  MaxAggroRadius: 5
+  MaxAttackRange: 5
+  MaxAggroRadius: 8
   CurrentRecoveryTime: 5
   AllowAIToPerformCombos: 1
   combatStyle: 0
@@ -4169,8 +4169,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: {fileID: 3463382355125308530}
   pursueTargetState: {fileID: 8308649898080295863}
+  rotateTowardsTargetState: {fileID: 0}
   EnemyAttacks:
   - {fileID: 11400000, guid: baf95dc3ed9eaee4bbf8e034609b1527, type: 2}
+  - {fileID: 11400000, guid: c112c05104c020e448cd0f5791bdd6fe, type: 2}
 --- !u!1 &5870934184127408232
 GameObject:
   m_ObjectHideFlags: 0
@@ -4353,7 +4355,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: poise
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -180,14 +180,14 @@ MonoBehaviour:
   MaxDetectionAngle: -90
   StoppingDistance: 15
   RotationSpeed: 15
-  AttackingRotationSpeed: 50
+  AttackingRotationSpeed: 30
   MaxAttackRange: 20
   MaxAggroRadius: 40
   CurrentRecoveryTime: 4
   AllowAIToPerformCombos: 1
   combatStyle: 1
   ComboChance: 100
-  CanRotate: 0
+  CanRotate: 1
   allowAIToBlock: 0
   blockLikelihood: 0
   allowAIToDodge: 0
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: {fileID: 8419539427799076617}
   pursueTargetState: {fileID: 7712079386011248829}
+  rotateTowardsTargetState: {fileID: 0}
   EnemyAttacks:
   - {fileID: 11400000, guid: baf95dc3ed9eaee4bbf8e034609b1527, type: 2}
 --- !u!1 &2066766296865334020

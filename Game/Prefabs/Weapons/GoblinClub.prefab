@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: 967988865567253019, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_Height
-      value: 1.1924711
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 967988865567253019, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_Radius
-      value: 0.16889352
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 967988865567253019, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
@@ -41,17 +41,17 @@ PrefabInstance:
     - target: {fileID: 4688076078970323184, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4688076078970323184, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4688076078970323184, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4688076078970323184, guid: eca7f84e40d81fc45993f192f6e3fea0,
         type: 3}
@@ -152,6 +152,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GoblinClub
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436700875465601917, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436700875465601917, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436700875465601917, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436700875465601917, guid: eca7f84e40d81fc45993f192f6e3fea0,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

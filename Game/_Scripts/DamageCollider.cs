@@ -88,7 +88,7 @@ public class DamageCollider : MonoBehaviour {
             enemyStats.DealPoiseDamage(PoiseBreak * attackTypeMultiplier);
             enemyStats.TakeDamage(PhysicalDamage * attackTypeMultiplier, currentDamageAnimation);
             enemyStats.ResetPoiseTimer();
-            enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
+            if (!enemyManager.IsInvulnerable) enemyEffectsManager.PlayBloodSplatterFX(contactPoint);
 
             EnsureAggroTarget(enemyManager);
         }

@@ -160,7 +160,7 @@ Transform:
   - {fileID: 8137980426947091656}
   - {fileID: 8137980427507220079}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8137980427267689688
 MonoBehaviour:
@@ -174,75 +174,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bbeb5a559e41b78911736d116876ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicSource: {fileID: 8137980426947091659}
-  _soundsSource: {fileID: 8137980427507220078}
+  musicVolume: 0.336
+  soundsVolume: 0.3
+  musicSource: {fileID: 8137980427507220078}
+  soundsSource: {fileID: 8137980426947091659}
+  MasterVolume: 1
   sounds:
   - Name: swanLake
     Loop: 0
     Clip: {fileID: 8300000, guid: d8257bda7da1900408eabdec54c9129e, type: 3}
     Source: {fileID: 0}
-    Volume: 0.1
-    Pitch: 0
+    Volume: 1
+    Pitch: 1
   - Name: gameWin
     Loop: 0
     Clip: {fileID: 8300000, guid: 371372575382ad64ba225507ff792f8d, type: 3}
     Source: {fileID: 0}
     Volume: 1
-    Pitch: 0
-  - Name: playerAttack
+    Pitch: 1
+  - Name: gameLose
     Loop: 0
-    Clip: {fileID: 8300000, guid: 89bc13ed9271e5542b332ac4954bcae2, type: 3}
+    Clip: {fileID: 8300000, guid: 22d57f3a87408d04ab188dfdfb832a06, type: 3}
     Source: {fileID: 0}
     Volume: 1
-    Pitch: 0
-  - Name: playerBlock
-    Loop: 0
-    Clip: {fileID: 8300000, guid: 370182ee1446b124da6e2c30d766d403, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: playerDamage
-    Loop: 0
-    Clip: {fileID: 8300000, guid: 715de20606bb04d46b8ec51d5345a9e6, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: playerFootsteps
-    Loop: 0
-    Clip: {fileID: 8300000, guid: 3078aea79e16da941b153240627a26a1, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: playerJump
-    Loop: 0
-    Clip: {fileID: 8300000, guid: c948fafce4a22aa42aff04e327b359a8, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: playerRoll
-    Loop: 0
-    Clip: {fileID: 8300000, guid: 28d7e45008b7e0a4281bb383fb0e8894, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: enemyAttack
-    Loop: 0
-    Clip: {fileID: 8300000, guid: 38e563f7733925b4896cd01c5aafbf4e, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: enemyDamage
-    Loop: 0
-    Clip: {fileID: 8300000, guid: c0d102d459297b44d8a0a995faa1a216, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
-  - Name: enemyDeath
-    Loop: 0
-    Clip: {fileID: 8300000, guid: ae1af99f6bcbd314481ffb283ab74938, type: 3}
-    Source: {fileID: 0}
-    Volume: 1
-    Pitch: 0
+    Pitch: 1
 --- !u!1 &8137980427507220076
 GameObject:
   m_ObjectHideFlags: 0

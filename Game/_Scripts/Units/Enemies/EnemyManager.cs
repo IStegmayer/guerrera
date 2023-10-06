@@ -17,27 +17,27 @@ public class EnemyManager : CharacterManager {
 
     //TODO: divide these
     [Header("AI Settings")] //
-    public float AggroRange = 10;
-    public float MinDetectionAngle = 50;
-    public float MaxDetectionAngle = -50;
-    public float StoppingDistance = 1.2f;
-    public float RotationSpeed = 10f;
-    public float AttackingRotationSpeed = 50f;
-    public float MaxAttackRange = 3f;
-    public float MaxAggroRadius = 3f;
+    public float AggroRange;
+    public float MinDetectionAngle;
+    public float MaxDetectionAngle;
+    public float StoppingDistance;
+    public float RotationSpeed;
+    public float AttackingRotationSpeed;
+    public float MaxAttackRange;
+    public float MaxAggroRadius;
     public float CurrentRecoveryTime;
     public bool AllowAIToPerformCombos = true;
     public HumanAICombatStyle combatStyle = HumanAICombatStyle.Melee;
-    public float ComboChance = 50;
+    public float ComboChance;
     public bool CanRotate;
 
     [Header("Settings for Advanced AI")] //
     public bool allowAIToBlock;
-    public float blockLikelihood = 30f; // in percentage TODO: .base these on attack speed too
+    public float blockLikelihood; // in percentage TODO: .base these on attack speed too
     public bool allowAIToDodge;
-    public float dodgeLikelihood = 30f;
+    public float dodgeLikelihood;
     public bool allowAIToParry; // TODO: HAA
-    public float parryLikelihood = 30f;
+    public float parryLikelihood;
 
     [Header("A.I Target Information")] //
     public float DistanceFromTarget;
@@ -75,7 +75,7 @@ public class EnemyManager : CharacterManager {
         if (CurrentTarget != null) {
             DistanceFromTarget = Vector3.Distance(CurrentTarget.transform.position, transform.position);
             TargetsDirection = CurrentTarget.transform.position - transform.position;
-            ViewableAngle = Vector3.Angle(TargetsDirection, transform.forward);
+            ViewableAngle = Vector3.SignedAngle(TargetsDirection, transform.forward, Vector3.up);
         }
     }
 

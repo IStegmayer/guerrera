@@ -41,13 +41,14 @@ public class OpenDoor : Interactable {
     private IEnumerator OpenDoors()
     {
         float timeElapsed = 0.0f;
-
+        float volume = AudioSystem.Instance.MasterVolume;
+        
         while (timeElapsed < animDuration) {
             timeElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(timeElapsed / animDuration);
             float curveValue = animationCurve.Evaluate(t);
 
-            audioSource.volume = curveValue;
+            audioSource.volume = curveValue * volume;
             Quaternion targetRotation = initialRotation * Quaternion.Euler(0, -curveValue * 80.0f, 0);
             leftDoor.rotation = targetRotation;
             targetRotation = initialRotation * Quaternion.Euler(0, curveValue * 80.0f, 0);

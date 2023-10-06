@@ -335,14 +335,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4405498462004170727}
-  m_LocalRotation: {x: 0.40319335, y: -0.87346804, z: 0.26497775, w: 0.0653872}
-  m_LocalPosition: {x: -2.7, y: -2, z: -5.7}
+  m_LocalRotation: {x: -0.0665387, y: -0.9637188, z: 0.19666639, w: 0.1677533}
+  m_LocalPosition: {x: 8.3, y: -9.65, z: -4.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6880589535415424763}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 31.039, y: -186.665, z: -51.409}
+  m_LocalEulerAnglesHint: {x: 20.9, y: -158.03, z: 12}
 --- !u!1 &4486761910094556401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,6 +1804,7 @@ GameObject:
   - component: {fileID: 970033003}
   - component: {fileID: 3312532849029503502}
   - component: {fileID: 713665993309731534}
+  - component: {fileID: 7434527255038662783}
   m_Layer: 9
   m_Name: FemaleKnight
   m_TagString: Player
@@ -1975,6 +1976,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fb1511cc-45cc-4d51-ba52-030c89b6a33b
     m_ActionName: Player Actions/HoldRT[/Keyboard/r,/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 68576c69-1241-48f7-ab8f-e2107dd539dd
+    m_ActionName: Player Controls/RESETSCENE[/XInputControllerWindows/select]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player Movement
@@ -2036,18 +2041,17 @@ MonoBehaviour:
   fallStartYVelocity: -7
   groundedYVelocity: -10
   gravityForce: -9.8
-  groundCheckSphereRadius: 0.3
   InAirTimer: 0
   MyTransform: {fileID: 0}
   playerCharacterAnimatorManager: {fileID: 0}
   walkingSpeed: 1
-  movementSpeed: 5
+  movementSpeed: 4
   sprintSpeed: 8
   rotationSpeed: 10
   attackingRotationSpeed: 25
   rollStaminaCost: 12
   backstepStaminaCost: 12
-  sprintStaminaCost: 5
+  sprintStaminaCost: 10
 --- !u!114 &-4984005286210543844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,7 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7edd26326fd8a24e9cf633810c03187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 30
+  healthLevel: 40
   healthPerLevel: 10
   staminaLevel: 10
   staminaPerLevel: 10
@@ -2237,7 +2241,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!143 &970033003
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2436,6 +2440,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7434527255038662783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6880589535415207573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb54ea4f67dc17342bcd49954c53502d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DrawColliders: 1
+  DrawColliderEdges: 1
+  DrawColliderAabbs: 1
+  DrawBroadphase: 0
+  DrawMassProperties: 0
+  DrawContacts: 0
+  DrawCollisionEvents: 0
+  DrawTriggerEvents: 0
+  DrawJoints: 0
 --- !u!1 &6880589535415209113
 GameObject:
   m_ObjectHideFlags: 0

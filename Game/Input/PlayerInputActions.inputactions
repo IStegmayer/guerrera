@@ -10,7 +10,7 @@
                     "type": "PassThrough",
                     "id": "13c00543-36ae-4f95-91de-69d8dfaa579a",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -30,7 +30,7 @@
                     "id": "94ca21b7-3774-41e1-8ca7-184d08f88026",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "NormalizeVector2,StickDeadzone",
+                    "processors": "StickDeadzone",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": false,
@@ -163,15 +163,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "RESETSCENE",
-                    "type": "Button",
-                    "id": "68576c69-1241-48f7-ab8f-e2107dd539dd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -282,17 +273,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f7f19237-9f3f-4fec-8c62-f48d56030839",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RESETSCENE",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -797,6 +777,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "HoldLB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Game Actions",
+            "id": "d6f07b5b-6b6f-4735-bee3-487cdece106c",
+            "actions": [
+                {
+                    "name": "ShowStats",
+                    "type": "Button",
+                    "id": "b172853f-08c9-453d-85ce-f80063da84dc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b753b697-357e-4ae9-b9e4-df2a19311083",
+                    "path": "<Keyboard>/f9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowStats",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

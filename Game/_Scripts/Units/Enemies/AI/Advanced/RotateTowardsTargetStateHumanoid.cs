@@ -12,22 +12,22 @@ public class RotateTowardsTargetStateHumanoid : State {
         
         //TODO: refactor this
         CharacterAnimatorManager enemyAnim = enemy.CharacterAnimatorManager;
-        if (enemy.ViewableAngle >= 100 && enemy.ViewableAngle <= 180) {
+        if (enemy.ViewableAngle >= 160f && enemy.ViewableAngle <= 180f) {
             enemyAnim.PlayTargetAnimationWithRootRotation(enemyAnim.TurnAroundHash, true);
             return combatStanceState;
         }
         
-        if (enemy.ViewableAngle <= -101 && enemy.ViewableAngle >= -180) {
-            enemyAnim.PlayTargetAnimationWithRootRotation(enemyAnim.TurnAroundHash, true);
+        if (enemy.ViewableAngle <= -160f && enemy.ViewableAngle >= -180f) {
+            enemyAnim.PlayTargetAnimationWithRootRotation(enemyAnim.TurnAroundHash, true,true);
             return combatStanceState;
         }
         
-        if (enemy.ViewableAngle <= -45 && enemy.ViewableAngle >= -100) {
+        if (enemy.ViewableAngle <= -70f && enemy.ViewableAngle >= -160f) {
             enemyAnim.PlayTargetAnimationWithRootRotation(enemyAnim.TurnRightHash, true);
             return combatStanceState;
         }
         
-        if (enemy.ViewableAngle >= 45 && enemy.ViewableAngle <= 100) {
+        if (enemy.ViewableAngle >= 70f && enemy.ViewableAngle <= 160f) {
             enemyAnim.PlayTargetAnimationWithRootRotation(enemyAnim.TurnLeftHash, true);
             return combatStanceState;
         }

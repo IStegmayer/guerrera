@@ -25,6 +25,7 @@ public class PlayerManager : CharacterManager {
     protected override void Start() {
         base.Start();
         inputHandler = InputHandler.Instance;
+        inputHandler.SetupPlayerVariables(this);
         playerCharacterAnimatorManager = GetComponent<PlayerCharacterAnimatorManager>();
         anim = GetComponent<Animator>();
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();

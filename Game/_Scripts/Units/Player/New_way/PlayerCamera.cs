@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dzajna {
-public class PlayerCamera : Singleton<PlayerCamera> {
+public class PlayerCamera : StaticInstance<PlayerCamera> {
     [Header("References")] [SerializeField]
     private Transform cameraTransform;
 

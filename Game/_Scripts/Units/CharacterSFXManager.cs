@@ -31,10 +31,13 @@ public class CharacterSFXManager : MonoBehaviour {
     public void PlayDamageSound() => PlaySound(PickRandomSound(damageSounds, ref lastDamageSFXIndex));
     public void PlayStaggerSound() => PlaySound(staggerSound);
     public void PlayDeathSound() => PlaySound(deathSound);
+
     public void PlayFootstepSound() {
         if (!character.IsInteracting) PlaySound(FindSoundByName("footstep"));
     }
+
     public void PlayRollSound() => PlaySound(FindSoundByName("roll"));
+
     public void PlayCriticalSound() {
         if (!isDoingACriticalHit) {
             PlaySound(FindSoundByName("criticalHit"));
@@ -45,16 +48,16 @@ public class CharacterSFXManager : MonoBehaviour {
             isDoingACriticalHit = false;
         }
     }
-    
+
     // Code methods
     public void PlayParrySound() => PlaySound(FindSoundByName("parry"));
     public void PlayBlockSound() => PlaySound(FindSoundByName("block"));
-    
-    
+
+
     public void PlaySound(Sound soundToPlay) {
         audioSource.clip = soundToPlay.Clip;
         audioSource.loop = soundToPlay.Loop;
-        audioSource.volume = soundToPlay.Volume;
+        audioSource.volume = soundToPlay.Volume * AudioSystem.Instance.MasterVolume;
 
         if (!audioSource.loop)
             audioSource.PlayOneShot(audioSource.clip, audioSource.volume);
@@ -65,9 +68,10 @@ public class CharacterSFXManager : MonoBehaviour {
     private Sound PickRandomSound(Sound[] potentialSounds, ref int lastSoundIndex) {
         int tempIndex = lastSoundIndex;
         lastSoundIndex = Enumerable.Range(0, potentialSounds.Length).FirstOrDefault(_ => _ != tempIndex);
-        
+
         return potentialSounds[lastSoundIndex];
     }
+
     private Sound FindSoundByName(string soundName) {
         Sound s = Array.Find(characterSounds, sound => sound.Name == soundName);
         if (s == null) {
