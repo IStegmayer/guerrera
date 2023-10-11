@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27949232327f43d19faa0a05c31ec524, type: 3}
   m_Name: GemStaff
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 21300000, guid: 798a0192e5e2a1c45a1f6786703af909, type: 3}
+  ItemIcon: {fileID: 21300000, guid: 84ec9adaa71addc4bb6539febdc141f7, type: 3}
   ItemName: Gem Staff
   ModelPrefab: {fileID: 5558567732219562030, guid: b4fced2baa358284c89cf6ec3e2d569f,
     type: 3}

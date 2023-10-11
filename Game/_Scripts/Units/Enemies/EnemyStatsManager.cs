@@ -58,7 +58,7 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (enemyManager.IsDead || enemyManager.IsInvulnerable) return; 
-        if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
+        // if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
 
         currentHealth -= dmg;
         if (IsBoss && enemyBossManager != null) {
@@ -75,15 +75,15 @@ public class EnemyStatsManager : CharacterStatsManager {
             enemyManager.IsDead = true;
         }
         else {
-            if (enemyManager.CharacterStatsManager.TotalPoise > 0) enemyAnim.PlayTargetAnimation(dmgAnimation, false);
+            if (TotalPoise > 0) enemyAnim.PlayTargetAnimation(enemyAnim.Damage1Hash, false);
             else enemyManager.Stagger(dmgAnimation);
         }
     }
 
     private IEnumerator DeathRoutine() {
+        enemyManager.CharacterController.enabled = false;
         yield return new WaitForSeconds(1f);
-        //TODO: This could be a bitch. 
-        GameManager.Instance.ChangeState(GameState.Win);
+        // GameManager.Instance.ChangeState(GameState.Win);
         yield return new WaitForSeconds(5f);
         UnitManager.Instance.DespawnEnemy(transform.gameObject);
     }

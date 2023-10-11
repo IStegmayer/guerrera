@@ -1362,9 +1362,9 @@ MonoBehaviour:
   focusPerLevel: 5
   TotalPoise: 0
   OffensivePoise: 0
-  ArmorPoise: 50
+  ArmorPoise: 51
   TotalPoiseResetTime: 15
-  PoiseResetTimer: 0
+  PoiseResetTimer: 10
   CriticalWindow: 3
   BlockingPhysicalDamageAbsorption: 0
   BlockingFireDamageAbsorption: 0

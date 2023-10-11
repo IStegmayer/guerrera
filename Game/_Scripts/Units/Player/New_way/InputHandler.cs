@@ -109,7 +109,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
             
             inputActions.PlayerControls.Inventory.performed += HandleInventoryInput;
             inputActions.PlayerControls.DPadRight.performed += _ => DPadRightInput = true;
-            inputActions.PlayerControls.DPadLeft.performed += _ => DPadLeftInput = true;
+            // inputActions.PlayerControls.DPadLeft.performed += _ => DPadLeftInput = true;
             
             // enable our created inputActions 
             inputActions.Enable();
@@ -281,7 +281,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
 
     private void HandleQuickSlotsInput() {
         if (DPadRightInput) characterInventoryManager.ChangeRightWeapon();
-        else if (DPadLeftInput) characterInventoryManager.ChangeLeftWeapon();
+        // else if (DPadLeftInput) characterInventoryManager.ChangeLeftWeapon();
     }
 
     private void HandleInteractInput(CallbackContext callbackContext) {

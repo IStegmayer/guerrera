@@ -11,6 +11,7 @@ public class CanvasManager : PersistentSingleton<CanvasManager> {
     [SerializeField] private GameObject loadingCanvas;
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject settingsCanvas;
+    [SerializeField] private GameObject controlsCanvas;
     [SerializeField] private GameObject inGameOptionsCanvas;
     [SerializeField] private Image progressBar;
 

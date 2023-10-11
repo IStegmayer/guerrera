@@ -23,7 +23,7 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
             s.Source.loop = s.Loop;
         }
         
-        PlayMusic("swanLake");
+        PlayMusic("mainTheme");
     }
 
     public void PlayMusic(string soundName) {

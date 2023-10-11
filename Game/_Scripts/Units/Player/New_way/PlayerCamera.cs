@@ -4,36 +4,32 @@ using UnityEngine;
 
 namespace Dzajna {
 public class PlayerCamera : StaticInstance<PlayerCamera> {
-    [Header("References")] [SerializeField]
-    private Transform cameraTransform;
-
+    [Header("References")] // 
+    [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform cameraPivotTransform;
     [SerializeField] PlayerManager playerManager;
     private Transform playerTransform;
+    private InputHandler inputHandler;
 
-    [Header("Camera Settings")] [SerializeField]
-    private float minPivot = -30;
-
+    [Header("Camera Settings")] // 
+    [SerializeField] private float minPivot = -30;
     [SerializeField] private float maxPivot = 60;
     [SerializeField] private float leftAndRightRotationSpeed = 220;
     [SerializeField] private float upAndDownRotationSpeed = 220;
-
-    [SerializeField]
-    private float cameraSmoothSpeed = 1; // Bigger number means more smoothing. Change depending on different movesets
-
+    [SerializeField] private float cameraSmoothSpeed = 1; // Bigger number means more smoothing. Change depending on different movesets
     [SerializeField] private float cameraCollisionRadius = 0.2f;
     [SerializeField] private LayerMask collisionLayers;
 
-    [Header("Camera Values")] [SerializeField]
-    private float leftAndRightLookAngle;
-
+    [Header("Camera Values")] // 
+    [SerializeField] private float leftAndRightLookAngle;
     [SerializeField] private float upAndDownLookAngle;
     private float defaultCameraZPosition; // Values used for camera collisions
     private float targetCameraZPosition; // Values used for camera collisions
     private Vector3 cameraObjectPosition; // Used for camera collisions (moves the camera to this pos upon colliding)
     private Vector3 cameraVelocity;
 
-    [Header("Lock on")] [SerializeField] private float maximumLockOnDistance = 30f;
+    [Header("Lock on")] // 
+    [SerializeField] private float maximumLockOnDistance = 30f;
     [SerializeField] private float lockedPivotPosition = 2.25f;
     [SerializeField] private float unlockedPivotPosition = 1.65f;
     public CharacterManager CurrentLockOnTarget;
@@ -49,14 +45,20 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
     private void Start() {
         defaultCameraZPosition = cameraTransform.localPosition.z;
         playerTransform = playerManager.transform;
+        inputHandler = InputHandler.Instance;
     }
 
     private void Update() {
+        if (playerManager == null) return;
+        if (playerManager.IsDead) {
+            CurrentLockOnTarget = null;
+            inputHandler.ResetLockOnFlag();
+            return;
+        }
         HandleAllCameraActions();
     }
 
     private void HandleAllCameraActions() {
-        if (playerManager == null) return;
         HandleFollowTarget();
         HandleRotation();
         HandleCollisions();
@@ -83,13 +85,13 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
             upAndDownLookAngle = targetRotation.eulerAngles.x;
 
             ClearLockOnTargets();
-            InputHandler.Instance.ResetLockOnFlag();
+            inputHandler.ResetLockOnFlag();
         }
 
-        if (!InputHandler.Instance.LockOnFlag) {
+        if (!inputHandler.LockOnFlag) {
             // Rotate based on horizontal/vertical movement of the joystick
-            leftAndRightLookAngle += (InputHandler.Instance.CameraX * leftAndRightRotationSpeed) * delta;
-            upAndDownLookAngle -= (InputHandler.Instance.CameraY * upAndDownRotationSpeed) * delta;
+            leftAndRightLookAngle += (inputHandler.CameraX * leftAndRightRotationSpeed) * delta;
+            upAndDownLookAngle -= (inputHandler.CameraY * upAndDownRotationSpeed) * delta;
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minPivot, maxPivot);
 
             Vector3 cameraRotation = Vector3.zero;
@@ -164,7 +166,7 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
                 nearestLockOnTarget = availableTargets[j];
             }
 
-            if (!InputHandler.Instance.LockOnFlag) return;
+            if (!inputHandler.LockOnFlag) return;
 
             Vector3 relativeEnemyPosition = playerManager.transform.InverseTransformPoint(targetPos);
             float distanceFromLeftTarget = relativeEnemyPosition.x;

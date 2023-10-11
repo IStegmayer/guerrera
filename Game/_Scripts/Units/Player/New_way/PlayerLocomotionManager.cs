@@ -81,7 +81,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager {
         if (!playerCharacterAnimatorManager.CanRotate) return;
         float rs = player.IsInteracting ? attackingRotationSpeed : rotationSpeed;
 
-        if (inputHandler.LockOnFlag && !player.IsSprinting) {
+        if (inputHandler.LockOnFlag && !player.IsSprinting && playerCamera.CurrentLockOnTarget != null) {
             //TODO: could just use player.TargetsDistance
             Vector3 rotationDirection = moveDirection;
             rotationDirection = playerCamera.CurrentLockOnTarget.transform.position - transform.position;

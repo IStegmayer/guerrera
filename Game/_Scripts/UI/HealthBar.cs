@@ -16,11 +16,11 @@ namespace Dzajna
 
         public void SetMaxHealth(float maxHealth) {
             slider.maxValue = maxHealth;
-            slider.value = maxHealth * 0.35f;
+            slider.value = maxHealth;
         }
 
         public void SetCurrentHealth(float currentHealth) {
-            slider.value = currentHealth * 0.35f;
+            slider.value = currentHealth;
         }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27949232327f43d19faa0a05c31ec524, type: 3}
   m_Name: RedSword
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 21300000, guid: c571ff75342b7a241a6a67ed68f0d868, type: 3}
+  ItemIcon: {fileID: 21300000, guid: ab945a7f5360280408afc873685a3223, type: 3}
   ItemName: Red sword
   ModelPrefab: {fileID: 5562503580730339140, guid: eca7f84e40d81fc45993f192f6e3fea0,
     type: 3}

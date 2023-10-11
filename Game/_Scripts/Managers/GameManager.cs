@@ -64,6 +64,7 @@ public class GameManager : StaticInstance<GameManager>
         // Transform playerInstance = UnitManager.Instance.SpawnPlayer(playerSpawn);
         // PlayerCamera.Instance.SetTarget(playerInstance.GetComponent<PlayerManager>());
         // uiManager.CharacterInventoryManager = playerInstance.GetComponent<CharacterInventoryManager>();
+        AudioSystem.Instance.PlayMusic("horrorAmbiance");
         ChangeState(GameState.SpawningEnemies);
     }
 
@@ -72,10 +73,10 @@ public class GameManager : StaticInstance<GameManager>
 
     private void HandleSpawningEnemies() {
         UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.FemaleWarriorGoblin);
-        UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.FemaleWarriorGoblin);
-        UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.FemaleWarriorGoblin);
-        UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
-        UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.FemaleWarriorGoblin);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.FemaleWarriorGoblin);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
+        // UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
         
         ChangeState(GameState.HeroTurn);
     }

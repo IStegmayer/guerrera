@@ -16,7 +16,7 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     public int SoulCount;
     public static event Action OnPlayerKilled;
-    
+
     private void Awake() {
         player = GetComponent<PlayerManager>();
         playerAnimManager = GetComponent<PlayerCharacterAnimatorManager>();
@@ -72,7 +72,7 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (player.IsDead || player.IsInvulnerable) return;
-        if (dmgAnimation < 0) dmgAnimation = playerAnimManager.Damage1Hash;
+        // if (dmgAnimation < 0) dmgAnimation = playerAnimManager.Damage1Hash;
 
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
@@ -82,8 +82,8 @@ public class PlayerStatsManager : CharacterStatsManager {
             player.IsDead = true;
         }
         else {
-            if (player.CharacterStatsManager.TotalPoise <= 0) player.Stagger(dmgAnimation);
-            if (!player.IsInteracting) playerAnimManager.PlayTargetAnimation(dmgAnimation, false);
+            if (TotalPoise <= 0) player.Stagger(dmgAnimation);
+            else if (!player.IsInteracting) playerAnimManager.PlayTargetAnimation(playerAnimManager.Damage1Hash, false);
         }
     }
 

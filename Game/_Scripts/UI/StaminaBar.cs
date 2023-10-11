@@ -16,11 +16,11 @@ namespace Dzajna
 
         public void SetMaxStamina(float maxStamina) {
             slider.maxValue = maxStamina;
-            slider.value = maxStamina * 0.312f;
+            slider.value = maxStamina;
         }
 
         public void SetCurrentStamina(float currentStamina) {
-            slider.value = currentStamina * 0.312f;
+            slider.value = currentStamina;
         }
     }
 }

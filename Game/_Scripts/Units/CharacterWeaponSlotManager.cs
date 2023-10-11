@@ -35,16 +35,16 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
             leftHandSlot.CurrentWeaponItem = weaponToEquip;
             leftHandSlot.LoadWeaponModel(weaponToEquip);
             LoadLeftWeaponDamageCollider();
-            charAnim.PlayTargetAnimation(charAnim.LeftArmIdleHash, false);
+            charAnim.PlayTargetAnimation(charAnim.LeftArmIdleHash, false, true);
         }
         else {
             if (InputHandler.Instance.TwoHandFlag) {
                 backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
-                charAnim.PlayTargetAnimation(charAnim.TH_IdleHash, false);
+                charAnim.PlayTargetAnimation(charAnim.TH_IdleHash, false, true);
                 leftHandSlot.UnloadWeaponAndDestroy();
             }
             else {
-                charAnim.PlayTargetAnimation(charAnim.RightArmIdleHash, false);
+                charAnim.PlayTargetAnimation(charAnim.RightArmIdleHash, false, true);
                 backSlot.UnloadWeaponAndDestroy();
             }
 

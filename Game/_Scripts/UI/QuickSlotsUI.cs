@@ -21,16 +21,16 @@ namespace Dzajna
                     RightWeaponIcon.enabled = false;
                 }
             }
-            else {
-                if (_weapon.ItemIcon != null) {
-                    LeftWeaponIcon.sprite = _weapon.ItemIcon;
-                    LeftWeaponIcon.enabled = true;
-                }
-                else {
-                    LeftWeaponIcon.sprite = null;
-                    LeftWeaponIcon.enabled = false;
-                }
-            }
+            // else {
+            //     if (_weapon.ItemIcon != null) {
+            //         LeftWeaponIcon.sprite = _weapon.ItemIcon;
+            //         LeftWeaponIcon.enabled = true;
+            //     }
+            //     else {
+            //         LeftWeaponIcon.sprite = null;
+            //         LeftWeaponIcon.enabled = false;
+            //     }
+            // }
         }
     }
 }

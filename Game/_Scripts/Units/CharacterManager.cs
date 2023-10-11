@@ -74,11 +74,12 @@ public class CharacterManager : MonoBehaviour {
     }
 
     public void Stagger(int staggerAnimation) {
-        if (animator.GetCurrentAnimatorStateInfo(overrideLayerIndex).shortNameHash == staggerAnimation)
+        // if you're already staggered, run the same animation again
+        if (animator.GetCurrentAnimatorStateInfo(overrideLayerIndex).shortNameHash == staggerAnimation) 
             animator.Play(staggerAnimation, overrideLayerIndex, 0f);
         else
             CharacterAnimatorManager.PlayTargetAnimation(staggerAnimation, true);
-
+        
         CharacterStatsManager.ResetPoiseTimer();
         CharacterStatsManager.ResetPoise();
     }

@@ -19,6 +19,7 @@ namespace Dzajna
         }
 
         protected override void OnAnimatorMove() {
+            if(enemyManager.IsDead) return;
             Vector3 deltaPosition = Anim.deltaPosition;
             deltaPosition.y -= 9.8f * Time.deltaTime;
             characterManager.CharacterController.Move(deltaPosition);

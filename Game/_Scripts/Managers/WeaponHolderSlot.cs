@@ -20,22 +20,22 @@ namespace Dzajna
             if (CurrentWeaponModel != null) Destroy(CurrentWeaponModel);
         }
         
-        public void LoadWeaponModel(WeaponItem _weaponItem) {
+        public void LoadWeaponModel(WeaponItem weaponItem) {
             UnloadWeaponAndDestroy();
             
-            if (_weaponItem == null) UnloadWeapon();
+            if (weaponItem == null) UnloadWeapon();
             
-            GameObject _model = Instantiate(_weaponItem.ModelPrefab) as GameObject;
-            if (_model != null) {
-                if (parentOverride != null) _model.transform.parent = parentOverride;
-                else _model.transform.parent = transform;
+            GameObject model = Instantiate(weaponItem.ModelPrefab) as GameObject;
+            if (model != null) {
+                if (parentOverride != null) model.transform.parent = parentOverride;
+                else model.transform.parent = transform;
                 
-                _model.transform.localPosition = Vector3.zero;
-                _model.transform.localRotation = Quaternion.identity;
-                _model.transform.localScale = Vector3.one;
+                model.transform.localPosition = Vector3.zero;
+                model.transform.localRotation = Quaternion.identity;
+                model.transform.localScale = Vector3.one;
             }
 
-            CurrentWeaponModel = _model;
+            CurrentWeaponModel = model;
         }
     }
 }

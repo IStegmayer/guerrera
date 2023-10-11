@@ -28,16 +28,16 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
             leftHandSlot.LoadWeaponModel(weaponToEquip);
             LoadLeftWeaponDamageCollider();
             quickSlotsUI.UpdateWeaponQuickSlotsUI(weaponToEquip, true);
-            animManager.PlayTargetAnimation(animManager.LeftArmIdleHash, false);
+            animManager.PlayTargetAnimation(animManager.LeftArmIdleHash, false, true);
         }
         else {
             if (InputHandler.Instance.TwoHandFlag) {
                 backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
-                animManager.PlayTargetAnimation(animManager.TH_IdleHash, false);
+                animManager.PlayTargetAnimation(animManager.TH_IdleHash, false, true);
                 leftHandSlot.UnloadWeaponAndDestroy();
             }
             else {
-                animManager.PlayTargetAnimation(animManager.RightArmIdleHash,false);
+                animManager.PlayTargetAnimation(animManager.RightArmIdleHash,false, true);
                 backSlot.UnloadWeaponAndDestroy();
             }
 
