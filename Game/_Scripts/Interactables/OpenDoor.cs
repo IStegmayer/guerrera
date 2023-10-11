@@ -41,7 +41,7 @@ public class OpenDoor : Interactable {
     private IEnumerator OpenDoors()
     {
         float timeElapsed = 0.0f;
-        float volume = AudioSystem.Instance.MasterVolume;
+        float volume = AudioSystem.Instance.masterVolume;
         
         while (timeElapsed < animDuration) {
             timeElapsed += Time.deltaTime;

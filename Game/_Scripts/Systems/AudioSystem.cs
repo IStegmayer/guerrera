@@ -6,12 +6,11 @@ using System;
 /// Ensure you change the 'Sounds' audio Source to use 3D spatial blend if you intend to use 3D sounds.
 /// </summary>
 public class AudioSystem : PersistentSingleton<AudioSystem> {
-    [SerializeField][Range(0f, 1f)] private float musicVolume;
-    [SerializeField][Range(0f, 1f)] private float soundsVolume;
+    [SerializeField][Range(0f, 1f)] public float masterVolume;
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundsSource;
-    public float MasterVolume = 1f;
-
+    private AudioSource currentMusicSoundSource;
+    private AudioSource currentSFXSoundSource;
     public Sound[] sounds;
 
     void Start() {
@@ -33,9 +32,10 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
             return;
         }
 
+        currentMusicSoundSource = s.Source;
         musicSource.clip = s.Source.clip;
         musicSource.loop = s.Source.loop;
-        musicSource.volume = s.Source.volume * MasterVolume;
+        musicSource.volume = s.Source.volume * masterVolume;
 
         musicSource.Play();
     }
@@ -47,9 +47,10 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
             return;
         }
 
+        currentSFXSoundSource = s.Source;
         soundsSource.clip = s.Source.clip;
         soundsSource.loop = s.Source.loop;
-        soundsSource.volume = s.Source.volume * MasterVolume;
+        soundsSource.volume = s.Source.volume * masterVolume;
 
         if (soundsSource.loop)
             soundsSource.Play();
@@ -58,8 +59,8 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
     }
 
     public void SetMasterVolume(float volume) {
-        MasterVolume = volume/100f;
-        soundsSource.volume = MasterVolume;
-        musicSource.volume = MasterVolume;
+        masterVolume = volume/100f;
+        soundsSource.volume = currentSFXSoundSource.volume * masterVolume;
+        musicSource.volume = currentMusicSoundSource.volume * masterVolume;
     }
 }

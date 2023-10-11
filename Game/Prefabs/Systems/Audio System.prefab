@@ -160,7 +160,7 @@ Transform:
   - {fileID: 8137980426947091656}
   - {fileID: 8137980427507220079}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8137980427267689688
 MonoBehaviour:
@@ -174,17 +174,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bbeb5a559e41b78911736d116876ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicVolume: 0.336
-  soundsVolume: 0.3
+  musicVolume: 1
+  soundsVolume: 1
   musicSource: {fileID: 8137980427507220078}
   soundsSource: {fileID: 8137980426947091659}
   MasterVolume: 1
   sounds:
-  - Name: swanLake
+  - Name: mainTheme
     Loop: 0
-    Clip: {fileID: 8300000, guid: d8257bda7da1900408eabdec54c9129e, type: 3}
+    Clip: {fileID: 8300000, guid: 63f8472d9a5b73c479fcda7d877139ee, type: 3}
     Source: {fileID: 0}
-    Volume: 1
+    Volume: 0.3
+    Pitch: 1
+  - Name: horrorAmbiance
+    Loop: 0
+    Clip: {fileID: 8300000, guid: 20041bd92bc0d1d4bb7c7aa3f0c7f833, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.2
     Pitch: 1
   - Name: gameWin
     Loop: 0
@@ -197,6 +203,18 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 22d57f3a87408d04ab188dfdfb832a06, type: 3}
     Source: {fileID: 0}
     Volume: 1
+    Pitch: 1
+  - Name: click
+    Loop: 0
+    Clip: {fileID: 8300000, guid: 55f6152b92c5fb04397fbd99855a5cec, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.5
+    Pitch: 1
+  - Name: clickBack
+    Loop: 0
+    Clip: {fileID: 8300000, guid: ddaf9a9bf4dc78d4ba1a7b10b66026de, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.5
     Pitch: 1
 --- !u!1 &8137980427507220076
 GameObject:

@@ -57,7 +57,7 @@ public class CharacterSFXManager : MonoBehaviour {
     public void PlaySound(Sound soundToPlay) {
         audioSource.clip = soundToPlay.Clip;
         audioSource.loop = soundToPlay.Loop;
-        audioSource.volume = soundToPlay.Volume * AudioSystem.Instance.MasterVolume;
+        audioSource.volume = soundToPlay.Volume * AudioSystem.Instance.masterVolume;
 
         if (!audioSource.loop)
             audioSource.PlayOneShot(audioSource.clip, audioSource.volume);
