@@ -42333,31 +42333,6 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 970032994}
-    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
-        type: 3}
-      propertyPath: CurrentLockOnTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
-        type: 3}
-      propertyPath: lockOnLayers.m_Bits
-      value: 3703
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
-        type: 3}
-      propertyPath: lockedPivotPosition
-      value: 1.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
-        type: 3}
-      propertyPath: unlockedPivotPosition
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6510627094216693360, guid: 863f83f990e757e4a9d9cc3ebea4b130,
-        type: 3}
-      propertyPath: collisionLayers.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
     - target: {fileID: 6510627094216693361, guid: 863f83f990e757e4a9d9cc3ebea4b130,
         type: 3}
       propertyPath: m_RootOrder

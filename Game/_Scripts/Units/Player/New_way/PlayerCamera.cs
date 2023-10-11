@@ -222,10 +222,10 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
         rayDirection.Normalize();
 
         // Check for collision with environment
-        if (Physics.SphereCast(cameraPivotTransform.position, cameraCollisionRadius, rayDirection, out hit,
+        if (Physics.SphereCast(cameraTransform.position, cameraCollisionRadius, rayDirection, out hit,
                 Mathf.Abs(targetCameraZPosition), collisionLayers)) {
             // Get distance from collision object
-            float distanceFromHitObject = Vector3.Distance(cameraPivotTransform.position, hit.point);
+            float distanceFromHitObject = Vector3.Distance(cameraTransform.position, hit.point);
             targetCameraZPosition = -(distanceFromHitObject - cameraCollisionRadius);
         }
 
@@ -241,7 +241,11 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
         cameraTransform.localPosition = cameraObjectPosition;
     }
 
+    private void OnDrawGizmos() {
+        Gizmos.DrawSphere(cameraTransform.position, cameraCollisionRadius);
+    }
+
     public Quaternion GetCameraRotation() => cameraPivotTransform.rotation;
-    public Transform GetCameraTransform() => cameraPivotTransform;
+    public Transform GetCameraTransform() => cameraTransform;
 }
 }

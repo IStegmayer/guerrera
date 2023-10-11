@@ -227,12 +227,12 @@ MonoBehaviour:
   upAndDownRotationSpeed: 250
   cameraSmoothSpeed: 20
   cameraCollisionRadius: 0.1
-  collideWithLayers:
+  collisionLayers:
     serializedVersion: 2
     m_Bits: 256
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
   maximumLockOnDistance: 30
-  lockedPivotPosition: 2.25
-  unlockedPivotPosition: 1.65
+  lockedPivotPosition: 1.8
+  unlockedPivotPosition: 1.5
   CurrentLockOnTarget: {fileID: 0}

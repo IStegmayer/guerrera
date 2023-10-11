@@ -11,9 +11,14 @@ public class UIEnemyHealthBar : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI poiseText;
     [SerializeField] private EnemyStatsManager statsManager;
     private float timeUntilBarIsHidden;
+    private PlayerCamera playerCamera;
 
     private void Awake() {
         statsManager = GetComponentInParent<EnemyStatsManager>();
+    }
+
+    private void Start() {
+        playerCamera = PlayerCamera.Instance;
     }
 
     public void SetCurrentHealth(float health) {
@@ -29,7 +34,7 @@ public class UIEnemyHealthBar : MonoBehaviour {
 
     private void Update() {
         if (slider == null) return;
-        transform.rotation = PlayerCamera.Instance.GetCameraRotation();
+        transform.rotation = playerCamera.GetCameraRotation();
         // poiseText.text = statsManager.TotalPoise + "/" + statsManager.ArmorPoise;
         // TODO: this will tank performance for no reason
         // poiseText.text = GetComponentInParent<EnemyManager>().CurrentState.name;
