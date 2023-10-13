@@ -15,51 +15,47 @@ public class CanvasManager : PersistentSingleton<CanvasManager> {
     [SerializeField] private GameObject inGameOptionsCanvas;
     [SerializeField] private Image progressBar;
 
-    private GameObject activeCanvas;
-    private GameObject lastActiveCanvas;
+    private Stack<GameObject> canvasStack = new Stack<GameObject>();
 
     //TODO: Use a stack for this
     private void Start() {
-        activeCanvas = menuCanvas;
+        canvasStack.Push(menuCanvas);
     }
 
     public void LoadGameScene(string sceneName) {
-        if (activeCanvas != null) activeCanvas.SetActive(false);
+        if (canvasStack.Count > 0) canvasStack.Pop().SetActive(false);
         loadingCanvas.SetActive(true);
+        canvasStack.Push(loadingCanvas);
 
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    public void ActivateCanvas(GameObject canvasToActivate) {
-        if (activeCanvas == canvasToActivate) {
-            ActivateLastCanvas();
+    public void NavigateToCanvas(GameObject targetCanvas) {
+        if (canvasStack.TryPeek(out GameObject activeCanvas)) activeCanvas.SetActive(false);
+        if (activeCanvas == targetCanvas) {
+            canvasStack.Pop();
             return;
         }
 
-        if (activeCanvas != null) activeCanvas.SetActive(false);
-        canvasToActivate.SetActive(true);
-        lastActiveCanvas = activeCanvas;
-        activeCanvas = canvasToActivate;
+        canvasStack.Push(targetCanvas);
+        targetCanvas.SetActive(true);
+    }
+    
+    public void NavigateBack() {
+        canvasStack.TryPop(out var currentCanvas);
+        canvasStack.TryPeek(out var targetCanvas);
+        if (currentCanvas != null) currentCanvas.SetActive(false);
+        if (targetCanvas != null) targetCanvas.SetActive(true);
     }
 
-    public void ActivateLastCanvas() {
-        activeCanvas.SetActive(false);
-        activeCanvas = lastActiveCanvas;
 
-        if (lastActiveCanvas == null) return;
-
-        lastActiveCanvas.SetActive(true);
-        lastActiveCanvas = null;
+    public void TryToOpenInGameOptions() {
+        canvasStack.TryPeek(out var activeCanvas);
+        if (activeCanvas == menuCanvas) return;
+        
+        if (activeCanvas != null) NavigateBack();
+        else NavigateToCanvas(inGameOptionsCanvas);
     }
-
-    public void ShowMainMenu() {
-        activeCanvas.SetActive(false);
-        menuCanvas.SetActive(true);
-        lastActiveCanvas = activeCanvas;
-        activeCanvas = menuCanvas;
-    }
-
-    public GameObject GetInGameOptionCanvas() => inGameOptionsCanvas;
 
     private IEnumerator LoadSceneAsync(string sceneName) {
         AsyncOperation scene = SceneManager.LoadSceneAsync(sceneName);
@@ -69,17 +65,16 @@ public class CanvasManager : PersistentSingleton<CanvasManager> {
             yield return null;
         }
 
+        canvasStack.Pop();
+        loadingCanvas.SetActive(false);
+        canvasStack.Clear();
+        
         //TODO: use an enum
         if (sceneName == "MainMenuScene") {
-            activeCanvas = menuCanvas;
-            activeCanvas.SetActive(true);
-        }
-        else if (activeCanvas != null) {
-            activeCanvas.SetActive(false);
-            activeCanvas = null;
+            canvasStack.Push(menuCanvas);
+            menuCanvas.SetActive(true);
         }
 
-        loadingCanvas.SetActive(false);
         yield return null;
     }
 }

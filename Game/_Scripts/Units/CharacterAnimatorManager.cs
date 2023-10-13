@@ -142,11 +142,6 @@ public class CharacterAnimatorManager : MonoBehaviour {
         Anim.applyRootMotion = isInteracting;
         Anim.SetBool(CanRotateHash, canRotate);
         Anim.SetBool(IsInteractingHash, isInteracting);
-        if (targetAnim == 141832972) {
-            Debug.Log("Played damage hash");
-        } else if (targetAnim == -994168828) {
-            Debug.Log("Played Stagger anim");
-        } 
         Anim.CrossFade(targetAnim, 0.2f);
     }
 

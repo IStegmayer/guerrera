@@ -19,14 +19,14 @@ public class EnemyBossManager : MonoBehaviour {
     }
 
     private void Start() {
-        bossHealthBar.ToggleBossHealthBarActivation(true);
-        bossHealthBar.SetBossName(bossName);
-        bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
+        // bossHealthBar.ToggleBossHealthBarActivation(true);
+        // bossHealthBar.SetBossName(bossName);
+        // bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
     }
 
-    public void UpdateBossHealthBar(float _currentHealth, float _maxHealth) {
-        bossHealthBar.SetBossCurrentHealth(_currentHealth);
-        if (!bossCombatStanceState.HasPhaseShifted && _currentHealth <= _maxHealth / 2) {
+    public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
+        bossHealthBar.SetBossCurrentHealth(currentHealth);
+        if (!bossCombatStanceState.HasPhaseShifted && currentHealth <= maxHealth / 2) {
             bossCombatStanceState.HasPhaseShifted = true;
             TransitionToSecondPhase();
         }
@@ -42,8 +42,8 @@ public class EnemyBossManager : MonoBehaviour {
     }
 
     public void InstantiateBossParticleFX() {
-        BossFXTransform _bossFXTransform = GetComponentInChildren<BossFXTransform>();
-        GameObject _phaseFX = Instantiate(phaseTransitionFX, _bossFXTransform.transform);
+        BossFXTransform bossFXTransform = GetComponentInChildren<BossFXTransform>();
+        GameObject phaseFX = Instantiate(phaseTransitionFX, bossFXTransform.transform);
     }
 
     // public void 

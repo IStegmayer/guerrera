@@ -8,8 +8,11 @@ public class CombatStanceStateHumanoid : State {
     [SerializeField] private RotateTowardsTargetStateHumanoid rotateTowardsTargetState;
     public ItemBasedAttackAction[] EnemyAttacks;
 
-    [Header("State Flags")] protected bool willBlock;
+    [Header("State Flags")] //
+    protected bool willBlock;
+
     protected bool willDodge;
+    protected bool hasPerformedDodge;
     protected bool willParry;
 
     protected bool randomDestinationSet;
@@ -55,7 +58,9 @@ public class CombatStanceStateHumanoid : State {
         // roll for a dodge chance
         if (enemy.allowAIToDodge) {
             willDodge = RollForDefensiveActionChance(enemy.dodgeLikelihood);
-            if (willDodge) { } // if enemy is attacking the AI, dodge
+            if (willDodge && enemy.CurrentTarget.IsAttacking) { // if enemy is attacking the AI, dodge
+                Dodge(enemy);
+            }
         }
 
         // roll for a parry chance
@@ -134,6 +139,7 @@ public class CombatStanceStateHumanoid : State {
             ResetStateFlags();
             return attackState;
         }
+
         return rotateTowardsTargetState;
 
         enemy.animator.SetFloat(enemy.CharacterAnimatorManager.VerticalHash, 0, 0.2f, Time.deltaTime);
@@ -189,8 +195,17 @@ public class CombatStanceStateHumanoid : State {
         }
     }
 
+    private void Dodge(EnemyManager enemy) {
+        CharacterAnimatorManager aiAnim = enemy.CharacterAnimatorManager;
+        if (!hasPerformedDodge) {
+            hasPerformedDodge = true;
+            aiAnim.PlayTargetAnimation(aiAnim.BackstepHash, true);
+        }
+    }
+
     private void ResetStateFlags() {
         randomDestinationSet = false;
+        hasPerformedDodge = false;
         willBlock = false;
         willDodge = false;
         willParry = false;

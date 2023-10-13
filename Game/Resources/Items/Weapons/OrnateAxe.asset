@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27949232327f43d19faa0a05c31ec524, type: 3}
+  m_Name: OrnateAxe
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 21300000, guid: ab945a7f5360280408afc873685a3223, type: 3}
+  ItemName: Ornate Axe
+  ModelPrefab: {fileID: 7048791168683180048, guid: 51d361b9c58624040ae58661dd70f940,
+    type: 3}
+  IsUnarmed: 0
+  WeaponController: {fileID: 22100000, guid: 5f6e89b7675c0094da742a94b2e054a6, type: 2}
+  WeaponType: 0
+  BaseDamage: 50
+  CriticalDamageMultiplier: 4
+  PoiseBreak: 30
+  OffensivePoiseBonus: 100
+  PhysicalBlockingDamageAbsorption: 0
+  FireBlockingDamageAbsorption: 0
+  Stability: 200
+  BaseStamina: 30
+  LightAttackMultiplier: 1
+  HeavyAttackMultiplier: 2
+  HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  HoldLBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TapRTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldRTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TapLTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  HoldLTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TH_HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TH_TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TH_TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
+  TH_HoldLBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
+  TH_TapRTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  TH_HoldRTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  TH_TapLTAction: {fileID: 11400000, guid: 34f9dbc910e396c4d881b7e2beabebbc, type: 2}
+  TH_HoldLTAction: {fileID: 11400000, guid: 8fa18851ce5ac534596062f5937bafd8, type: 2}
+  WeaponWhooshes:
+  - Name: 1
+    Loop: 0
+    Clip: {fileID: 8300000, guid: 39061a6a93327404596e04496a959dbf, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.2
+    Pitch: 1
+  - Name: 2
+    Loop: 0
+    Clip: {fileID: 8300000, guid: 0ca815ff92b5b894abf7a3ebf1000bb5, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.2
+    Pitch: 1
+  - Name: 3
+    Loop: 0
+    Clip: {fileID: 8300000, guid: eea18244c56b86548984f434bb82a8f8, type: 3}
+    Source: {fileID: 0}
+    Volume: 0.2
+    Pitch: 1

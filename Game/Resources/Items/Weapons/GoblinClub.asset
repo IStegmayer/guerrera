@@ -22,13 +22,13 @@ MonoBehaviour:
   BaseDamage: 30
   CriticalDamageMultiplier: 4
   PoiseBreak: 60
-  OffensivePoiseBonus: 0
+  OffensivePoiseBonus: 20
   PhysicalBlockingDamageAbsorption: 0
   FireBlockingDamageAbsorption: 0
   Stability: 67
   BaseStamina: 10
   LightAttackMultiplier: 1
-  HeavyAttackMultiplier: 1
+  HeavyAttackMultiplier: 2
   HoldRBAction: {fileID: 11400000, guid: 56389c19c0fb937439905c7655949ad6, type: 2}
   TapRBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}
   TapLBAction: {fileID: 11400000, guid: f887910364cae9a4a9e418a8ccf1647c, type: 2}

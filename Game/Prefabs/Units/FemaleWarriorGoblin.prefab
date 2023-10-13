@@ -1417,18 +1417,18 @@ MonoBehaviour:
   CurrentTarget: {fileID: 0}
   IsPerformingAction: 0
   IsPhaseShifting: 0
-  AggroRange: 13
+  AggroRange: 8
   MinDetectionAngle: 75
   MaxDetectionAngle: -75
-  StoppingDistance: 5
+  StoppingDistance: 3
   RotationSpeed: 15
   AttackingRotationSpeed: 17
-  MaxAttackRange: 5
+  MaxAttackRange: 3
   MaxAggroRadius: 8
   CurrentRecoveryTime: 5
-  AllowAIToPerformCombos: 1
+  AllowAIToPerformCombos: 0
   combatStyle: 0
-  ComboChance: 99
+  ComboChance: 0
   CanRotate: 0
   allowAIToBlock: 0
   blockLikelihood: 0

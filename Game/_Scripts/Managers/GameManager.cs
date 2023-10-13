@@ -64,19 +64,24 @@ public class GameManager : StaticInstance<GameManager>
         // Transform playerInstance = UnitManager.Instance.SpawnPlayer(playerSpawn);
         // PlayerCamera.Instance.SetTarget(playerInstance.GetComponent<PlayerManager>());
         // uiManager.CharacterInventoryManager = playerInstance.GetComponent<CharacterInventoryManager>();
-        AudioSystem.Instance.PlayMusic("horrorAmbiance");
+        AudioSystem.Instance.StopMusic();
         ChangeState(GameState.SpawningEnemies);
     }
 
-    private void HandleWin() { }
-    private void HandleLose() { }
+    private void HandleWin() {
+        AudioSystem.Instance.PlaySound("gameWin");
+    }
+
+    private void HandleLose() {
+        AudioSystem.Instance.PlaySound("gameLose");
+    }
 
     private void HandleSpawningEnemies() {
         UnitManager.Instance.SpawnEnemy(enemySpawn, EnemyType.FemaleWarriorGoblin);
-        // UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.FemaleWarriorGoblin);
-        // UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.FemaleWarriorGoblin);
-        // UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
-        // UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
+        UnitManager.Instance.SpawnEnemy(enemySpawn2, EnemyType.BossGoblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn3, EnemyType.FemaleWarriorGoblin);
+        UnitManager.Instance.SpawnEnemy(enemySpawn4, EnemyType.Shaman);
+        UnitManager.Instance.SpawnEnemy(enemySpawn5, EnemyType.Shaman);
         
         ChangeState(GameState.HeroTurn);
     }

@@ -12,6 +12,9 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
     private AudioSource currentMusicSoundSource;
     private AudioSource currentSFXSoundSource;
     public Sound[] sounds;
+    
+    //TODO: TERRIBLE
+    private 
 
     void Start() {
         foreach (Sound s in sounds) {
@@ -39,6 +42,7 @@ public class AudioSystem : PersistentSingleton<AudioSystem> {
 
         musicSource.Play();
     }
+    public void StopMusic() => musicSource.Stop();
 
     public void PlaySound(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.Name == soundName);

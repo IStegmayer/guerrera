@@ -14,6 +14,7 @@ public class EnemyStatsManager : CharacterStatsManager {
     private EnemyBossManager enemyBossManager;
 
     private Coroutine deathRoutine;
+    public static event Action OnBossKilled;
 
     private void Awake() {
         enemyManager = GetComponent<EnemyManager>();
@@ -47,8 +48,9 @@ public class EnemyStatsManager : CharacterStatsManager {
         if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted && !enemyManager.IsBeingBackstabbed) return;
 
         currentHealth -= dmg;
-        if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-        else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
+        // if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+        // else 
+        if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (currentHealth <= 0) {
             deathRoutine = StartCoroutine(DeathRoutine());
@@ -58,13 +60,14 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (enemyManager.IsDead || enemyManager.IsInvulnerable) return; 
-        // if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
+        if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
 
         currentHealth -= dmg;
-        if (IsBoss && enemyBossManager != null) {
-            enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-        }
-        else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
+        // if (IsBoss && enemyBossManager != null) {
+        //     enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+        // }
+        // else 
+        if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (enemyManager.IsPhaseShifting) return;
         
@@ -81,9 +84,12 @@ public class EnemyStatsManager : CharacterStatsManager {
     }
 
     private IEnumerator DeathRoutine() {
-        enemyManager.CharacterController.enabled = false;
         yield return new WaitForSeconds(1f);
-        // GameManager.Instance.ChangeState(GameState.Win);
+        enemyManager.CharacterController.enabled = false;
+        if (IsBoss) {
+            GameManager.Instance.ChangeState(GameState.Win);
+            OnBossKilled?.Invoke();
+        }
         yield return new WaitForSeconds(5f);
         UnitManager.Instance.DespawnEnemy(transform.gameObject);
     }

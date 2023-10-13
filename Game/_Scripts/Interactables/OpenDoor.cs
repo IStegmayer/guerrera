@@ -12,6 +12,7 @@ public class OpenDoor : Interactable {
     [SerializeField] private AnimationCurve animationCurve;
     [SerializeField] private AudioClip openClip;
     [SerializeField] private AudioClip endClip;
+    [SerializeField] private string musicToPlay;
     private Quaternion initialRotation;
     private OpenDoor openDoor;
     private AudioSource audioSource;
@@ -59,6 +60,7 @@ public class OpenDoor : Interactable {
         audioSource.Stop();
         audioSource.clip = endClip;
         audioSource.Play();
+        AudioSystem.Instance.PlayMusic(musicToPlay);
         Destroy(openDoor, 0.5f);
     }
 }

@@ -12,6 +12,7 @@ namespace Dzajna
         [Header("UI Windows")]
         [SerializeField] private GameObject HUDWindow;
         [SerializeField] private GameObject gameOverPanel;
+        [SerializeField] private GameObject winPanel;
         [SerializeField] private GameObject selectWindow;
         [SerializeField] private GameObject weaponInventoryWindow;
         [SerializeField] private GameObject equipmentWindow;
@@ -40,10 +41,12 @@ namespace Dzajna
 
         private void OnEnable() {
             PlayerStatsManager.OnPlayerKilled += ShowYouDied;
+            EnemyStatsManager.OnBossKilled += ShowYouWin;
         }
 
         private void OnDisable() {
             PlayerStatsManager.OnPlayerKilled -= ShowYouDied;
+            EnemyStatsManager.OnBossKilled -= ShowYouWin;
         }
 
         public void UpdateUI() {
@@ -72,6 +75,7 @@ namespace Dzajna
         public void ToggleHUDWindow(bool active) => HUDWindow.SetActive(active);
         public void ToggleStatsGraph() => statsGraph.SetActive(!statsGraph.activeInHierarchy);
         public void ShowYouDied() => gameOverPanel.SetActive(true);
+        public void ShowYouWin() => winPanel.SetActive(true);
         public void CloseAllInventoryWindows() {
             ResetAllSelectedSlots();
             weaponInventoryWindow.SetActive(false);

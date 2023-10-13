@@ -16,5 +16,5 @@ MonoBehaviour:
     Health: 200
     BaseAttackPower: 25
     BaseSpeed: 2
-  Prefab: {fileID: 5802399943424450345, guid: a789946ddbf50f84b8fa0bd7f2625482, type: 3}
+  Prefab: {fileID: 2218586650585162001, guid: ed335e11b5c4a8b4eb8a8ce46a3c838d, type: 3}
   EnemyType: 2

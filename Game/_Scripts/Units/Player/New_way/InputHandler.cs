@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using static UnityEngine.InputSystem.InputAction;
 
@@ -32,7 +34,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     public bool CriticalInput { get; private set; }
     public bool JumpInput { get; private set; }
     public bool TwoHandInput { get; private set; }
-    public bool InventoryInput { get; private set; }
+    public bool InGameOptionsInput { get; private set; }
     public bool LockOnInput { get; private set; }
     public bool LockOnLeftInput { get; private set; }
 
@@ -65,6 +67,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     private CanvasManager canvasManager;
     private PlayerWeaponSlotManager playerWeaponSlotManager;
 
+    private InputDevice currentDevice;
     public Vector2 movementInput;
     private Vector2 cameraInput;
 
@@ -77,6 +80,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
 
     public void OnEnable() {
         // read input and populate our fields
+        InputSystem.onDeviceChange += OnDeviceChange;
         if (inputActions == null) {
             inputActions = new PlayerInputActions();
 
@@ -293,10 +297,10 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     }
 
     private void HandleInventoryInput(CallbackContext callbackContext) {
-        InventoryInput = callbackContext.action.WasPerformedThisFrame();
-        if (!InventoryInput) return;
+        InGameOptionsInput = callbackContext.action.WasPerformedThisFrame();
+        if (!InGameOptionsInput) return;
 
-        canvasManager.ActivateCanvas(canvasManager.GetInGameOptionCanvas());
+        canvasManager.TryToOpenInGameOptions();
         // InventoryFlag = !InventoryFlag;
         // uiManager.ToggleSelectWindow(InventoryFlag);
         // if (InventoryFlag) uiManager.UpdateUI();
@@ -345,11 +349,15 @@ public class InputHandler : PersistentSingleton<InputHandler> {
 
     public void ResetLockOnFlag() => LockOnFlag = false;
 
-    // public void OnDisable() {
-    //     // making sure to cleanup
-    //     inputActions?.Disable();
-    // }
-
+    public void OnDisable() {
+        // making sure to cleanup
+        InputSystem.onDeviceChange -= OnDeviceChange;
+        inputActions?.Disable();
+    }
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change) {
+        // currentDevice = device;
+        // Debug.Log("Current Device: " + device);
+    }
     public void SetupPlayerVariables(PlayerManager newPlayer) {
         player = newPlayer;
         playerCamera = PlayerCamera.Instance;

@@ -174,11 +174,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bbeb5a559e41b78911736d116876ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicVolume: 1
-  soundsVolume: 1
+  masterVolume: 1
   musicSource: {fileID: 8137980427507220078}
   soundsSource: {fileID: 8137980426947091659}
-  MasterVolume: 1
   sounds:
   - Name: mainTheme
     Loop: 0
@@ -190,7 +188,7 @@ MonoBehaviour:
     Loop: 0
     Clip: {fileID: 8300000, guid: 20041bd92bc0d1d4bb7c7aa3f0c7f833, type: 3}
     Source: {fileID: 0}
-    Volume: 0.2
+    Volume: 0.3
     Pitch: 1
   - Name: gameWin
     Loop: 0

@@ -56584,7 +56584,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.3666666
+  - time: 1.9333333
     functionName: DisableIsInvulnerable
     data: 
     objectReferenceParameter: {fileID: 0}
