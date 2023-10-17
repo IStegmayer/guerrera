@@ -4,7 +4,7 @@ namespace Dzajna {
 [CreateAssetMenu(menuName = "Item Actions/Charged Attack Action")]
 public class ChargedAttackAction : ItemAction {
     public override void PerformAction(CharacterManager character) {
-        if (!character.CharacterStatsManager.CheckHasStamina()) return;
+        if (!character.CharacterStatsManager.CheckHasStamina() || character.IsAttacking) return;
         if (character.IsInteracting) return;
 
         // character.CharacterAnimatorManager.EraseHandIKForWeapon();

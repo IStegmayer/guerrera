@@ -16,33 +16,50 @@ public class OpenDoor : Interactable {
     private Quaternion initialRotation;
     private OpenDoor openDoor;
     private AudioSource audioSource;
+    private AudioSystem audioSystem;
+
+    private bool isOpeningDoor;
+
+    private WeaponItem rightWeapon;
+    private WeaponItem leftWeapon;
 
     private void Start() {
         initialRotation = rightDoor.rotation;
         openDoor = GetComponent<OpenDoor>();
         audioSource = GetComponent<AudioSource>();
+        audioSystem = AudioSystem.Instance;
     }
 
     public override void Interact(PlayerManager playerManager) {
+        if (isOpeningDoor) return;
+        isOpeningDoor = true;
+
         base.Interact(playerManager);
+
+        rightWeapon = playerManager.CharacterInventoryManager.RightWeapon;
+        leftWeapon = playerManager.CharacterInventoryManager.LeftWeapon;
 
         playerManager.CharacterController.enabled = false;
         playerManager.transform.position = playerStandingPosition.position;
         playerManager.transform.rotation = playerStandingPosition.rotation;
         playerManager.CharacterController.enabled = true;
-        
+
         CharacterAnimatorManager anim = playerManager.GetComponent<CharacterAnimatorManager>();
         anim.PlayTargetAnimation("OpenDoubleDoor", true);
+        anim.Anim.SetBool(anim.IsInvulnerableHash, true);
+        
         audioSource.clip = openClip;
         audioSource.PlayDelayed(0.5f);
+
+        UnequipWeapons(playerManager);
         // animate door
-        StartCoroutine(OpenDoors());
-    } 
-    
-    private IEnumerator OpenDoors()
-    {
+        StartCoroutine(OpenDoors(playerManager));
+        StartCoroutine(ReEquipWeapons(playerManager));
+    }
+
+    private IEnumerator OpenDoors(PlayerManager playerManager) {
         float timeElapsed = 0.0f;
-        float volume = AudioSystem.Instance.masterVolume;
+        float volume = audioSystem.masterVolume;
         
         while (timeElapsed < animDuration) {
             timeElapsed += Time.deltaTime;
@@ -60,8 +77,22 @@ public class OpenDoor : Interactable {
         audioSource.Stop();
         audioSource.clip = endClip;
         audioSource.Play();
-        AudioSystem.Instance.PlayMusic(musicToPlay);
+        isOpeningDoor = false;
+        
+        yield return null;
+        audioSystem.PlayMusic(musicToPlay);
         Destroy(openDoor, 0.5f);
+    }
+
+    private void UnequipWeapons(PlayerManager playerManager) {
+        playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(null, true);
+        playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(null, false);
+    }
+
+    private IEnumerator ReEquipWeapons(PlayerManager playerManager) {
+        yield return new WaitForSeconds(animDuration * 0.9f);
+        playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+        playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
     }
 }
 }

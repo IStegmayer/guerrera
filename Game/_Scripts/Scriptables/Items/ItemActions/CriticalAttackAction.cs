@@ -5,7 +5,8 @@ namespace Dzajna {
 public class CriticalAttackAction : ItemAction {
     public override void PerformAction(CharacterManager character) {
         if (character.IsInteracting) return;
-
+        
+        character.IsAttacking = true;
         character.CharacterCombatManager.AttemptBackStabOrRiposte();
     }
 }

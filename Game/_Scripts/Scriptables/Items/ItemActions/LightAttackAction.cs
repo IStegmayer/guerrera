@@ -4,12 +4,15 @@ namespace Dzajna {
 [CreateAssetMenu(menuName = "Item Actions/Light Attack Action")]
 public class LightAttackAction : ItemAction {
     public override void PerformAction(CharacterManager character) {
-        if (!character.CharacterStatsManager.CheckHasStamina()) return;
+        if (!character.CharacterStatsManager.CheckHasStamina() || character.IsAttacking) return;
 
         character.IsAttacking = true;
         // character.characterAnimatorManager.EraseHandIKForWeapon();
         // character.CharacterEffectsManager.PlayRightWeaponFX();
 
+        // Check for crit 
+        if (character.CharacterCombatManager.AttemptBackStabOrRiposte()) return;
+        
         // Check for running attack
         if (character.IsSprinting) {
             HandleRunningAttack(character);

@@ -127,7 +127,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         HandleMoveInput();
         HandleRollInput(delta);
 
-        HandleHoldRBInput();
+        // HandleHoldRBInput();
         HandleHoldLBInput();
         HandleHoldRTInput();
 
@@ -251,7 +251,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
     }
 
     private void HandleHoldRBInput() {
-        if (!RBHoldInput) return;
+        if (!RBHoldInput || player.IsInteracting) return;
 
         if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TH_HoldRBAction != null) {
             player.UpdateWhichHandCharacterIsUsing(true);

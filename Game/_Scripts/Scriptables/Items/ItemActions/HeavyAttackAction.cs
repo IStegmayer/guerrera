@@ -4,7 +4,7 @@ namespace Dzajna {
 [CreateAssetMenu(menuName = "Item Actions/Heavy Attack Action")]
 public class HeavyAttackAction : ItemAction {
     public override void PerformAction(CharacterManager character) {
-        if (!character.CharacterStatsManager.CheckHasStamina()) return;
+        if (!character.CharacterStatsManager.CheckHasStamina() || character.IsAttacking) return;
 
         character.IsAttacking = true;
         // character.characterAnimatorManager.EraseHandIKForWeapon();

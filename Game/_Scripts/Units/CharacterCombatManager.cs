@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace Dzajna {
 public class CharacterCombatManager : MonoBehaviour {
@@ -12,10 +13,40 @@ public class CharacterCombatManager : MonoBehaviour {
     public int LastAttackHash { get; set; }
     public AttackType CurrentAttackType { get; set; }
 
-    protected CharacterManager character;
+    private CharacterManager character;
+
+    private bool canBackstab;
+    private bool canRiposte;
+    private CharacterManager enemyCharacter;
 
     protected virtual void Start() {
         character = GetComponent<CharacterManager>();
+    }
+
+    private void Update() {
+        //TODO: at least format this
+        if (character.IsPerformingBackstab || character.IsPerformingRiposte || !Physics.Raycast(
+                critRayCastStartPoint.position, critRayCastStartPoint.forward,
+                out RaycastHit hit, maxCritDistance, characterLayer)) {
+            enemyCharacter = null;
+            canRiposte = false;
+            canBackstab = false;
+            return;
+        }
+
+        enemyCharacter = hit.transform.GetComponent<CharacterManager>();
+        var directionFromCharacterToEnemy = transform.position - enemyCharacter.transform.position;
+        var dotValue = Vector3.Dot(directionFromCharacterToEnemy, enemyCharacter.transform.forward);
+
+        //TODO: make these distances variables
+        if (enemyCharacter.CanBeRiposted && dotValue <= 1.5f && dotValue >= 0.2f) {
+            canRiposte = true;
+            return;
+        }
+        else canRiposte = false;
+
+        if (dotValue >= -1.5f && dotValue <= -0.2f) canBackstab = true;
+        else canBackstab = false;
     }
 
     public void SetBlockingAbsorptionsFromBlockingWeapon() {
@@ -34,37 +65,21 @@ public class CharacterCombatManager : MonoBehaviour {
         }
     }
 
-    public void AttemptBackStabOrRiposte() {
-        if (character.IsInteracting) return;
-        if (!character.CharacterStatsManager.CheckHasStamina()) return;
+    public bool AttemptBackStabOrRiposte() {
+        if (canBackstab) {
+            AttemptBackStab();
+            return true;
+        }
 
-        RaycastHit hit;
+        if (canRiposte) {
+            AttemptRiposte();
+            return true;
+        }
 
-        if (!Physics.Raycast(critRayCastStartPoint.transform.position,
-                critRayCastStartPoint.transform.forward, out hit, maxCritDistance, characterLayer))
-            return;
-
-        var enemyCharacter = hit.transform.GetComponent<CharacterManager>();
-        var directionFromCharacterToEnemy =
-            critRayCastStartPoint.transform.position - enemyCharacter.transform.position;
-        var dotValue = Vector3.Dot(directionFromCharacterToEnemy, enemyCharacter.transform.forward);
-
-        Debug.Log("CURRENT DOT VALUE IS " + dotValue);
-
-        //TODO: make these distances variables
-        if (enemyCharacter.CanBeRiposted)
-            if (dotValue <= 1.5f && dotValue >= 0.2f) {
-                AttemptRiposte(hit);
-                return;
-            }
-
-        if (dotValue >= -1.5f && dotValue <= -0.2f) AttemptBackStab(hit);
+        return false;
     }
 
-    private void AttemptBackStab(RaycastHit hit) {
-        var enemyCharacter = hit.transform.GetComponent<CharacterManager>();
-
-        if (enemyCharacter == null) return;
+    private void AttemptBackStab() {
         if (enemyCharacter.IsBeingBackstabbed && enemyCharacter.IsBeingRiposted) return;
 
         var charAnim = character.CharacterAnimatorManager;
@@ -82,10 +97,7 @@ public class CharacterCombatManager : MonoBehaviour {
         enemyCharacter.CharacterCombatManager.GetBackStabbed(character, enemyCharacter.CharacterAnimatorManager);
     }
 
-    private void AttemptRiposte(RaycastHit hit) {
-        var enemyCharacter = hit.transform.GetComponent<CharacterManager>();
-
-        if (enemyCharacter == null) return;
+    private void AttemptRiposte() {
         if (enemyCharacter.IsBeingBackstabbed && enemyCharacter.IsBeingRiposted) return;
 
         var charAnim = character.CharacterAnimatorManager;
@@ -118,19 +130,17 @@ public class CharacterCombatManager : MonoBehaviour {
         charAnim.PlayTargetAnimation(charAnim.RipostedHash, true);
     }
 
-    private void ForceMoveCharacterToCriticalPosition(CharacterManager characterPerformingCrit,
-        bool isBackstab) {
+    private void ForceMoveCharacterToCriticalPosition(CharacterManager characterPerformingCrit, bool isBackstab) {
         characterPerformingCrit.CharacterController.enabled = false;
-        
+
         Transform critPerformerTransform = characterPerformingCrit.transform;
         Transform spotTransform = isBackstab ? backStabberStandPoint : riposterStandPoint;
         critPerformerTransform.position = spotTransform.position;
 
         critPerformerTransform.LookAt(transform);
-        
+
         characterPerformingCrit.CharacterController.enabled = true;
     }
-
 
     public void AttemptBlock(DamageCollider attackingWeapon, float physicalDamage, float fireDamage, string block) {
         var staminaDamageAbsorption = (physicalDamage + fireDamage)
@@ -157,5 +167,9 @@ public class CharacterCombatManager : MonoBehaviour {
     public void SuccessfullyCastSpell() {
         character.CharacterInventoryManager.CurrentSpell.SuccessfullyCastedSpell(character);
     }
+
+    public bool GetCanBackstab() => canBackstab;
+    public bool GetCanRiposte() => canRiposte;
+    public CharacterManager GetEnemyCharacter() => enemyCharacter;
 }
 }
