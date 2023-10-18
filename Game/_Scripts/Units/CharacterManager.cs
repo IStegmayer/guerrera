@@ -45,8 +45,7 @@ public class CharacterManager : MonoBehaviour {
     // Damage will be inflicted during an animation event
     // Used in backstab or riposte animations
     public float PendingCriticalDamage;
-    public bool IsBeingBackstabbed { get; set; }
-    public bool IsBeingRiposted { get; set; }
+    public bool IsGettingCritted { get; set; }
     public bool IsPerformingBackstab { get; set; }
     public bool IsPerformingRiposte { get; set; }
     public short TeamID { get; set; }

@@ -33,7 +33,7 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
         }
         else {
             if (InputHandler.Instance.TwoHandFlag) {
-                backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
+                // backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
                 // animManager.PlayTargetAnimation(animManager.TH_IdleHash, playerManager.IsInteracting,
                 //     animManager.CanRotate);
                 leftHandSlot.UnloadWeaponAndDestroy();
@@ -41,7 +41,7 @@ public class PlayerWeaponSlotManager : CharacterWeaponSlotManager {
             else {
                 // animManager.PlayTargetAnimation(animManager.RightArmIdleHash, playerManager.IsInteracting,
                 //     animManager.CanRotate);
-                backSlot.UnloadWeaponAndDestroy();
+                // backSlot.UnloadWeaponAndDestroy();
             }
 
             rightHandSlot.CurrentWeaponItem = weaponToEquip;

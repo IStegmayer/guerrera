@@ -8,7 +8,8 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
 
     protected WeaponHolderSlot rightHandSlot;
     protected WeaponHolderSlot leftHandSlot;
-    protected WeaponHolderSlot backSlot;
+    protected WeaponHolderSlot backSlotRight;
+    protected WeaponHolderSlot backSlotLeft;
 
     protected CharacterManager character;
     protected bool isHyperArmored;
@@ -23,7 +24,8 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
         foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots) {
             if (weaponSlot.isLeftHandSlot) leftHandSlot = weaponSlot;
             else if (weaponSlot.isRightHandSlot) rightHandSlot = weaponSlot;
-            else if (weaponSlot.isBackSlot) backSlot = weaponSlot;
+            else if (weaponSlot.isBackSlotLeft) backSlotLeft = weaponSlot;
+            else if (weaponSlot.isBackSlotRight) backSlotRight = weaponSlot;
         }
     }
 
@@ -39,13 +41,11 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
         }
         else {
             if (InputHandler.Instance.TwoHandFlag) {
-                backSlot.LoadWeaponModel(leftHandSlot.CurrentWeaponItem);
                 charAnim.PlayTargetAnimation(charAnim.TH_IdleHash, false, true);
                 leftHandSlot.UnloadWeaponAndDestroy();
             }
             else {
                 charAnim.PlayTargetAnimation(charAnim.RightArmIdleHash, false, true);
-                backSlot.UnloadWeaponAndDestroy();
             }
 
             rightHandSlot.CurrentWeaponItem = weaponToEquip;
@@ -53,6 +53,15 @@ public class CharacterWeaponSlotManager : MonoBehaviour {
             LoadRightWeaponDamageCollider();
             charAnim.Anim.runtimeAnimatorController = weaponItem.WeaponController;
         }
+    }
+
+    public virtual void LoadWeaponsOnBackSlots(WeaponItem leftWeapon, WeaponItem rightWeapon) {
+        backSlotLeft.LoadWeaponModel(leftWeapon);
+        backSlotRight.LoadWeaponModel(rightWeapon);
+    }    
+    public virtual void UnloadBackSlots() {
+        backSlotLeft.UnloadWeaponAndDestroy();
+        backSlotRight.UnloadWeaponAndDestroy();
     }
 
     protected virtual void LoadLeftWeaponDamageCollider() {

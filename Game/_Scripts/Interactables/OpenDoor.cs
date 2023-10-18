@@ -87,10 +87,12 @@ public class OpenDoor : Interactable {
     private void UnequipWeapons(PlayerManager playerManager) {
         playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(null, true);
         playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(null, false);
+        playerManager.CharacterWeaponSlotManager.LoadWeaponsOnBackSlots(leftWeapon, rightWeapon);
     }
 
     private IEnumerator ReEquipWeapons(PlayerManager playerManager) {
         yield return new WaitForSeconds(animDuration * 0.9f);
+        playerManager.CharacterWeaponSlotManager.UnloadBackSlots();
         playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         playerManager.CharacterWeaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
     }

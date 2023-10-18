@@ -38,7 +38,7 @@ public class ProjectileSpell : SpellItem {
         EnemyManager enemy = character as EnemyManager;
         if (enemy == null) {
             if (camera.CurrentLockOnTarget != null)
-                spellFXInstance.transform.LookAt(camera.CurrentLockOnTarget.transform);
+                spellFXInstance.transform.LookAt(camera.CurrentLockOnTarget.transform.position + new Vector3(0, 0.75f, 0));
             else
                 spellFXInstance.transform.rotation = Quaternion.Euler(camera.GetCameraTransform().eulerAngles.x,
                     character.transform.eulerAngles.y, 0);

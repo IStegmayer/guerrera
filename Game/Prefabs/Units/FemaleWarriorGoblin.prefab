@@ -1352,7 +1352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f051afeab31b4392aec6352ec20cf69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 15
+  healthLevel: 10
   healthPerLevel: 10
   staminaLevel: 999
   staminaPerLevel: 5

@@ -35,6 +35,8 @@ public class CharacterCombatManager : MonoBehaviour {
         }
 
         enemyCharacter = hit.transform.GetComponent<CharacterManager>();
+        if (enemyCharacter.IsGettingCritted) return;
+        
         var directionFromCharacterToEnemy = transform.position - enemyCharacter.transform.position;
         var dotValue = Vector3.Dot(directionFromCharacterToEnemy, enemyCharacter.transform.forward);
 
@@ -80,7 +82,7 @@ public class CharacterCombatManager : MonoBehaviour {
     }
 
     private void AttemptBackStab() {
-        if (enemyCharacter.IsBeingBackstabbed && enemyCharacter.IsBeingRiposted) return;
+        if (enemyCharacter.IsGettingCritted) return;
 
         var charAnim = character.CharacterAnimatorManager;
         var charInv = character.CharacterInventoryManager;
@@ -89,6 +91,7 @@ public class CharacterCombatManager : MonoBehaviour {
         charAnim.EnableIsInvulnerable();
         // charAnim.EraseHandIKForWeapon();
         character.IsPerformingBackstab = true;
+        enemyCharacter.IsGettingCritted = true;
 
         charAnim.PlayTargetAnimation(charAnim.BackStabHash, true);
 
@@ -98,7 +101,7 @@ public class CharacterCombatManager : MonoBehaviour {
     }
 
     private void AttemptRiposte() {
-        if (enemyCharacter.IsBeingBackstabbed && enemyCharacter.IsBeingRiposted) return;
+        if (enemyCharacter.IsGettingCritted) return;
 
         var charAnim = character.CharacterAnimatorManager;
         var charInv = character.CharacterInventoryManager;
@@ -107,7 +110,7 @@ public class CharacterCombatManager : MonoBehaviour {
         charAnim.EnableIsInvulnerable();
         // charAnim.EraseHandIKForWeapon();
         character.IsPerformingRiposte = true;
-        enemyCharacter.IsBeingRiposted = true;
+        enemyCharacter.IsGettingCritted = true;
 
         charAnim.PlayTargetAnimation(charAnim.RiposteHash, true);
 
@@ -117,14 +120,14 @@ public class CharacterCombatManager : MonoBehaviour {
     }
 
     private void GetBackStabbed(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
-        character.IsBeingBackstabbed = true;
+        character.IsGettingCritted = true;
 
         ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, true);
         charAnim.PlayTargetAnimation(charAnim.BackStabbedHash, true, true);
     }
 
     private void GetRiposted(CharacterManager characterPerformingBackStab, CharacterAnimatorManager charAnim) {
-        character.IsBeingRiposted = true;
+        character.IsGettingCritted = true;
 
         ForceMoveCharacterToCriticalPosition(characterPerformingBackStab, false);
         charAnim.PlayTargetAnimation(charAnim.RipostedHash, true);

@@ -137,7 +137,7 @@ public class PlayerCamera : StaticInstance<PlayerCamera> {
         float shortestDistanceOfLeftTarget = -Mathf.Infinity;
         float shortestDistanceOfRightTarget = Mathf.Infinity;
 
-        Collider[] colliders = Physics.OverlapSphere(playerTargetPosition, 10);
+        Collider[] colliders = Physics.OverlapSphere(playerTargetPosition, maximumLockOnDistance);
 
         for (int i = 0; i < colliders.Length; i++) {
             EnemyManager character = colliders[i].GetComponent<EnemyManager>();

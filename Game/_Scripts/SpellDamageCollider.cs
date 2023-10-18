@@ -32,7 +32,8 @@ public class SpellDamageCollider : DamageCollider {
         spellTarget = other.transform.GetComponentInParent<CharacterManager>();
         if (spellTarget != null) {
             if (spellTarget == spellCaster) return;
-            if (!spellTarget.IsInvulnerable) spellTarget.CharacterStatsManager.TakeDamage(PhysicalDamage);
+            if (spellTarget.CanBeRiposted) spellCaster.CharacterStatsManager.TakeDamageWithoutAnimation(PhysicalDamage);
+            else if (!spellTarget.IsInvulnerable) spellTarget.CharacterStatsManager.TakeDamage(PhysicalDamage);
         }
 
         hasCollided = true;

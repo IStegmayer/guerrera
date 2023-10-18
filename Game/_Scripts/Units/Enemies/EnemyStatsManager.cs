@@ -45,7 +45,7 @@ public class EnemyStatsManager : CharacterStatsManager {
 
     public override void TakeDamageWithoutAnimation(float dmg) {
         if (enemyManager.IsDead) return;
-        if (enemyManager.IsInvulnerable && !enemyManager.IsBeingRiposted && !enemyManager.IsBeingBackstabbed) return;
+        if (enemyManager.IsInvulnerable && !enemyManager.IsGettingCritted) return;
 
         currentHealth -= dmg;
         // if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
@@ -84,13 +84,14 @@ public class EnemyStatsManager : CharacterStatsManager {
     }
 
     private IEnumerator DeathRoutine() {
-        yield return new WaitForSeconds(1f);
-        enemyManager.CharacterController.enabled = false;
+        yield return new WaitForSeconds(2f);
         if (IsBoss) {
             GameManager.Instance.ChangeState(GameState.Win);
             OnBossKilled?.Invoke();
         }
-        yield return new WaitForSeconds(5f);
+        if (enemyManager.IsGettingCritted) yield return new WaitForSeconds(1f);
+        enemyManager.CharacterController.enabled = false;
+        yield return new WaitForSeconds(3f);
         UnitManager.Instance.DespawnEnemy(transform.gameObject);
     }
 

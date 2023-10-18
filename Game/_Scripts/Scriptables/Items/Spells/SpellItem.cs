@@ -24,12 +24,10 @@ public class SpellItem : Item {
     [SerializeField] protected Sound successSFX;
 
     public virtual void AttemptToCastSpell(CharacterManager character) {
-        Debug.Log("Attempting to cast spell");
         character.CharacterSfxManager.PlaySound(attemptSFX);
     }
 
     public virtual void SuccessfullyCastedSpell(CharacterManager character) {
-        Debug.Log("Successfully casted a spell");
         character.CharacterSfxManager.PlaySound(successSFX);
         PlayerStatsManager playerStatsManager = character.CharacterStatsManager as PlayerStatsManager;
         if (playerStatsManager != null) playerStatsManager.TakeFPDamage(FPCost);

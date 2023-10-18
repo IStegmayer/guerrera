@@ -7,7 +7,8 @@ namespace Dzajna
         public Transform parentOverride;
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
-        public bool isBackSlot;
+        public bool isBackSlotRight;
+        public bool isBackSlotLeft;
 
         public GameObject CurrentWeaponModel;
         public WeaponItem CurrentWeaponItem;

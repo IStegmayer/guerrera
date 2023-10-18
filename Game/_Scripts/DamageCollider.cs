@@ -54,7 +54,7 @@ public class DamageCollider : MonoBehaviour {
             CharacterManager enemyManager = collision.gameObject.GetComponentInParent<CharacterManager>();
             if (enemyManager == null) throw new Exception("No enemy character manager found.");
 
-            if (enemyManager.IsBeingBackstabbed || enemyManager.IsBeingRiposted) {
+            if (enemyManager.IsGettingCritted) {
                 characterManager.CharacterEffectsManager.SetLastHitPosition(
                     collision.ClosestPointOnBounds(transform.position));
                 EnsureAggroTarget(enemyManager);

@@ -35,8 +35,7 @@ public class ResetAnimatorBool : StateMachineBehaviour
         character.IsUsingLeftHand = false;
         character.IsUsingRightHand = false;
         character.IsAttacking = false;
-        character.IsBeingBackstabbed = false;
-        character.IsBeingRiposted = false;
+        character.IsGettingCritted = false;
         character.IsPerformingBackstab = false;
         character.IsPerformingRiposte = false;
         character.CanBeParried = false;
