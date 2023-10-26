@@ -106,7 +106,13 @@ public class DamageCollider : MonoBehaviour {
         var charAnim = characterManager.CharacterAnimatorManager;
         charAnim.PlayTargetAnimation(charAnim.ParriedHash, true);
         enemyManager.CharacterSfxManager.PlayParrySound();
+        StartCoroutine(ResetCriticalWindow(charAnim));
         hasBeenParried = true;
+    }
+
+    private IEnumerator ResetCriticalWindow(CharacterAnimatorManager charAnim) {
+        yield return new WaitForSeconds(2f);
+        charAnim.DisableCanBeRiposted();
     }
 
     protected virtual void CheckForBlock(CharacterManager enemyManager) {

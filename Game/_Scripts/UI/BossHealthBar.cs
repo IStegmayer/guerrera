@@ -6,23 +6,15 @@ using UnityEngine.UI;
 namespace Dzajna {
 public class BossHealthBar : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI bossName;
-    private Slider slider;
+    [SerializeField] private GameObject healthBarGameObject;
+    [SerializeField] private Slider slider;
+    public void SetBossName(string name) => bossName.text = name;
+    public void ToggleBossHealthBarActivation(bool val) => healthBarGameObject.SetActive(val);
+    public void SetBossCurrentHealth(float currentHealth) => slider.value = currentHealth;
 
-    private void Awake() {
-        slider = GetComponentInChildren<Slider>(true);
-    }
-
-    private void Start() {
-        ToggleBossHealthBarActivation(false);
-    }
-
-    public void SetBossName(string _name) => bossName.text = _name;
-    public void ToggleBossHealthBarActivation(bool _val) => gameObject.SetActive(_val);
-    public void SetBossCurrentHealth(float _currentHealth) => slider.value = _currentHealth;
-
-    public void SetBossMaxHealth(float _maxHealth) {
-        slider.maxValue = _maxHealth;
-        slider.value = _maxHealth;
+    public void SetBossMaxHealth(float maxHealth) {
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
     }
 }
 }

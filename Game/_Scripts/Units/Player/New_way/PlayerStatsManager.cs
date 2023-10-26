@@ -72,7 +72,7 @@ public class PlayerStatsManager : CharacterStatsManager {
 
     public override void TakeDamage(float dmg, int dmgAnimation = -1) {
         if (player.IsDead || player.IsInvulnerable) return;
-        if (dmgAnimation < 0) dmgAnimation = playerAnimManager.Damage1Hash;
+        if (dmgAnimation == -1) dmgAnimation = playerAnimManager.Damage1Hash;
 
         currentHealth -= dmg;
         healthBar.SetCurrentHealth(currentHealth);
@@ -95,10 +95,10 @@ public class PlayerStatsManager : CharacterStatsManager {
     private IEnumerator DeathRoutine() {
         playerAnimManager.PlayTargetAnimation(playerAnimManager.DeathHash, true);
         // start death animation
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         GameManager.Instance.ChangeState(GameState.Lose);
         OnPlayerKilled?.Invoke();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         UnitManager.Instance.DespawnPlayer(transform.gameObject);
         CanvasManager.Instance.LoadGameScene("GameScene");
     }

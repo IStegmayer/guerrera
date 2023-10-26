@@ -48,9 +48,8 @@ public class EnemyStatsManager : CharacterStatsManager {
         if (enemyManager.IsInvulnerable && !enemyManager.IsGettingCritted) return;
 
         currentHealth -= dmg;
-        // if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-        // else 
-        if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
+        if (IsBoss && enemyBossManager != null) enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+        else if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (currentHealth <= 0) {
             deathRoutine = StartCoroutine(DeathRoutine());
@@ -63,10 +62,10 @@ public class EnemyStatsManager : CharacterStatsManager {
         if (dmgAnimation == -1) dmgAnimation = enemyAnim.Damage1Hash;
 
         currentHealth -= dmg;
-        // if (IsBoss && enemyBossManager != null) {
-        //     enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
-        // }
-        // else 
+        if (IsBoss && enemyBossManager != null) {
+            enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+        }
+        else 
         if (healthBar != null) healthBar.SetCurrentHealth(currentHealth);
 
         if (enemyManager.IsPhaseShifting) return;

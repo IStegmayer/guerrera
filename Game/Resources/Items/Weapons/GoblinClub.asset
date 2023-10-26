@@ -21,7 +21,7 @@ MonoBehaviour:
   WeaponType: 0
   BaseDamage: 30
   CriticalDamageMultiplier: 4
-  PoiseBreak: 60
+  PoiseBreak: 25
   OffensivePoiseBonus: 20
   PhysicalBlockingDamageAbsorption: 0
   FireBlockingDamageAbsorption: 0

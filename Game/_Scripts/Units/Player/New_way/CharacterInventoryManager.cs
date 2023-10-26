@@ -59,9 +59,9 @@ namespace Dzajna
                 CurrentLeftWeaponIndex = -1;
             }
         }
-        private void LoadLeftWeapon(WeaponItem _weapon) {
-            LeftWeapon = _weapon;
-            characterWeaponSlotManager.LoadWeaponOnSlot(_weapon, true);
+        private void LoadLeftWeapon(WeaponItem weapon) {
+            LeftWeapon = weapon;
+            characterWeaponSlotManager.LoadWeaponOnSlot(weapon, true);
         }
     }
 }

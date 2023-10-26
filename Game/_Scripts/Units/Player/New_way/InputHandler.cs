@@ -87,8 +87,8 @@ public class InputHandler : PersistentSingleton<InputHandler> {
             inputActions.PlayerMovement.Movement.performed += input => movementInput = input.ReadValue<Vector2>();
             inputActions.PlayerMovement.Camera.performed += input => cameraInput = input.ReadValue<Vector2>();
 
-            inputActions.PlayerActions.HoldRB.performed += _ => RBHoldInput = true;
-            inputActions.PlayerActions.HoldRB.canceled += _ => RBHoldInput = false;
+            // inputActions.PlayerActions.HoldRB.performed += _ => RBHoldInput = true;
+            // inputActions.PlayerActions.HoldRB.canceled += _ => RBHoldInput = false;
             inputActions.PlayerActions.HoldLB.performed += _ => LBHoldInput = true;
             inputActions.PlayerActions.HoldLB.canceled += _ => LBHoldInput = false;
             inputActions.PlayerActions.HoldRT.performed += _ => RTHoldInput = true;
@@ -131,8 +131,8 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         HandleHoldLBInput();
         HandleHoldRTInput();
 
-        HandleTapLBInput();
-        HandleTapRBInput();
+        HandleLBPressInput();
+        HandleRBInput();
         HandleTapRTInput();
         HandleTapLTInput();
 
@@ -178,7 +178,7 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         characterInventoryManager.RightWeapon.TapRTAction.PerformAction(player);
     }
 
-    private void HandleTapRBInput() {
+    private void HandleRBInput() {
         if (!RBInput) return;
 
         RBInput = false;
@@ -194,10 +194,10 @@ public class InputHandler : PersistentSingleton<InputHandler> {
         }
     }
 
-    private void HandleTapLBInput() {
+    private void HandleLBPressInput() {
         if (!LBInput) return;
+        
         LBInput = false;
-
         if (player.IsTwoHandingWeapon && characterInventoryManager.RightWeapon.TapLBAction != null) {
             player.UpdateWhichHandCharacterIsUsing(true);
             characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
@@ -234,10 +234,10 @@ public class InputHandler : PersistentSingleton<InputHandler> {
             characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.RightWeapon;
             characterInventoryManager.RightWeapon.TH_HoldRBAction.PerformAction(player);
         }
-        else if (characterInventoryManager.RightWeapon.HoldLBAction != null) {
+        else if (characterInventoryManager.LeftWeapon.HoldLBAction != null) {
             player.UpdateWhichHandCharacterIsUsing(false);
             characterInventoryManager.CurrentItemBeingUsed = characterInventoryManager.LeftWeapon;
-            characterInventoryManager.LeftWeapon.HoldLBAction.PerformAction(player);
+            characterInventoryManager.LeftWeapon.HoldLBAction.PerformAction(player); 
         }
         
     }

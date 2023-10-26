@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Android;
 
 namespace Dzajna {
 public class EnemyBossManager : MonoBehaviour {
@@ -18,18 +19,19 @@ public class EnemyBossManager : MonoBehaviour {
         bossCombatStanceState = GetComponentInChildren<BossCombatStanceState>();
     }
 
-    private void Start() {
-        // bossHealthBar.ToggleBossHealthBarActivation(true);
+    public void ShowBossHealthBar() {
+        bossHealthBar.ToggleBossHealthBarActivation(true);
         // bossHealthBar.SetBossName(bossName);
-        // bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
+        bossHealthBar.SetBossMaxHealth(enemyStatsManager.GetMaxHealth());
     }
 
     public void UpdateBossHealthBar(float currentHealth, float maxHealth) {
         bossHealthBar.SetBossCurrentHealth(currentHealth);
-        if (!bossCombatStanceState.HasPhaseShifted && currentHealth <= maxHealth / 2) {
-            bossCombatStanceState.HasPhaseShifted = true;
-            TransitionToSecondPhase();
-        }
+        // TODO:: Phase shift 
+        // if (!bossCombatStanceState.HasPhaseShifted && currentHealth <= maxHealth / 2) {
+        //     bossCombatStanceState.HasPhaseShifted = true;
+        //     TransitionToSecondPhase();
+        // }
     }
 
     private void TransitionToSecondPhase() {

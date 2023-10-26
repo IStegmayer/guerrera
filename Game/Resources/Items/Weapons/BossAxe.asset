@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27949232327f43d19faa0a05c31ec524, type: 3}
-  m_Name: OrnateAxe
+  m_Name: BossAxe
   m_EditorClassIdentifier: 
   ItemIcon: {fileID: 21300000, guid: ab945a7f5360280408afc873685a3223, type: 3}
   ItemName: Ornate Axe
@@ -19,9 +19,9 @@ MonoBehaviour:
   IsUnarmed: 0
   WeaponController: {fileID: 22100000, guid: 5f6e89b7675c0094da742a94b2e054a6, type: 2}
   WeaponType: 0
-  BaseDamage: 50
+  BaseDamage: 80
   CriticalDamageMultiplier: 4
-  PoiseBreak: 30
+  PoiseBreak: 60
   OffensivePoiseBonus: 100
   PhysicalBlockingDamageAbsorption: 0
   FireBlockingDamageAbsorption: 0
